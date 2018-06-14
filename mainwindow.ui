@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1003</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1003</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
+   </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="newContractAction"/>
+    <addaction name="newScriptAction"/>
+    <addaction name="separator"/>
+    <addaction name="saveAction"/>
+    <addaction name="saveAllAction"/>
+    <addaction name="separator"/>
+    <addaction name="compileAction"/>
+    <addaction name="separator"/>
+    <addaction name="closeAction"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <widget class="QMenu" name="contractMenu">
+    <property name="title">
+     <string>合约</string>
+    </property>
+    <addaction name="registerAction"/>
+    <addaction name="transferAction"/>
+    <addaction name="callAction"/>
+    <addaction name="upgradeAction"/>
+    <addaction name="withdrawAction"/>
+    <addaction name="separator"/>
+    <addaction name="importAction"/>
+    <addaction name="exportAction"/>
+   </widget>
+   <widget class="QMenu" name="setMenu">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="changeToFormalChainAction"/>
+    <addaction name="changeToTestChainAction"/>
+    <addaction name="enterSandboxAction"/>
+    <addaction name="exitSandboxAction"/>
+    <addaction name="consoleAction"/>
+    <addaction name="accountListAction"/>
+    <addaction name="transferToAccountAction"/>
+   </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="helpAction"/>
+    <addaction name="aboutAction"/>
+   </widget>
+   <widget class="QMenu" name="editMenu">
+    <property name="title">
+     <string>编辑</string>
+    </property>
+    <addaction name="undoAction"/>
+    <addaction name="redoAction"/>
+   </widget>
+   <widget class="QMenu" name="scriptMenu">
+    <property name="title">
+     <string>脚本</string>
+    </property>
+    <addaction name="addScriptAction"/>
+    <addaction name="removeScriptAction"/>
+    <addaction name="bindAction"/>
+    <addaction name="unbindAction"/>
+   </widget>
+   <addaction name="fileMenu"/>
+   <addaction name="editMenu"/>
+   <addaction name="contractMenu"/>
+   <addaction name="scriptMenu"/>
+   <addaction name="setMenu"/>
+   <addaction name="helpMenu"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="newContractAction"/>
+   <addaction name="newScriptAction"/>
+   <addaction name="saveAction"/>
+   <addaction name="saveAllAction"/>
+   <addaction name="compileAction"/>
+   <addaction name="separator"/>
+   <addaction name="undoAction"/>
+   <addaction name="redoAction"/>
+   <addaction name="separator"/>
+   <addaction name="registerAction"/>
+   <addaction name="transferAction"/>
+   <addaction name="callAction"/>
+   <addaction name="upgradeAction"/>
+   <addaction name="withdrawAction"/>
+   <addaction name="importAction"/>
+   <addaction name="exportAction"/>
+   <addaction name="separator"/>
+   <addaction name="addScriptAction"/>
+   <addaction name="removeScriptAction"/>
+   <addaction name="bindAction"/>
+   <addaction name="separator"/>
+   <addaction name="changeToFormalChainAction"/>
+   <addaction name="changeToTestChainAction"/>
+   <addaction name="enterSandboxAction"/>
+   <addaction name="exitSandboxAction"/>
+   <addaction name="consoleAction"/>
+   <addaction name="accountListAction"/>
+   <addaction name="transferToAccountAction"/>
+   <addaction name="separator"/>
+   <addaction name="helpAction"/>
+  </widget>
+  <action name="changeToFormalChainAction">
+   <property name="text">
+    <string>切换到正式链</string>
+   </property>
+  </action>
+  <action name="enterSandboxAction">
+   <property name="text">
+    <string>沙盒模式</string>
+   </property>
+  </action>
+  <action name="newContractAction">
+   <property name="text">
+    <string>新建合约</string>
+   </property>
+  </action>
+  <action name="saveAction">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="importAction">
+   <property name="text">
+    <string>导入合约</string>
+   </property>
+  </action>
+  <action name="exportAction">
+   <property name="text">
+    <string>导出合约</string>
+   </property>
+   <property name="toolTip">
+    <string>合约导出</string>
+   </property>
+  </action>
+  <action name="registerAction">
+   <property name="text">
+    <string>注册合约</string>
+   </property>
+  </action>
+  <action name="transferAction">
+   <property name="text">
+    <string>合约充值</string>
+   </property>
+   <property name="toolTip">
+    <string>充值</string>
+   </property>
+  </action>
+  <action name="callAction">
+   <property name="text">
+    <string>调用合约</string>
+   </property>
+  </action>
+  <action name="upgradeAction">
+   <property name="text">
+    <string>升级合约</string>
+   </property>
+  </action>
+  <action name="withdrawAction">
+   <property name="text">
+    <string>销毁合约</string>
+   </property>
+  </action>
+  <action name="accountListAction">
+   <property name="text">
+    <string>账户管理</string>
+   </property>
+  </action>
+  <action name="consoleAction">
+   <property name="text">
+    <string>控制台</string>
+   </property>
+  </action>
+  <action name="transferToAccountAction">
+   <property name="text">
+    <string>转账</string>
+   </property>
+  </action>
+  <action name="saveAllAction">
+   <property name="text">
+    <string>保存全部</string>
+   </property>
+  </action>
+  <action name="closeAction">
+   <property name="text">
+    <string>关闭</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="newScriptAction">
+   <property name="text">
+    <string>新建脚本</string>
+   </property>
+  </action>
+  <action name="compileAction">
+   <property name="text">
+    <string>编译</string>
+   </property>
+  </action>
+  <action name="helpAction">
+   <property name="text">
+    <string>查看帮助</string>
+   </property>
+  </action>
+  <action name="aboutAction">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="undoAction">
+   <property name="text">
+    <string>撤销</string>
+   </property>
+  </action>
+  <action name="redoAction">
+   <property name="text">
+    <string>恢复</string>
+   </property>
+  </action>
+  <action name="addScriptAction">
+   <property name="text">
+    <string>注册脚本</string>
+   </property>
+  </action>
+  <action name="removeScriptAction">
+   <property name="text">
+    <string>注销脚本</string>
+   </property>
+  </action>
+  <action name="bindAction">
+   <property name="text">
+    <string>绑定脚本</string>
+   </property>
+  </action>
+  <action name="unbindAction">
+   <property name="text">
+    <string>解除绑定</string>
+   </property>
+  </action>
+  <action name="changeToTestChainAction">
+   <property name="text">
+    <string>切换到测试链</string>
+   </property>
+  </action>
+  <action name="exitSandboxAction">
+   <property name="text">
+    <string>退出沙盒模式</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

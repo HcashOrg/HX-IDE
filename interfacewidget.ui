@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InterfaceWidget</class>
+ <widget class="QWidget" name="InterfaceWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>358</width>
+    <height>356</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
+  <widget class="QLabel" name="addressLabel">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>20</y>
+     <width>161</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>90</y>
+     <width>291</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTabWidget::pane{
+border: 0px solid #C2C7CB;
+}
+QTabBar::tab{
+color: rgb(51, 51, 51);
+border-bottom: 3px solid rgb(233,233,240);
+max-width: 100px; min-width:75px; min-height:25px;
+font: 14px &quot;微软雅黑&quot;;
+padding: 0px;
+}
+QTabBar::tab:selected{
+color: rgb(0, 214, 189);
+border-bottom: 3px solid rgb(68,217,199);
+}</string>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <property name="tabsClosable">
+    <bool>false</bool>
+   </property>
+   <property name="tabBarAutoHide">
+    <bool>false</bool>
+   </property>
+   <widget class="QWidget" name="interfaceTabWidget">
+    <attribute name="title">
+     <string>函数</string>
+    </attribute>
+    <widget class="QTreeWidget" name="interfaceTreeWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTreeWidget{
+border:0px solid #000000;
+}
+QTreeWidget::item{height:25px;}
+QTreeWidget::item:selected{color:rgb(0,214,189);
+background-color: rgb(255, 255, 255);}</string>
+     </property>
+     <column>
+      <property name="text">
+       <string/>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="eventTabWidget">
+    <attribute name="title">
+     <string>Event</string>
+    </attribute>
+    <widget class="QTreeWidget" name="eventTreeWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTreeWidget{
+border:0px solid #000000;
+}
+QTreeWidget::item{height:25px;}
+QTreeWidget::item:selected{color:rgb(0,214,189);
+background-color: rgb(255, 255, 255);}</string>
+     </property>
+     <column>
+      <property name="text">
+       <string/>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="interfaceBtn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>75</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>43</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{ font: 14px &quot;微软雅黑&quot;;
+border: 0px solid #000000;
+border-bottom: 3px solid rgb(233,233,240);}</string>
+   </property>
+   <property name="text">
+    <string>函数</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="eventBtn">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>30</y>
+     <width>71</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>43</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>-1</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{ font: 14px &quot;微软雅黑&quot;;
+border: 0px solid #000000;
+border-bottom: 3px solid rgb(68,217,199);}</string>
+   </property>
+   <property name="text">
+    <string>Event</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
