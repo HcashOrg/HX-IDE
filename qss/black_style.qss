@@ -1,10 +1,10 @@
 QSplitter::handle { background-color: rgb(241,241,248);}
 QToolBar { padding:0px 0px 0px 6px; background: #323232;border-bottom:1px solid rgb(31,31,31);}
-QToolBar::separator{ width:1px; margin:-5px 0px 8px 7px; background-color: rgb(241,241,248);}
+QToolBar::separator{ width:1px; margin:0px 0px 0px 0px; background-color: rgb(20,20,20);}
 QMenuBar{ padding:0px 0px 0px 10px; background: #323232;border-bottom:1px solid rgb(241,241,248);font: 14px \"微软雅黑\";color:white;}
 QMenuBar::item {margin:0px 0px 0px 0px; background-color:#323232;padding:7px 10px 8px 10px;color:white;}
 QMenuBar::item:selected {background:#404040;color:white;}
-QMenu{ background-color:#323232;border:1px solid rgb(241,241,248);}
+QMenu{ background-color:#323232;border:1px solid rgb(10,10,10);}
 QMenu::item{margin-left:2px;padding:8px 23px 8px 23px;border:1px solid transparent;font: 14px \"微软雅黑\";color:white;}
 QMenu::item:selected{background:#404040;color:white;}
 QMenu::item:disabled{color:gray;}

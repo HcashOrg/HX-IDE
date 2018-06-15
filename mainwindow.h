@@ -18,8 +18,6 @@ class OutputWidget;
 class SelectPathWidget;
 class WaitingForSync;
 class TabBarWidget;
-class ExeManager;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -89,7 +87,8 @@ private slots:
     void on_closeAction_triggered();
     void on_exitAction_triggered();
     void on_helpAction_triggered();
-
+private slots:
+    void CompileFinishSlot(const QString &dstFilePath);
 private:
     void SetIDETheme(DataDefine::ThemeStyle theme);
 private:

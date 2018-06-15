@@ -3,6 +3,7 @@
 #include "sandboxcommandmap.h"
 
 #include "ExeManager.h"
+#include "compile/CompileManager.h"
 
 #include <QTextCodec>
 #include <QDebug>
@@ -29,6 +30,7 @@ HXChain::HXChain()
     formalManager = new ExeManager(2);
     connect(this,&HXChain::rpcPostedFormal,formalManager,&ExeManager::rpcPostedSlot);
 
+    compileManager = new CompileManager();
 
     workerManager = NULL;
 
@@ -91,6 +93,11 @@ HXChain::~HXChain()
     {
         delete formalManager;
         formalManager = NULL;
+    }
+    if(compileManager)
+    {
+        delete compileManager;
+        compileManager = nullptr;
     }
 
 }

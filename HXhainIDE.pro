@@ -59,7 +59,10 @@ SOURCES += main.cpp\
     websocketmanager.cpp \
     ExeManager.cpp \
     commondialog.cpp \
-    DataDefine.cpp
+    DataDefine.cpp \
+    compile/CompileManager.cpp \
+    compile/BaseCompile.cpp \
+    compile/gluaCompile.cpp
 
 HEADERS  += mainwindow.h \
     workerthread.h \
@@ -98,7 +101,10 @@ HEADERS  += mainwindow.h \
     websocketmanager.h \
     ExeManager.h \
     commondialog.h \
-    DataDefine.h
+    DataDefine.h \
+    compile/CompileManager.h \
+    compile/BaseCompile.h \
+    compile/gluaCompile.h
 
 FORMS    += mainwindow.ui \
     normallogin.ui \

@@ -69,7 +69,7 @@ void AceEditor::setText(QString text)
 {
     text.replace("\n","\\n");
     text.replace("\'","\\'");    // 由于参数使用''包裹， \'需要显式的传入
-    ui->webView->page()->runJavaScript( QString("editor.setValue('%1', 1);").arg(text));
+    this->syncRunJavaScript( QString("editor.setValue('%1', 1);").arg(text));
 }
 
 QString AceEditor::getText()
@@ -87,12 +87,12 @@ QString AceEditor::getSelectedText()
 void AceEditor::setMode(QString mode)
 {
     qDebug() << "AceEditor::setMode " << mode;
-    ui->webView->page()->runJavaScript( QString("editor.session.setMode('ace/mode/%1')").arg(mode));
+    this->syncRunJavaScript( QString("editor.session.setMode('ace/mode/%1')").arg(mode));
 }
 
 void AceEditor::setReadOnly(bool bIs)
 {
-    ui->webView->page()->runJavaScript( QString("setReadOnly(%1)").arg(bIs));
+    this->syncRunJavaScript( QString("setReadOnly(%1)").arg(bIs));
 }
 
 void AceEditor::insert(QString text)
@@ -101,35 +101,35 @@ void AceEditor::insert(QString text)
     text.replace("\n","\\n");
     text.replace("\'","\\'");    // 由于参数使用''包裹， \'需要显式的传入
 
-    ui->webView->page()->runJavaScript( QString("insert('%1')").arg(text));
+    this->syncRunJavaScript( QString("insert('%1')").arg(text));
 }
 
 void AceEditor::removeLines(int firstRow, int lastRow)
 {
-    ui->webView->page()->runJavaScript( QString("removeLines(%1,%2)").arg(firstRow).arg(lastRow));
+    this->syncRunJavaScript( QString("removeLines(%1,%2)").arg(firstRow).arg(lastRow));
 }
 
 void AceEditor::moveCursorTo(int row, int column)
 {
-    ui->webView->page()->runJavaScript( QString("editor.moveCursorTo(%1,%2)").arg(row).arg(column));
+    this->syncRunJavaScript( QString("editor.moveCursorTo(%1,%2)").arg(row).arg(column));
 }
 
 void AceEditor::initFinish()
 {
     // calling reset immediately doesn't work, because changes are added to undoManager after a timeout
-    ui->webView->page()->runJavaScript( "setTimeout(function() { editor.getSession().getUndoManager().reset(); inited = true;}, 700);");
+    this->syncRunJavaScript( "setTimeout(function() { editor.getSession().getUndoManager().reset(); inited = true;}, 700);");
 
     setSaved(true);
 }
 
 void AceEditor::undo()
 {
-    ui->webView->page()->runJavaScript( "editor.session.getUndoManager().undo()");
+    this->syncRunJavaScript( "editor.session.getUndoManager().undo()");
 }
 
 void AceEditor::redo()
 {
-    ui->webView->page()->runJavaScript( "editor.session.getUndoManager().redo()");
+    this->syncRunJavaScript( "editor.session.getUndoManager().redo()");
 }
 
 void AceEditor::cut()
@@ -178,92 +178,23 @@ bool AceEditor::isSaved()
 
 void AceEditor::setInitTemplate()
 {
-    QString text(R"SMARTCONTRACT(
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+    //根据文件类型，判定模板种类
 
-using static UvmCoreLib.UvmCoreFuncs;
-using UvmCoreLib;
+    QFile file(QString("ace/initTemplate%1").arg(filePath.mid(filePath.lastIndexOf("."))));
 
-// This is a demo. Please remove the unused code
-// and add your customized code.
-namespace DemoContract1
-{
-    public class Storage
+    if( file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Country; // field test
-        public bool IsMale { get; set; }
-        public UvmArray<string> ArrayDemo { get; set; }
+        QTextCodec* gbkCodec = QTextCodec::codecForName("GBK");
+        QByteArray ba = file.readAll();
+        setText( QString( gbkCodec->toUnicode(ba) ));
+        initFinish();
+        file.close();
     }
 
-    public class MyEventEmitteer : IUvmEventEmitter
-    {
-        public static void EmitHello(string eventArg)
-        {
-            Console.WriteLine("event Hello emited, arg is " + eventArg);
-        }
-        public static void EmitHello2(string eventArg)
-        {
-            Console.WriteLine("event Hello2 emited, arg is " + eventArg);
-        }
-    }
-
-    public class MyContract : UvmContract<Storage>
-    {
-        public MyContract() : base(new Storage())
-        {
-        }
-        public override void init()
-        {
-            print("contract initing");
-            this.storage.Age = 100;
-            this.storage.Country = "China";
-            this.storage.Name = "C#";
-            this.storage.IsMale = true;
-            this.storage.ArrayDemo = UvmArray<string>.Create();
-            this.storage.ArrayDemo.Add("hello");
-            pprint(this);
-            print("this is contract init api");
-        }
-        public string GetAge(string arg)
-        {
-            print("this is contract getAge api");
-            return "" + this.storage.Age;
-        }
-        public string OfflineGetAge(string arg)
-        {
-            print("this is contract OfflineGetAge api");
-            print("age is " + this.storage.Age);
-            return "" + this.storage.Age;
-        }
-        public void TestHello(string arg)
-        {
-            print("this is contract hello api with argument " + arg);
-        }
-    }
-
-    public class ExampleLibClass
-    {
-        public MyContract Main()
-        {
-            print("start of demo C# contract");
-            var contract = new MyContract();
-            print("end main");
-            return contract;
-        }
-    }
-
-}
-)SMARTCONTRACT");
 
 //    QTextCodec* gbkCodec = QTextCodec::codecForName("GBK");
-    setText(text);
-    initFinish();
+//    setText(text);
+//    initFinish();
 }
 
 void AceEditor::copy()
@@ -283,12 +214,12 @@ void AceEditor::paste()
 
 void AceEditor::deleteText()
 {
-    ui->webView->page()->runJavaScript( "var range = editor.selection.getRange();editor.session.remove(range);");
+    this->syncRunJavaScript( "var range = editor.selection.getRange();editor.session.remove(range);");
 }
 
 void AceEditor::selectAll()
 {
-    ui->webView->page()->runJavaScript( "editor.selection.selectAll()");
+    this->syncRunJavaScript( "editor.selection.selectAll()");
 }
 
 bool AceEditor::eventFilter(QObject *watched, QEvent *e)

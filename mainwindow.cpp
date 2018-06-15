@@ -23,6 +23,7 @@
 #include "dialog/transfertoaccountdialog.h"
 #include "aceeditor.h"
 #include "ExeManager.h"
+#include "compile/CompileManager.h"
 
 #include <QSplitter>
 #include <QDebug>
@@ -611,14 +612,12 @@ void MainWindow::alreadyLogin()
     outputWidget = new OutputWidget( verticalSplitter2);
     connect( HXChain::getInstance()->currentProcess(1), SIGNAL(readyReadStandardOutput()), outputWidget, SLOT(testHasOutputToRead()));
     connect( HXChain::getInstance()->currentProcess(2), SIGNAL(readyReadStandardOutput()), outputWidget, SLOT(formalHasOutputToRead()));
+    //链接编译槽
+    connect(HXChain::getInstance()->compileManager,&CompileManager::CompileOutput,std::bind(&OutputWidget::appendText,outputWidget,0,std::placeholders::_1));
 
     QList<int> widgetSize1;
     widgetSize1 << 220 << 780;
     horizontalSplitter->setSizes(widgetSize1);
-
-    //    QList<int> widgetSize2;
-    //    widgetSize2 << 350 << 350;
-    //    verticalSplitter1->setSizes(widgetSize2);
 
     QList<int> widgetSize3;
     widgetSize3 << 450 << 250;
@@ -653,6 +652,8 @@ void MainWindow::alreadyLogin()
     connect( contentWidget, SIGNAL(fileSelected(QString)), this, SLOT(fileSelected(QString)));
     connect( this, SIGNAL(contractInfoUpdated(QString)), contentWidget, SLOT(contractInfoUpdated(QString)));
 
+    connect(HXChain::getInstance()->compileManager,&CompileManager::finishCompile,this,&MainWindow::CompileFinishSlot);
+
     HXChain::getInstance()->postRPC(  "id_delegate_set_network_min_connection_count", toJsonFormat("delegate_set_network_min_connection_count", QJsonArray() << "0"));
 
     actionSetIcon();
@@ -664,8 +665,10 @@ void MainWindow::alreadyLogin()
     startTimerForAutoRefresh();
 
     fileSelected("");
+
     //checkChangeChainActionEnable(1);
     checkSandboxActionEnable(false);
+    ui->newScriptAction->setEnabled(false);
 }
 
 void MainWindow::startHXChain()
@@ -1182,6 +1185,7 @@ void MainWindow::on_newScriptAction_triggered()
 void MainWindow::on_saveAction_triggered()
 {
     contentWidget->saveFile();
+    ui->saveAction->setEnabled(false);
 }
 
 //void MainWindow::on_accountAction_triggered()
@@ -1213,11 +1217,11 @@ void MainWindow::on_compileAction_triggered()
 
     if( HXChain::getInstance()->fileRecordMap.value(contentWidget->currentFilePath).type == FileRecord::CONTRACT_FILE )
     {
-        if(contentWidget->currentFilePath.endsWith(".glua"))
-        {
-            HXChain::getInstance()->postRPC( "id_compile_contract_" + contentWidget->currentFilePath, toJsonFormat("compile_contract", QJsonArray() << contentWidget->currentFilePath));
-        }
-
+//        if(contentWidget->currentFilePath.endsWith(".glua"))
+//        {
+//            HXChain::getInstance()->postRPC( "id_compile_contract_" + contentWidget->currentFilePath, toJsonFormat("compile_contract", QJsonArray() << contentWidget->currentFilePath));
+//        }
+        HXChain::getInstance()->compileManager->startCompile(contentWidget->currentFilePath);
     }
     else if( HXChain::getInstance()->fileRecordMap.value(contentWidget->currentFilePath).type == FileRecord::SCRIPT_FILE )
     {
@@ -1683,17 +1687,39 @@ void MainWindow::on_helpAction_triggered()
     QDesktopServices::openUrl(QUrl("http://115.28.142.164:9000/index.html"));
 }
 
+void MainWindow::CompileFinishSlot(const QString &dstFilePath)
+{
+    QFileInfo info(dstFilePath);
+
+    fileListWidget->getContractsList();
+
+    if( contentWidget->pathAceEditorMap.contains(info.absoluteFilePath()))
+    {
+        contentWidget->closeFile(info.absoluteFilePath());
+    }
+    this->showFile(info.absoluteFilePath());
+    fileListWidget->treeWidgetSetCurrentItem(0,0, info.fileName());
+}
+
 void MainWindow::SetIDETheme(DataDefine::ThemeStyle theme)
 {
+    setAutoFillBackground(true);
+    QPalette palette;
+
     QString path ;
     if(DataDefine::Black_Theme == theme)
     {
         path = ":/qss/black_style.qss";
+        palette.setColor(QPalette::Window, QColor(30,30,30));
     }
     else if(DataDefine::White_Theme == theme)
     {
         path = ":/qss/white_style.qss";
+        palette.setColor(QPalette::Window, QColor(255,255,255));
     }
+
+
+    setPalette(palette);
 
     QFile inputFile(path);
     inputFile.open(QIODevice::ReadOnly);

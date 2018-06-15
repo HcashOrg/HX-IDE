@@ -46,6 +46,8 @@
 class QTimer;
 class QFrame;
 class WorkerThreadManager;
+class ExeManager;
+class CompileManager;
 
 static QMutex mutexForJsonData;
 static QMutex mutexForCurrentProcess;
@@ -93,7 +95,7 @@ struct ScriptInfo
 
 template <class key,class value>
 key getKeyByValue(QMap<key,value> m,value v);
-class ExeManager;
+
 class HXChain : public QObject
 {
     Q_OBJECT
@@ -171,6 +173,7 @@ public:
     ExeManager* testManager;
     ExeManager* formalManager;
 
+    CompileManager *compileManager;
 
 signals:
     void started();
