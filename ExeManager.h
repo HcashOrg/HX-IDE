@@ -14,6 +14,7 @@ public:
 public:
     void startExe();
     bool exeRunning();
+    QProcess *getProcess()const;
 signals:
     void exeStarted();
 private slots:

@@ -660,16 +660,27 @@ void HXChain::clearSandboxOperation()
     configFile->endGroup();
 }
 
-QProcess *HXChain::currentProcess()
+QProcess *HXChain::currentProcess(int type)
 {
     QProcess* p = NULL;
-    if( currenChain() == 1)
+    if(type == 0)
     {
-        p = testProcess;
+        if( currenChain() == 1)
+        {
+            p = testManager->getProcess();
+        }
+        else if( currenChain() == 2)
+        {
+            p = formalManager->getProcess();
+        }
     }
-    else if( currenChain() == 2)
+    else if(type == 1)
     {
-        p = formalProcess;
+        p = testManager->getProcess();
+    }
+    else if( type == 2)
+    {
+        p = formalManager->getProcess();
     }
 
     return p;

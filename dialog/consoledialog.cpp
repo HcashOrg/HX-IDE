@@ -30,7 +30,7 @@ ConsoleDialog::ConsoleDialog(QWidget *parent) :
     ui->checkBox->setStyleSheet("QCheckBox::indicator{ image:url(:/pic2/checkBox_unchecked.png); }"
                                     "QCheckBox::indicator:checked{ image:url(:/pic2/checkBox_checked.png); }");
 
-//    ui->checkBox->setChecked(true);
+    ui->checkBox->setChecked(true);
 //    ui->checkBox->setEnabled(false);
 
 
@@ -79,7 +79,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
 
     QString str = ui->consoleLineEdit->text() + '\n';
     HXChain::getInstance()->write(str);
-    ui->consoleBrowser->append(">>>" + str);
+    //ui->consoleBrowser->append(">>>" + str);
 }
 
 void ConsoleDialog::jsonDataUpdated(QString id)

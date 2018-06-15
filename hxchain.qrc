@@ -58,5 +58,7 @@
         <file>pic2/wrong.png</file>
         <file>pic2/bg.png</file>
         <file>pic2/bg2.png</file>
+        <file>qss/black_style.qss</file>
+        <file>qss/white_style.qss</file>
     </qresource>
 </RCC>

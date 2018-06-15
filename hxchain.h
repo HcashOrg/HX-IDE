@@ -135,7 +135,7 @@ public:
 
     void clearSandboxOperation();   // 退出沙盒后删除config 以及文件夹下的所有沙盒里操作的记录  恢复销毁的合约记录
 
-    QProcess* currentProcess();
+    QProcess* currentProcess(int type = 0);//0--当前类型  1--test 2--formal
 
     void setCurrentAccount(QString accountName);
 

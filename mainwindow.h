@@ -5,7 +5,7 @@
 #include <QTableWidget>
 #include <QListWidget>
 #include <QSplitter>
-
+#include "DataDefine.h"
 namespace Ui {
 class MainWindow;
 }
@@ -88,9 +88,10 @@ private slots:
     void on_saveAllAction_triggered();
     void on_closeAction_triggered();
     void on_exitAction_triggered();
+    void on_helpAction_triggered();
 
-
-
+private:
+    void SetIDETheme(DataDefine::ThemeStyle theme);
 private:
     Ui::MainWindow *ui;
 

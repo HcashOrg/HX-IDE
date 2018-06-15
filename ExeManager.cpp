@@ -79,6 +79,11 @@ bool ExeManager::exeRunning()
     return _p->clientProc->state() == QProcess::Running && _p->nodeProc->state() == QProcess::Running;
 }
 
+QProcess *ExeManager::getProcess() const
+{
+    return _p->clientProc;
+}
+
 void ExeManager::onNodeExeStateChanged()
 {
     qDebug() << "node exe state " << _p->nodeProc->state();

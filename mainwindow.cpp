@@ -29,6 +29,9 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QFile>
+#include <QTextStream>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -606,7 +609,8 @@ void MainWindow::alreadyLogin()
     verticalSplitter2 = new QSplitter(Qt::Vertical, horizontalSplitter);
     contentWidget = new ContentWidget( verticalSplitter2);
     outputWidget = new OutputWidget( verticalSplitter2);
-    connect( HXChain::getInstance()->testProcess, SIGNAL(readyReadStandardOutput()), outputWidget, SLOT(testHasOutputToRead()));
+    connect( HXChain::getInstance()->currentProcess(1), SIGNAL(readyReadStandardOutput()), outputWidget, SLOT(testHasOutputToRead()));
+    connect( HXChain::getInstance()->currentProcess(2), SIGNAL(readyReadStandardOutput()), outputWidget, SLOT(formalHasOutputToRead()));
 
     QList<int> widgetSize1;
     widgetSize1 << 220 << 780;
@@ -620,19 +624,9 @@ void MainWindow::alreadyLogin()
     widgetSize3 << 450 << 250;
     verticalSplitter2->setSizes(widgetSize3);
 
-    // 设置分割线
-    setStyleSheet( QString::fromLocal8Bit("QSplitter::handle { background-color: rgb(241,241,248);}"
-                                          "QToolBar { padding:0px 0px 0px 6px; background: white;border-bottom:10px solid rgb(241,241,248);}"
-                                          "QToolBar::separator{ width:1px; margin:-5px 0px 8px 7px; background-color: rgb(241,241,248);}"
-                                          "QToolButton{ margin:-5px -2px 8px 7px; border:none;border-radius: 3px; background:transparent;font: 14px \"微软雅黑\";max-height: 30px; min-width:40px; min-height:30px;}"
-                                          "QToolButton:hover{background-color:rgb(241,241,248);}"
-                                          "QMenuBar { padding:0px 0px 0px 10px; background: white;border-bottom:1px solid rgb(241,241,248);font: 14px \"微软雅黑\";}"
-                                          "QMenuBar::item {margin:0px 0px 0px 0px; background-color:white;padding:7px 10px 8px 10px;}"
-                                          "QMenuBar::item:selected {background:rgb(68,218,199);color:white;}"
-                                          "QMenu{ background-color:white;border:1px solid rgb(241,241,248);}"
-                                          "QMenu::item{padding:8px 42px 8px 23px;border:1px solid transparent;font: 14px \"微软雅黑\";}"
-                                          "QMenu::item:selected{background:rgb(68,218,199);color:white;}"
-                                          ));
+    //设置风格
+    SetIDETheme(DataDefine::Black_Theme);
+
     horizontalSplitter->setHandleWidth(10);
     //    verticalSplitter1->setHandleWidth(10);
     verticalSplitter2->setHandleWidth(10);
@@ -1681,6 +1675,31 @@ void MainWindow::on_exitAction_triggered()
     {
         close();
     }
+
+}
+
+void MainWindow::on_helpAction_triggered()
+{
+    QDesktopServices::openUrl(QUrl("http://115.28.142.164:9000/index.html"));
+}
+
+void MainWindow::SetIDETheme(DataDefine::ThemeStyle theme)
+{
+    QString path ;
+    if(DataDefine::Black_Theme == theme)
+    {
+        path = ":/qss/black_style.qss";
+    }
+    else if(DataDefine::White_Theme == theme)
+    {
+        path = ":/qss/white_style.qss";
+    }
+
+    QFile inputFile(path);
+    inputFile.open(QIODevice::ReadOnly);
+    QString css = inputFile.readAll();
+    inputFile.close();
+    setStyleSheet( css);
 
 }
 

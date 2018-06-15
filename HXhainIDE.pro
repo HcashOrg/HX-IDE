@@ -58,7 +58,8 @@ SOURCES += main.cpp\
     bridge.cpp \
     websocketmanager.cpp \
     ExeManager.cpp \
-    commondialog.cpp
+    commondialog.cpp \
+    DataDefine.cpp
 
 HEADERS  += mainwindow.h \
     workerthread.h \
@@ -96,7 +97,8 @@ HEADERS  += mainwindow.h \
     bridge.h \
     websocketmanager.h \
     ExeManager.h \
-    commondialog.h
+    commondialog.h \
+    DataDefine.h
 
 FORMS    += mainwindow.ui \
     normallogin.ui \

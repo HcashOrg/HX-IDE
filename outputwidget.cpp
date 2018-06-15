@@ -92,7 +92,7 @@ void OutputWidget::testHasOutputToRead()
     QTextCodec* gbkCodec = QTextCodec::codecForName("GBK");
     QString result = gbkCodec->toUnicode( HXChain::getInstance()->currentProcess()->readAllStandardOutput() );
 
-    ui->testOutputBrowser->append( "<body><font color=#C800C8>" + result + "</font></body>");
+    ui->testOutputBrowser->append(  result );
     if( HXChain::getInstance()->currenChain() == 1)
     {
         on_outputBtn_clicked();
@@ -105,7 +105,7 @@ void OutputWidget::formalHasOutputToRead()
     QTextCodec* gbkCodec = QTextCodec::codecForName("GBK");
     QString result = gbkCodec->toUnicode( HXChain::getInstance()->currentProcess()->readAllStandardOutput() );
 
-    ui->formalOutputBrowser->append( "<body><font color=#C800C8>" + result + "</font></body>");
+    ui->formalOutputBrowser->append("<body><font color=#C800C8>" + result + "</font></body>");
     if( HXChain::getInstance()->currenChain() == 2)
     {
         on_outputBtn_clicked();
