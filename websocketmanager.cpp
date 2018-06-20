@@ -1,6 +1,6 @@
 #include "websocketmanager.h"
 
-#include "hxchain.h"
+#include "ChainIDE.h"
 
 WebSocketManager::WebSocketManager(int port,QObject *parent)
     : QThread(parent)
@@ -49,36 +49,6 @@ void WebSocketManager::processRPCs(QString _rpcId, QString _rpcCmd)
 
         return;
     }
-
-//retry:
-//    if(!busy)
-//    {
-//        processRPC(_rpcId,_rpcCmd);
-//    }
-//    else
-//    {
-//        qDebug() << "busy is " << m_rpcId;
-//    }
-
-//    if( !processed)
-//    {
-//        if(loopCount > 100)
-//        {
-//            m_buff.clear();
-//            m_rpcId.clear();
-//            loopCount = 0;
-
-//            busy = false;
-//            return;
-//        }
-//        else
-//        {
-//            QThread::msleep(100);
-//            loopCount++;
-//            goto retry;
-//        }
-
-//    }
 }
 
 void WebSocketManager::run()
@@ -105,7 +75,6 @@ void WebSocketManager::onTimer()
     {
         if(!busy)
         {
-//            qDebug()<<pendingRpcs.size();
             QStringList rpc = pendingRpcs.at(0).split("***");
             processRPC(rpc.at(0),rpc.at(1));
         }
@@ -146,7 +115,7 @@ void WebSocketManager::onTextFrameReceived(QString _message, bool _isLastFrame)
         QString result = m_buff.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
         result = result.left( result.size() - 1);
 
-        HXChain::getInstance()->updateJsonDataMap(pendingRpcs.at(0).split("***").at(0), result);
+        ChainIDE::getInstance()->updateJsonDataMap(pendingRpcs.at(0).split("***").at(0), result);
 
         pendingRpcs.removeFirst();
 

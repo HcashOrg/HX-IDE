@@ -16,31 +16,17 @@ public:
     explicit OutputWidget(QWidget *parent = 0);
     ~OutputWidget();
 
-    void appendText(int widgetNum, QString text);   // widgetNum: 0编译输出窗口  1output窗口
-
-    void changeToTest();
-
-    void changeToFormal();
-signals:
-    void outputRead(QString);
 
 public slots:
-    void testHasOutputToRead();
 
-    void formalHasOutputToRead();
+    void receiveCompileMessage(const QString &text,int chainType);
+    void receiveOutputMessage(const QString &text,int chainType);
 
-private slots:
-    void jsonDataUpdated(QString id);
-
-    void on_compileBtn_clicked();
-
-    void on_outputBtn_clicked();
 
 private:
     Ui::OutputWidget *ui;
-
-    QVBoxLayout* vbLayout2;
-    QVBoxLayout* vbLayout3;
+    class DataPrivate;
+    DataPrivate *_p;
 };
 
 #endif // OUTPUTWIDGET_H

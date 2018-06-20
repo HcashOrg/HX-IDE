@@ -1,7 +1,6 @@
 #include "waitingforsync.h"
 #include "ui_waitingforsync.h"
-#include "hxchain.h"
-#include "rpcthread.h"
+
 #include <QTimer>
 #include <QDebug>
 #include <QMovie>

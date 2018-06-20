@@ -15,6 +15,8 @@ public:
     void startCompileFile(const QString &sourceFilePath);
 private slots:
     void finishCompile(int exitcode,QProcess::ExitStatus exitStatus);
+
+    void readyReadStandardOutput();
 private:
     class DataPrivate;
     DataPrivate *_p;

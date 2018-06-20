@@ -3,8 +3,9 @@
 #include <QProcess>
 #include <QTimer>
 #include <QDebug>
+#include <QSettings>
 
-#include "hxchain.h"
+#include "ChainIDE.h"
 #include "websocketmanager.h"
 #include "commondialog.h"
 
@@ -60,14 +61,8 @@ void ExeManager::startExe()
     connect(_p->nodeProc,SIGNAL(stateChanged(QProcess::ProcessState)),this,SLOT(onNodeExeStateChanged()));
 
     QStringList strList;
-    strList << "--data-dir=" + HXChain::getInstance()->configFile->value("/settings/cchainPath").toString().replace("\\","/")+_p->dataPath
+    strList << "--data-dir=" + ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/")+_p->dataPath
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->nodePort);
-
-    if( HXChain::getInstance()->configFile->value("/settings/resyncNextTime",false).toBool())
-    {
-        strList << "--replay";
-    }
-    HXChain::getInstance()->configFile->setValue("/settings/resyncNextTime",false);
 
     _p->nodeProc->start("lnk_node.exe",strList);
     qDebug() << "start lnk_node.exe " << strList;
@@ -122,7 +117,7 @@ void ExeManager::delayedLaunchClient()
     connect(_p->clientProc,SIGNAL(stateChanged(QProcess::ProcessState)),this,SLOT(onClientExeStateChanged()));
 
     QStringList strList;
-    strList << "--wallet-file=" + HXChain::getInstance()->configFile->value("/settings/cchainPath").toString().replace("\\","/") +_p->dataPath+ "/wallet.json"
+    strList << "--wallet-file=" + ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/") +_p->dataPath+ "/wallet.json"
             << QString("--server-rpc-endpoint=ws://127.0.0.1:%1").arg(_p->nodePort)
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->clientPort);
 

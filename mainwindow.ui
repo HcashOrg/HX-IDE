@@ -18,7 +18,38 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QStackedWidget" name="stackedWidget_file">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>171</width>
+      <height>431</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget_content">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>0</y>
+      <width>821</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget_output">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>250</y>
+      <width>791</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -38,10 +69,18 @@
     <property name="title">
      <string>文件</string>
     </property>
-    <addaction name="newContractAction"/>
-    <addaction name="newScriptAction"/>
+    <widget class="QMenu" name="menu_new">
+     <property name="title">
+      <string>新建合约</string>
+     </property>
+     <addaction name="newContractAction_glua"/>
+     <addaction name="newContractAction_java"/>
+     <addaction name="newContractAction_csharp"/>
+    </widget>
+    <addaction name="menu_new"/>
     <addaction name="separator"/>
     <addaction name="saveAction"/>
+    <addaction name="savaAsAction"/>
     <addaction name="saveAllAction"/>
     <addaction name="separator"/>
     <addaction name="compileAction"/>
@@ -89,19 +128,9 @@
     <addaction name="undoAction"/>
     <addaction name="redoAction"/>
    </widget>
-   <widget class="QMenu" name="scriptMenu">
-    <property name="title">
-     <string>脚本</string>
-    </property>
-    <addaction name="addScriptAction"/>
-    <addaction name="removeScriptAction"/>
-    <addaction name="bindAction"/>
-    <addaction name="unbindAction"/>
-   </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
    <addaction name="contractMenu"/>
-   <addaction name="scriptMenu"/>
    <addaction name="setMenu"/>
    <addaction name="helpMenu"/>
   </widget>
@@ -124,8 +153,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="newContractAction"/>
-   <addaction name="newScriptAction"/>
+   <addaction name="newContractAction_glua"/>
    <addaction name="saveAction"/>
    <addaction name="saveAllAction"/>
    <addaction name="compileAction"/>
@@ -140,10 +168,6 @@
    <addaction name="withdrawAction"/>
    <addaction name="importAction"/>
    <addaction name="exportAction"/>
-   <addaction name="separator"/>
-   <addaction name="addScriptAction"/>
-   <addaction name="removeScriptAction"/>
-   <addaction name="bindAction"/>
    <addaction name="separator"/>
    <addaction name="changeToFormalChainAction"/>
    <addaction name="changeToTestChainAction"/>
@@ -163,14 +187,6 @@
   <action name="enterSandboxAction">
    <property name="text">
     <string>沙盒模式</string>
-   </property>
-  </action>
-  <action name="newContractAction">
-   <property name="text">
-    <string>新建合约</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="saveAction">
@@ -261,11 +277,6 @@
     <string>退出</string>
    </property>
   </action>
-  <action name="newScriptAction">
-   <property name="text">
-    <string>新建脚本</string>
-   </property>
-  </action>
   <action name="compileAction">
    <property name="text">
     <string>编译</string>
@@ -303,26 +314,6 @@
     <string>Ctrl+Y</string>
    </property>
   </action>
-  <action name="addScriptAction">
-   <property name="text">
-    <string>注册脚本</string>
-   </property>
-  </action>
-  <action name="removeScriptAction">
-   <property name="text">
-    <string>注销脚本</string>
-   </property>
-  </action>
-  <action name="bindAction">
-   <property name="text">
-    <string>绑定脚本</string>
-   </property>
-  </action>
-  <action name="unbindAction">
-   <property name="text">
-    <string>解除绑定</string>
-   </property>
-  </action>
   <action name="changeToTestChainAction">
    <property name="text">
     <string>切换到测试链</string>
@@ -331,6 +322,26 @@
   <action name="exitSandboxAction">
    <property name="text">
     <string>退出沙盒模式</string>
+   </property>
+  </action>
+  <action name="newContractAction_glua">
+   <property name="text">
+    <string>新建glua合约</string>
+   </property>
+  </action>
+  <action name="newContractAction_csharp">
+   <property name="text">
+    <string>新建csharp合约</string>
+   </property>
+  </action>
+  <action name="newContractAction_java">
+   <property name="text">
+    <string>新建java合约</string>
+   </property>
+  </action>
+  <action name="savaAsAction">
+   <property name="text">
+    <string>另存为</string>
    </property>
   </action>
  </widget>

@@ -1,0 +1,33 @@
+type Storage = {
+    -- insert new storage properties here
+}
+
+var M = Contract<Storage>()
+
+function M:init()
+    print("≥ı ºªØ")
+    -- insert init code of contract here
+end
+
+--[[
+this is a long comment
+you can add other apis here, eg.
+
+function M:apiName(arg: string)
+    -- api code here
+end
+
+function M:on_deposit(numstr: int)
+    -- will be called when someone transfer to this contract
+end
+
+function M:on_upgrade()
+    -- will be called when user upgrade this contract
+end
+
+function M:on_destroy()
+    -- will be called when user destroy this contract
+end
+]]--
+
+return M

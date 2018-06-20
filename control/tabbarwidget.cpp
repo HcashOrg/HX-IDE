@@ -15,15 +15,6 @@ TabBarWidget::TabBarWidget(QWidget *parent) :
 
     setFixedHeight(30);
 
-//    QHBoxLayout* hbLayout = new QHBoxLayout;
-//    hbLayout->addStretch();
-//    hbLayout->addWidget(ui->leftBtn);
-//    hbLayout->addWidget(ui->rightBtn);
-//    hbLayout->setMargin(0);
-//    hbLayout->setSpacing(0);
-//    this->setLayout(hbLayout);
-
-
     ui->leftBtn->setFixedSize(12,20);
     ui->rightBtn->setFixedSize(12,20);
     ui->leftBtn->hide();

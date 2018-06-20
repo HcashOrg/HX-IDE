@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OutputWidget</class>
- <widget class="QWidget" name="OutputWidget">
+ <class>InterfaceWidget</class>
+ <widget class="QWidget" name="InterfaceWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>543</width>
-    <height>368</height>
+    <width>475</width>
+    <height>416</height>
    </rect>
-  </property>
-  <property name="font">
-   <font>
-    <family>微软雅黑</family>
-   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="spacing">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>6</number>
    </property>
    <property name="rightMargin">
     <number>0</number>
@@ -38,16 +30,23 @@
     <number>0</number>
    </property>
    <item>
+    <widget class="QLabel" name="title_Label">
+     <property name="text">
+      <string>合约名称</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="compilePage">
+     <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>编译输出</string>
+       <string>函数</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -66,13 +65,19 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QStackedWidget" name="compileStack"/>
+        <widget class="QTreeWidget" name="treeWidget_function">
+         <column>
+          <property name="text">
+           <string notr="true">1</string>
+          </property>
+         </column>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="outputPage">
+     <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Output</string>
+       <string>事件</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="spacing">
@@ -91,7 +96,13 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QStackedWidget" name="outputStack"/>
+        <widget class="QTreeWidget" name="treeWidget_event">
+         <column>
+          <property name="text">
+           <string notr="true">1</string>
+          </property>
+         </column>
+        </widget>
        </item>
       </layout>
      </widget>

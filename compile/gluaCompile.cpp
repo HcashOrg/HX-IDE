@@ -30,6 +30,8 @@ gluaCompile::gluaCompile(QObject *parent)
 {
     connect(_p->compileProcess,static_cast<void (QProcess::*)(int , QProcess::ExitStatus)>(&QProcess::finished),
             this,&gluaCompile::finishCompile);
+
+    connect(_p->compileProcess,&QProcess::readyReadStandardOutput,this,&gluaCompile::readyReadStandardOutput);
 }
 
 gluaCompile::~gluaCompile()
@@ -64,4 +66,9 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
     {
         emit CompileOutput(QString("compile error"));
     }
+}
+
+void gluaCompile::readyReadStandardOutput()
+{
+    emit CompileOutput(QString::fromLocal8Bit(_p->compileProcess->readAllStandardOutput()));
 }

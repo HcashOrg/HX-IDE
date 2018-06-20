@@ -1,12 +1,15 @@
 #include "selectpathwidget.h"
 #include "ui_selectpathwidget.h"
-#include "hxchain.h"
-#include "rpcthread.h"
+
 #include <QPainter>
 
 #include <QFileDialog>
 #include <QDebug>
 #include <QDesktopServices>
+
+#include <QCoreApplication>
+
+#include "ChainIDE.h"
 
 SelectPathWidget::SelectPathWidget(QWidget *parent) :
     QWidget(parent),
@@ -22,11 +25,7 @@ SelectPathWidget::SelectPathWidget(QWidget *parent) :
     palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic2/bg.png")));
     setPalette(palette);
 
-    ui->pathLineEdit->setText( HXChain::getInstance()->appDataPath);
-
-
-
-//    getUpdateXml();
+    ui->pathLineEdit->setText(ChainIDE::getInstance()->getEnvAppDataPath());
 }
 
 SelectPathWidget::~SelectPathWidget()
@@ -47,26 +46,9 @@ void SelectPathWidget::on_selectPathBtn_clicked()
 void SelectPathWidget::on_okBtn_clicked()
 {
     if( ui->pathLineEdit->text().isEmpty())  return;
-    HXChain::getInstance()->configFile->setValue("/settings/hxchainPath", ui->pathLineEdit->text());
+    ChainIDE::getInstance()->setConfigAppDataPath(ui->pathLineEdit->text());
 
-    HXChain::getInstance()->appDataPath = ui->pathLineEdit->text();
     emit enter();
-    this->close();
-
-//    HXChain::getInstance()->proc->start("wallet-c.exe",QStringList() << "--data-dir" << ui->pathLineEdit->text()
-//                                       << "--rpcuser" << "a" << "--rpcpassword" << "b" << "--rpcport" << QString::number( RPC_PORT) << "--server");
-//    if( HXChain::getInstance()->proc->waitForStarted())
-//    {
-//        mutexForConfigFile.lock();
-//        HXChain::getInstance()->configFile->setValue("/settings/hxchainPath", ui->pathLineEdit->text());
-//        mutexForConfigFile.unlock();
-//        HXChain::getInstance()->appDataPath = ui->pathLineEdit->text();
-//        emit enter();
-//        this->close();
-//    }
-//    else
-//    {
-//        qDebug() << "laungh wallet-c.exe failed";
-//    }
+    close();
 }
 

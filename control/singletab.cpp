@@ -6,6 +6,12 @@
 #include <QFileInfo>
 #include <QPainter>
 
+static const QString SingleTab_Selected = "SingleTab{background-color:#2D2D2D;border: 0px solid rgb(210,210,210);"
+                                          "border-left-color:rgb(235,235,235);"
+                                          "border-bottom-color:rgb(235,235,235);}";
+static const QString SingleTab_UnSelected = "SingleTab{background-color:#1F1F1F;border: 0px solid rgb(210,210,210);"
+                                            "border-left-color:rgb(235,235,235);"
+                                            "border-bottom-color:rgb(235,235,235);}";
 SingleTab::SingleTab(QString name, QString path, QWidget *parent) :
     QWidget(parent),
     fileName(name),
@@ -15,23 +21,10 @@ SingleTab::SingleTab(QString name, QString path, QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-//    QHBoxLayout* hbLayout = new QHBoxLayout;
-//    hbLayout->addSpacing(5);
-//    hbLayout->addWidget(ui->savedBtn);
-//    hbLayout->addSpacing(5);
-//    hbLayout->addWidget(ui->nameBtn);
-//    hbLayout->addSpacing(5);
-//    hbLayout->addWidget(ui->closeBtn);
-//    hbLayout->addSpacing(5);
-//    hbLayout->setMargin(0);
-//    hbLayout->setSpacing(0);
-//    this->setLayout(hbLayout);
-
     ui->savedBtn->setStyleSheet("QPushButton{background-image:url(:/pic2/saved.png);border-style: flat;}");
     ui->savedBtn->setFixedSize(13,13);
     ui->savedBtn->move(5,9);
-    ui->nameBtn->setStyleSheet("QPushButton{background:transparent;border:none;}");
+    ui->nameBtn->setStyleSheet("QPushButton{background:transparent;border:none;color:white;}");
     ui->nameBtn->setText(fileName);
     ui->nameBtn->setToolTip(filePath);
     ui->nameBtn->setFixedHeight(30);
@@ -42,11 +35,7 @@ SingleTab::SingleTab(QString name, QString path, QWidget *parent) :
     ui->closeBtn->move(28 + ui->nameBtn->width(),8);
     setFixedSize(52 + ui->nameBtn->width(),30);
 
-    this->setStyleSheet("SingleTab{background-color:rgb(235,235,235);border: 1px solid rgb(210,210,210);"
-                        "border-left-color:rgb(235,235,235);"
-                        "border-bottom-color:rgb(235,235,235);"
-                        "border-top-left-radius:8px;"
-                        "border-top-right-radius:8px;}");
+    this->setStyleSheet(SingleTab_Selected);
 }
 
 SingleTab::~SingleTab()
@@ -60,19 +49,11 @@ void SingleTab::setSelected(bool isSelected)
     if( isSelected)
     {
 
-        this->setStyleSheet( "SingleTab{background-color:rgb(255,255,255);border: 1px solid rgb(210,210,210);"
-                             "border-left-color:rgb(235,235,235);"
-                             "border-bottom-color:rgb(235,235,235);"
-                             "border-top-left-radius:8px;"
-                             "border-top-right-radius:8px;}");
+        this->setStyleSheet( SingleTab_Selected);
     }
     else
     {
-        this->setStyleSheet("SingleTab{background-color:rgb(235,235,235);border: 1px solid rgb(210,210,210);"
-                            "border-left-color:rgb(235,235,235);"
-                            "border-bottom-color:rgb(235,235,235);"
-                            "border-top-left-radius:8px;"
-                            "border-top-right-radius:8px;}");
+        this->setStyleSheet(SingleTab_UnSelected);
     }
 }
 
