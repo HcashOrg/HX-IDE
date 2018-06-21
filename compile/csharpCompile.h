@@ -1,16 +1,13 @@
-#ifndef GLUACOMPILE_H
-#define GLUACOMPILE_H
+#ifndef CSHARPCOMPILE_H
+#define CSHARPCOMPILE_H
 
 #include "BaseCompile.h"
-#include <QObject>
-#include <QProcess>
 
-class gluaCompile : public BaseCompile
+class csharpCompile : public BaseCompile
 {
-    Q_OBJECT
 public:
-    explicit gluaCompile(QObject *parent = 0);
-    virtual ~gluaCompile();
+    explicit csharpCompile(QObject *parent = 0);
+    ~csharpCompile();
 public:
     void startCompileFile(const QString &sourceFilePath);
 protected slots:
@@ -22,4 +19,4 @@ private:
     DataPrivate *_p;
 };
 
-#endif // GLUACOMPILE_H
+#endif // CSHARPCOMPILE_H

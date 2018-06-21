@@ -345,8 +345,10 @@ void MainWindow::on_newContractAction_csharp_triggered()
 }
 
 void MainWindow::on_newContractAction_java_triggered()
-{
-
+{//新建java合约，放在java目录下
+    NewFileDialog dia(QCoreApplication::applicationDirPath()+"/"+DataDefine::JAVA_DIR,QStringList()<<".java");
+    dia.exec();
+    NewFileCreated(dia.getNewFilePath());
 }
 
 void MainWindow::on_savaAsAction_triggered()
@@ -364,6 +366,7 @@ void MainWindow::ModifyActionState()
 
 void MainWindow::NewFileCreated(const QString &filePath)
 {//新建了文件后，文件树刷新，点击文件树，
+    if(filePath.isEmpty() || !QFileInfo(filePath).isFile()) return;
     _p->fileWidget->SelectFile(filePath);
     _p->contentWidget->showFile(filePath);
 }

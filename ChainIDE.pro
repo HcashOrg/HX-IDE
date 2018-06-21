@@ -38,7 +38,9 @@ SOURCES += main.cpp\
     control/tabbarwidget.cpp \
     contentwidget/bridge.cpp \
     dialog/NewFileDialog.cpp \
-    filewidget/InterfaceWidget.cpp
+    filewidget/InterfaceWidget.cpp \
+    compile/javaCompile.cpp \
+    compile/csharpCompile.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -65,7 +67,9 @@ HEADERS  += MainWindow.h \
     control/tabbarwidget.h \
     contentwidget/bridge.h \
     dialog/NewFileDialog.h \
-    filewidget/InterfaceWidget.h
+    filewidget/InterfaceWidget.h \
+    compile/javaCompile.h \
+    compile/csharpCompile.h
 
 FORMS    += MainWindow.ui \
     commondialog.ui \

@@ -24,7 +24,7 @@ SingleTab::SingleTab(QString name, QString path, QWidget *parent) :
     ui->savedBtn->setStyleSheet("QPushButton{background-image:url(:/pic2/saved.png);border-style: flat;}");
     ui->savedBtn->setFixedSize(13,13);
     ui->savedBtn->move(5,9);
-    ui->nameBtn->setStyleSheet("QPushButton{background:transparent;border:none;color:white;}");
+    ui->nameBtn->setStyleSheet("QPushButton{background:transparent;border:none;color:white;font-size:12px;}");
     ui->nameBtn->setText(fileName);
     ui->nameBtn->setToolTip(filePath);
     ui->nameBtn->setFixedHeight(30);

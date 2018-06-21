@@ -1,6 +1,5 @@
 #include "gluaCompile.h"
 
-#include <QProcess>
 #include <QStringList>
 #include <QFileInfo>
 #include <QDir>
@@ -8,18 +7,14 @@ class gluaCompile::DataPrivate
 {
 public:
     DataPrivate()
-        :compileProcess(new QProcess)
     {
 
     }
     ~DataPrivate()
     {
-        delete compileProcess;
-        compileProcess = nullptr;
     }
 
 public:
-    QProcess *compileProcess;
 
     QString dstFilePath;
 };
@@ -28,10 +23,6 @@ gluaCompile::gluaCompile(QObject *parent)
     :BaseCompile(parent)
     ,_p(new DataPrivate())
 {
-    connect(_p->compileProcess,static_cast<void (QProcess::*)(int , QProcess::ExitStatus)>(&QProcess::finished),
-            this,&gluaCompile::finishCompile);
-
-    connect(_p->compileProcess,&QProcess::readyReadStandardOutput,this,&gluaCompile::readyReadStandardOutput);
 }
 
 gluaCompile::~gluaCompile()
@@ -51,7 +42,7 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
 
     QStringList params;
     params<<"-g"<<sourceFilePath;
-    _p->compileProcess->start("compile/glua_compiler.exe",params);
+    getCompileProcess()->start("compile/glua_compiler.exe",params);
 
 }
 
@@ -68,7 +59,13 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
     }
 }
 
-void gluaCompile::readyReadStandardOutput()
+void gluaCompile::onReadStandardOutput()
 {
-    emit CompileOutput(QString::fromLocal8Bit(_p->compileProcess->readAllStandardOutput()));
+
 }
+
+void gluaCompile::onReadStandardError()
+{
+    emit CompileOutput(QString::fromLocal8Bit(getCompileProcess()->readAllStandardError()));
+}
+

@@ -13,9 +13,9 @@ QTreeView{background-color:rgb(46,46,46);border:none;color:white;font:65 14px \"
 QTreeView::branch{background:rgb(46,46,46);}
 QTreeView::item{height:32px;}
 QTreeView::item::selected{background:rgb(38,38,38);border:none;color:#44D9C7;}
-QTreeView::branch:selected:has-children:adjoins-item {border-left:2px solid rgb(0,210,255);}
+QTreeView::branch:selected:has-children:adjoins-item {border-left:0px solid rgb(0,210,255);}
 QTreeView::branch::selected::adjoins-item{background:rgb(38,38,38);}
-QTreeView::branch::selected::!adjoins-item{border-left:2px solid rgb(0,210,255);background:rgb(38,38,38);}
+QTreeView::branch::selected::!adjoins-item{border-left:0px solid rgb(0,210,255);background:rgb(38,38,38);}
 QTreeView::branch::hover::adjoins-item,QTreeView::branch::hover::!adjoins-item,QTreeView::item::hover{background:rgb(38,38,38);}
 QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings { border-image: none;image: url(:/pic2/close.png);}
 QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {border-image: none;image: url(:/pic2/open.png);}

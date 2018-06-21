@@ -47,6 +47,15 @@ void NewFileDialog::TextChanged(const QString &text)
     ValidFile();
 }
 
+void NewFileDialog::comboBoxTextChanged(const QString &text)
+{
+    if(!text.startsWith(_p->rootDir+"/"))
+    {
+        ui->comboBox->setCurrentText(ui->comboBox->itemText(ui->comboBox->currentIndex()));
+    }
+    ValidFile();
+}
+
 void NewFileDialog::ConfirmSlot()
 {
     bool isValid = false;
@@ -77,13 +86,21 @@ void NewFileDialog::CancelSlot()
 
 void NewFileDialog::InitWidget()
 {
+    ui->okBtn->setEnabled(false);
     ui->label_tip->setVisible(false);
     ui->comboBox->addItems(_p->dirList);
+    ui->comboBox->setEditable(true);
+    if(ui->comboBox->count() > 0)
+    {
+        ui->comboBox->setCurrentIndex(0);
+    }
+
 
     connect(ui->lineEdit,&QLineEdit::textChanged,this,&NewFileDialog::TextChanged);
     connect(ui->okBtn,&QToolButton::clicked,this,&NewFileDialog::ConfirmSlot);
     connect(ui->cancelBtn,&QToolButton::clicked,this,&NewFileDialog::CancelSlot);
     connect(ui->comboBox,static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),this,&NewFileDialog::ValidFile);
+    connect(ui->comboBox,&QComboBox::editTextChanged,this,&NewFileDialog::comboBoxTextChanged);
 
 }
 
@@ -93,7 +110,7 @@ void NewFileDialog::ValidFile()
     if(ui->lineEdit->text().indexOf(regx) >= 0)
     {
         //文件名不合法
-        ui->label_tip->setText(tr("invalid name!"));
+        ui->label_tip->setText(tr("invalid filename!"));
         ui->label_tip->setVisible(true);
         ui->okBtn->setEnabled(false);
     }

@@ -1,8 +1,8 @@
 #ifndef BASECOMPILE_H
 #define BASECOMPILE_H
 
-#include <QObject>
 #include <QString>
+#include <QProcess>
 //基类编译器
 class BaseCompile : public QObject
 {
@@ -12,9 +12,16 @@ public:
     virtual ~BaseCompile();
 signals:
     void finishCompileFile(const QString &dstFilePath);
-    void CompileOutput(const QString);
+    void CompileOutput(const QString &);
 public:
     virtual void startCompileFile(const QString &sourceFilePath) = 0;
+
+protected slots:
+    virtual void finishCompile(int exitcode,QProcess::ExitStatus exitStatus);
+    virtual void onReadStandardOutput();
+    virtual void onReadStandardError();
+protected:
+    QProcess *getCompileProcess()const;
 private:
     class DataPrivate;
     DataPrivate *_p;

@@ -1,16 +1,15 @@
-#ifndef GLUACOMPILE_H
-#define GLUACOMPILE_H
+#ifndef JAVACOMPILE_H
+#define JAVACOMPILE_H
 
 #include "BaseCompile.h"
-#include <QObject>
-#include <QProcess>
 
-class gluaCompile : public BaseCompile
+#include <QProcess>
+class javaCompile : public BaseCompile
 {
     Q_OBJECT
 public:
-    explicit gluaCompile(QObject *parent = 0);
-    virtual ~gluaCompile();
+    explicit javaCompile(QObject *parent = 0);
+    virtual ~javaCompile();
 public:
     void startCompileFile(const QString &sourceFilePath);
 protected slots:
@@ -18,8 +17,13 @@ protected slots:
     virtual void onReadStandardOutput();
     virtual void onReadStandardError();
 private:
+    void generateClassFile();
+    void generateAssFile();
+    void generateOutFile();
+    void generateContractFile();
+private:
     class DataPrivate;
     DataPrivate *_p;
 };
 
-#endif // GLUACOMPILE_H
+#endif // JAVACOMPILE_H

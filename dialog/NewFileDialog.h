@@ -18,6 +18,8 @@ public:
     const QString &getNewFilePath()const;
 private slots:
     void TextChanged(const QString &text);
+
+    void comboBoxTextChanged(const QString &text);
     void ConfirmSlot();
     void CancelSlot();
 private:
