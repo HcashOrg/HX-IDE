@@ -199,9 +199,10 @@ void ChainIDE::refreshStyleSheet()
 
 void ChainIDE::InitConfig()
 {
-    if("black" != _p->configFile->value("setting/theme").toString() && "white" != _p->configFile->value("setting/theme").toString())
+    if("black" != _p->configFile->value("/settings/theme").toString() && "white" != _p->configFile->value("/settings/theme").toString())
     {
-        _p->configFile->setValue("settings/theme","black");
+
+        _p->configFile->setValue("/settings/theme","black");
     }
 }
 
