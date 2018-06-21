@@ -61,5 +61,6 @@
         <file>template/initTemplate.glua</file>
         <file>pic2/close.png</file>
         <file>pic2/open.png</file>
+        <file>pic2/downArrow_on.png</file>
     </qresource>
 </RCC>

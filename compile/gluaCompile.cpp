@@ -3,6 +3,14 @@
 #include <QStringList>
 #include <QFileInfo>
 #include <QDir>
+#include <QCoreApplication>
+#include <QDebug>
+
+#include "DataDefine.h"
+#include "IDEUtil.h"
+
+static const QString GluaCompileDir = "GluaTemp";
+
 class gluaCompile::DataPrivate
 {
 public:
@@ -41,8 +49,11 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
     emit CompileOutput(QString("start compile %1").arg(sourceFilePath));
 
     QStringList params;
-    params<<"-g"<<sourceFilePath;
-    getCompileProcess()->start("compile/glua_compiler.exe",params);
+    params<<"-o"<<QFileInfo(_p->dstFilePath).absoluteDir().path()<<"-g"<<sourceFilePath;
+    foreach (QString is, params) {
+        qDebug()<<is;
+    }
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_COMPILE_PATH,params);
 
 }
 

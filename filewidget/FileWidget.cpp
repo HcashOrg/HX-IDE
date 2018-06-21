@@ -22,7 +22,7 @@ void FileWidget::SelectFile(const QString &filePath)
 
 void FileWidget::InitWidget()
 {
-    ui->splitter->setSizes(QList<int>()<<0.62*this->height()<<0.38*this->height());
+    ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
 
     connect(ui->fileTree,&FileView::fileClicked,this,&FileWidget::fileClicked);
     connect(ui->fileTree,&FileView::fileClicked,ui->interWidget,&InterfaceWidget::ShowInterface);

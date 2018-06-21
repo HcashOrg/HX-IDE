@@ -2,6 +2,7 @@
 #define CHAINIDE_H
 
 #include <QObject>
+#include "DataDefine.h"
 
 class ExeManager;
 class CompileManager;
@@ -20,6 +21,9 @@ public:
 //配置
     QString getEnvAppDataPath()const;
     QString getConfigAppDataPath()const;
+    DataDefine::ThemeStyle getCurrentTheme()const;
+    void setCurrentTheme(DataDefine::ThemeStyle)const;
+
     void setConfigAppDataPath(const QString &path);
 //后台
     ExeManager *testManager()const;
@@ -27,7 +31,8 @@ public:
     QProcess *getProcess(int type = 0)const;//0当前 1测试  2正式
 //编译
     CompileManager *getCompileManager()const;
-
+public:
+    void refreshStyleSheet();
 private:
     void getSystemEnvironmentPath();
     void InitConfig();//初始化配置

@@ -22,6 +22,11 @@ csharpCompile::~csharpCompile()
     delete _p;
 }
 
+void csharpCompile::startCompileFile(const QString &sourceFilePath)
+{
+
+}
+
 void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
 

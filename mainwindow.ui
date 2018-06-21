@@ -76,6 +76,7 @@
      <addaction name="newContractAction_glua"/>
      <addaction name="newContractAction_java"/>
      <addaction name="newContractAction_csharp"/>
+     <addaction name="newContractAtion_kotlin"/>
     </widget>
     <addaction name="menu_new"/>
     <addaction name="separator"/>
@@ -86,6 +87,7 @@
     <addaction name="compileAction"/>
     <addaction name="separator"/>
     <addaction name="closeAction"/>
+    <addaction name="closeAllAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
@@ -179,14 +181,24 @@
    <addaction name="separator"/>
    <addaction name="helpAction"/>
   </widget>
-  <action name="changeToFormalChainAction">
+  <action name="newContractAction_glua">
    <property name="text">
-    <string>切换到正式链</string>
+    <string>新建glua合约</string>
    </property>
   </action>
-  <action name="enterSandboxAction">
+  <action name="newContractAction_csharp">
    <property name="text">
-    <string>沙盒模式</string>
+    <string>新建csharp合约</string>
+   </property>
+  </action>
+  <action name="newContractAction_java">
+   <property name="text">
+    <string>新建java合约</string>
+   </property>
+  </action>
+  <action name="newContractAtion_kotlin">
+   <property name="text">
+    <string>新建kotlin合约</string>
    </property>
   </action>
   <action name="saveAction">
@@ -195,6 +207,53 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="savaAsAction">
+   <property name="text">
+    <string>另存为</string>
+   </property>
+  </action>
+  <action name="saveAllAction">
+   <property name="text">
+    <string>保存全部</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="compileAction">
+   <property name="text">
+    <string>编译</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="closeAction">
+   <property name="text">
+    <string>关闭</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="undoAction">
+   <property name="text">
+    <string>撤销</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="redoAction">
+   <property name="text">
+    <string>恢复</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="importAction">
@@ -241,6 +300,39 @@
     <string>销毁合约</string>
    </property>
   </action>
+  <action name="helpAction">
+   <property name="text">
+    <string>查看帮助</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="aboutAction">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="changeToTestChainAction">
+   <property name="text">
+    <string>切换到测试链</string>
+   </property>
+  </action>
+  <action name="changeToFormalChainAction">
+   <property name="text">
+    <string>切换到正式链</string>
+   </property>
+  </action>
+  <action name="enterSandboxAction">
+   <property name="text">
+    <string>沙盒模式</string>
+   </property>
+  </action>
+  <action name="exitSandboxAction">
+   <property name="text">
+    <string>退出沙盒模式</string>
+   </property>
+  </action>
   <action name="accountListAction">
    <property name="text">
     <string>账户管理</string>
@@ -259,89 +351,9 @@
     <string>转账</string>
    </property>
   </action>
-  <action name="saveAllAction">
+  <action name="closeAllAction">
    <property name="text">
-    <string>保存全部</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="closeAction">
-   <property name="text">
-    <string>关闭</string>
-   </property>
-  </action>
-  <action name="exitAction">
-   <property name="text">
-    <string>退出</string>
-   </property>
-  </action>
-  <action name="compileAction">
-   <property name="text">
-    <string>编译</string>
-   </property>
-   <property name="shortcut">
-    <string>F5</string>
-   </property>
-  </action>
-  <action name="helpAction">
-   <property name="text">
-    <string>查看帮助</string>
-   </property>
-   <property name="shortcut">
-    <string>F1</string>
-   </property>
-  </action>
-  <action name="aboutAction">
-   <property name="text">
-    <string>关于</string>
-   </property>
-  </action>
-  <action name="undoAction">
-   <property name="text">
-    <string>撤销</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="redoAction">
-   <property name="text">
-    <string>恢复</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Y</string>
-   </property>
-  </action>
-  <action name="changeToTestChainAction">
-   <property name="text">
-    <string>切换到测试链</string>
-   </property>
-  </action>
-  <action name="exitSandboxAction">
-   <property name="text">
-    <string>退出沙盒模式</string>
-   </property>
-  </action>
-  <action name="newContractAction_glua">
-   <property name="text">
-    <string>新建glua合约</string>
-   </property>
-  </action>
-  <action name="newContractAction_csharp">
-   <property name="text">
-    <string>新建csharp合约</string>
-   </property>
-  </action>
-  <action name="newContractAction_java">
-   <property name="text">
-    <string>新建java合约</string>
-   </property>
-  </action>
-  <action name="savaAsAction">
-   <property name="text">
-    <string>另存为</string>
+    <string>全部关闭</string>
    </property>
   </action>
  </widget>

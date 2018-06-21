@@ -1,7 +1,11 @@
 #ifndef INTERFACEWIDGET_H
 #define INTERFACEWIDGET_H
 
+#include <memory>
 #include <QWidget>
+#include "DataDefine.h"
+
+typedef std::shared_ptr<DataDefine::ApiEvent> ApiEventPtr;
 
 namespace Ui {
 class InterfaceWidget;
@@ -16,6 +20,8 @@ public:
     ~InterfaceWidget();
 public slots:
     void ShowInterface(const QString &filePath);
+private:
+    bool readApiFromPath(const QString &filePath, ApiEventPtr &results);
 private:
     void InitData();
 private:

@@ -66,7 +66,7 @@ void IDEUtil::GetAllFileFolder(QString dirPath, QStringList &folder)
 
 }
 
-void IDEUtil::GetAllFile(QString dirPath, QStringList &files)
+void IDEUtil::GetAllFile(QString dirPath, QStringList &files,const QStringList & limit)
 {
     QDir dir(dirPath);
     dir.setFilter(QDir::Dirs|QDir::Files);
@@ -76,7 +76,11 @@ void IDEUtil::GetAllFile(QString dirPath, QStringList &files)
         if(info.fileName() == "." || info.fileName() == "..") continue;
         if(info.isFile())
         {
-            files.append(info.absoluteFilePath());
+            if(limit.empty() || limit.contains(info.suffix()))
+            {
+                files.append(info.absoluteFilePath());
+            }
+
         }
         else if(info.isDir())
         {
@@ -144,8 +148,6 @@ bool IDEUtil::deleteDir(const QString &dirName)
 
     return !error;
 }
-
-
 
 IDEUtil::IDEUtil()
 {

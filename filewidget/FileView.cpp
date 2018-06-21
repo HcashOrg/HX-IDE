@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QHeaderView>
 #include "FileModel.h"
-
+#include "DataDefine.h"
 class FileView::DataPrivate
 {
 public:
@@ -65,6 +65,10 @@ QString FileView::getCurrentFilePath() const
 void FileView::InitWidget()
 {
     setModel(_p->fileModel);
+    _p->fileModel->setNameFilterDisables(false);
+    _p->fileModel->setNameFilters(QStringList()<<"*."+DataDefine::GLUA_SUFFIX<<"*."+DataDefine::JAVA_SUFFIX
+                                               <<"*."+DataDefine::KOTLIN_SUFFIX<<"*."+DataDefine::CSHARP_SUFFIX
+                                               <<"*.gpc");
     _p->fileModel->setRootPath("/");
     setRootIndex(_p->fileModel->index(QCoreApplication::applicationDirPath()+QDir::separator()+"contracts"));
 

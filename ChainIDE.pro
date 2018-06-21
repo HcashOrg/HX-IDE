@@ -37,10 +37,11 @@ SOURCES += main.cpp\
     control/singletab.cpp \
     control/tabbarwidget.cpp \
     contentwidget/bridge.cpp \
-    dialog/NewFileDialog.cpp \
+    NewFileDialog.cpp \
     filewidget/InterfaceWidget.cpp \
     compile/javaCompile.cpp \
-    compile/csharpCompile.cpp
+    compile/csharpCompile.cpp \
+    consoledialog.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -66,10 +67,11 @@ HEADERS  += MainWindow.h \
     control/singletab.h \
     control/tabbarwidget.h \
     contentwidget/bridge.h \
-    dialog/NewFileDialog.h \
+    NewFileDialog.h \
     filewidget/InterfaceWidget.h \
     compile/javaCompile.h \
-    compile/csharpCompile.h
+    compile/csharpCompile.h \
+    consoledialog.h
 
 FORMS    += MainWindow.ui \
     commondialog.ui \
@@ -81,8 +83,9 @@ FORMS    += MainWindow.ui \
     contentwidget/aceeditor.ui \
     control/singletab.ui \
     control/tabbarwidget.ui \
-    dialog/NewFileDialog.ui \
-    filewidget/InterfaceWidget.ui
+    NewFileDialog.ui \
+    filewidget/InterfaceWidget.ui \
+    consoledialog.ui
 
 RESOURCES += \
     chain.qrc

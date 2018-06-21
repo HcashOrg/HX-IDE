@@ -7,6 +7,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QDebug>
+#include <QApplication>
 
 #include "ExeManager.h"
 #include "compile/CompileManager.h"
@@ -58,6 +59,7 @@ ChainIDE::ChainIDE(QObject *parent)
 {
     getSystemEnvironmentPath();
     InitConfig();
+    InitExeManager();
 }
 
 ChainIDE * ChainIDE::_instance = nullptr;
@@ -119,6 +121,16 @@ QString ChainIDE::getConfigAppDataPath() const
     return _p->configFile->value("/settings/chainPath").toString();
 }
 
+DataDefine::ThemeStyle ChainIDE::getCurrentTheme() const
+{
+    return _p->configFile->value("/settings/theme").toString() == "black"?DataDefine::Black_Theme : DataDefine::White_Theme;
+}
+
+void ChainIDE::setCurrentTheme(DataDefine::ThemeStyle style) const
+{
+    _p->configFile->setValue("/settings/theme",style == DataDefine::Black_Theme ? "black":"white");
+}
+
 void ChainIDE::setConfigAppDataPath(const QString &path)
 {
     _p->configFile->setValue("/settings/chainPath",path);
@@ -165,9 +177,32 @@ CompileManager *ChainIDE::getCompileManager() const
     return _p->compileManager;
 }
 
+void ChainIDE::refreshStyleSheet()
+{
+    QString path ;
+    if(DataDefine::Black_Theme == getCurrentTheme())
+    {
+        path = ":/qss/black_style.qss";
+    }
+    else if(DataDefine::White_Theme == getCurrentTheme())
+    {
+        path = ":/qss/white_style.qss";
+    }
+
+
+    QFile inputFile(path);
+    inputFile.open(QIODevice::ReadOnly);
+    QString css = inputFile.readAll();
+    inputFile.close();
+    qApp->setStyleSheet( css);
+}
+
 void ChainIDE::InitConfig()
 {
-    //todo
+    if("black" != _p->configFile->value("setting/theme").toString() && "white" != _p->configFile->value("setting/theme").toString())
+    {
+        _p->configFile->setValue("settings/theme","black");
+    }
 }
 
 void ChainIDE::InitExeManager()
