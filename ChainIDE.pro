@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     datarequire/DataRequireManager.cpp \
     datarequire/websocketRequire.cpp \
     datarequire/tcpsocketRequire.cpp \
-    datarequire/httpRequire.cpp
+    datarequire/httpRequire.cpp \
+    contentwidget/ContextWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -79,7 +80,8 @@ HEADERS  += MainWindow.h \
     datarequire/DataRequireManager.h \
     datarequire/websocketRequire.h \
     datarequire/tcpsocketRequire.h \
-    datarequire/httpRequire.h
+    datarequire/httpRequire.h \
+    contentwidget/ContextWidget.h
 
 FORMS    += MainWindow.ui \
     commondialog.ui \
@@ -93,7 +95,8 @@ FORMS    += MainWindow.ui \
     control/tabbarwidget.ui \
     NewFileDialog.ui \
     filewidget/InterfaceWidget.ui \
-    consoledialog.ui
+    consoledialog.ui \
+    contentwidget/ContextWidget.ui
 
 RESOURCES += \
     chain.qrc

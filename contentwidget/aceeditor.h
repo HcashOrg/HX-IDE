@@ -16,9 +16,6 @@ public:
     explicit AceEditor( QString path, bool iseditable,QWidget *parent = 0);
     ~AceEditor();
 
-    void hide();
-    void show();
-
     void setText(QString text);
     QString getText();
     QString getSelectedText();
@@ -39,6 +36,7 @@ public:
     bool isSaved();
 
     bool saveFile();
+    const QString &getFilePath()const;
 public slots:
     void undo();
     void redo();

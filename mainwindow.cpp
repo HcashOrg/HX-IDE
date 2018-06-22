@@ -12,7 +12,8 @@
 #include "ExeManager.h"
 #include "filewidget/FileWidget.h"
 #include "outputwidget.h"
-#include "contentwidget/contentwidget.h"
+//#include "contentwidget/contentwidget.h"
+#include "contentwidget/ContextWidget.h"
 #include "compile/CompileManager.h"
 #include "NewFileDialog.h"
 #include "consoledialog.h"
@@ -23,8 +24,9 @@ public:
     DataPrivate()
         :waitingForSync(nullptr)
         ,fileWidget(nullptr)
-        ,contentWidget(nullptr)
+        //,contentWidget(nullptr)
         ,outputWidget(nullptr)
+        ,contextWidget(nullptr)
     {
 
     }
@@ -33,7 +35,8 @@ public:
 
     FileWidget *fileWidget;
 
-    ContentWidget *contentWidget;
+    //ContentWidget *contentWidget;
+    ContextWidget *contextWidget;
     OutputWidget *outputWidget;
 };
 
@@ -54,16 +57,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::InitWidget()
 {
-    //startWidget();
-    hide();
-    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
-    {
-        showSelectPathWidget();
-    }
-    else
-    {
-        startChain();
-    }
+    startWidget();
+//    hide();
+//    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
+//    {
+//        showSelectPathWidget();
+//    }
+//    else
+//    {
+//        startChain();
+//    }
 }
 
 void MainWindow::showSelectPathWidget()
@@ -109,7 +112,8 @@ void MainWindow::startWidget()
     _p->fileWidget = new FileWidget( horizontalSplitter);
 
     QSplitter* verticalSplitter = new QSplitter(Qt::Vertical, horizontalSplitter);
-    _p->contentWidget = new ContentWidget( verticalSplitter);
+    //_p->contentWidget = new ContentWidget( );
+    _p->contextWidget = new ContextWidget(verticalSplitter);
     _p->outputWidget = new OutputWidget( verticalSplitter);
 
     horizontalSplitter->setStretchFactor(0,1);
@@ -119,9 +123,13 @@ void MainWindow::startWidget()
 
     //链接编译槽
     connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,std::bind(&OutputWidget::receiveCompileMessage,_p->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
-    connect(_p->fileWidget,&FileWidget::fileClicked,_p->contentWidget,&ContentWidget::showFile);
-    connect(_p->contentWidget,&ContentWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
-    connect(_p->contentWidget,&ContentWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    //connect(_p->fileWidget,&FileWidget::fileClicked,_p->contentWidget,&ContentWidget::showFile);
+    connect(_p->fileWidget,&FileWidget::fileClicked,_p->contextWidget,&ContextWidget::showFile);
+
+    connect(_p->contextWidget,&ContextWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
+    connect(_p->contextWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    //connect(_p->contentWidget,&ContentWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
+    //connect(_p->contentWidget,&ContentWidget::contentStateChange,this,&MainWindow::ModifyActionState);
 
 
     ModifyActionState();
@@ -209,7 +217,7 @@ void MainWindow::on_newContractAction_java_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
-    _p->contentWidget->saveFile();
+    _p->contextWidget->saveFile();
 }
 
 void MainWindow::on_savaAsAction_triggered()
@@ -219,18 +227,18 @@ void MainWindow::on_savaAsAction_triggered()
 
 void MainWindow::on_saveAllAction_triggered()
 {
-    _p->contentWidget->saveAll();
+    _p->contextWidget->saveAll();
 }
 
 void MainWindow::on_compileAction_triggered()
 {//编译
     //先触发保存判断
-    if( _p->contentWidget->currentFileUnsaved())
+    if( _p->contextWidget->currentFileUnsaved())
     {
-        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", _p->contentWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", _p->contextWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if( QMessageBox::Yes == choice)
         {
-            _p->contentWidget->saveFile();
+            _p->contextWidget->saveFile();
         }
         else
         {
@@ -239,23 +247,23 @@ void MainWindow::on_compileAction_triggered()
     }
 
 
-    ChainIDE::getInstance()->getCompileManager()->startCompile(_p->contentWidget->getCurrentFilePath());//当前打开的文件
+    ChainIDE::getInstance()->getCompileManager()->startCompile(_p->contextWidget->getCurrentFilePath());//当前打开的文件
 
 }
 
 void MainWindow::on_closeAction_triggered()
 {
-    _p->contentWidget->close();
+    _p->contextWidget->close();
 }
 
 void MainWindow::on_closeAllAction_triggered()
 {
-    _p->contentWidget->closeFile(_p->contentWidget->getCurrentFilePath());
+    _p->contextWidget->closeAll();
 }
 
 void MainWindow::on_exitAction_triggered()
 {
-    if(_p->contentWidget->closeAll())
+    if(_p->contextWidget->closeAll())
     {
         close();
     }
@@ -263,12 +271,12 @@ void MainWindow::on_exitAction_triggered()
 
 void MainWindow::on_undoAction_triggered()
 {
-    _p->contentWidget->undo();
+    _p->contextWidget->undo();
 }
 
 void MainWindow::on_redoAction_triggered()
 {
-    _p->contentWidget->redo();
+    _p->contextWidget->redo();
 }
 
 void MainWindow::on_importAction_triggered()
@@ -359,10 +367,10 @@ void MainWindow::on_aboutAction_triggered()
 
 void MainWindow::ModifyActionState()
 {
-    ui->undoAction->setEnabled(_p->contentWidget->isUndoAvailable());
-    ui->redoAction->setEnabled(_p->contentWidget->isRedoAvailable());
-    ui->saveAction->setEnabled(_p->contentWidget->currentFileUnsaved());
-    ui->saveAllAction->setEnabled(_p->contentWidget->hasFileUnsaved());
+    ui->undoAction->setEnabled(_p->contextWidget->isUndoAvailable());
+    ui->redoAction->setEnabled(_p->contextWidget->isRedoAvailable());
+    ui->saveAction->setEnabled(_p->contextWidget->currentFileUnsaved());
+    ui->saveAllAction->setEnabled(_p->contextWidget->hasFileUnsaved());
 
     ui->changeToFormalChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 1);
     ui->changeToTestChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 2);
@@ -375,7 +383,7 @@ void MainWindow::NewFileCreated(const QString &filePath)
 {//新建了文件后，文件树刷新，点击文件树，
     if(filePath.isEmpty() || !QFileInfo(filePath).isFile()) return;
     _p->fileWidget->SelectFile(filePath);
-    _p->contentWidget->showFile(filePath);
+    _p->contextWidget->showFile(filePath);
 }
 
 

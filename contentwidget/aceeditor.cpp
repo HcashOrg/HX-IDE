@@ -9,6 +9,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QTextCodec>
+#include <QWebEngineView>
 #include <QtWebEngineWidgets/QWebEnginePage>       // HTML页面
 #include <QtWebChannel/QWebChannel>          // C++和JS/HTML双向通信，代替了已淘汰的QtWebFrame的功能
 
@@ -19,7 +20,7 @@ class AceEditor::DataPrivate
 {
 public:
     DataPrivate(QString path,bool iseditable)
-        :filePath(path),editable(iseditable)
+        :filePath(path),editable(iseditable),webView(nullptr)
     {
 
     }
@@ -28,6 +29,7 @@ public:
     QString filePath;
 
     bool hasSaved;
+    QWebEngineView *webView;
 };
 
 AceEditor::AceEditor(QString path, bool iseditable,QWidget *parent) :
@@ -48,18 +50,6 @@ AceEditor::~AceEditor()
 {
     delete _p;
     delete ui;
-}
-
-
-void AceEditor::hide()
-{
-    QWidget::hide();
-
-}
-
-void AceEditor::show()
-{
-    QWidget::show();
 }
 
 void AceEditor::setText(QString text)
@@ -194,6 +184,11 @@ bool AceEditor::saveFile()
     }
 }
 
+const QString &AceEditor::getFilePath() const
+{
+    return _p->filePath;
+}
+
 void AceEditor::copy()
 {
     QClipboard* cb = QApplication::clipboard();
@@ -218,7 +213,7 @@ void AceEditor::selectAll()
 
 bool AceEditor::eventFilter(QObject *watched, QEvent *e)
 {
-    if(watched == ui->webView)
+    if(dynamic_cast<QWebEngineView *>(watched))
     {
         qDebug() << "event type: " << e->type();
         if(e->type() == QEvent::ContextMenu)
@@ -264,12 +259,15 @@ QVariant AceEditor::syncRunJavaScript(const QString &javascript, int msec)
     QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
     QTimer::singleShot(msec, loop.data(), &QEventLoop::quit);
     qDebug() << "AceEditor::syncRunJavaScript: " << javascript;
-    ui->webView->page()->runJavaScript(javascript, [loop, &result](const QVariant &val) {
-        if (loop->isRunning()) {
-            result = val;
-            loop->quit();
-        }
-    });
+    if(_p->webView)
+    {_p->webView->page()->runJavaScript(javascript, [loop, &result](const QVariant &val) {
+            if (loop->isRunning()) {
+                result = val;
+                loop->quit();
+            }
+        });
+    }
+
     loop->exec();
     qDebug() << "result: " << result.toString();
     return result;
@@ -281,18 +279,20 @@ void AceEditor::initEditor()
     QDir dir(QCoreApplication::applicationDirPath()+QDir::separator()+"ace/editor.html");
     QEventLoop eventloop;
 
+    QWebEngineView *webView = new QWebEngineView(this);
     QWebEnginePage *page = new QWebEnginePage(this);  // 定义一个page作为页面管理
     QWebChannel *channel = new QWebChannel(this);     // 定义一个channel作为和JS或HTML交互
     channel->registerObject("qtWidget",(QObject*)bridge::instance());
     page->setWebChannel(channel);                   // 把channel配置到page上，让channel作为其信使
     page->load(QUrl( "file:///" + dir.absolutePath()));                         // page上加载html路径
-    ui->webView->setPage(page);                   // 建立page和UI上的webEngine的联系
+    webView->setPage(page);                   // 建立page和UI上的webEngine的联系
 
-    ui->webView->installEventFilter(this);
-
-    connect(ui->webView, SIGNAL(loadFinished(bool)), &eventloop, SLOT(quit()));
-
+    connect(webView, SIGNAL(loadFinished(bool)), &eventloop, SLOT(quit()));
     eventloop.exec();
+
+    webView->installEventFilter(this);
+    ui->layout->addWidget(webView);
+    _p->webView = webView;
 
     //setTheme(false);
 }

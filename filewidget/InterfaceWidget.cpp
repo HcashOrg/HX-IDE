@@ -7,6 +7,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QToolButton>
+#include <QDebug>
 
 class InterfaceWidget::DataPrivate
 {
