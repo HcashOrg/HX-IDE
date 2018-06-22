@@ -27,8 +27,6 @@ SOURCES += main.cpp\
     filewidget/FileWidget.cpp \
     filewidget/FileModel.cpp \
     filewidget/FileView.cpp \
-    contentwidget/SingleContextWidget.cpp \
-    contentwidget/contentwidget.cpp \
     outputwidget.cpp \
     contentwidget/aceeditor.cpp \
     control/contextmenu.cpp \
@@ -60,8 +58,6 @@ HEADERS  += MainWindow.h \
     filewidget/FileWidget.h \
     filewidget/FileModel.h \
     filewidget/FileView.h \
-    contentwidget/SingleContextWidget.h \
-    contentwidget/contentwidget.h \
     outputwidget.h \
     contentwidget/aceeditor.h \
     control/contextmenu.h \
@@ -84,7 +80,6 @@ FORMS    += MainWindow.ui \
     selectpathwidget.ui \
     waitingforsync.ui \
     filewidget/FileWidget.ui \
-    contentwidget/contentwidget.ui \
     outputwidget.ui \
     contentwidget/aceeditor.ui \
     NewFileDialog.ui \
