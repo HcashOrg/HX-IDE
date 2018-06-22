@@ -11,13 +11,14 @@ class ChainIDE : public QObject
 {
     Q_OBJECT
 public:
-//数据发送接收
-    void updateJsonDataMap(QString id, QString data);
-    QString jsonDataValue(QString id);
+//数据发送
     void postRPC(QString _rpcId, QString _rpcCmd);
 //链类型
     int getCurrentChainType()const;
     void setCurrentChainType(int type);
+//是否是沙盒
+    bool isSandBoxMode()const;
+    void setSandboxMode(bool mode);
 //配置
     QString getEnvAppDataPath()const;
     QString getConfigAppDataPath()const;
@@ -32,15 +33,15 @@ public:
 //编译
     CompileManager *getCompileManager()const;
 public:
-    void refreshStyleSheet();
+    void refreshStyleSheet();//刷新样式表
 private:
-    void getSystemEnvironmentPath();
+    void getSystemEnvironmentPath();//系统环境变量寻找
     void InitConfig();//初始化配置
     void InitExeManager();//初始化后台
 signals:
-    void jsonDataUpdated(QString);
-    void rpcPosted(QString rpcId, QString rpcCmd);
-    void rpcPostedFormal(QString rpcId, QString rpcCmd);
+    void jsonDataUpdated(const QString &id,const QString &data);//接收到返回
+    void rpcPosted(const QString & rpcId, const QString & rpcCmd);//测试链发出请求
+    void rpcPostedFormal(const QString & rpcId, const QString & rpcCmd);//正式链发出请求
 public:
     static ChainIDE *getInstance();
     ~ChainIDE();

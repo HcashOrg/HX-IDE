@@ -23,11 +23,10 @@ private slots:
     void delayedLaunchClient();
     void onClientExeStateChanged();
 
-    void checkWebsocketConnected();
 public slots:
-    void rpcPostedSlot(QString,QString);
+    void rpcPostedSlot(const QString &,const QString &);
 private:
-    void initWebSocketManager();
+    void initSocketManager();
 private:
     class DataPrivate;
     DataPrivate *_p;

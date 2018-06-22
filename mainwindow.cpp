@@ -54,16 +54,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::InitWidget()
 {
-    startWidget();
-//    hide();
-//    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
-//    {
-//        showSelectPathWidget();
-//    }
-//    else
-//    {
-//        startChain();
-//    }
+    //startWidget();
+    hide();
+    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
+    {
+        showSelectPathWidget();
+    }
+    else
+    {
+        startChain();
+    }
 }
 
 void MainWindow::showSelectPathWidget()
@@ -84,7 +84,7 @@ void MainWindow::startChain()
     connect(ChainIDE::getInstance()->testManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
     connect(ChainIDE::getInstance()->formalManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
     ChainIDE::getInstance()->testManager()->startExe();
-    //HXChain::getInstance()->formalManager->startExe();
+    ChainIDE::getInstance()->formalManager()->startExe();
 
 }
 
@@ -130,7 +130,7 @@ void MainWindow::startWidget()
 
 void MainWindow::exeStartedSlots()
 {
-    if(ChainIDE::getInstance()->testManager()->exeRunning() /*&& HXChain::getInstance()->formalManager->exeRunning()*/)
+    if(ChainIDE::getInstance()->testManager()->exeRunning() && ChainIDE::getInstance()->formalManager()->exeRunning())
     {
        disconnect(ChainIDE::getInstance()->testManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
        disconnect(ChainIDE::getInstance()->formalManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
@@ -308,22 +308,26 @@ void MainWindow::on_withdrawAction_triggered()
 
 void MainWindow::on_changeToFormalChainAction_triggered()
 {
-
+    ChainIDE::getInstance()->setCurrentChainType(2);
+    ModifyActionState();
 }
 
 void MainWindow::on_changeToTestChainAction_triggered()
 {
-
+    ChainIDE::getInstance()->setCurrentChainType(1);
+    ModifyActionState();
 }
 
 void MainWindow::on_enterSandboxAction_triggered()
 {
-
+    ChainIDE::getInstance()->setSandboxMode(true);
+    ModifyActionState();
 }
 
 void MainWindow::on_exitSandboxAction_triggered()
 {
-
+    ChainIDE::getInstance()->setSandboxMode(false);
+    ModifyActionState();
 }
 
 void MainWindow::on_accountListAction_triggered()
@@ -360,8 +364,11 @@ void MainWindow::ModifyActionState()
     ui->saveAction->setEnabled(_p->contentWidget->currentFileUnsaved());
     ui->saveAllAction->setEnabled(_p->contentWidget->hasFileUnsaved());
 
-    //ui->changeToFormalChainAction();
-    //ui->changeToTestChainAction();
+    ui->changeToFormalChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 1);
+    ui->changeToTestChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 2);
+
+    ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
+    ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
 }
 
 void MainWindow::NewFileCreated(const QString &filePath)

@@ -25,15 +25,13 @@ ConsoleDialog::ConsoleDialog(QWidget *parent) :
 
     ui->consoleLineEdit->setFocus();
 
-    connect( ChainIDE::getInstance(), SIGNAL(jsonDataUpdated(QString)), this, SLOT(jsonDataUpdated(QString)));
+    connect( ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated, this, &ConsoleDialog::jsonDataUpdated);
 }
 
 ConsoleDialog::~ConsoleDialog()
-{
-    
+{    
     qDebug() << "ConsoleDialog delete";
-    delete ui;
-    
+    delete ui;    
 }
 
 void ConsoleDialog::pop()
@@ -169,12 +167,12 @@ void ConsoleDialog::paintEvent(QPaintEvent *event)
     QDialog::paintEvent(event);
 }
 
-void ConsoleDialog::jsonDataUpdated(QString id)
+void ConsoleDialog::jsonDataUpdated(const QString &id,const QString &data)
 {
     if( id.startsWith("console-"))
     {
         ui->consoleBrowser->append(">>>" + id.mid(8));
-        ui->consoleBrowser->append( ChainIDE::getInstance()->jsonDataValue(id));
+        ui->consoleBrowser->append( data);
         ui->consoleBrowser->append("\n");
         return;
     }

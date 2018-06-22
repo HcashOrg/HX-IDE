@@ -6,8 +6,9 @@
 #include <QSettings>
 
 #include "ChainIDE.h"
-#include "websocketmanager.h"
 #include "commondialog.h"
+
+#include "datarequire/DataRequireManager.h"
 
 static const int NODE_RPC_PORT = 50320;//node端口  test    formal = test+10
 static const int CLIENT_RPC_PORT = 50321;//client端口  test    formal = test+10
@@ -22,8 +23,9 @@ public:
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        WSMnager = new WebSocketManager(clientPort);
         dataPath = 1 == type ? "/testDataPath" : "/formalPath";
+
+        dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
     ~DataPrivate()
     {
@@ -31,7 +33,8 @@ public:
         nodeProc = nullptr;
         delete clientProc;
         clientProc = nullptr;
-
+        delete dataRequire;
+        dataRequire = nullptr;
     }
 public:
     int chaintype;
@@ -40,9 +43,8 @@ public:
     QString dataPath;
     QProcess* nodeProc;
     QProcess* clientProc;
-    WebSocketManager *WSMnager;
     QTimer    timerForStartExe;
-    QTimer websocketCheckTimer;
+    DataRequireManager *dataRequire;
 };
 
 ExeManager::ExeManager(int type,QObject *parent) : QObject(parent)
@@ -134,11 +136,9 @@ void ExeManager::onClientExeStateChanged()
     {
         qDebug() << QString("%1 is running").arg("lnk_client.exe");
 
-        initWebSocketManager();
+        qDebug()<<QString("start socket connected");
 
-        connect(&_p->websocketCheckTimer,SIGNAL(timeout()),this,SLOT(checkWebsocketConnected()));
-        _p->websocketCheckTimer.start(1000);
-
+        initSocketManager();
     }
     else if(_p->clientProc->state() == QProcess::NotRunning)
     {
@@ -149,23 +149,15 @@ void ExeManager::onClientExeStateChanged()
     }
 }
 
-void ExeManager::initWebSocketManager()
+void ExeManager::initSocketManager()
 {
-    _p->WSMnager->start();
-    _p->WSMnager->moveToThread(_p->WSMnager);
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated);
+    connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&ExeManager::exeStarted);
+
+    _p->dataRequire->startManager(DataRequireManager::WEBSOCKET);
 }
 
-void ExeManager::checkWebsocketConnected()
+void ExeManager::rpcPostedSlot(const QString & id, const QString & cmd)
 {
-    if(_p->WSMnager == nullptr)   return;
-    if(_p->WSMnager->isConnected)
-    {
-        _p->websocketCheckTimer.stop();
-        emit exeStarted();
-    }
-}
-
-void ExeManager::rpcPostedSlot(QString id, QString cmd)
-{
-    _p->WSMnager->processRPCs(id,cmd);
+    _p->dataRequire->requirePosted(id,cmd);
 }

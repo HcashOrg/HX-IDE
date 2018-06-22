@@ -16,6 +16,17 @@ QString IDEUtil::toJsonFormat(QString instruction, QJsonArray parameters)
     return QJsonDocument(object).toJson();
 }
 
+QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap &parameters)
+{
+    QJsonObject object;
+    object.insert("jsonrpc","2.0");
+    object.insert("id",45);
+    object.insert("method",instruction);
+    object.insert("params",QJsonObject::fromVariantMap(parameters));
+    return QJsonDocument(object).toJson();
+
+}
+
 void IDEUtil::TemplateFile(const QString &filePath)
 {
     QFileInfo testfile(filePath);

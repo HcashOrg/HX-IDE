@@ -128,7 +128,8 @@ QScrollBar:vertical {
  }
  QScrollBar::handle:vertical {
     border: 1px solid rgb(71,71,71);
-     background: rgb(41,41,41);
+    background: rgb(41,41,41);
+    min-height:30px;
  }
  QScrollBar::add-line:vertical {
  border: 1px solid rgb(71,71,71);
@@ -146,7 +147,7 @@ QScrollBar:vertical {
      subcontrol-origin: margin;
  }
  QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
- border: 1px solid rgb(71,71,71);
+     border: 1px solid rgb(71,71,71);
      width: 5px;
      height: 5px;
      background: white;

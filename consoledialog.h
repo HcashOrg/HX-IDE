@@ -28,7 +28,7 @@ private slots:
 
     void on_consoleLineEdit_returnPressed();
 
-    void jsonDataUpdated(QString id);
+    void jsonDataUpdated(const QString &id,const QString &data);
 
     void on_clearBtn_clicked();
 

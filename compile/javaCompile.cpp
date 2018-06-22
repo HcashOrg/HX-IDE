@@ -101,7 +101,7 @@ void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
             IDEUtil::deleteDir(_p->tempDir);
 
             _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName()+".gpc";
-            if(QDir(_p->dstFilePath).exists())
+            if(QFile(_p->dstFilePath).exists())
             {
                 emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
                 emit finishCompileFile(_p->sourceDir);

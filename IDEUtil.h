@@ -4,10 +4,12 @@
 #include <QString>
 #include <QStringList>
 #include <QJsonArray>
+#include <QJsonObject>
 class IDEUtil
 {
 public:
     static QString toJsonFormat(QString instruction,QJsonArray parameters);
+    static QString toHttpJsonFormat(const QString &instruction,const QVariantMap &parameters);
 
     //根据模板填充文件，如果文件不存在就创建
     static void TemplateFile(const QString &filePath);

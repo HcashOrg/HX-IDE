@@ -12,8 +12,7 @@
 #include "ExeManager.h"
 #include "compile/CompileManager.h"
 
-
-static QMutex mutexForJsonData;
+static QMutex mutexForChainType;
 
 class ChainIDE::DataPrivate
 {
@@ -21,6 +20,7 @@ public:
     DataPrivate()
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
         ,chainType(1)
+        ,sanboxMode(false)
         ,testManager(new ExeManager(1))
         ,formalManager(new ExeManager(2))
         ,compileManager(new CompileManager())
@@ -28,14 +28,14 @@ public:
 
     }
 public:
-    QMap<QString,QString> jsonDataMap;   //  各指令的id,各指令的返回
     QSettings *configFile;//配置文件
     QString appDataPath;//系统环境变量的appdatapath
     ExeManager *testManager;
     ExeManager *formalManager;
-    int chainType;
+    int chainType;//链类型1==测试 2==正式
+    bool sanboxMode;//沙盒模式
 
-    CompileManager *compileManager;
+    CompileManager *compileManager;//编译器
 };
 
 ChainIDE *ChainIDE::getInstance()
@@ -64,28 +64,6 @@ ChainIDE::ChainIDE(QObject *parent)
 
 ChainIDE * ChainIDE::_instance = nullptr;
 
-
-void ChainIDE::updateJsonDataMap(QString id, QString data)
-{
-    mutexForJsonData.lock();
-
-    _p->jsonDataMap.insert( id, data);
-    emit jsonDataUpdated(id);
-
-    mutexForJsonData.unlock();
-}
-
-QString ChainIDE::jsonDataValue(QString id)
-{
-    mutexForJsonData.lock();
-
-    QString value = _p->jsonDataMap.value(id);
-
-    mutexForJsonData.unlock();
-
-    return value;
-}
-
 void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
 {
     switch (getCurrentChainType())
@@ -108,7 +86,19 @@ int ChainIDE::getCurrentChainType() const
 
 void ChainIDE::setCurrentChainType(int type)
 {
+    mutexForChainType.lock();
     _p->chainType = type;
+    mutexForChainType.unlock();
+}
+
+bool ChainIDE::isSandBoxMode() const
+{
+    return _p->sanboxMode;
+}
+
+void ChainIDE::setSandboxMode(bool mode)
+{
+    _p->sanboxMode = mode;
 }
 
 QString ChainIDE::getEnvAppDataPath() const

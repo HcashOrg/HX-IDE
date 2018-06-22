@@ -16,7 +16,6 @@ SOURCES += main.cpp\
         MainWindow.cpp \
     ChainIDE.cpp \
     DataDefine.cpp \
-    websocketmanager.cpp \
     IDEUtil.cpp \
     ExeManager.cpp \
     compile/BaseCompile.cpp \
@@ -41,12 +40,16 @@ SOURCES += main.cpp\
     filewidget/InterfaceWidget.cpp \
     compile/javaCompile.cpp \
     compile/csharpCompile.cpp \
-    consoledialog.cpp
+    consoledialog.cpp \
+    datarequire/RequireBase.cpp\
+    datarequire/DataRequireManager.cpp \
+    datarequire/websocketRequire.cpp \
+    datarequire/tcpsocketRequire.cpp \
+    datarequire/httpRequire.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
     DataDefine.h \
-    websocketmanager.h \
     IDEUtil.h \
     ExeManager.h \
     compile/BaseCompile.h \
@@ -71,7 +74,12 @@ HEADERS  += MainWindow.h \
     filewidget/InterfaceWidget.h \
     compile/javaCompile.h \
     compile/csharpCompile.h \
-    consoledialog.h
+    consoledialog.h \
+    datarequire/RequireBase.h\
+    datarequire/DataRequireManager.h \
+    datarequire/websocketRequire.h \
+    datarequire/tcpsocketRequire.h \
+    datarequire/httpRequire.h
 
 FORMS    += MainWindow.ui \
     commondialog.ui \
