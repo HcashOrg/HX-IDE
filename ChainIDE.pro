@@ -33,8 +33,6 @@ SOURCES += main.cpp\
     contentwidget/aceeditor.cpp \
     control/contextmenu.cpp \
     control/editorcontextmenu.cpp \
-    control/singletab.cpp \
-    control/tabbarwidget.cpp \
     contentwidget/bridge.cpp \
     NewFileDialog.cpp \
     filewidget/InterfaceWidget.cpp \
@@ -68,8 +66,6 @@ HEADERS  += MainWindow.h \
     contentwidget/aceeditor.h \
     control/contextmenu.h \
     control/editorcontextmenu.h \
-    control/singletab.h \
-    control/tabbarwidget.h \
     contentwidget/bridge.h \
     NewFileDialog.h \
     filewidget/InterfaceWidget.h \
@@ -91,8 +87,6 @@ FORMS    += MainWindow.ui \
     contentwidget/contentwidget.ui \
     outputwidget.ui \
     contentwidget/aceeditor.ui \
-    control/singletab.ui \
-    control/tabbarwidget.ui \
     NewFileDialog.ui \
     filewidget/InterfaceWidget.ui \
     consoledialog.ui \

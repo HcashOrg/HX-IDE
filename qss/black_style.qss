@@ -110,7 +110,7 @@ QTabBar::tab{
     min-width:75px;
     min-height:25px;
     font: 14px \"微软雅黑\";
-    padding: 0px;
+    padding: 2px 5px 2px 5px;
 }
 QTabBar::tab:selected{
     background-color:rgb(38,38,38);

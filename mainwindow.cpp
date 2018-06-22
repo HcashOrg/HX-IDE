@@ -253,7 +253,7 @@ void MainWindow::on_compileAction_triggered()
 
 void MainWindow::on_closeAction_triggered()
 {
-    _p->contextWidget->close();
+    _p->contextWidget->closeFile(_p->contextWidget->getCurrentFilePath());
 }
 
 void MainWindow::on_closeAllAction_triggered()

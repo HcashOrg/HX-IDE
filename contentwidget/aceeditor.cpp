@@ -279,8 +279,9 @@ void AceEditor::initEditor()
     QDir dir(QCoreApplication::applicationDirPath()+QDir::separator()+"ace/editor.html");
     QEventLoop eventloop;
 
-    QWebEngineView *webView = new QWebEngineView(this);
+    QWebEngineView *webView = new QWebEngineView();
     QWebEnginePage *page = new QWebEnginePage(this);  // 定义一个page作为页面管理
+    page->setBackgroundColor(Qt::transparent);
     QWebChannel *channel = new QWebChannel(this);     // 定义一个channel作为和JS或HTML交互
     channel->registerObject("qtWidget",(QObject*)bridge::instance());
     page->setWebChannel(channel);                   // 把channel配置到page上，让channel作为其信使
@@ -293,8 +294,6 @@ void AceEditor::initEditor()
     webView->installEventFilter(this);
     ui->layout->addWidget(webView);
     _p->webView = webView;
-
-    //setTheme(false);
 }
 
 void AceEditor::checkFile(const QString &filePath)
