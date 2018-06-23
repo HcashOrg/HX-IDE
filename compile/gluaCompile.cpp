@@ -60,7 +60,7 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
     emit CompileOutput(QString("start compile %1").arg(_p->sourceDir));
 
     QStringList params;
-    params<<"-o"<<_p->tempDir<<"-g"<<sourceFilePath;
+    params<<"-o"<<_p->tempDir<<"-g"<<_p->sourceFile;
     foreach (QString is, params) {
         qDebug()<<is;
     }
