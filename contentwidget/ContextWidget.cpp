@@ -275,6 +275,7 @@ AceEditor *ContextWidget::getCurrentEditor() const
 {
     if(ui->tabWidget->currentWidget())
     {
+        qDebug()<<"getcurrent";
         return dynamic_cast<AceEditor*>(ui->tabWidget->currentWidget());
     }
     return nullptr;

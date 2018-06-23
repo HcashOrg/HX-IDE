@@ -2,6 +2,9 @@
 
 #include "gluaCompile.h"
 #include "javaCompile.h"
+#include "csharpCompile.h"
+#include "DataDefine.h"
+
 class CompileManager::DataPrivate
 {
 public:
@@ -38,22 +41,19 @@ CompileManager::~CompileManager()
 void CompileManager::startCompile(const QString &filePath)
 {
     BaseCompile *compiler = nullptr;
-    if(filePath.endsWith(".glua"))
+    if(filePath.endsWith("."+DataDefine::GLUA_SUFFIX))
     {//调用glua编译器
-//        if(_p->gluaCompiler)
-        {
-            compiler = new gluaCompile(this);
-
-        }
+        compiler = new gluaCompile(this);
     }
-    else if(filePath.endsWith(".java"))
+    else if(filePath.endsWith("."+DataDefine::JAVA_SUFFIX))
     {//调用java编译器
-//        if(_p->javaCompiler)
-        {
-            compiler = new javaCompile(this);
-        }
+        compiler = new javaCompile(this);
     }
-    else if(filePath.endsWith(".cs"))
+    else if(filePath.endsWith("."+DataDefine::CSHARP_SUFFIX))
+    {
+        compiler = new csharpCompile(this);
+    }
+    else if(filePath.endsWith("."+DataDefine::KOTLIN_SUFFIX))
     {
 
     }

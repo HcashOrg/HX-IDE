@@ -9,7 +9,6 @@
 #include "IDEUtil.h"
 #include "DataDefine.h"
 
-static const QString JavaCompileDir = "javaTemp";
 
 class javaCompile::DataPrivate
 {
@@ -46,8 +45,11 @@ javaCompile::~javaCompile()
 
 void javaCompile::startCompileFile(const QString &sourceFilePath)
 {
-    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+JavaCompileDir + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
+                  DataDefine::JAVA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
     _p->sourceDir = QFileInfo(sourceFilePath).absoluteDir().absolutePath();
+
+    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
     //设置控制台路径为当前路径
     getCompileProcess()->setWorkingDirectory(_p->tempDir);
@@ -89,19 +91,17 @@ void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         else if(3 == _p->currentState)
         {
             //删除之前的文件
-            QString targetPath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
-            QFile::remove(targetPath+".gpc");
-            QFile::remove(targetPath+".meta.json");
+            QFile::remove(_p->dstFilePath+".gpc");
+            QFile::remove(_p->dstFilePath+".meta.json");
 
             //复制gpc meta.json文件到源目录
-            QFile::copy(_p->tempDir+"/result.gpc",targetPath+".gpc");
-            QFile::copy(_p->tempDir+"/result.meta.json",targetPath+".meta.json");
+            QFile::copy(_p->tempDir+"/result.gpc",_p->dstFilePath+".gpc");
+            QFile::copy(_p->tempDir+"/result.meta.json",_p->dstFilePath+".meta.json");
 
             //删除临时目录
             IDEUtil::deleteDir(_p->tempDir);
 
-            _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName()+".gpc";
-            if(QFile(_p->dstFilePath).exists())
+            if(QFile(_p->dstFilePath+".gpc").exists())
             {
                 emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
                 emit finishCompileFile(_p->sourceDir);
@@ -136,7 +136,7 @@ void javaCompile::generateClassFile()
     _p->currentState = 0;
 
     QStringList fileList;
-    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<"java");
+    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<DataDefine::JAVA_SUFFIX);
     //调用命令行编译
     QStringList params;
     params<<"-classpath"<<QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_CORE_PATH
@@ -150,7 +150,6 @@ void javaCompile::generateClassFile()
     }
     qDebug()<<_p->sourceDir;
 
-    _p->currentState = 0;
     getCompileProcess()->start("javac",params);
 }
 
@@ -174,7 +173,6 @@ void javaCompile::generateAssFile()
         qDebug()<<is;
     }
 
-    _p->currentState = 1;
     getCompileProcess()->start("java",params);
 }
 
@@ -182,14 +180,14 @@ void javaCompile::generateOutFile()
 {
     _p->currentState = 2;
     //将result.ass编译为.out文件
-    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::UVM_ASS_PATH,QStringList()<<_p->tempDir+"/result.ass");
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_UVM_ASS_PATH,QStringList()<<_p->tempDir+"/result.ass");
 }
 
 void javaCompile::generateContractFile()
 {
     _p->currentState = 3;
-    //将.out .meta.json文件编译为gpc .meta.json文件
-    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::PACKAGE_GPC_PATH,
+    //将.out .meta.json文件编译为gpc文件
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_PACKAGE_GPC_PATH,
                                QStringList()<<_p->tempDir+"/result.out"<<_p->tempDir+"/result.meta.json");
 
 }

@@ -15,6 +15,7 @@
 
 #include <QClipboard>
 #include <QMimeData>
+#include "DataDefine.h"
 
 class AceEditor::DataPrivate
 {
@@ -100,8 +101,6 @@ void AceEditor::initFinish()
 {
     // calling reset immediately doesn't work, because changes are added to undoManager after a timeout
     this->syncRunJavaScript( "setTimeout(function() { editor.getSession().getUndoManager().reset(); inited = true;}, 700);");
-
-    setSaved(true);
 }
 
 void AceEditor::setTheme(bool black)
@@ -215,7 +214,7 @@ bool AceEditor::eventFilter(QObject *watched, QEvent *e)
 {
     if(dynamic_cast<QWebEngineView *>(watched))
     {
-        qDebug() << "event type: " << e->type();
+        //qDebug() << "event type: " << e->type();
         if(e->type() == QEvent::ContextMenu)
         {
             QString selectedText = getSelectedText();
@@ -260,7 +259,8 @@ QVariant AceEditor::syncRunJavaScript(const QString &javascript, int msec)
     QTimer::singleShot(msec, loop.data(), &QEventLoop::quit);
     qDebug() << "AceEditor::syncRunJavaScript: " << javascript;
     if(_p->webView)
-    {_p->webView->page()->runJavaScript(javascript, [loop, &result](const QVariant &val) {
+    {
+        _p->webView->page()->runJavaScript(javascript, [loop, &result](const QVariant &val) {
             if (loop->isRunning()) {
                 result = val;
                 loop->quit();
@@ -326,8 +326,9 @@ void AceEditor::openFile(const QString &filePath)
     QFile file(filePath);
     if( file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QTextCodec* gbkCodec = QTextCodec::codecForName("GBK");
         QByteArray ba = file.readAll();
+
+
         if( filePath.endsWith(".gpc"))
         {
             setText(ba.toHex());
@@ -335,10 +336,22 @@ void AceEditor::openFile(const QString &filePath)
         }
         else
         {
-            setText( QString( gbkCodec->toUnicode(ba) ));
+            QTextCodec::ConverterState state;
+            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+            QString text = codec->toUnicode( ba.constData(), ba.size(), &state);
+            if (state.invalidChars > 0)
+            {
+                text = QTextCodec::codecForName( "GBK" )->toUnicode(ba);
+            }
+            else
+            {
+                text = ba;
+            }
+
+            setText(text);
         }
         file.close();
     }
 
-    setMode(filePath.mid(filePath.lastIndexOf(".")+1));
+    setMode(QFileInfo(filePath).suffix() ==  DataDefine::CSHARP_SUFFIX?"csharp":QFileInfo(filePath).suffix());
 }

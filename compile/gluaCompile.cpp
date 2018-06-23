@@ -9,8 +9,6 @@
 #include "DataDefine.h"
 #include "IDEUtil.h"
 
-static const QString GluaCompileDir = "GluaTemp";
-
 class gluaCompile::DataPrivate
 {
 public:
@@ -23,8 +21,10 @@ public:
     }
 
 public:
-
+    QString sourceFile;
     QString dstFilePath;
+    QString tempDir;
+    QString sourceDir;
 };
 
 gluaCompile::gluaCompile(QObject *parent)
@@ -42,14 +42,25 @@ gluaCompile::~gluaCompile()
 void gluaCompile::startCompileFile(const QString &sourceFilePath)
 {
     //当前文件路径名
-    _p->dstFilePath = sourceFilePath;
-    _p->dstFilePath.append(".gpc");
+    _p->sourceFile = sourceFilePath;
+    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
+                  DataDefine::GLUA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+    _p->sourceDir = QFileInfo(sourceFilePath).absoluteDir().absolutePath();
 
+    IDEUtil::deleteDir(_p->tempDir);
+    QDir dir(_p->tempDir);
+    if(!dir.exists())
+    {
+        qDebug()<<"dirmake"<<dir.path();
+        dir.mkpath(dir.path());
+    }
 
-    emit CompileOutput(QString("start compile %1").arg(sourceFilePath));
+    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
+
+    emit CompileOutput(QString("start compile %1").arg(_p->sourceDir));
 
     QStringList params;
-    params<<"-o"<<QFileInfo(_p->dstFilePath).absoluteDir().path()<<"-g"<<sourceFilePath;
+    params<<"-o"<<_p->tempDir<<"-g"<<sourceFilePath;
     foreach (QString is, params) {
         qDebug()<<is;
     }
@@ -61,12 +72,33 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
     if(exitStatus == QProcess::NormalExit)
     {
-        emit CompileOutput(QString("compile finish,open %1").arg(_p->dstFilePath));
-        emit finishCompileFile(_p->dstFilePath);
+        //生成完毕
+        //删除之前的文件
+        QFile::remove(_p->dstFilePath+".gpc");
+        QFile::remove(_p->dstFilePath+".meta.json");
+
+        //复制gpc meta.json文件到源目录
+        QFile::copy(_p->tempDir+"/"+QFileInfo(_p->sourceFile).fileName()+".gpc",_p->dstFilePath+".gpc");
+        QFile::copy(_p->tempDir+"/"+QFileInfo(_p->sourceFile).fileName()+".meta.json",_p->dstFilePath+".meta.json");
+
+        //删除临时目录
+        IDEUtil::deleteDir(_p->tempDir);
+
+        if(QFile(_p->dstFilePath+".gpc").exists())
+        {
+            emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
+            emit finishCompileFile(_p->sourceDir);
+        }
     }
     else
     {
         emit CompileOutput(QString("compile error"));
+        //删除之前的文件
+        QFile::remove(_p->dstFilePath+".gpc");
+        QFile::remove(_p->dstFilePath+".meta.json");
+
+        //删除临时目录
+        IDEUtil::deleteDir(_p->tempDir);
     }
 }
 

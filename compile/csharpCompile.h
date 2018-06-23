@@ -15,6 +15,9 @@ protected slots:
     virtual void onReadStandardOutput();
     virtual void onReadStandardError();
 private:
+    void generateDllFile();
+    void generateContractFile();
+private:
     class DataPrivate;
     DataPrivate *_p;
 };

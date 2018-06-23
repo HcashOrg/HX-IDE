@@ -51,14 +51,14 @@ void InterfaceWidget::InitData()
     //寻找对应的.meta.json，，glua文件寻找自身名字的.meta.json文件，，java文件寻找自身所在目录的.meta.json文件
     QFileInfo file(_p->currentFilePath);
     QString filePath;
-    if(_p->currentFilePath.endsWith("."+DataDefine::GLUA_SUFFIX))
-    {//查找同样的文件名即可
-        filePath = _p->currentFilePath+".meta.json";
-    }
-    else
-    {//查找文件夹对应的名称的文件
+//    if(_p->currentFilePath.endsWith("."+DataDefine::GLUA_SUFFIX))
+//    {//查找同样的文件名即可
+//        filePath = _p->currentFilePath+".meta.json";
+//    }
+//    else
+//    {//查找文件夹对应的名称的文件
         filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
-    }
+//    }
     if(readApiFromPath(filePath,_p->data))
     {
         QStringList apis = _p->data->getAllApiName();
