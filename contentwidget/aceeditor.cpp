@@ -353,5 +353,5 @@ void AceEditor::openFile(const QString &filePath)
         file.close();
     }
 
-    setMode(QFileInfo(filePath).suffix() ==  DataDefine::CSHARP_SUFFIX?"csharp":QFileInfo(filePath).suffix());
+    setMode(DataDefine::SUFFIX_MAP.at(QFileInfo(filePath).suffix()));
 }

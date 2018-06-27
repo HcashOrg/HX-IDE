@@ -27,6 +27,16 @@ QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap 
 
 }
 
+QString IDEUtil::toUbcdHttpJsonFormat(const QString &instruction, const QJsonArray &parameters)
+{
+    QJsonObject object;
+    object.insert("id",1);
+    object.insert("method",instruction);
+    object.insert("params",parameters);
+    return QJsonDocument(object).toJson();
+
+}
+
 void IDEUtil::TemplateFile(const QString &filePath)
 {
     QFileInfo testfile(filePath);
@@ -89,13 +99,14 @@ void IDEUtil::GetAllFile(QString dirPath, QStringList &files,const QStringList &
         {
             if(limit.empty() || limit.contains(info.suffix()))
             {
+                qDebug()<<limit;
                 files.append(info.absoluteFilePath());
             }
 
         }
         else if(info.isDir())
         {
-            GetAllFile(info.absoluteFilePath(),files);
+            GetAllFile(info.absoluteFilePath(),files,limit);
         }
     }
 

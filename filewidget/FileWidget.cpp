@@ -14,6 +14,11 @@ FileWidget::~FileWidget()
     delete ui;
 }
 
+QString FileWidget::getCurrentFile() const
+{
+    return ui->fileTree->getCurrentFilePath();
+}
+
 void FileWidget::SelectFile(const QString &filePath)
 {
     ui->fileTree->selectFile(filePath);

@@ -15,7 +15,7 @@ public slots:
     void selectFile(const QString &filePath);
 private slots:
     void IndexClicked(const QModelIndex &index);
-private:
+public:
     QString getCurrentFilePath()const;
 private:
     void InitWidget();

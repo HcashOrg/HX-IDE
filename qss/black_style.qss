@@ -82,11 +82,11 @@ QTreeView::branch::hover::adjoins-item,QTreeView::branch::hover::!adjoins-item,Q
 }
 QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings {
     border-image: none;
-    image: url(:/pic2/close.png);
+    image: url(:/pic/close.png);
 }
 QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings  {
     border-image: none;
-    image: url(:/pic2/open.png);
+    image: url(:/pic/open.png);
 }
 QTreeView::item:has-children{
     color:white;
@@ -118,7 +118,7 @@ QTabBar::tab:selected{
     border-bottom: 0px solid rgb(68,217,199);
 }
 QTabBar::close-button {
-    image: url(:/pic2/close2.png);
+    image: url(:/pic/close2.png);
     subcontrol-origin: padding;
     subcontrol-position: bottom right;
 }
@@ -182,26 +182,101 @@ QComboBox{
     padding-left: 5px;
     font: 14px \"Microsoft YaHei UI Light\";
 }
-/*QComboBox:on{border:1px solid rgb(93,107,144);}*/
+QComboBox:on{
+    border:0px solid rgb(93,107,144);
+    color:white;
+    background-color:rgb(50,50,50);
+}
 QComboBox::drop-down {
     background:transparent;
     border:none;
 }
 QComboBox::down-arrow {
-    image: url(:/pic2/downArrow.png);
+    image: url(:/pic/downArrow.png);
 }
 QComboBox::down-arrow:on {
-    image: url(:/pic2/downArrow_on.png);
+    image: url(:/pic/downArrow_on.png);
 }
 QComboBox QAbstractItemView {
-    outline: 0px;
+    background:rgb(46,46,46);
+    border:1px solid darkgray;
+    color:white;
+    outline:0px;
+    font: 14px \"Microsoft YaHei UI Light\";
 }
+QComboBox QAbstractItemView::item:hover
+{
+    color:#44D9C7;
+    background-color:rgb(38,38,38);
+    border:none;
+}
+
+QComboBox QAbstractItemView::item:selected
+{
+    color:#44D9C7;
+    background-color:rgb(38,38,38);
+}
+
+QDialog{
+    background-color:rgb(50,50,50);
+}
+
+QHeaderView{
+    border:1px solid rgb(70,70,70);
+    background-color:rgb(50,50,50);
+    color:white;
+    font: 14px \"Microsoft YaHei UI Light\";
+    min-height:30px;
+}
+QHeaderView:section{
+    border:none;
+    background-color:rgb(50,50,50);
+}
+
+QDoubleSpinBox::up-button {
+    width:0;
+    height:0;
+}
+QDoubleSpinBox::down-button {
+    width:0;
+    height:0;
+}
+QDoubleSpinBox::up-arrow {
+    width:0;
+    height:0;
+}
+QDoubleSpinBox::down-arrow {
+    width:0;
+    height:0;
+}
+QDoubleSpinBox{
+    background-color: transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid gray;
+    color:white;
+}
+QDoubleSpinBox:focus{
+    border-bottom:1px solid rgb(84,116,235);
+}
+QDoubleSpinBox:disabled{
+    background:transparent;color: rgb(83,90,109);
+}
+
+
+
+
+
 
 /*具体按钮的定制*/
 QLabel#title_Label{
     color:white;
     font:65 18px \"Microsoft YaHei UI\";
+    background-color:rgb(70,70,70);
+    padding-left:10px;
 }
+
 
 QToolButton#clearBtn{
     background-color:rgb(66,66,66);
@@ -212,7 +287,7 @@ QToolButton#clearBtn:pressed{
     background-color:rgb(50,50,50);
 }
 QToolButton#closeBtn{
-    background-image:url(:/pic2/close2.png);
+    background-image:url(:/pic/close2.png);
     background-repeat: no-repeat;
     background-position: center;
     background-color:transparent;
@@ -243,5 +318,23 @@ QToolButton#cancelBtn{
     width:60px;
 }
 QToolButton#cancelBtn:pressed{
+    background-color:rgb(50,50,50);
+}
+
+
+QToolButton#newAccount,QToolButton#importKey{
+    border:1px solid gray;
+    border-radius:10px;
+    color:white;
+    background-color:rgb(66,66,66);
+    height:20px;
+    width:60px;
+}
+
+QToolButton#newAccount:disabled,QToolButton#importKey:disabled{
+    color:gray;
+}
+
+QToolButton#newAccount:pressed,QToolButton#importKey:pressed{
     background-color:rgb(50,50,50);
 }

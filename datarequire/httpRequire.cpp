@@ -3,6 +3,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
 class httpRequire::DataPrivate
 {
 public:
@@ -41,16 +45,49 @@ void httpRequire::postData(const QString &data)
 
 void httpRequire::startConnect()
 {
-    _p->httpRequest.setRawHeader("Content-Type","application/json");
+    _p->httpRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+    _p->httpRequest.setRawHeader("Authorization","Basic YTpi");
     _p->httpRequest.setUrl(QUrl(QString("http://%1:%2").arg(getConnectIP()).arg(getConnectPort())));
     emit connectFinish();
 }
 
 void httpRequire::requestFinished(QNetworkReply *reply)
 {
-    if(reply->error() != QNetworkReply::NoError) return;
+    if(reply->error() != QNetworkReply::NoError)
+    {
+         qDebug()<<reply->errorString();
+         emit receiveData(reply->errorString());
+         return;
+    }
 
-    emit receiveData(reply->readAll());
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(reply->readAll(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+         emit receiveData(json_error.errorString());
+         return;
+    }
+    QJsonValue val = parse_doucment.object().value("result");
+    if(val.isArray())
+    {
+        emit receiveData(QJsonDocument(val.toArray()).toJson());
+    }
+    else if(val.isObject())
+    {
+        emit receiveData(QJsonDocument(val.toObject()).toJson());
+    }
+    else if(val.isString())
+    {
+        emit receiveData(val.toString());
+    }
+    else if(val.isDouble())
+    {
+        emit receiveData(QString::number(val.toDouble()));
+    }
+    else if(val.isNull())
+    {
+        emit receiveData("");
+    }
 
     reply->deleteLater();
 }

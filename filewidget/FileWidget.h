@@ -14,6 +14,8 @@ class FileWidget : public QWidget
 public:
     explicit FileWidget(QWidget *parent = 0);
     ~FileWidget();
+public:
+    QString getCurrentFile()const;
 signals:
     void fileClicked(QString filepath);
 

@@ -37,8 +37,6 @@ private slots:
 
     void on_exitAction_triggered();
 
-    void on_compileAction_triggered();
-
     //编辑菜单
     void on_undoAction_triggered();
 
@@ -59,10 +57,16 @@ private slots:
 
     void on_withdrawAction_triggered();
 
-    //设置菜单
-    void on_changeToTestChainAction_triggered();
+    //调试菜单
+    void on_compileAction_triggered();
 
-    void on_changeToFormalChainAction_triggered();
+    void on_debugAction_triggered();
+
+    void on_stopAction_triggered();
+
+    void on_stepAction_triggered();
+    //设置菜单
+    void on_changeChainAction_triggered();
 
     void on_enterSandboxAction_triggered();
 
@@ -83,6 +87,7 @@ private slots:
 
     void on_closeAllAction_triggered();
 
+
 private:
     void NewFileCreated(const QString &filePath);
 private:
@@ -92,13 +97,12 @@ private:
     void showWaitingForSyncWidget();
 
     void startWidget();
-    void actionSetIcon();
-
-
 private:
     Ui::MainWindow *ui;
     class DataPrivate;
     DataPrivate *_p;
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MAINWINDOW_H

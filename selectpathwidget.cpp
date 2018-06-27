@@ -22,7 +22,7 @@ SelectPathWidget::SelectPathWidget(QWidget *parent) :
 
     setAutoFillBackground(true);
     QPalette palette;
-    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic2/bg.png")));
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic/bg.png")));
     setPalette(palette);
 
     ui->pathLineEdit->setText(ChainIDE::getInstance()->getEnvAppDataPath());

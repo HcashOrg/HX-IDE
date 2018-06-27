@@ -96,7 +96,7 @@ bool ContextWidget::currentFileUnsaved()
     {
         return !editor->isSaved();
     }
-    return true;
+    return false;
 }
 
 const QString &ContextWidget::getCurrentFilePath() const
@@ -122,7 +122,7 @@ void ContextWidget::showFile(QString path)
     AceEditor* w = new AceEditor(path, true );
 
 
-    ui->tabWidget->addTab(w,QIcon(":/pic2/saved.png"),QFileInfo(path).fileName());
+    ui->tabWidget->addTab(w,QIcon(":/pic/saved.png"),QFileInfo(path).fileName());
 
     ui->tabWidget->setCurrentWidget(w);
 }
@@ -312,7 +312,7 @@ void ContextWidget::contextUpdate()
     {
         if(AceEditor *w = getEditor(i))
         {
-            ui->tabWidget->setTabIcon(i,w->isSaved()?QIcon(":/pic2/saved.png"):QIcon(":/pic2/unsaved.png"));
+            ui->tabWidget->setTabIcon(i,w->isSaved()?QIcon(":/pic/saved.png"):QIcon(":/pic/unsaved.png"));
         }
     }
     emit contentStateChange();

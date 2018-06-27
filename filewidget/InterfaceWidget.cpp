@@ -57,8 +57,16 @@ void InterfaceWidget::InitData()
 //    }
 //    else
 //    {//查找文件夹对应的名称的文件
-        filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
+//        filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
 //    }
+    if(_p->currentFilePath.endsWith("."+DataDefine::GLUA_SUFFIX)||
+       _p->currentFilePath.endsWith("."+DataDefine::JAVA_SUFFIX)||
+       _p->currentFilePath.endsWith("."+DataDefine::CSHARP_SUFFIX)||
+       _p->currentFilePath.endsWith("."+DataDefine::KOTLIN_SUFFIX)
+       )
+    {
+        filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
+    }
     if(readApiFromPath(filePath,_p->data))
     {
         QStringList apis = _p->data->getAllApiName();
@@ -112,7 +120,7 @@ bool InterfaceWidget::readApiFromPath(const QString &filePath, ApiEventPtr &resu
     }
 
     QJsonArray Events = jsonObject.value("event").toArray();
-    foreach (QJsonValue obj, Apis) {
+    foreach (QJsonValue obj, Events) {
         results->addEvent(obj.toString());
     }
 

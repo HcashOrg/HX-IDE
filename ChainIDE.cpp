@@ -9,8 +9,12 @@
 #include <QDebug>
 #include <QApplication>
 
-#include "ExeManager.h"
+#include "backstage/BackStageBase.h"
+#include "backstage/LinkBackStage.h"
+#include "backstage/UbtcBackStage.h"
 #include "compile/CompileManager.h"
+
+#include "DataManager.h"
 
 static QMutex mutexForChainType;
 
@@ -21,21 +25,32 @@ public:
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
         ,chainType(1)
         ,sanboxMode(false)
-        ,testManager(new ExeManager(1))
-        ,formalManager(new ExeManager(2))
+        ,testManager(new UbtcBackStage(1))
+        ,formalManager(new UbtcBackStage(2))
         ,compileManager(new CompileManager())
+        ,dataManager(new DataManager())
     {
 
     }
+    ~DataPrivate()
+    {
+        delete configFile;
+        delete testManager;
+        delete formalManager;
+        delete compileManager;
+        delete dataManager;
+    }
+
 public:
     QSettings *configFile;//配置文件
     QString appDataPath;//系统环境变量的appdatapath
-    ExeManager *testManager;
-    ExeManager *formalManager;
+    BackStageBase *testManager;
+    BackStageBase *formalManager;
     int chainType;//链类型1==测试 2==正式
     bool sanboxMode;//沙盒模式
 
     CompileManager *compileManager;//编译器
+    DataManager *dataManager;
 };
 
 ChainIDE *ChainIDE::getInstance()
@@ -126,12 +141,12 @@ void ChainIDE::setConfigAppDataPath(const QString &path)
     _p->configFile->setValue("/settings/chainPath",path);
 }
 
-ExeManager *ChainIDE::testManager() const
+BackStageBase *ChainIDE::testManager() const
 {
     return _p->testManager;
 }
 
-ExeManager *ChainIDE::formalManager() const
+BackStageBase *ChainIDE::formalManager() const
 {
     return _p->formalManager;
 }
@@ -167,6 +182,11 @@ CompileManager *ChainIDE::getCompileManager() const
     return _p->compileManager;
 }
 
+DataManager *ChainIDE::getDataManager() const
+{
+    return _p->dataManager;
+}
+
 void ChainIDE::refreshStyleSheet()
 {
     QString path ;
@@ -178,7 +198,6 @@ void ChainIDE::refreshStyleSheet()
     {
         path = ":/qss/white_style.qss";
     }
-
 
     QFile inputFile(path);
     inputFile.open(QIODevice::ReadOnly);
@@ -198,8 +217,8 @@ void ChainIDE::InitConfig()
 
 void ChainIDE::InitExeManager()
 {
-    connect(this,&ChainIDE::rpcPosted,_p->testManager,&ExeManager::rpcPostedSlot);
-    connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&ExeManager::rpcPostedSlot);
+    connect(this,&ChainIDE::rpcPosted,_p->testManager,&BackStageBase::rpcPostedSlot);
+    connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
 }
 
 void ChainIDE::getSystemEnvironmentPath()

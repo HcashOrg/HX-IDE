@@ -17,11 +17,10 @@ SOURCES += main.cpp\
     ChainIDE.cpp \
     DataDefine.cpp \
     IDEUtil.cpp \
-    ExeManager.cpp \
     compile/BaseCompile.cpp \
     compile/CompileManager.cpp \
     compile/gluaCompile.cpp \
-    commondialog.cpp \
+    popwidget/commondialog.cpp \
     selectpathwidget.cpp \
     waitingforsync.cpp \
     filewidget/FileWidget.cpp \
@@ -32,27 +31,34 @@ SOURCES += main.cpp\
     control/contextmenu.cpp \
     control/editorcontextmenu.cpp \
     contentwidget/bridge.cpp \
-    NewFileDialog.cpp \
+    popwidget/NewFileDialog.cpp \
     filewidget/InterfaceWidget.cpp \
     compile/javaCompile.cpp \
     compile/csharpCompile.cpp \
-    consoledialog.cpp \
+    popwidget/consoledialog.cpp \
     datarequire/RequireBase.cpp\
     datarequire/DataRequireManager.cpp \
     datarequire/websocketRequire.cpp \
     datarequire/tcpsocketRequire.cpp \
     datarequire/httpRequire.cpp \
-    contentwidget/ContextWidget.cpp
+    contentwidget/ContextWidget.cpp \
+    backstage/BackStageBase.cpp \
+    backstage/LinkBackStage.cpp \
+    backstage/UbtcBackStage.cpp \
+    DataManager.cpp \
+    popwidget/AccountWidget.cpp \
+    popwidget/namedialog.cpp \
+    popwidget/MoveableDialog.cpp \
+    popwidget/registercontractdialog.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
     DataDefine.h \
     IDEUtil.h \
-    ExeManager.h \
     compile/BaseCompile.h \
     compile/CompileManager.h \
     compile/gluaCompile.h \
-    commondialog.h \
+    popwidget/commondialog.h \
     selectpathwidget.h \
     waitingforsync.h \
     filewidget/FileWidget.h \
@@ -63,29 +69,40 @@ HEADERS  += MainWindow.h \
     control/contextmenu.h \
     control/editorcontextmenu.h \
     contentwidget/bridge.h \
-    NewFileDialog.h \
+    popwidget/NewFileDialog.h \
     filewidget/InterfaceWidget.h \
     compile/javaCompile.h \
     compile/csharpCompile.h \
-    consoledialog.h \
+    popwidget/consoledialog.h \
     datarequire/RequireBase.h\
     datarequire/DataRequireManager.h \
     datarequire/websocketRequire.h \
     datarequire/tcpsocketRequire.h \
     datarequire/httpRequire.h \
-    contentwidget/ContextWidget.h
+    contentwidget/ContextWidget.h \
+    backstage/BackStageBase.h \
+    backstage/LinkBackStage.h \
+    backstage/UbtcBackStage.h \
+    DataManager.h \
+    popwidget/AccountWidget.h \
+    popwidget/namedialog.h \
+    popwidget/MoveableDialog.h \
+    popwidget/registercontractdialog.h
 
 FORMS    += MainWindow.ui \
-    commondialog.ui \
+    popwidget/commondialog.ui \
     selectpathwidget.ui \
     waitingforsync.ui \
     filewidget/FileWidget.ui \
     outputwidget.ui \
     contentwidget/aceeditor.ui \
-    NewFileDialog.ui \
+    popwidget/NewFileDialog.ui \
     filewidget/InterfaceWidget.ui \
-    consoledialog.ui \
-    contentwidget/ContextWidget.ui
+    popwidget/consoledialog.ui \
+    contentwidget/ContextWidget.ui \
+    popwidget/AccountWidget.ui \
+    popwidget/namedialog.ui \
+    popwidget/registercontractdialog.ui
 
 RESOURCES += \
     chain.qrc

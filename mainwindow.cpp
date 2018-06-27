@@ -7,16 +7,22 @@
 #include <QMessageBox>
 
 #include "ChainIDE.h"
+#include "DataManager.h"
 #include "selectpathwidget.h"
 #include "waitingforsync.h"
-#include "ExeManager.h"
-#include "filewidget/FileWidget.h"
 #include "outputwidget.h"
-//#include "contentwidget/contentwidget.h"
-#include "contentwidget/ContextWidget.h"
 #include "compile/CompileManager.h"
-#include "NewFileDialog.h"
-#include "consoledialog.h"
+#include "backstage/BackStageBase.h"
+#include "filewidget/FileWidget.h"
+#include "contentwidget/ContextWidget.h"
+
+
+#include "popwidget/NewFileDialog.h"
+#include "popwidget/consoledialog.h"
+
+#include "popwidget/AccountWidget.h"
+#include "popwidget/registercontractdialog.h"
+
 
 class MainWindow::DataPrivate
 {
@@ -24,7 +30,6 @@ public:
     DataPrivate()
         :waitingForSync(nullptr)
         ,fileWidget(nullptr)
-        //,contentWidget(nullptr)
         ,outputWidget(nullptr)
         ,contextWidget(nullptr)
     {
@@ -35,7 +40,6 @@ public:
 
     FileWidget *fileWidget;
 
-    //ContentWidget *contentWidget;
     ContextWidget *contextWidget;
     OutputWidget *outputWidget;
 };
@@ -52,21 +56,22 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete _p;
+    delete ChainIDE::getInstance();
     delete ui;
 }
 
 void MainWindow::InitWidget()
 {
-    startWidget();
-//    hide();
-//    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
-//    {
-//        showSelectPathWidget();
-//    }
-//    else
-//    {
-//        startChain();
-//    }
+//    startWidget();
+    hide();
+    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
+    {
+        showSelectPathWidget();
+    }
+    else
+    {
+        startChain();
+    }
 }
 
 void MainWindow::showSelectPathWidget()
@@ -84,8 +89,8 @@ void MainWindow::startChain()
     showWaitingForSyncWidget();
 
     //启动client ， node
-    connect(ChainIDE::getInstance()->testManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
-    connect(ChainIDE::getInstance()->formalManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
+    connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+    connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     ChainIDE::getInstance()->testManager()->startExe();
     ChainIDE::getInstance()->formalManager()->startExe();
 
@@ -103,16 +108,19 @@ void MainWindow::startWidget()
 
     //真正地初始化界面
     ui->savaAsAction->setVisible(false);
+    ui->enterSandboxAction->setVisible(false);
+    ui->exitSandboxAction->setVisible(false);
+    ui->withdrawAction->setVisible(false);
+    ui->transferAction->setVisible(false);
+    ui->importAction->setVisible(false);
+    ui->exportAction->setVisible(false);
 
-    //初始化图标
-    actionSetIcon();
 
     QSplitter *horizontalSplitter = new QSplitter(Qt::Horizontal, this);
     this->setCentralWidget( horizontalSplitter );
     _p->fileWidget = new FileWidget( horizontalSplitter);
 
     QSplitter* verticalSplitter = new QSplitter(Qt::Vertical, horizontalSplitter);
-    //_p->contentWidget = new ContentWidget( );
     _p->contextWidget = new ContextWidget(verticalSplitter);
     _p->outputWidget = new OutputWidget( verticalSplitter);
 
@@ -123,25 +131,31 @@ void MainWindow::startWidget()
 
     //链接编译槽
     connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,std::bind(&OutputWidget::receiveCompileMessage,_p->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
-    //connect(_p->fileWidget,&FileWidget::fileClicked,_p->contentWidget,&ContentWidget::showFile);
     connect(_p->fileWidget,&FileWidget::fileClicked,_p->contextWidget,&ContextWidget::showFile);
 
     connect(_p->contextWidget,&ContextWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
     connect(_p->contextWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
-    //connect(_p->contentWidget,&ContentWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
-    //connect(_p->contentWidget,&ContentWidget::contentStateChange,this,&MainWindow::ModifyActionState);
-
 
     ModifyActionState();
     showMaximized();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    ChainIDE::getInstance()->testManager()->ReadyClose();
+    ChainIDE::getInstance()->formalManager()->ReadyClose();
+    QWidget::closeEvent(event);
 }
 
 void MainWindow::exeStartedSlots()
 {
     if(ChainIDE::getInstance()->testManager()->exeRunning() && ChainIDE::getInstance()->formalManager()->exeRunning())
     {
-       disconnect(ChainIDE::getInstance()->testManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
-       disconnect(ChainIDE::getInstance()->formalManager(),&ExeManager::exeStarted,this,&MainWindow::exeStartedSlots);
+       disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+       disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+
+       ChainIDE::getInstance()->getDataManager()->InitManager();
+
        if(_p->waitingForSync)
        {
            _p->waitingForSync->close();
@@ -157,33 +171,6 @@ void MainWindow::showWaitingForSyncWidget()
     _p->waitingForSync->setAttribute(Qt::WA_DeleteOnClose);
 
     _p->waitingForSync->show();
-}
-
-void MainWindow::actionSetIcon()
-{
-    ui->newContractAction_glua->setIcon(QIcon(":/pic2/newContractIcon.png"));
-    ui->newContractAction_csharp->setIcon(QIcon(":/pic2/newContractIcon.png"));
-    ui->importAction->setIcon(QIcon(":/pic2/importIcon.png"));
-    ui->exportAction->setIcon(QIcon(":/pic2/exportIcon.png"));
-    ui->saveAction->setIcon(QIcon(":/pic2/saveIcon.png"));
-    ui->consoleAction->setIcon(QIcon(":pic2/consoleIcon.png"));
-    ui->accountListAction->setIcon(QIcon(":pic2/accountListIcon.png"));
-    ui->transferToAccountAction->setIcon(QIcon(":pic2/transferToAccountIcon.png"));
-    ui->helpAction->setIcon(QIcon(":pic2/helpIcon.png"));
-    ui->saveAllAction->setIcon(QIcon(":pic2/saveAllIcon.png"));
-    ui->undoAction->setIcon(QIcon(":/pic2/undoIcon.png"));
-    ui->redoAction->setIcon(QIcon(":/pic2/redoIcon.png"));
-    ui->compileAction->setIcon(QIcon(":/pic2/compileIcon.png"));
-    ui->registerAction->setIcon(QIcon(":/pic2/registerContractIcon.png"));
-    ui->callAction->setIcon(QIcon(":/pic2/callContractIcon.png"));
-    ui->upgradeAction->setIcon(QIcon(":/pic2/upgradeContractIcon.png"));
-    ui->withdrawAction->setIcon(QIcon(":/pic2/withdrawContractIcon.png"));
-    ui->enterSandboxAction->setIcon(QIcon(":/pic2/enterSandboxIcon.png"));
-    ui->changeToFormalChainAction->setIcon(QIcon(":/pic2/changeToFormalChainIcon.png"));
-    ui->transferAction->setIcon(QIcon(":/pic2/transferToContractIcon.png"));
-    ui->exitSandboxAction->setIcon(QIcon(":/pic2/exitSandboxIcon.png"));
-    ui->changeToTestChainAction->setIcon(QIcon(":/pic2/changeToTestChainIcon.png"));
-
 }
 
 void MainWindow::on_newContractAction_glua_triggered()
@@ -230,27 +217,6 @@ void MainWindow::on_saveAllAction_triggered()
     _p->contextWidget->saveAll();
 }
 
-void MainWindow::on_compileAction_triggered()
-{//编译
-    //先触发保存判断
-    if( _p->contextWidget->currentFileUnsaved())
-    {
-        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", _p->contextWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        if( QMessageBox::Yes == choice)
-        {
-            _p->contextWidget->saveFile();
-        }
-        else
-        {
-            return;
-        }
-    }
-
-
-    ChainIDE::getInstance()->getCompileManager()->startCompile(_p->contextWidget->getCurrentFilePath());//当前打开的文件
-
-}
-
 void MainWindow::on_closeAction_triggered()
 {
     _p->contextWidget->closeFile(_p->contextWidget->getCurrentFilePath());
@@ -291,7 +257,8 @@ void MainWindow::on_exportAction_triggered()
 
 void MainWindow::on_registerAction_triggered()
 {
-
+    RegisterContractDialog dia;
+    dia.exec();
 }
 
 void MainWindow::on_transferAction_triggered()
@@ -314,16 +281,46 @@ void MainWindow::on_withdrawAction_triggered()
 
 }
 
-void MainWindow::on_changeToFormalChainAction_triggered()
+void MainWindow::on_changeChainAction_triggered()
 {
-    ChainIDE::getInstance()->setCurrentChainType(2);
+    ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
     ModifyActionState();
 }
 
-void MainWindow::on_changeToTestChainAction_triggered()
+void MainWindow::on_compileAction_triggered()
+{//编译
+    //先触发保存判断
+    if( _p->contextWidget->currentFileUnsaved())
+    {
+        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", _p->contextWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if( QMessageBox::Yes == choice)
+        {
+            _p->contextWidget->saveFile();
+        }
+        else
+        {
+            return;
+        }
+    }
+
+
+    ChainIDE::getInstance()->getCompileManager()->startCompile(_p->contextWidget->getCurrentFilePath());//当前打开的文件
+
+}
+
+void MainWindow::on_debugAction_triggered()
 {
-    ChainIDE::getInstance()->setCurrentChainType(1);
-    ModifyActionState();
+
+}
+
+void MainWindow::on_stopAction_triggered()
+{
+
+}
+
+void MainWindow::on_stepAction_triggered()
+{
+
 }
 
 void MainWindow::on_enterSandboxAction_triggered()
@@ -340,14 +337,14 @@ void MainWindow::on_exitSandboxAction_triggered()
 
 void MainWindow::on_accountListAction_triggered()
 {
-
+    AccountWidget accountWidget;
+    accountWidget.exec();
 }
 
 void MainWindow::on_consoleAction_triggered()
 {
-    ConsoleDialog *consoleDialog = new ConsoleDialog();
-    consoleDialog->exec();
-
+    ConsoleDialog consoleDialog;
+    consoleDialog.exec();
 }
 
 void MainWindow::on_transferToAccountAction_triggered()
@@ -367,16 +364,31 @@ void MainWindow::on_aboutAction_triggered()
 
 void MainWindow::ModifyActionState()
 {
+    ui->changeChainAction->setIcon(ChainIDE::getInstance()->getCurrentChainType()==1?
+                                   QIcon(":/pic/changeToFormal_enable.png"):QIcon(":/pic/changeToTest_enable.png"));
+    ui->changeChainAction->setText(ChainIDE::getInstance()->getCurrentChainType()==1?tr("切换到正式链"):tr("切换到测试链"));
+
     ui->undoAction->setEnabled(_p->contextWidget->isUndoAvailable());
     ui->redoAction->setEnabled(_p->contextWidget->isRedoAvailable());
     ui->saveAction->setEnabled(_p->contextWidget->currentFileUnsaved());
     ui->saveAllAction->setEnabled(_p->contextWidget->hasFileUnsaved());
 
-    ui->changeToFormalChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 1);
-    ui->changeToTestChainAction->setEnabled(ChainIDE::getInstance()->getCurrentChainType() == 2);
-
     ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
     ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
+
+    if(_p->fileWidget->getCurrentFile().endsWith(DataDefine::GLUA_SUFFIX)||
+       _p->fileWidget->getCurrentFile().endsWith(DataDefine::JAVA_SUFFIX)||
+       _p->fileWidget->getCurrentFile().endsWith(DataDefine::CSHARP_SUFFIX)||
+       _p->fileWidget->getCurrentFile().endsWith(DataDefine::KOTLIN_SUFFIX))
+    {
+        ui->compileAction->setEnabled(true);
+    }
+    else
+    {
+        ui->compileAction->setEnabled(false);
+    }
+
+    ui->savaAsAction->setEnabled(_p->fileWidget->getCurrentFile().isEmpty());
 }
 
 void MainWindow::NewFileCreated(const QString &filePath)

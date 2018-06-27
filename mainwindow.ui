@@ -84,8 +84,6 @@
     <addaction name="savaAsAction"/>
     <addaction name="saveAllAction"/>
     <addaction name="separator"/>
-    <addaction name="compileAction"/>
-    <addaction name="separator"/>
     <addaction name="closeAction"/>
     <addaction name="closeAllAction"/>
     <addaction name="separator"/>
@@ -96,9 +94,9 @@
      <string>合约</string>
     </property>
     <addaction name="registerAction"/>
-    <addaction name="transferAction"/>
-    <addaction name="callAction"/>
     <addaction name="upgradeAction"/>
+    <addaction name="callAction"/>
+    <addaction name="transferAction"/>
     <addaction name="withdrawAction"/>
     <addaction name="separator"/>
     <addaction name="importAction"/>
@@ -106,10 +104,9 @@
    </widget>
    <widget class="QMenu" name="setMenu">
     <property name="title">
-     <string>设置</string>
+     <string>工具</string>
     </property>
-    <addaction name="changeToFormalChainAction"/>
-    <addaction name="changeToTestChainAction"/>
+    <addaction name="changeChainAction"/>
     <addaction name="enterSandboxAction"/>
     <addaction name="exitSandboxAction"/>
     <addaction name="consoleAction"/>
@@ -130,9 +127,20 @@
     <addaction name="undoAction"/>
     <addaction name="redoAction"/>
    </widget>
+   <widget class="QMenu" name="debugMenu">
+    <property name="title">
+     <string>调试</string>
+    </property>
+    <addaction name="compileAction"/>
+    <addaction name="separator"/>
+    <addaction name="debugAction"/>
+    <addaction name="stepAction"/>
+    <addaction name="stopAction"/>
+   </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
    <addaction name="contractMenu"/>
+   <addaction name="debugMenu"/>
    <addaction name="setMenu"/>
    <addaction name="helpMenu"/>
   </widget>
@@ -158,21 +166,24 @@
    <addaction name="newContractAction_glua"/>
    <addaction name="saveAction"/>
    <addaction name="saveAllAction"/>
-   <addaction name="compileAction"/>
    <addaction name="separator"/>
    <addaction name="undoAction"/>
    <addaction name="redoAction"/>
    <addaction name="separator"/>
    <addaction name="registerAction"/>
-   <addaction name="transferAction"/>
-   <addaction name="callAction"/>
    <addaction name="upgradeAction"/>
+   <addaction name="callAction"/>
+   <addaction name="transferAction"/>
    <addaction name="withdrawAction"/>
    <addaction name="importAction"/>
    <addaction name="exportAction"/>
    <addaction name="separator"/>
-   <addaction name="changeToFormalChainAction"/>
-   <addaction name="changeToTestChainAction"/>
+   <addaction name="compileAction"/>
+   <addaction name="debugAction"/>
+   <addaction name="stepAction"/>
+   <addaction name="stopAction"/>
+   <addaction name="separator"/>
+   <addaction name="changeChainAction"/>
    <addaction name="enterSandboxAction"/>
    <addaction name="exitSandboxAction"/>
    <addaction name="consoleAction"/>
@@ -182,26 +193,51 @@
    <addaction name="helpAction"/>
   </widget>
   <action name="newContractAction_glua">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/newContract_enable.png</normaloff>
+     <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>新建glua合约</string>
    </property>
   </action>
   <action name="newContractAction_csharp">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/newContract_enable.png</normaloff>
+     <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>新建csharp合约</string>
    </property>
   </action>
   <action name="newContractAction_java">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/newContract_enable.png</normaloff>
+     <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>新建java合约</string>
    </property>
   </action>
   <action name="newContractAtion_kotlin">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/newContract_enable.png</normaloff>
+     <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>新建kotlin合约</string>
    </property>
   </action>
   <action name="saveAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/save_enable.png</normaloff>
+     <disabledoff>:/pic/save_disable.png</disabledoff>:/pic/save_enable.png</iconset>
+   </property>
    <property name="text">
     <string>保存</string>
    </property>
@@ -215,6 +251,11 @@
    </property>
   </action>
   <action name="saveAllAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/saveAll_enable.png</normaloff>
+     <disabledoff>:/pic/saveAll_disable.png</disabledoff>:/pic/saveAll_enable.png</iconset>
+   </property>
    <property name="text">
     <string>保存全部</string>
    </property>
@@ -223,11 +264,16 @@
    </property>
   </action>
   <action name="compileAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/compile_enable.png</normaloff>
+     <disabledoff>:/pic/compile_disable.png</disabledoff>:/pic/compile_enable.png</iconset>
+   </property>
    <property name="text">
     <string>编译</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F7</string>
    </property>
   </action>
   <action name="closeAction">
@@ -241,6 +287,11 @@
    </property>
   </action>
   <action name="undoAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/undo_enable.png</normaloff>
+     <disabledoff>:/pic/undo_disable.png</disabledoff>:/pic/undo_enable.png</iconset>
+   </property>
    <property name="text">
     <string>撤销</string>
    </property>
@@ -249,6 +300,11 @@
    </property>
   </action>
   <action name="redoAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/redo_enable.png</normaloff>
+     <disabledoff>:/pic/redo_disable.png</disabledoff>:/pic/redo_enable.png</iconset>
+   </property>
    <property name="text">
     <string>恢复</string>
    </property>
@@ -257,6 +313,11 @@
    </property>
   </action>
   <action name="importAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/import_enable.png</normaloff>
+     <disabledoff>:/pic/import_disable.png</disabledoff>:/pic/import_enable.png</iconset>
+   </property>
    <property name="text">
     <string>导入合约</string>
    </property>
@@ -265,6 +326,11 @@
    </property>
   </action>
   <action name="exportAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/export_enable.png</normaloff>
+     <disabledoff>:/pic/export_disable.png</disabledoff>:/pic/export_enable.png</iconset>
+   </property>
    <property name="text">
     <string>导出合约</string>
    </property>
@@ -273,11 +339,21 @@
    </property>
   </action>
   <action name="registerAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/registerContract_enable.png</normaloff>
+     <disabledoff>:/pic/registerContract_disable.png</disabledoff>:/pic/registerContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>注册合约</string>
    </property>
   </action>
   <action name="transferAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/tranferToContract_enable.png</normaloff>
+     <disabledoff>:/pic/tranferToContract_disable.png</disabledoff>:/pic/tranferToContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>合约充值</string>
    </property>
@@ -286,21 +362,41 @@
    </property>
   </action>
   <action name="callAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/callContract_enable.png</normaloff>
+     <disabledoff>:/pic/callContract_disable.png</disabledoff>:/pic/callContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>调用合约</string>
    </property>
   </action>
   <action name="upgradeAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/upgrade_enable.png</normaloff>
+     <disabledoff>:/pic/upgrade_disable.png</disabledoff>:/pic/upgrade_enable.png</iconset>
+   </property>
    <property name="text">
     <string>升级合约</string>
    </property>
   </action>
   <action name="withdrawAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/withdrawContract_enable.png</normaloff>
+     <disabledoff>:/pic/withdrawContract_disable.png</disabledoff>:/pic/withdrawContract_enable.png</iconset>
+   </property>
    <property name="text">
     <string>销毁合约</string>
    </property>
   </action>
   <action name="helpAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/help_enable.png</normaloff>
+     <disabledoff>:/pic/help_disable.png</disabledoff>:/pic/help_enable.png</iconset>
+   </property>
    <property name="text">
     <string>查看帮助</string>
    </property>
@@ -313,17 +409,22 @@
     <string>关于</string>
    </property>
   </action>
-  <action name="changeToTestChainAction">
-   <property name="text">
-    <string>切换到测试链</string>
+  <action name="changeChainAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/changeToFormal_enable.png</normaloff>
+     <disabledoff>:/pic/changeToFormal_disable.png</disabledoff>:/pic/changeToFormal_enable.png</iconset>
    </property>
-  </action>
-  <action name="changeToFormalChainAction">
    <property name="text">
     <string>切换到正式链</string>
    </property>
   </action>
   <action name="enterSandboxAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/enterSandbox_enable.png</normaloff>
+     <disabledoff>:/pic/enterSandbox_disable.png</disabledoff>:/pic/enterSandbox_enable.png</iconset>
+   </property>
    <property name="text">
     <string>沙盒模式</string>
    </property>
@@ -334,11 +435,21 @@
    </property>
   </action>
   <action name="accountListAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/account_enable.png</normaloff>
+     <disabledoff>:/pic/account_disable.png</disabledoff>:/pic/account_enable.png</iconset>
+   </property>
    <property name="text">
     <string>账户管理</string>
    </property>
   </action>
   <action name="consoleAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/console_enable.png</normaloff>
+     <disabledoff>:/pic/console_disable.png</disabledoff>:/pic/console_enable.png</iconset>
+   </property>
    <property name="text">
     <string>控制台</string>
    </property>
@@ -347,6 +458,11 @@
    </property>
   </action>
   <action name="transferToAccountAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/transfer_enable.png</normaloff>
+     <disabledoff>:/pic/transfer_disable.png</disabledoff>:/pic/transfer_enable.png</iconset>
+   </property>
    <property name="text">
     <string>转账</string>
    </property>
@@ -356,8 +472,43 @@
     <string>全部关闭</string>
    </property>
   </action>
+  <action name="debugAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/startDebug_enable.png</normaloff>
+     <disabledoff>:/pic/startDebug_disable.png</disabledoff>:/pic/startDebug_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>开始调试</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="stopAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/stop_enable.png</normaloff>
+     <disabledoff>:/pic/stop_disable.png</disabledoff>:/pic/stop_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>停止调试</string>
+   </property>
+  </action>
+  <action name="stepAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/step_enable.png</normaloff>
+     <disabledoff>:/pic/step_disable.png</disabledoff>:/pic/step_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>逐步</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="chain.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -8,7 +8,8 @@
 #include "httpRequire.h"
 
 static const QString SPLITFLAG = "****";
-static const int MAXLOOPNUMBER = 1000;
+static const int MAXLOOPNUMBER = 100000;
+
 class DataRequireManager::DataPrivate
 {
 public:
@@ -60,7 +61,7 @@ void DataRequireManager::requirePosted(const QString &_rpcId, const QString & _r
 
 void DataRequireManager::receiveResponse(const QString &message)
 {
-    std::lock_guard<std::mutex> loc(_p->dataMutex);
+    //std::lock_guard<std::mutex> loc(_p->dataMutex);
     _p->isBusy = false;
     if(!_p->pendingRpcs.empty())
     {//将第一个数据移除，发送收到回复的消息
@@ -71,7 +72,7 @@ void DataRequireManager::receiveResponse(const QString &message)
 
 void DataRequireManager::requireClear()
 {
-    std::lock_guard<std::mutex> loc(_p->dataMutex);
+    //std::lock_guard<std::mutex> loc(_p->dataMutex);
     _p->isBusy = false;
     _p->pendingRpcs.clear();
 }
@@ -95,12 +96,12 @@ void DataRequireManager::startManager(ConnectType connecttype)
     connect(_p->requireBase,&RequireBase::connectFinish,this,&DataRequireManager::connectFinish);
 
     _p->requireBase->startConnect();
-    _p->requireTimer->start(10);
+    _p->requireTimer->start(50);
 }
 
 void DataRequireManager::processRequire()
 {
-    std::lock_guard<std::mutex> loc(_p->dataMutex);
+    //std::lock_guard<std::mutex> loc(_p->dataMutex);
     if(_p->isBusy || _p->pendingRpcs.empty()) return;
 
     if(_p->loopNumber >= MAXLOOPNUMBER)

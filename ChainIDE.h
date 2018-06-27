@@ -4,9 +4,11 @@
 #include <QObject>
 #include "DataDefine.h"
 
-class ExeManager;
+class BackStageBase;
 class CompileManager;
+class DataManager;
 class QProcess;
+
 class ChainIDE : public QObject
 {
     Q_OBJECT
@@ -27,11 +29,13 @@ public:
 
     void setConfigAppDataPath(const QString &path);
 //后台
-    ExeManager *testManager()const;
-    ExeManager *formalManager()const;
+    BackStageBase *testManager()const;
+    BackStageBase *formalManager()const;
     QProcess *getProcess(int type = 0)const;//0当前 1测试  2正式
 //编译
     CompileManager *getCompileManager()const;
+//数据管理
+    DataManager *getDataManager()const;
 public:
     void refreshStyleSheet();//刷新样式表
 private:
