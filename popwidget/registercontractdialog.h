@@ -24,8 +24,6 @@ private slots:
     void on_cancelBtn_clicked();
 
     void on_closeBtn_clicked();
-
-    void indexActive(int number);
 private:
     void InitWidget();
     void InitAccountAddress();

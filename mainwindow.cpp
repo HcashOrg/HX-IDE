@@ -22,6 +22,8 @@
 
 #include "popwidget/AccountWidget.h"
 #include "popwidget/registercontractdialog.h"
+#include "popwidget/TransferWidget.h"
+#include "popwidget/CallContractWidget.h"
 
 
 class MainWindow::DataPrivate
@@ -29,19 +31,11 @@ class MainWindow::DataPrivate
 public:
     DataPrivate()
         :waitingForSync(nullptr)
-        ,fileWidget(nullptr)
-        ,outputWidget(nullptr)
-        ,contextWidget(nullptr)
     {
 
     }
 public:
     WaitingForSync* waitingForSync;
-
-    FileWidget *fileWidget;
-
-    ContextWidget *contextWidget;
-    OutputWidget *outputWidget;
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -92,21 +86,26 @@ void MainWindow::startChain()
     connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     ChainIDE::getInstance()->testManager()->startExe();
-    ChainIDE::getInstance()->formalManager()->startExe();
+    //ChainIDE::getInstance()->formalManager()->startExe();
 
 }
 
 void MainWindow::startWidget()
 {
+    showMaximized();
+    //标题
+    //set
+    //设置界面背景色
     setAutoFillBackground(true);
     QPalette palette;
     palette.setColor(QPalette::Window, DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ?
                                        DataDefine::DARK_CLACK_BACKGROUND : DataDefine::WHITE_BACKGROUND);
     setPalette(palette);
 
+    //初始化样式表
     ChainIDE::getInstance()->refreshStyleSheet();
 
-    //真正地初始化界面
+    //隐藏部分不需要的按钮
     ui->savaAsAction->setVisible(false);
     ui->enterSandboxAction->setVisible(false);
     ui->exitSandboxAction->setVisible(false);
@@ -115,29 +114,24 @@ void MainWindow::startWidget()
     ui->importAction->setVisible(false);
     ui->exportAction->setVisible(false);
 
-
-    QSplitter *horizontalSplitter = new QSplitter(Qt::Horizontal, this);
-    this->setCentralWidget( horizontalSplitter );
-    _p->fileWidget = new FileWidget( horizontalSplitter);
-
-    QSplitter* verticalSplitter = new QSplitter(Qt::Vertical, horizontalSplitter);
-    _p->contextWidget = new ContextWidget(verticalSplitter);
-    _p->outputWidget = new OutputWidget( verticalSplitter);
-
-    horizontalSplitter->setStretchFactor(0,1);
-    horizontalSplitter->setStretchFactor(1,9);
-    verticalSplitter->setStretchFactor(0,2);
-    verticalSplitter->setStretchFactor(1,1);
+    //设置界面比例
+    ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.9*ui->centralWidget->width());
+    ui->splitter_ver->setSizes(QList<int>()<<0.67*ui->centralWidget->height()<<0.33*ui->centralWidget->height());
 
     //链接编译槽
-    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,std::bind(&OutputWidget::receiveCompileMessage,_p->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
-    connect(_p->fileWidget,&FileWidget::fileClicked,_p->contextWidget,&ContextWidget::showFile);
+    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,std::bind(&OutputWidget::receiveCompileMessage,ui->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
+    connect(ui->fileWidget,&FileWidget::fileClicked,ui->contentWidget,&ContextWidget::showFile);
 
-    connect(_p->contextWidget,&ContextWidget::fileSelected,_p->fileWidget,&FileWidget::SelectFile);
-    connect(_p->contextWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
+    connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
 
     ModifyActionState();
-    showMaximized();
+
+    //已注册合约
+    //connect(ChainIDE::getInstance()->getDataManager(),&DataManager::queryContractFinish,ui->contractWidget,&ContractWidget::RefreshTree);
+    connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::on_tabWidget_currentChanged);
+    //QTimer::singleShot(3000,[](){ChainIDE::getInstance()->getDataManager()->queryContract();});
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -149,7 +143,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::exeStartedSlots()
 {
-    if(ChainIDE::getInstance()->testManager()->exeRunning() && ChainIDE::getInstance()->formalManager()->exeRunning())
+    if(ChainIDE::getInstance()->testManager()->exeRunning() /*&& ChainIDE::getInstance()->formalManager()->exeRunning()*/)
     {
        disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
        disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
@@ -204,7 +198,7 @@ void MainWindow::on_newContractAction_java_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
-    _p->contextWidget->saveFile();
+    ui->contentWidget->saveFile();
 }
 
 void MainWindow::on_savaAsAction_triggered()
@@ -214,22 +208,32 @@ void MainWindow::on_savaAsAction_triggered()
 
 void MainWindow::on_saveAllAction_triggered()
 {
-    _p->contextWidget->saveAll();
+    ui->contentWidget->saveAll();
 }
 
 void MainWindow::on_closeAction_triggered()
 {
-    _p->contextWidget->closeFile(_p->contextWidget->getCurrentFilePath());
+    ui->contentWidget->closeFile(ui->contentWidget->getCurrentFilePath());
 }
 
 void MainWindow::on_closeAllAction_triggered()
 {
-    _p->contextWidget->closeAll();
+    ui->contentWidget->closeAll();
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    qDebug()<<"sdfsf";
+    if(index == 1)
+    {
+        ui->contractWidget->RefreshTree();
+        //ChainIDE::getInstance()->getDataManager()->queryContract();
+    }
 }
 
 void MainWindow::on_exitAction_triggered()
 {
-    if(_p->contextWidget->closeAll())
+    if(ui->contentWidget->closeAll())
     {
         close();
     }
@@ -237,12 +241,12 @@ void MainWindow::on_exitAction_triggered()
 
 void MainWindow::on_undoAction_triggered()
 {
-    _p->contextWidget->undo();
+    ui->contentWidget->undo();
 }
 
 void MainWindow::on_redoAction_triggered()
 {
-    _p->contextWidget->redo();
+    ui->contentWidget->redo();
 }
 
 void MainWindow::on_importAction_triggered()
@@ -267,8 +271,9 @@ void MainWindow::on_transferAction_triggered()
 }
 
 void MainWindow::on_callAction_triggered()
-{
-
+{//调用合约
+    CallContractWidget callWidget;
+    callWidget.exec();
 }
 
 void MainWindow::on_upgradeAction_triggered()
@@ -290,12 +295,12 @@ void MainWindow::on_changeChainAction_triggered()
 void MainWindow::on_compileAction_triggered()
 {//编译
     //先触发保存判断
-    if( _p->contextWidget->currentFileUnsaved())
+    if( ui->contentWidget->currentFileUnsaved())
     {
-        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", _p->contextWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", ui->contentWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if( QMessageBox::Yes == choice)
         {
-            _p->contextWidget->saveFile();
+            ui->contentWidget->saveFile();
         }
         else
         {
@@ -304,7 +309,7 @@ void MainWindow::on_compileAction_triggered()
     }
 
 
-    ChainIDE::getInstance()->getCompileManager()->startCompile(_p->contextWidget->getCurrentFilePath());//当前打开的文件
+    ChainIDE::getInstance()->getCompileManager()->startCompile(ui->contentWidget->getCurrentFilePath());//当前打开的文件
 
 }
 
@@ -348,8 +353,9 @@ void MainWindow::on_consoleAction_triggered()
 }
 
 void MainWindow::on_transferToAccountAction_triggered()
-{
-
+{//转账
+    TransferWidget transferWidget;
+    transferWidget.exec();
 }
 
 void MainWindow::on_helpAction_triggered()
@@ -368,18 +374,18 @@ void MainWindow::ModifyActionState()
                                    QIcon(":/pic/changeToFormal_enable.png"):QIcon(":/pic/changeToTest_enable.png"));
     ui->changeChainAction->setText(ChainIDE::getInstance()->getCurrentChainType()==1?tr("切换到正式链"):tr("切换到测试链"));
 
-    ui->undoAction->setEnabled(_p->contextWidget->isUndoAvailable());
-    ui->redoAction->setEnabled(_p->contextWidget->isRedoAvailable());
-    ui->saveAction->setEnabled(_p->contextWidget->currentFileUnsaved());
-    ui->saveAllAction->setEnabled(_p->contextWidget->hasFileUnsaved());
+    ui->undoAction->setEnabled(ui->contentWidget->isUndoAvailable());
+    ui->redoAction->setEnabled(ui->contentWidget->isRedoAvailable());
+    ui->saveAction->setEnabled(ui->contentWidget->currentFileUnsaved());
+    ui->saveAllAction->setEnabled(ui->contentWidget->hasFileUnsaved());
 
     ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
     ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
 
-    if(_p->fileWidget->getCurrentFile().endsWith(DataDefine::GLUA_SUFFIX)||
-       _p->fileWidget->getCurrentFile().endsWith(DataDefine::JAVA_SUFFIX)||
-       _p->fileWidget->getCurrentFile().endsWith(DataDefine::CSHARP_SUFFIX)||
-       _p->fileWidget->getCurrentFile().endsWith(DataDefine::KOTLIN_SUFFIX))
+    if(ui->fileWidget->getCurrentFile().endsWith(DataDefine::GLUA_SUFFIX)||
+       ui->fileWidget->getCurrentFile().endsWith(DataDefine::JAVA_SUFFIX)||
+       ui->fileWidget->getCurrentFile().endsWith(DataDefine::CSHARP_SUFFIX)||
+       ui->fileWidget->getCurrentFile().endsWith(DataDefine::KOTLIN_SUFFIX))
     {
         ui->compileAction->setEnabled(true);
     }
@@ -388,14 +394,14 @@ void MainWindow::ModifyActionState()
         ui->compileAction->setEnabled(false);
     }
 
-    ui->savaAsAction->setEnabled(_p->fileWidget->getCurrentFile().isEmpty());
+    ui->savaAsAction->setEnabled(ui->fileWidget->getCurrentFile().isEmpty());
 }
 
 void MainWindow::NewFileCreated(const QString &filePath)
 {//新建了文件后，文件树刷新，点击文件树，
     if(filePath.isEmpty() || !QFileInfo(filePath).isFile()) return;
-    _p->fileWidget->SelectFile(filePath);
-    _p->contextWidget->showFile(filePath);
+    ui->fileWidget->SelectFile(filePath);
+    ui->contentWidget->showFile(filePath);
 }
 
 

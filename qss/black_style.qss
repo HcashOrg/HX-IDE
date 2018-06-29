@@ -173,7 +173,9 @@ QLineEdit:focus{
 QLabel{
     color:white;
 }
-
+QLabel:disable{
+    color:gray;
+}
 QComboBox{
     background-color:transparent;
     border:none;
@@ -264,6 +266,47 @@ QDoubleSpinBox:disabled{
     background:transparent;color: rgb(83,90,109);
 }
 
+
+QSpinBox::up-button {
+    width:0;
+    height:0;
+}
+QSpinBox::down-button {
+    width:0;
+    height:0;
+}
+QSpinBox::up-arrow {
+    width:0;
+    height:0;
+}
+QSpinBox::down-arrow {
+    width:0;
+    height:0;
+}
+QSpinBox{
+    background-color: transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid gray;
+    color:white;
+}
+QSpinBox:focus{
+    border-bottom:1px solid rgb(84,116,235);
+}
+QSpinBox:disabled{
+    background:transparent;color: rgb(83,90,109);
+}
+
+QCheckBox{
+    color:white;
+}
+QCheckBox::indicator{
+    image:url(:/pic/checkBox2_unchecked.png);
+}
+QCheckBox::indicator:checked{
+    image:url(:/pic/checkBox2_checked.png);
+}
 
 
 

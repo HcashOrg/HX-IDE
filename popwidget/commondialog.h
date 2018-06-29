@@ -1,13 +1,13 @@
 #ifndef COMMONDIALOG_H
 #define COMMONDIALOG_H
 
-#include <QDialog>
+#include "MoveableDialog.h"
 
 namespace Ui {
 class CommonDialog;
 }
 
-class CommonDialog : public QDialog
+class CommonDialog : public MoveableDialog
 {
     Q_OBJECT
 
@@ -24,12 +24,11 @@ private slots:
 
     void on_cancelBtn_clicked();
 
+    void on_closeBtn_clicked();
+
 private:
     Ui::CommonDialog *ui;
     bool yesOrNO;
-    commonDialogType type;
-
-    void adaptSize();
 };
 
 #endif // COMMONDIALOG_H

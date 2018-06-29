@@ -1,69 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RegisterContractDialog</class>
- <widget class="QDialog" name="RegisterContractDialog">
+ <class>CallContractWidget</class>
+ <widget class="QDialog" name="CallContractWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>305</height>
+    <width>600</width>
+    <height>378</height>
    </rect>
-  </property>
-  <property name="font">
-   <font>
-    <family>微软雅黑</family>
-   </font>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
   </property>
   <widget class="QLabel" name="title_Label">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>544</width>
+     <width>600</width>
      <height>40</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
    <property name="text">
-    <string>注册合约</string>
+    <string>TextLabel</string>
    </property>
   </widget>
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>506</x>
-     <y>10</y>
-     <width>24</width>
-     <height>23</height>
+     <x>550</x>
+     <y>8</y>
+     <width>38</width>
+     <height>21</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-    </font>
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -72,30 +45,30 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>260</y>
+     <x>410</x>
+     <y>340</y>
      <width>60</width>
-     <height>30</height>
+     <height>24</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
-    <string>确认</string>
+    <string>确定</string>
    </property>
   </widget>
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>260</y>
+     <x>490</x>
+     <y>340</y>
      <width>60</width>
-     <height>30</height>
+     <height>24</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
     <string>取消</string>
@@ -104,17 +77,17 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
-     <width>521</width>
-     <height>191</height>
+     <x>40</x>
+     <y>60</y>
+     <width>531</width>
+     <height>261</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0" columnstretch="1,3">
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>合约文件：</string>
+       <string>调用者地址：</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -122,30 +95,49 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QComboBox" name="contractFile">
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>0</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="address"/>
+     <widget class="QComboBox" name="callAddress"/>
     </item>
     <item row="1" column="0">
-     <widget class="QLabel" name="label_7">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>账户地址：</string>
+       <string>合约地址：</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="contractAddress"/>
+    </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>函数名：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="function"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>参数：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="param"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
       <property name="text">
        <string>调用步数：</string>
       </property>
@@ -154,11 +146,11 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="4" column="1">
      <widget class="QSpinBox" name="gaslimit"/>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_3">
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
       <property name="text">
        <string>基本费用：</string>
       </property>
@@ -167,11 +159,11 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="fee"/>
+    <item row="5" column="1">
+     <widget class="QSpinBox" name="gasprice"/>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_6">
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
       <property name="text">
        <string>手续费用：</string>
       </property>
@@ -180,11 +172,16 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QSpinBox" name="gasprice"/>
+    <item row="6" column="1">
+     <widget class="QDoubleSpinBox" name="fee"/>
     </item>
    </layout>
   </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>title_Label</zorder>
+  <zorder>okBtn</zorder>
+  <zorder>cancelBtn</zorder>
+  <zorder>closeBtn</zorder>
  </widget>
  <resources/>
  <connections/>

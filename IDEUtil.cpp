@@ -24,7 +24,6 @@ QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap 
     object.insert("method",instruction);
     object.insert("params",QJsonObject::fromVariantMap(parameters));
     return QJsonDocument(object).toJson();
-
 }
 
 QString IDEUtil::toUbcdHttpJsonFormat(const QString &instruction, const QJsonArray &parameters)

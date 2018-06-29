@@ -2,6 +2,9 @@
 
 #include <mutex>
 #include <QDebug>
+#include <QCoreApplication>
+#include <QDir>
+#include <QTextCodec>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -50,6 +53,11 @@ const DataDefine::AccountDataPtr &DataManager::getAccount() const
     return _p->accountData;
 }
 
+void DataManager::checkAddress(const QString &addr)
+{
+    ChainIDE::getInstance()->postRPC("data-checkaddress",IDEUtil::toUbcdHttpJsonFormat("validateaddress",QJsonArray()<<addr));
+}
+
 void DataManager::InitManager()
 {
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&DataManager::jsonDataUpdated);
@@ -94,6 +102,19 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
             qDebug()<<"toLong"<<data.size();
         }
     }
+    //检测地址合法性
+    else if("data-checkaddress" == id)
+    {
+        QJsonParseError json_error;
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        {
+            emit addressCheckFinish(false);
+            return;
+        }
+        QJsonObject jsonObject = parse_doucment.object();
+        emit addressCheckFinish(jsonObject.value("isvalid").toBool());
+    }
 }
 
 bool DataManager::parseListAccount(const QString &data)
@@ -112,7 +133,7 @@ bool DataManager::parseListAccount(const QString &data)
 
 bool DataManager::parseAddresses(const QString &accountName,const QString &data)
 {
-    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
+//    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isArray())
@@ -142,8 +163,10 @@ bool DataManager::parseAddressBalances(const QString &data)
     foreach(QJsonValue addr, jsonArr){
         if(!addr.isObject()) continue;
         QJsonObject obj = addr.toObject();
-        qDebug()<<obj.value("address").toString()<<obj.value("amount").toDouble();
+//        qDebug()<<obj.value("address").toString()<<obj.value("amount").toDouble();
         _p->accountData->addAddressBalance(obj.value("address").toString(),obj.value("amount").toDouble());
     }
     return true;
 }
+
+

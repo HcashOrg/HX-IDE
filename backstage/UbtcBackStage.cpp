@@ -31,7 +31,7 @@ public:
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testUbtcDataPath" : "/formalUbtcDataPath";
+        dataPath = 1 == type ? "/testub" : "/formalub";//teUbctPastth
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
 
     }

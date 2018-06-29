@@ -324,34 +324,30 @@ void AceEditor::openFile(const QString &filePath)
     //checkFile(filePath);
 
     QFile file(filePath);
-    if( file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(filePath.endsWith(".gpc") && file.open(QIODevice::ReadOnly))
     {
         QByteArray ba = file.readAll();
-
-
-        if( filePath.endsWith(".gpc"))
+        setText(ba.toHex());
+        setEditable(false);
+    }
+    else if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QByteArray ba = file.readAll();
+        QTextCodec::ConverterState state;
+        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+        QString text = codec->toUnicode( ba.constData(), ba.size(), &state);
+        if (state.invalidChars > 0)
         {
-            setText(ba.toHex());
-            setEditable(false);
+            text = QTextCodec::codecForName( "GBK" )->toUnicode(ba);
         }
         else
         {
-            QTextCodec::ConverterState state;
-            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-            QString text = codec->toUnicode( ba.constData(), ba.size(), &state);
-            if (state.invalidChars > 0)
-            {
-                text = QTextCodec::codecForName( "GBK" )->toUnicode(ba);
-            }
-            else
-            {
-                text = ba;
-            }
-
-            setText(text);
+            text = ba;
         }
-        file.close();
+
+        setText(text);
     }
+    file.close();
 
     setMode(DataDefine::SUFFIX_MAP.at(QFileInfo(filePath).suffix()));
 }

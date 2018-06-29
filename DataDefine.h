@@ -5,6 +5,7 @@
 #include <mutex>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #include <QString>
 #include <QStringList>
@@ -18,6 +19,7 @@ namespace DataDefine
     static const QColor BLACK_BACKGROUND = QColor(41,41,41);
     static const QColor DARK_CLACK_BACKGROUND = QColor(30,30,30);
     static const QColor WHITE_BACKGROUND = QColor(255,255,255);
+    static const QColor GRAY_COLOR = Qt::gray;
 
     //合约文件后缀
     static const QString CONTRACT_SUFFIX = "gpc";
@@ -42,6 +44,8 @@ namespace DataDefine
     static const QString JAVA_DIR = "contracts/java";
     static const QString CSHARP_DIR = "contracts/csharp";
     static const QString KOTLIN_DIR = "contracts/kotlin";
+    static const QString LOCAL_CONTRACT_PATH = "contracts/contracts.contract";
+
 
     //编译工具路径
     static const QString GLUA_COMPILE_PATH = "compile/glua/glua_compiler.exe";
@@ -214,6 +218,110 @@ namespace DataDefine
 
     };
     typedef std::shared_ptr<AccountData> AccountDataPtr;
+
+//本地合约类
+    //合约最简信息
+    class ContractInfo{
+    public:
+        void SetContractAddr(const QString &addr){contractAddress = addr;}
+        const QString &GetContractAddr()const{return contractAddress;}
+
+        void SetContractName(const QString &name){contractName = name;}
+        const QString &GetContractName()const{return contractName;}
+    private:
+        QString contractAddress;
+        QString contractName;
+    };
+    typedef std::shared_ptr<ContractInfo> ContractInfoPtr;
+    typedef std::vector<ContractInfoPtr> ContractInfoVec;
+    //单个地址相关合约
+    class AddressContract{
+    public:
+        void SetOwnerAddr(const QString &add){ownerAddr = add;}
+        const QString &GetOwnerAddr()const{return ownerAddr;}
+
+        const ContractInfoVec &GetContracts()const{return contracts;}
+
+        void AddContract(const QString &contractaddr,const QString &contractname){//添加或者修改名称
+            auto it = std::find_if(contracts.begin(),contracts.end(),[contractaddr](const ContractInfoPtr &info){
+                return contractaddr == info->GetContractAddr();
+            });
+            if(it != contracts.end()){
+                (*it)->SetContractName(contractname);
+            }
+            else{
+                ContractInfoPtr cont = std::make_shared<ContractInfo>();
+                cont->SetContractAddr(contractaddr);
+                cont->SetContractName(contractname);
+                contracts.push_back(cont);
+            }
+        }
+
+        void DeleteContract(const QString &addrOrname){
+            contracts.erase(std::remove_if(contracts.begin(),contracts.end(),[addrOrname](const ContractInfoPtr &info){
+                                           return (addrOrname == info->GetContractName() || addrOrname == info->GetContractAddr());})
+                            ,contracts.end());
+
+        }
+
+    private:
+        QString ownerAddr;
+        ContractInfoVec contracts;
+    };
+    typedef std::shared_ptr<AddressContract> AddressContractPtr;
+    typedef std::vector<AddressContractPtr> AddressContractVec;
+    //所有合约集合
+    class AddressContractData{
+    public:
+        const AddressContractVec& getAllData()const{return data;}
+
+        void AddContract(const QString &owneraddr,const QString &contractaddr,const QString &contractname = ""){
+            std::lock_guard<std::mutex> lockguard(mutexLock);
+            auto it = std::find_if(data.begin(),data.end(),[owneraddr](const AddressContractPtr &cont){return owneraddr == cont->GetOwnerAddr();});
+            if(it != data.end())
+            {//说明已经有了拥有者
+                (*it)->AddContract(contractaddr,contractname);
+            }
+            else
+            {//说明都是新建的
+                AddressContractPtr cont = std::make_shared<AddressContract>();
+                cont->SetOwnerAddr(owneraddr);
+                cont->AddContract(contractaddr,contractname);
+                data.push_back(cont);
+            }
+        }
+
+        void DeleteContract(const QString &ownerOrcontract){
+            std::lock_guard<std::mutex> lockguard(mutexLock);
+            for(auto it = data.begin();it != data.end();)
+            {
+                if(ownerOrcontract == (*it)->GetOwnerAddr())
+                {
+                    it = data.erase(it);
+                    break;
+                }
+                else
+                {
+                    (*it)->DeleteContract(ownerOrcontract);
+                    if((*it)->GetContracts().empty())
+                    {
+                        it = data.erase(it);
+                    }
+                    else
+                    {
+                        ++it;
+                    }
+                }
+            }
+        }
+
+        void clear(){data.clear();}
+    private:
+        AddressContractVec data;
+        std::mutex mutexLock;//数据修改锁
+    };
+    typedef std::shared_ptr<AddressContractData> AddressContractDataPtr;
+
 }
 
 #endif // DATADEFINE_H

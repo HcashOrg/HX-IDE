@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FileWidget</class>
- <widget class="QWidget" name="FileWidget">
+ <class>ContractWidget</class>
+ <widget class="QWidget" name="ContractWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
+    <width>400</width>
     <height>439</height>
    </rect>
   </property>
@@ -34,25 +34,23 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="handleWidth">
-      <number>4</number>
-     </property>
-     <widget class="FileView" name="fileTree"/>
-     <widget class="InterfaceWidget" name="interWidget" native="true"/>
+     <widget class="QTreeWidget" name="treeWidget">
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="FunctionWidget" name="functionWidget" native="true"/>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FileView</class>
-   <extends>QTreeView</extends>
-   <header>filewidget/fileview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>InterfaceWidget</class>
+   <class>FunctionWidget</class>
    <extends>QWidget</extends>
-   <header>interfacewidget.h</header>
+   <header>contractwidget/functionwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

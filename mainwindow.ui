@@ -19,36 +19,59 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QStackedWidget" name="stackedWidget_file">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>171</width>
-      <height>431</height>
-     </rect>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QStackedWidget" name="stackedWidget_content">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>0</y>
-      <width>821</width>
-      <height>221</height>
-     </rect>
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QStackedWidget" name="stackedWidget_output">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>250</y>
-      <width>791</width>
-      <height>161</height>
-     </rect>
+    <property name="topMargin">
+     <number>0</number>
     </property>
-   </widget>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="splitter_hori">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="FileWidget" name="fileWidget">
+        <attribute name="title">
+         <string>合约项目</string>
+        </attribute>
+       </widget>
+       <widget class="ContractWidget" name="contractWidget">
+        <attribute name="title">
+         <string>已注册合约</string>
+        </attribute>
+       </widget>
+      </widget>
+      <widget class="QSplitter" name="splitter_ver">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="ContextWidget" name="contentWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="OutputWidget" name="outputWidget" native="true"/>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -507,6 +530,32 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>FileWidget</class>
+   <extends>QWidget</extends>
+   <header>filewidget/filewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ContextWidget</class>
+   <extends>QWidget</extends>
+   <header>contentwidget/contextwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OutputWidget</class>
+   <extends>QWidget</extends>
+   <header>outputwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ContractWidget</class>
+   <extends>QWidget</extends>
+   <header>contractwidget/contractwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="chain.qrc"/>
  </resources>

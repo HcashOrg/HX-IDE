@@ -49,7 +49,12 @@ SOURCES += main.cpp\
     popwidget/AccountWidget.cpp \
     popwidget/namedialog.cpp \
     popwidget/MoveableDialog.cpp \
-    popwidget/registercontractdialog.cpp
+    popwidget/registercontractdialog.cpp \
+    popwidget/TransferWidget.cpp \
+    popwidget/CallContractWidget.cpp \
+    ConvenientOp.cpp \
+    contractwidget/ContractWidget.cpp \
+    contractwidget/FunctionWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -87,7 +92,12 @@ HEADERS  += MainWindow.h \
     popwidget/AccountWidget.h \
     popwidget/namedialog.h \
     popwidget/MoveableDialog.h \
-    popwidget/registercontractdialog.h
+    popwidget/registercontractdialog.h \
+    popwidget/TransferWidget.h \
+    popwidget/CallContractWidget.h \
+    ConvenientOp.h \
+    contractwidget/ContractWidget.h \
+    contractwidget/FunctionWidget.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -102,7 +112,11 @@ FORMS    += MainWindow.ui \
     contentwidget/ContextWidget.ui \
     popwidget/AccountWidget.ui \
     popwidget/namedialog.ui \
-    popwidget/registercontractdialog.ui
+    popwidget/registercontractdialog.ui \
+    popwidget/TransferWidget.ui \
+    popwidget/CallContractWidget.ui \
+    contractwidget/ContractWidget.ui \
+    contractwidget/FunctionWidget.ui
 
 RESOURCES += \
     chain.qrc

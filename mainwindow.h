@@ -65,7 +65,7 @@ private slots:
     void on_stopAction_triggered();
 
     void on_stepAction_triggered();
-    //设置菜单
+    //工具菜单
     void on_changeChainAction_triggered();
 
     void on_enterSandboxAction_triggered();
@@ -87,7 +87,7 @@ private slots:
 
     void on_closeAllAction_triggered();
 
-
+    void on_tabWidget_currentChanged(int index);
 private:
     void NewFileCreated(const QString &filePath);
 private:
