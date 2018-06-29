@@ -30,8 +30,6 @@ CommonDialog::CommonDialog(commonDialogType _type, QWidget *parent) :
 
 CommonDialog::~CommonDialog()
 {
-    
-    qDebug() << "CommonDialog  delete ";
     delete ui;
 }
 

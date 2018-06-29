@@ -53,7 +53,6 @@ void TransferWidget::addressChangeSlot()
 
 void TransferWidget::addressCheckSlot(bool isvalid)
 {
-    qDebug()<<isvalid;
     QString enable = DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ? "QLineEdit{color:white;}":"QLineEdit{color:black;}";
     QString disable = "QLineEdit{color:red;}";
     ui->lineEdit->setStyleSheet(isvalid?enable:disable);

@@ -269,7 +269,6 @@ QVariant AceEditor::syncRunJavaScript(const QString &javascript, int msec)
     }
 
     loop->exec();
-    qDebug() << "result: " << result.toString();
     return result;
 }
 

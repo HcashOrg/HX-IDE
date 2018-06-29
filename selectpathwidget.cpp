@@ -29,7 +29,7 @@ SelectPathWidget::SelectPathWidget(QWidget *parent) :
 }
 
 SelectPathWidget::~SelectPathWidget()
-{qDebug() << "~~~~~SelectPathWidget";
+{
     delete ui;
 }
 

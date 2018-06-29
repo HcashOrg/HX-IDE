@@ -142,13 +142,7 @@ void javaCompile::generateClassFile()
     params<<"-classpath"<<QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_CORE_PATH
           <<"-d"<<_p->tempDir<<"-encoding"<<"utf-8"<<fileList;
 
-    foreach (QString is, fileList) {
-        qDebug()<<is;
-    }
-    foreach (QString is, params) {
-        qDebug()<<is;
-    }
-    qDebug()<<_p->sourceDir;
+    qDebug()<<"java-compile "<<params;
 
     getCompileProcess()->start("javac",params);
 }

@@ -125,9 +125,7 @@ void csharpCompile::generateDllFile()
           <<fileList<<"-out:"+_p->tempDir+QDir::separator()+"result.dll"
           <<"-debug"<<"-pdb:"+_p->tempDir+QDir::separator()+"result.pdb";
 
-    foreach (QString is, params) {
-        qDebug()<<is;
-    }
+    qDebug()<<"c#-compile  "<<params;
 
     getCompileProcess()->start(DataDefine::CSHARP_COMPILER_EXE_DIR+"csc.exe",params);
 }

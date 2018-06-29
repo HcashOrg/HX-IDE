@@ -29,7 +29,6 @@ ConsoleDialog::ConsoleDialog(QWidget *parent) :
 
 ConsoleDialog::~ConsoleDialog()
 {    
-    qDebug() << "ConsoleDialog delete";
     delete ui;    
 }
 

@@ -223,11 +223,9 @@ void MainWindow::on_closeAllAction_triggered()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    qDebug()<<"sdfsf";
     if(index == 1)
     {
         ui->contractWidget->RefreshTree();
-        //ChainIDE::getInstance()->getDataManager()->queryContract();
     }
 }
 

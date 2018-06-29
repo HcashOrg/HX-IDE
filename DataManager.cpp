@@ -92,14 +92,9 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
     else if("listunspent" == id)
     {
         QString lidata = data;
-        qDebug()<<"query listunspent"<<lidata;
         if(parseAddressBalances(lidata))
         {
             emit queryAccountFinish();
-        }
-        else
-        {
-            qDebug()<<"toLong"<<data.size();
         }
     }
     //检测地址合法性
@@ -119,10 +114,13 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
 
 bool DataManager::parseListAccount(const QString &data)
 {
-    qDebug()<<"query listaccounts"<<data;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject()) return false;
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+        qDebug()<<json_error.errorString();
+        return false;
+    }
     QJsonObject jsonObject = parse_doucment.object();
 
     foreach (QString name, jsonObject.keys()) {

@@ -51,7 +51,6 @@ void FileView::IndexClicked(const QModelIndex &index)
         QFileInfo file(_p->fileModel->filePath(index));
         if(file.isFile())
         {
-            qDebug()<<_p->fileModel->filePath(index);
             emit fileClicked(_p->fileModel->filePath(index));
         }
     }

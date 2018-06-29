@@ -175,7 +175,7 @@ void ContextWidget::saveAll()
 
 void ContextWidget::onTextChanged()
 {
-    qDebug() << "ContentWidget::onTextChanged" ;//<< isUndoAvailable();
+    //qDebug() << "ContentWidget::onTextChanged" ;//<< isUndoAvailable();
 
     AceEditor *w = getCurrentEditor();
     if(!w) return;
@@ -275,7 +275,6 @@ AceEditor *ContextWidget::getCurrentEditor() const
 {
     if(ui->tabWidget->currentWidget())
     {
-        qDebug()<<"getcurrent";
         return dynamic_cast<AceEditor*>(ui->tabWidget->currentWidget());
     }
     return nullptr;

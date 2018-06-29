@@ -98,7 +98,6 @@ void IDEUtil::GetAllFile(QString dirPath, QStringList &files,const QStringList &
         {
             if(limit.empty() || limit.contains(info.suffix()))
             {
-                qDebug()<<limit;
                 files.append(info.absoluteFilePath());
             }
 
@@ -126,7 +125,6 @@ bool IDEUtil::isFileExist(const QString &filePath, const QString &dirPath)
 
 bool IDEUtil::deleteDir(const QString &dirName)
 {
-    qDebug()<<dirName;
     QDir directory(dirName);
     if (!directory.exists())
     {

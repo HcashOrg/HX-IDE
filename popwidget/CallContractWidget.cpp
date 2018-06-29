@@ -48,11 +48,6 @@ void CallContractWidget::CallContract()
                                      <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
 }
 
-void CallContractWidget::callAddressChanged()
-{
-    qDebug()<<ui->callAddress->currentText()<<"---"<<ui->callAddress->currentIndex();
-}
-
 void CallContractWidget::contractAddressChanged()
 {
     //查询合约对应的api
@@ -117,13 +112,6 @@ void CallContractWidget::InitAccountAddress()
     tree->expandAll();
     ui->callAddress->setModel(tree->model());
     ui->callAddress->setView(tree);
-
-//    connect(ui->callAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),this,
-//            &CallContractWidget::callAddressChanged);
-
-    connect(ui->callAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
-            &CallContractWidget::callAddressChanged);
-
 }
 
 void CallContractWidget::InitContractAddress()
@@ -133,7 +121,6 @@ void CallContractWidget::InitContractAddress()
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,data);
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);
-    qDebug()<<data->getAllData().size();
     for(auto it = data->getAllData().begin();it != data->getAllData().end();++it)
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->GetOwnerAddr());

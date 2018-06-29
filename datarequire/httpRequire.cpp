@@ -40,7 +40,6 @@ httpRequire::~httpRequire()
 
 void httpRequire::postData(const QString &data)
 {
-    qDebug()<<"http-post-"<<data;
     _p->networkAccessManager->post(_p->httpRequest, data.toUtf8());
 }
 

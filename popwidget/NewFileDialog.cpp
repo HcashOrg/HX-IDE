@@ -75,7 +75,6 @@ void NewFileDialog::ConfirmSlot()
      }
      _p->newFilePath = ui->comboBox->currentText() + "/"+ui->lineEdit->text();
 
-     qDebug()<<_p->newFilePath;
      IDEUtil::TemplateFile(_p->newFilePath);
      close();
 }
