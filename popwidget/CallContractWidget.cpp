@@ -101,13 +101,11 @@ void CallContractWidget::InitAccountAddress()
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->getAccountName());
         item->setFlags(Qt::ItemIsEnabled);
-        item->setTextAlignment(0,Qt::AlignCenter);
         tree->addTopLevelItem(item);
 
         for(auto add = (*it)->getAddressInfos().begin();add != (*it)->getAddressInfos().end();++add)
         {
             QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAddress());
-            childitem->setTextAlignment(0,Qt::AlignCenter);
             item->addChild(childitem);
             if(0 == number)
             {
@@ -140,12 +138,10 @@ void CallContractWidget::InitContractAddress()
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->GetOwnerAddr());
         item->setFlags(Qt::ItemIsEnabled);
-        item->setTextAlignment(0,Qt::AlignCenter);
         tree->addTopLevelItem(item);
         for(auto cont = (*it)->GetContracts().begin();cont != (*it)->GetContracts().end();++cont)
         {
             QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*cont)->GetContractAddr());
-            childitem->setTextAlignment(0,Qt::AlignCenter);
             item->addChild(childitem);
         }
 

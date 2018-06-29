@@ -40,6 +40,7 @@ httpRequire::~httpRequire()
 
 void httpRequire::postData(const QString &data)
 {
+    qDebug()<<"http-post-"<<data;
     _p->networkAccessManager->post(_p->httpRequest, data.toUtf8());
 }
 
@@ -53,18 +54,16 @@ void httpRequire::startConnect()
 
 void httpRequire::requestFinished(QNetworkReply *reply)
 {
-    if(reply->error() != QNetworkReply::NoError)
-    {
-         qDebug()<<reply->errorString();
-         emit receiveData(reply->errorString());
-         return;
-    }
-
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(reply->readAll(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
-         emit receiveData(json_error.errorString());
+         emit receiveData("Error "+json_error.errorString());
+         return;
+    }
+    else if(reply->error() != QNetworkReply::NoError)
+    {
+         emit receiveData("Error "+parse_doucment.object().value("error").toObject().value("message").toString());
          return;
     }
     QJsonValue val = parse_doucment.object().value("result");

@@ -64,24 +64,29 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             ConvenientOp::ShowSyncCommonDialog(data);
+            contractAddress.clear();
             return;
         }
-        QString contractAddress = parse_doucment.object().value("address").toString();
-        //写入合约文件
-
-        DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-        ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
-        contractData->AddContract(ui->address->currentText(), contractAddress);
-        ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+        contractAddress = parse_doucment.object().value("address").toString();
 
         ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toUbcdHttpJsonFormat("sendrawtransaction",
                                          QJsonArray()<<data));
 
-        ChainIDE::getInstance()->postRPC("generate",IDEUtil::toUbcdHttpJsonFormat("generate",QJsonArray()<<1));
 
     }
     else if("register-sendrawtransaction" == id)
     {
+        if(!data.startsWith("Error") && !data.isEmpty())
+        {//储存合约地址
+            //写入合约文件
+            DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
+            ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+            contractData->AddContract(ui->address->currentText(), contractAddress);
+            ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+            //产一个块来确认
+            ChainIDE::getInstance()->postRPC("generate",IDEUtil::toUbcdHttpJsonFormat("generate",QJsonArray()<<1));
+
+        }
         ConvenientOp::ShowSyncCommonDialog(data);
         close();
     }
@@ -120,6 +125,7 @@ void RegisterContractDialog::on_closeBtn_clicked()
 
 void RegisterContractDialog::InitWidget()
 {
+    contractAddress = "";
     ui->gaslimit->setRange(0,999999);
     ui->gaslimit->setSingleStep(1);
     ui->gasprice->setRange(10,999999);
@@ -161,13 +167,11 @@ void RegisterContractDialog::InitAccountAddress()
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->getAccountName());
         item->setFlags(Qt::ItemIsEnabled);
-        item->setTextAlignment(0,Qt::AlignCenter);
         tree->addTopLevelItem(item);
 
         for(auto add = (*it)->getAddressInfos().begin();add != (*it)->getAddressInfos().end();++add)
         {
             QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAddress());
-            childitem->setTextAlignment(0,Qt::AlignCenter);
             item->addChild(childitem);
             if(0 == number)
             {

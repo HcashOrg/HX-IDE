@@ -29,6 +29,7 @@ private:
     void InitAccountAddress();
 private:
     Ui::RegisterContractDialog *ui;
+    QString contractAddress;
 };
 
 #endif // REGISTERCONTRACTDIALOG_H
