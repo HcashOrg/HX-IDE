@@ -79,3 +79,8 @@ bool FunctionWidget::parseContractInfo(const QString &addr, const QString &data)
 
     return true;
 }
+
+void FunctionWidget::retranslator()
+{
+    ui->retranslateUi(this);
+}

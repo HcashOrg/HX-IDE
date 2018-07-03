@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _p(new DataPrivate())
 {
     ui->setupUi(this);
+    setWindowTitle("chain");
     InitWidget();
 }
 
@@ -93,17 +94,12 @@ void MainWindow::startChain()
 void MainWindow::startWidget()
 {
     showMaximized();
-    //标题
-    //set
     //设置界面背景色
-    setAutoFillBackground(true);
-    QPalette palette;
-    palette.setColor(QPalette::Window, DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ?
-                                       DataDefine::DARK_CLACK_BACKGROUND : DataDefine::WHITE_BACKGROUND);
-    setPalette(palette);
-
-    //初始化样式表
-    ChainIDE::getInstance()->refreshStyleSheet();
+    refreshStyle();
+    //标题
+    refreshTitle();
+    //翻译
+    refreshTranslator();
 
     //隐藏部分不需要的按钮
     ui->savaAsAction->setVisible(false);
@@ -119,8 +115,11 @@ void MainWindow::startWidget()
     ui->splitter_ver->setSizes(QList<int>()<<0.67*ui->centralWidget->height()<<0.33*ui->centralWidget->height());
 
     //链接编译槽
-    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,std::bind(&OutputWidget::receiveCompileMessage,ui->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
+    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,
+            std::bind(&OutputWidget::receiveCompileMessage,ui->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
     connect(ui->fileWidget,&FileWidget::fileClicked,ui->contentWidget,&ContextWidget::showFile);
+    connect(ui->fileWidget,&FileWidget::compileFile,this,&MainWindow::on_compileAction_triggered);
+    //connect(ui->fileWidget,&FileWidget::deleteFile,this,&MainWindow::on);
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
@@ -132,6 +131,34 @@ void MainWindow::startWidget()
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::on_tabWidget_currentChanged);
     //QTimer::singleShot(3000,[](){ChainIDE::getInstance()->getDataManager()->queryContract();});
 
+}
+
+void MainWindow::refreshTitle()
+{
+    setWindowTitle(ChainIDE::getInstance()->getCurrentChainType() == 1 ? tr("测试链IDE"):tr("正式链IDE"));
+}
+
+void MainWindow::refreshStyle()
+{
+    setAutoFillBackground(true);
+    QPalette palette;
+    palette.setColor(QPalette::Window, DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ?
+                                       DataDefine::DARK_CLACK_BACKGROUND : DataDefine::WHITE_BACKGROUND);
+    setPalette(palette);
+
+    //初始化样式表
+    ChainIDE::getInstance()->refreshStyleSheet();
+}
+
+void MainWindow::refreshTranslator()
+{
+    ChainIDE::getInstance()->refreshTranslator();
+    ui->retranslateUi(this);
+    refreshTitle();
+
+    ui->fileWidget->retranslator();
+    ui->outputWidget->retranslator();
+    ui->contractWidget->retranslator();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -233,6 +260,7 @@ void MainWindow::on_exitAction_triggered()
 {
     if(ui->contentWidget->closeAll())
     {
+        hide();
         close();
     }
 }
@@ -287,13 +315,14 @@ void MainWindow::on_withdrawAction_triggered()
 void MainWindow::on_changeChainAction_triggered()
 {
     ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
+    refreshTitle();
     ModifyActionState();
 }
 
 void MainWindow::on_compileAction_triggered()
 {//编译
     //先触发保存判断
-    if( ui->contentWidget->currentFileUnsaved())
+    if( ui->contentWidget->currentFileUnsaved() && ui->contentWidget->getCurrentFilePath() == ui->fileWidget->getCurrentFile())
     {
         QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", ui->contentWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if( QMessageBox::Yes == choice)
@@ -307,7 +336,7 @@ void MainWindow::on_compileAction_triggered()
     }
 
 
-    ChainIDE::getInstance()->getCompileManager()->startCompile(ui->contentWidget->getCurrentFilePath());//当前打开的文件
+    ChainIDE::getInstance()->getCompileManager()->startCompile(ui->fileWidget->getCurrentFile());//当前打开的文件
 
 }
 

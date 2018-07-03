@@ -82,3 +82,8 @@ void OutputWidget::receiveOutputMessage(const QString &text, int chainType)
     ui->outputStack->setCurrentWidget(curBrowser);
     curBrowser->append(text);
 }
+
+void OutputWidget::retranslator()
+{
+    ui->retranslateUi(this);
+}

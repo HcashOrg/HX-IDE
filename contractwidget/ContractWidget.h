@@ -16,6 +16,7 @@ public:
     ~ContractWidget();
 public slots:
     void RefreshTree();
+    void retranslator();
 private slots:
     void ContractClicked(QTreeWidgetItem *item, QTreeWidgetItem *itempre);
 private:

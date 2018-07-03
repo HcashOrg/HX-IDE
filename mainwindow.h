@@ -99,6 +99,10 @@ private:
 
     void startWidget();
 private:
+    void refreshTitle();
+    void refreshStyle();
+    void refreshTranslator();
+private:
     Ui::MainWindow *ui;
     class DataPrivate;
     DataPrivate *_p;

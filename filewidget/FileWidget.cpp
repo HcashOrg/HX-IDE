@@ -25,6 +25,13 @@ void FileWidget::SelectFile(const QString &filePath)
     ui->interWidget->ShowInterface(filePath);
 }
 
+void FileWidget::retranslator()
+{
+    ui->retranslateUi(this);
+    ui->fileTree->retranslator();
+    ui->interWidget->retranslator();
+}
+
 void FileWidget::InitWidget()
 {
     ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
@@ -32,5 +39,8 @@ void FileWidget::InitWidget()
     connect(ui->fileTree,&FileView::fileClicked,this,&FileWidget::fileClicked);
     connect(ui->fileTree,&FileView::fileClicked,ui->interWidget,&InterfaceWidget::ShowInterface);
 
+    connect(ui->fileTree,&FileView::compileFile,this,&FileWidget::compileFile);
+    connect(ui->fileTree,&FileView::deleteFile,this,&FileWidget::deleteFile);
+    connect(ui->fileTree,&FileView::importContract,this,&FileWidget::importContract);
 
 }

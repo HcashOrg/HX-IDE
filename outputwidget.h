@@ -23,6 +23,7 @@ public slots:
     void receiveOutputMessage(const QString &text,int chainType);
 
 
+    void retranslator();
 private:
     Ui::OutputWidget *ui;
     class DataPrivate;

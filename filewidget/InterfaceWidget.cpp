@@ -47,6 +47,11 @@ void InterfaceWidget::ShowInterface(const QString &filePath)
     InitData();
 }
 
+void InterfaceWidget::retranslator()
+{
+    ui->retranslateUi(this);
+}
+
 void InterfaceWidget::InitData()
 {
     ui->treeWidget_event->clear();

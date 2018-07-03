@@ -19,8 +19,13 @@ public:
 signals:
     void fileClicked(QString filepath);
 
+    void compileFile();
+    void deleteFile();
+    void importContract();
 public slots:
     void SelectFile(const QString &filePath);
+
+    void retranslator();
 private:
     void InitWidget();
 private:

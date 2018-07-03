@@ -60,3 +60,9 @@ void ContractWidget::InitWidget()
 
 
 }
+
+void ContractWidget::retranslator()
+{
+    ui->retranslateUi(this);
+    ui->functionWidget->retranslator();
+}

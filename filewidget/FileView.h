@@ -11,14 +11,26 @@ public:
     ~FileView();
 signals:
     void fileClicked(QString filepath);
+
+    void compileFile();
+    void deleteFile();
+    void importContract();
+
+
 public slots:
     void selectFile(const QString &filePath);
+
+    void deleteFileSlots();
+    void importContractSlots();
+    void retranslator();
 private slots:
     void IndexClicked(const QModelIndex &index);
 public:
     QString getCurrentFilePath()const;
 private:
     void InitWidget();
+protected:
+    void contextMenuEvent(QContextMenuEvent *);
 private:
     class DataPrivate;
     DataPrivate *_p;

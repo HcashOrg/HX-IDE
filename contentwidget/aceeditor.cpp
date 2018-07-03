@@ -74,7 +74,7 @@ QString AceEditor::getSelectedText()
 
 void AceEditor::setMode(QString mode)
 {
-    qDebug() << "AceEditor::setMode " << mode;
+//    qDebug() << "AceEditor::setMode " << mode;
     this->syncRunJavaScript( QString("editor.session.setMode('ace/mode/%1')").arg(mode));
 }
 
@@ -257,7 +257,7 @@ QVariant AceEditor::syncRunJavaScript(const QString &javascript, int msec)
     QVariant result;
     QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
     QTimer::singleShot(msec, loop.data(), &QEventLoop::quit);
-    qDebug() << "AceEditor::syncRunJavaScript: " << javascript;
+//    qDebug() << "AceEditor::syncRunJavaScript: " << javascript;
     if(_p->webView)
     {
         _p->webView->page()->runJavaScript(javascript, [loop, &result](const QVariant &val) {

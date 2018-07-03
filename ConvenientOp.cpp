@@ -141,3 +141,27 @@ QString ConvenientOp::GetMetaJsonFile(const QString &filePath)
 
     return resultDir+"/"+QFileInfo(resultDir).baseName()+".meta.json";
 }
+
+QString ConvenientOp::GetContractSuffixByDir(const QString &dirPath)
+{
+    if(!QFileInfo(dirPath).isDir()) return "";
+
+    QString topDir = QCoreApplication::applicationDirPath() + "/" ;
+    if(dirPath.startsWith(topDir + DataDefine::GLUA_DIR))
+    {
+        return DataDefine::GLUA_SUFFIX;
+    }
+    else if(dirPath.startsWith(topDir + DataDefine::JAVA_DIR))
+    {
+        return DataDefine::JAVA_SUFFIX;
+    }
+    else if(dirPath.startsWith(topDir + DataDefine::CSHARP_DIR))
+    {
+        return DataDefine::CSHARP_SUFFIX;
+    }
+    else if(dirPath.startsWith(topDir + DataDefine::KOTLIN_DIR))
+    {
+        return DataDefine::KOTLIN_SUFFIX;
+    }
+    return "";
+}

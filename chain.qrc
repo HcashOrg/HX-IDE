@@ -83,5 +83,7 @@
         <file>template/initTemplate.uvlua</file>
         <file>template/initTemplate.java</file>
         <file>template/initTemplate.kt</file>
+        <file>IDE_English.qm</file>
+        <file>IDE_Simplified_Chinese.qm</file>
     </qresource>
 </RCC>

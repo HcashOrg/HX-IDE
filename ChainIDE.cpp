@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QApplication>
+#include <QTranslator>
 
 #include "backstage/BackStageBase.h"
 #include "backstage/LinkBackStage.h"
@@ -131,9 +132,19 @@ DataDefine::ThemeStyle ChainIDE::getCurrentTheme() const
     return _p->configFile->value("/settings/theme").toString() == "black"?DataDefine::Black_Theme : DataDefine::White_Theme;
 }
 
-void ChainIDE::setCurrentTheme(DataDefine::ThemeStyle style) const
+void ChainIDE::setCurrentTheme(DataDefine::ThemeStyle style)
 {
     _p->configFile->setValue("/settings/theme",style == DataDefine::Black_Theme ? "black":"white");
+}
+
+DataDefine::Language ChainIDE::getCurrentLanguage() const
+{
+    return _p->configFile->value("/settings/language").toString() == "SimChinese"? DataDefine::SimChinese : DataDefine::English;
+}
+
+void ChainIDE::setCurrentLanguage(DataDefine::Language lan)
+{
+    _p->configFile->setValue("/settings/language",lan == DataDefine::SimChinese ? "SimChinese" : "English");
 }
 
 void ChainIDE::setConfigAppDataPath(const QString &path)
@@ -204,6 +215,15 @@ void ChainIDE::refreshStyleSheet()
     QString css = inputFile.readAll();
     inputFile.close();
     qApp->setStyleSheet( css);
+}
+
+void ChainIDE::refreshTranslator()
+{
+    QTranslator*  translator = new QTranslator();
+    translator->load(getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm");
+    QString a = getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm";
+    qDebug()<<a;
+    QApplication::installTranslator(translator);
 }
 
 void ChainIDE::InitConfig()

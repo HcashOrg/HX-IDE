@@ -23,6 +23,9 @@ public:
     //文件查询操作
     static QString GetMetaJsonFile(const QString &filePath);
 
+    //获取文件夹路径对应合约类型
+    static QString GetContractSuffixByDir(const QString &dirPath);
+
 };
 
 #endif // CONVENIENTOP_H

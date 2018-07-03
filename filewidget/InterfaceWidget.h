@@ -20,6 +20,7 @@ public:
     ~InterfaceWidget();
 public slots:
     void ShowInterface(const QString &filePath);
+    void retranslator();
 private:
     bool readApiFromPath(const QString &filePath, ApiEventPtr &results);
 private:

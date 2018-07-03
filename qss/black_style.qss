@@ -109,6 +109,7 @@ QTabBar::tab{
     border-bottom: 0px solid rgb(233,233,240);
     min-width:75px;
     min-height:25px;
+    max-width:200px;
     font: 14px \"微软雅黑\";
     padding: 2px 5px 2px 5px;
 }

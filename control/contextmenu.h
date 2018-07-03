@@ -8,10 +8,16 @@ class ContextMenu : public QMenu
 {       
     Q_OBJECT
 public:
-    enum MenuType{ ContractItemType = 1, ContractLuaType, ContractCompiledType, MyTempContractPathType, MyTempContractAddressType, MyForeverContractPathType, MyForeverContractAddressType, ForeverContractType,
-                   EventBindScriptType, BindedScriptType, ScriptItemType, ScriptLuaType, ScriptCompiledType, AddedScriptType};
+    enum MenuType{ Delete = 1 << 0,
+                   Copy = 1 << 1,
+                   Paste = 1 << 2,
+                   Import = 1 << 3,
+                   Compile = 1 << 4,
+                   NewFile = 1 << 5
+                 };
+    typedef int MenuTypes;
 
-    ContextMenu( MenuType type, QWidget * parent = 0);
+    ContextMenu( MenuTypes type, QWidget * parent = 0);
     ~ContextMenu();
 
 signals:
@@ -20,25 +26,9 @@ signals:
     void pasteTriggered();
     void deleteTriggered();
     void importTriggered();
-    void exportTriggered();
     void compileTriggered();
-    void registerContractTriggered();
-    void callTriggered();
-    void upgradeTriggered();
-    void withdrawTriggered();
-    void transferTriggered();
-    void addScriptTriggered();
-    void removeTriggered();
-    void bindTriggered();
-    void eventBindTriggered();
-    void unbindTriggered();
-
-    void undoTriggered();
-    void redoTriggered();
-    void cutTriggered();
-    void selectAllTriggered();
 private:
-    MenuType type;
+    MenuTypes type;
 
     void createActions();
 };

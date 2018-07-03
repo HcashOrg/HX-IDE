@@ -18,6 +18,8 @@ signals:
 
 public:
     void RefreshContractAddr(const QString &addr);
+public slots:
+    void retranslator();
 private slots:
 
     void jsonDataUpdated(const QString &id,const QString &data);

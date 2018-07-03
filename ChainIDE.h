@@ -23,11 +23,17 @@ public:
     void setSandboxMode(bool mode);
 //配置
     QString getEnvAppDataPath()const;
-    QString getConfigAppDataPath()const;
-    DataDefine::ThemeStyle getCurrentTheme()const;
-    void setCurrentTheme(DataDefine::ThemeStyle)const;
 
+    QString getConfigAppDataPath()const;
     void setConfigAppDataPath(const QString &path);
+
+    DataDefine::ThemeStyle getCurrentTheme()const;
+    void setCurrentTheme(DataDefine::ThemeStyle);
+
+    DataDefine::Language getCurrentLanguage()const;
+    void setCurrentLanguage(DataDefine::Language);
+
+
 //后台
     BackStageBase *testManager()const;
     BackStageBase *formalManager()const;
@@ -38,6 +44,7 @@ public:
     DataManager *getDataManager()const;
 public:
     void refreshStyleSheet();//刷新样式表
+    void refreshTranslator();//刷新翻译
 private:
     void getSystemEnvironmentPath();//系统环境变量寻找
     void InitConfig();//初始化配置

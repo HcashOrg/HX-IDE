@@ -123,5 +123,11 @@ FORMS    += MainWindow.ui \
 RESOURCES += \
     chain.qrc
 
+TRANSLATIONS +=   IDE_Simplified_Chinese.ts  IDE_English.ts
+
+
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
 QMAKE_LFLAGS_RELEASE = $$QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO
+
+DISTFILES += \
+    ../te.glua.gpc

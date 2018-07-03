@@ -4,8 +4,15 @@
 #include <QDebug>
 #include <QTimer>
 #include <QHeaderView>
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include "FileModel.h"
 #include "DataDefine.h"
+#include "IDEUtil.h"
+#include "ConvenientOp.h"
+
+#include "control/contextmenu.h"
 class FileView::DataPrivate
 {
 public:
@@ -43,6 +50,45 @@ void FileView::selectFile(const QString &filePath)
 //    selectionModel()->clearSelection();
 //    selectionModel()->select(index,QItemSelectionModel::Select);
     setCurrentIndex(index);
+}
+
+void FileView::deleteFileSlots()
+{
+    QString filePath = _p->fileModel->filePath(this->currentIndex());
+    if(QFileInfo(filePath).isFile())
+    {
+        QFile::remove(filePath);
+    }
+    else if(QFileInfo(filePath).isDir())
+    {
+        IDEUtil::deleteDir(filePath);
+    }
+}
+
+void FileView::importContractSlots()
+{
+    QString dirpath = _p->fileModel->filePath(this->currentIndex());
+    QString suffix = ConvenientOp::GetContractSuffixByDir(dirpath);
+    if(suffix.isEmpty()) return;
+
+    QString file = QFileDialog::getOpenFileName(this, tr("Choose your contract file."),"",QString("(*.%1)").arg(suffix));
+    if(!QFileInfo(file).exists()) return;
+    //正式导入文件
+    QString dstFilePath = dirpath + "/" + QFileInfo(file).fileName();
+    if(QFileInfo(dstFilePath).exists())
+    {
+        //提示存在,是否覆盖
+        if(QMessageBox::Yes == QMessageBox::question(nullptr,tr("question"),tr("already exists,yes to override!")))
+        {
+            QFile::remove(dstFilePath);
+            QFile::copy(file, dstFilePath);
+        }
+    }
+    else
+    {
+        QFile::copy(file, dstFilePath);
+    }
+
 }
 
 void FileView::IndexClicked(const QModelIndex &index)
@@ -86,4 +132,53 @@ void FileView::InitWidget()
 
     connect(this,&QTreeView::clicked,this,&FileView::IndexClicked);
 
+}
+
+void FileView::contextMenuEvent(QContextMenuEvent *e)
+{
+    ContextMenu *menu = nullptr;
+
+    QModelIndex ind = this->indexAt(this->mapFromGlobal(QCursor::pos()));
+    if(!ind.isValid()) return;
+
+    if(ind.parent() == this->rootIndex())
+    {
+        menu = new ContextMenu(ContextMenu::Import,this);
+    }
+    else
+    {
+        QString path = _p->fileModel->filePath(ind);
+        QFileInfo info(path);
+        if(info.isFile())
+        {
+            if(info.suffix() == DataDefine::GLUA_SUFFIX || info.suffix() == DataDefine::JAVA_SUFFIX ||
+                   info.suffix() == DataDefine::CSHARP_SUFFIX || info.suffix() == DataDefine::KOTLIN_SUFFIX)
+            {
+                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Compile,this);
+            }
+            else
+            {
+                menu = new ContextMenu(ContextMenu::Delete ,this);
+            }
+        }
+        else if(info.isDir())
+        {
+            menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Import,this);
+        }
+    }
+
+
+    if(menu)
+    {
+        connect(menu,&ContextMenu::compileTriggered,this,&FileView::compileFile);
+        connect(menu,&ContextMenu::deleteTriggered,this,&FileView::deleteFileSlots);
+        connect(menu,&ContextMenu::importTriggered,this,&FileView::importContractSlots);
+        menu->exec(QCursor::pos());
+    }
+
+}
+
+void FileView::retranslator()
+{
+    //ui->retranslateUi(this);
 }

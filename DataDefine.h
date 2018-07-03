@@ -16,6 +16,9 @@ namespace DataDefine
 {
     //主题类型
     enum ThemeStyle{Black_Theme,White_Theme};
+    //语言类型
+    enum Language{SimChinese,English};
+
     static const QColor BLACK_BACKGROUND = QColor(41,41,41);
     static const QColor DARK_CLACK_BACKGROUND = QColor(30,30,30);
     static const QColor WHITE_BACKGROUND = QColor(255,255,255);
