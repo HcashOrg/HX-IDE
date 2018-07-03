@@ -41,15 +41,13 @@ void ContractWidget::RefreshTree()
         }
     }
     ui->treeWidget->expandAll();
-
-
 }
 
-void ContractWidget::ContractClicked(QTreeWidgetItem *item, int column)
+void ContractWidget::ContractClicked(QTreeWidgetItem *item, QTreeWidgetItem *itempre)
 {
     if(item)
     {
-        ui->functionWidget->RefreshContractAddr(item->text(column));
+        ui->functionWidget->RefreshContractAddr(item->text(0));
     }
 }
 
@@ -58,5 +56,7 @@ void ContractWidget::InitWidget()
     ui->treeWidget->header()->setVisible(false);
     ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
 
-    connect(ui->treeWidget,&QTreeWidget::itemClicked,this,&ContractWidget::ContractClicked);
+    connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidget::ContractClicked);
+
+
 }

@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     popwidget/CallContractWidget.cpp \
     ConvenientOp.cpp \
     contractwidget/ContractWidget.cpp \
-    contractwidget/FunctionWidget.cpp
+    contractwidget/FunctionWidget.cpp \
+    compile/kotlinCompile.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -97,7 +98,8 @@ HEADERS  += MainWindow.h \
     popwidget/CallContractWidget.h \
     ConvenientOp.h \
     contractwidget/ContractWidget.h \
-    contractwidget/FunctionWidget.h
+    contractwidget/FunctionWidget.h \
+    compile/kotlinCompile.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

@@ -45,7 +45,8 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
     _p->sourceFile = sourceFilePath;
     _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
                   DataDefine::GLUA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
-    _p->sourceDir = QFileInfo(sourceFilePath).absoluteDir().absolutePath();
+    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_DIR,
+                                        sourceFilePath);;
 
     IDEUtil::deleteDir(_p->tempDir);
     QDir dir(_p->tempDir);

@@ -3,9 +3,11 @@
 
 #include <QFileInfo>
 #include <QPainter>
+#include <QDir>
 #include <QDebug>
 #include "IDEUtil.h"
 #include "ChainIDE.h"
+#include "DataDefine.h"
 
 class NewFileDialog::DataPrivate
 {
@@ -74,6 +76,18 @@ void NewFileDialog::ConfirmSlot()
          ui->lineEdit->setText(ui->lineEdit->text()+_p->types.front());
      }
      _p->newFilePath = ui->comboBox->currentText() + "/"+ui->lineEdit->text();
+     //判断目录是不是根目录，如果是，则新建一个同名文件夹
+     QString curtex = ui->comboBox->currentText();
+     if(curtex.endsWith("/") || curtex.endsWith("\\"))
+     {
+         curtex.remove(curtex.length()-1,1);
+     }
+     QFileInfo fi(curtex);
+     if(fi.absoluteFilePath() == _p->rootDir)
+     {
+         _p->newFilePath = _p->rootDir + "/" + QFileInfo(_p->newFilePath).baseName() + "/" + ui->lineEdit->text();
+     }
+
 
      IDEUtil::TemplateFile(_p->newFilePath);
      close();

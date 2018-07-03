@@ -26,7 +26,7 @@ namespace DataDefine
     static const QString GLUA_SUFFIX = "uvlua";
     static const QString JAVA_SUFFIX = "java";
     static const QString CSHARP_SUFFIX = "cs";
-    static const QString KOTLIN_SUFFIX = "kotlin";
+    static const QString KOTLIN_SUFFIX = "kt";
 
     //编辑器后缀转换
     static const std::map<QString,QString> SUFFIX_MAP= {{CONTRACT_SUFFIX,"text"},{GLUA_SUFFIX,"glua"},
@@ -44,6 +44,7 @@ namespace DataDefine
     static const QString JAVA_DIR = "contracts/java";
     static const QString CSHARP_DIR = "contracts/csharp";
     static const QString KOTLIN_DIR = "contracts/kotlin";
+
     static const QString LOCAL_CONTRACT_PATH = "contracts/contracts.contract";
 
 
@@ -55,11 +56,13 @@ namespace DataDefine
     static const QString JAVA_UVM_ASS_PATH = "compile/java/uvm_ass.exe";
     static const QString JAVA_PACKAGE_GPC_PATH = "compile/java/package_gpc.exe";
 
-    static const QString CSHARP_COMPILER_EXE_DIR = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\Roslyn\\";
+    static const QString CSHARP_COMPILER_EXE_ENV = "CSC";//C#编译器环境变量名称
     static const QString CSHARP_COMPILE_DIR = "compile/csharp";
     static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";
     static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/GluaCoreLib.dll";
     static const QString CSHARP_COMPILE_PATH = "compile/csharp/gsharpc.exe";
+
+    static const QString KOTLIN_COMPILE_PATH = "compile/kotlin/kotlinc/bin/kotlinc-jvm.bat";
 
     //编译临时路径(文件夹)
     static const QString GLUA_COMPILE_TEMP_DIR = "gluaTemp";

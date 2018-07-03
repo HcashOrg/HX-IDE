@@ -83,11 +83,12 @@ private slots:
 
     void on_aboutAction_triggered();
 
-    void ModifyActionState();
-
     void on_closeAllAction_triggered();
 
     void on_tabWidget_currentChanged(int index);
+
+
+    void ModifyActionState();
 private:
     void NewFileCreated(const QString &filePath);
 private:

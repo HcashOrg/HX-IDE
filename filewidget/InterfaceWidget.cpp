@@ -10,6 +10,9 @@
 #include <QToolButton>
 #include <QDebug>
 
+#include "IDEUtil.h"
+#include "ConvenientOp.h"
+
 class InterfaceWidget::DataPrivate
 {
 public:
@@ -65,8 +68,12 @@ void InterfaceWidget::InitData()
        _p->currentFilePath.endsWith("."+DataDefine::KOTLIN_SUFFIX)
        )
     {
-        filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
+        //filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
+
+        filePath = ConvenientOp::GetMetaJsonFile(_p->currentFilePath);
+        qDebug()<<filePath;
     }
+
     if(readApiFromPath(filePath,_p->data))
     {
         QStringList apis = _p->data->getAllApiName();

@@ -46,7 +46,7 @@ void IDEUtil::TemplateFile(const QString &filePath)
     }
     //不存在就创建模板
     //根据文件类型，判定模板种类
-    QFile templete(QString(":/template/initTemplate%1").arg(filePath.mid(filePath.lastIndexOf("."))));
+    QFile templete(QString(":/template/initTemplate.%1").arg(QFileInfo(filePath).suffix()));
 
     if( templete.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -57,6 +57,14 @@ void IDEUtil::TemplateFile(const QString &filePath)
         if(file.open(QIODevice::WriteOnly | QIODevice::Text))
         {
             file.write(ba);
+        }
+        file.close();
+    }
+    else
+    {
+        QFile file(filePath);
+        if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
         }
         file.close();
     }
@@ -166,6 +174,19 @@ bool IDEUtil::deleteDir(const QString &dirName)
     }
 
     return !error;
+}
+
+QString IDEUtil::getNextDir(const QString &topDir, const QString &filePath)
+{
+    QString top = topDir;
+    top.replace("\\","/");
+    QString file = filePath;
+    file.replace("\\","/");
+
+    if(!file.startsWith(top)) return "";
+    QString left = file.mid(top.length()+1);
+    return top+"/"+left.mid(0,left.indexOf("/"));
+
 }
 
 IDEUtil::IDEUtil()

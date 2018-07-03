@@ -4,9 +4,15 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+
+#include <mutex>
+
+
 #include "ChainIDE.h"
 #include "IDEUtil.h"
+#include "ConvenientOp.h"
 
+static std::mutex datamutex;
 FunctionWidget::FunctionWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FunctionWidget)
@@ -48,11 +54,14 @@ void FunctionWidget::InitWidget()
 
 bool FunctionWidget::parseContractInfo(const QString &addr, const QString &data)
 {
+
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
+         std::lock_guard<std::mutex> guard(datamutex);
+         ConvenientOp::DeleteContract(addr);
          return false;
     }
     QJsonArray apisArr = parse_doucment.object().value("apis").toArray();

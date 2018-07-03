@@ -49,6 +49,9 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
             ChainIDE::getInstance()->postRPC("register-getcreatecontractaddress",IDEUtil::toUbcdHttpJsonFormat("getcreatecontractaddress",
                                               QJsonArray()<<data));
 
+            ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toUbcdHttpJsonFormat("sendrawtransaction",
+                                             QJsonArray()<<data));
+
 
         }
         else
@@ -69,9 +72,7 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
         }
         contractAddress = parse_doucment.object().value("address").toString();
 
-        ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toUbcdHttpJsonFormat("sendrawtransaction",
-                                         QJsonArray()<<data));
-
+        qDebug()<<contractAddress;
 
     }
     else if("register-sendrawtransaction" == id)
@@ -79,13 +80,10 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
         if(!data.startsWith("Error") && !data.isEmpty())
         {//储存合约地址
             //写入合约文件
-            DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-            ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
-            contractData->AddContract(ui->address->currentText(), contractAddress);
-            ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+            ConvenientOp::AddContract(ui->address->currentText(), contractAddress);
+
             //产一个块来确认
             ChainIDE::getInstance()->postRPC("generate",IDEUtil::toUbcdHttpJsonFormat("generate",QJsonArray()<<1));
-
         }
         ConvenientOp::ShowSyncCommonDialog(data);
         close();

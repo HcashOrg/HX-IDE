@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>qss/black_style.qss</file>
         <file>qss/white_style.qss</file>
-        <file>template/initTemplate.csharp</file>
-        <file>template/initTemplate.glua</file>
         <file>pic/arrowDown.png</file>
         <file>pic/arrowRight.png</file>
         <file>pic/bg.png</file>
@@ -81,5 +79,9 @@
         <file>pic/step_enable.png</file>
         <file>pic/stop_disable.png</file>
         <file>pic/stop_enable.png</file>
+        <file>template/initTemplate.cs</file>
+        <file>template/initTemplate.uvlua</file>
+        <file>template/initTemplate.java</file>
+        <file>template/initTemplate.kt</file>
     </qresource>
 </RCC>

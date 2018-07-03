@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>调用合约</string>
    </property>
   </widget>
   <widget class="QToolButton" name="closeBtn">

@@ -14,6 +14,7 @@ class FunctionWidget : public QWidget
 public:
     explicit FunctionWidget(QWidget *parent = 0);
     ~FunctionWidget();
+signals:
 
 public:
     void RefreshContractAddr(const QString &addr);

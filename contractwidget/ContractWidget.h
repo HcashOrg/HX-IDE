@@ -17,7 +17,7 @@ public:
 public slots:
     void RefreshTree();
 private slots:
-    void ContractClicked(QTreeWidgetItem *item, int column);
+    void ContractClicked(QTreeWidgetItem *item, QTreeWidgetItem *itempre);
 private:
     void InitWidget();
 private:

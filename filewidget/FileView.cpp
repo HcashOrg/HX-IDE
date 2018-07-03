@@ -40,8 +40,9 @@ void FileView::selectFile(const QString &filePath)
 {
     QModelIndex index = _p->fileModel->index(filePath);
     if(!index.isValid()) return;
-    selectionModel()->clearSelection();
-    selectionModel()->select(index,QItemSelectionModel::Select);
+//    selectionModel()->clearSelection();
+//    selectionModel()->select(index,QItemSelectionModel::Select);
+    setCurrentIndex(index);
 }
 
 void FileView::IndexClicked(const QModelIndex &index)
@@ -84,4 +85,5 @@ void FileView::InitWidget()
     QTimer::singleShot(100,this,&QTreeView::expandAll);
 
     connect(this,&QTreeView::clicked,this,&FileView::IndexClicked);
+
 }

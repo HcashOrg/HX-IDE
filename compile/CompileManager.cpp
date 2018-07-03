@@ -3,28 +3,20 @@
 #include "gluaCompile.h"
 #include "javaCompile.h"
 #include "csharpCompile.h"
+#include "kotlinCompile.h"
+
 #include "DataDefine.h"
 
 class CompileManager::DataPrivate
 {
 public:
     DataPrivate()
-//        :gluaCompiler(new gluaCompile())
-//        ,javaCompiler(new javaCompile())
     {
 
     }
     ~DataPrivate()
     {
-//        delete gluaCompiler;
-//        gluaCompiler = nullptr;
-//        delete javaCompiler;
-//        javaCompiler = nullptr;
     }
-
-public:
-//    gluaCompile *gluaCompiler;
-//    javaCompile *javaCompiler;
 };
 
 CompileManager::CompileManager(QObject *parent) : QObject(parent)
@@ -55,7 +47,7 @@ void CompileManager::startCompile(const QString &filePath)
     }
     else if(filePath.endsWith("."+DataDefine::KOTLIN_SUFFIX))
     {
-
+        compiler = new kotlinCompile(this);
     }
 
     if(compiler)
@@ -69,9 +61,4 @@ void CompileManager::startCompile(const QString &filePath)
 
 void CompileManager::InitManager()
 {
-//    connect(_p->gluaCompiler,&BaseCompile::finishCompileFile,this,&CompileManager::finishCompile);
-//    connect(_p->gluaCompiler,&BaseCompile::CompileOutput,this,&CompileManager::CompileOutput);
-
-//    connect(_p->javaCompiler,&BaseCompile::finishCompileFile,this,&CompileManager::finishCompile);
-//    connect(_p->javaCompiler,&BaseCompile::CompileOutput,this,&CompileManager::CompileOutput);
 }

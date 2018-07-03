@@ -19,6 +19,9 @@ public:
 
     static bool isFileExist(const QString &filePath,const QString &dirPath);
     static  bool deleteDir(const QString &dirName);
+
+    //取第一参数目录地下一集目录
+    static QString getNextDir(const QString &topDir,const QString &filePath);
 private:
     IDEUtil();
 };

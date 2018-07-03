@@ -6,8 +6,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTextCodec>
+#include <QCoreApplication>
+#include <QDir>
 
 #include "popwidget/commondialog.h"
+#include "IDEUtil.h"
 
 ConvenientOp::ConvenientOp(QObject *parent) : QObject(parent)
 {
@@ -61,6 +64,22 @@ bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::Add
     return true;
 }
 
+void ConvenientOp::AddContract(const QString &owneraddr, const QString &contractaddr, const QString &contractname)
+{
+    DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
+    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    contractData->AddContract(owneraddr, contractaddr,contractname);
+    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+}
+
+void ConvenientOp::DeleteContract(const QString &ownerOrcontract)
+{
+    DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
+    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    contractData->DeleteContract(ownerOrcontract);
+    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+}
+
 bool ConvenientOp::WriteContractToFile(const QString &filePath, const DataDefine::AddressContractDataPtr &data)
 {
     if(!data) return false;
@@ -93,4 +112,32 @@ bool ConvenientOp::WriteContractToFile(const QString &filePath, const DataDefine
     file.close();
     return true;
 
+}
+
+QString ConvenientOp::GetMetaJsonFile(const QString &filePath)
+{
+    QString file = filePath;
+    file.replace("\\","/");
+    QString topdir = QCoreApplication::applicationDirPath()+QDir::separator();
+    topdir.replace("\\","/");
+
+    QString resultDir;
+    if(file.startsWith(topdir+DataDefine::GLUA_DIR))
+    {
+        resultDir = IDEUtil::getNextDir(topdir + DataDefine::GLUA_DIR,file);
+    }
+    else if(file.startsWith(topdir+DataDefine::JAVA_DIR))
+    {
+        resultDir = IDEUtil::getNextDir(topdir + DataDefine::JAVA_DIR,file);
+    }
+    else if(file.startsWith(topdir+DataDefine::CSHARP_DIR))
+    {
+        resultDir = IDEUtil::getNextDir(topdir + DataDefine::CSHARP_DIR,file);
+    }
+    else if(file.startsWith(topdir+DataDefine::KOTLIN_DIR))
+    {
+        resultDir = IDEUtil::getNextDir(topdir + DataDefine::KOTLIN_DIR,file);
+    }
+
+    return resultDir+"/"+QFileInfo(resultDir).baseName()+".meta.json";
 }

@@ -1,4 +1,4 @@
-#include "javaCompile.h"
+#include "kotlinCompile.h"
 
 #include <QStringList>
 #include <QFileInfo>
@@ -10,7 +10,7 @@
 #include "DataDefine.h"
 
 
-class javaCompile::DataPrivate
+class kotlinCompile::DataPrivate
 {
 public:
     DataPrivate()
@@ -30,26 +30,26 @@ public:
     int currentState;
 };
 
-javaCompile::javaCompile(QObject *parent)
-    :BaseCompile(parent)
+kotlinCompile::kotlinCompile(QObject *parent)
+    : BaseCompile(parent)
     ,_p(new DataPrivate())
 {
 
 }
 
-javaCompile::~javaCompile()
+kotlinCompile::~kotlinCompile()
 {
     delete _p;
     _p = nullptr;
 }
 
-void javaCompile::startCompileFile(const QString &sourceFilePath)
+void kotlinCompile::startCompileFile(const QString &sourceFilePath)
 {
     _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
-                  DataDefine::JAVA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+                  DataDefine::KOTLIN_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
 
-    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_DIR,
-                                        sourceFilePath);;
+    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::KOTLIN_DIR,
+                                        sourceFilePath);//QFileInfo(sourceFilePath).absoluteDir().absolutePath();
 
     _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
@@ -64,9 +64,10 @@ void javaCompile::startCompileFile(const QString &sourceFilePath)
     }
     emit CompileOutput(QString("start Compile %1").arg(_p->sourceDir));
     generateClassFile();
+
 }
 
-void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
+void kotlinCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
     if(exitStatus == QProcess::NormalExit)
     {
@@ -121,35 +122,37 @@ void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         //删除临时目录
         IDEUtil::deleteDir(_p->tempDir);
     }
+
 }
 
-void javaCompile::onReadStandardOutput()
+void kotlinCompile::onReadStandardOutput()
 {
     emit CompileOutput(QString::fromLocal8Bit(getCompileProcess()->readAll()));
 }
 
-void javaCompile::onReadStandardError()
+void kotlinCompile::onReadStandardError()
 {
     emit CompileOutput(QString::fromLocal8Bit(getCompileProcess()->readAllStandardError()));
+
 }
 
-void javaCompile::generateClassFile()
+void kotlinCompile::generateClassFile()
 {
     _p->currentState = 0;
 
     QStringList fileList;
-    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<DataDefine::JAVA_SUFFIX);
+    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<DataDefine::KOTLIN_SUFFIX);
     //调用命令行编译
     QStringList params;
-    params<<"-classpath"<<QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_CORE_PATH
-          <<"-d"<<_p->tempDir<<"-encoding"<<"utf-8"<<fileList;
+    params<<"-cp"<<QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_CORE_PATH
+          <<fileList<<"-d"<<_p->tempDir;
 
-    qDebug()<<"java-compile "<<params;
+    qDebug()<<"kotlin-compile "<<params;
 
-    getCompileProcess()->start("javac",params);
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::KOTLIN_COMPILE_PATH,params);
 }
 
-void javaCompile::generateAssFile()
+void kotlinCompile::generateAssFile()
 {
     _p->currentState = 1;
 
@@ -172,14 +175,14 @@ void javaCompile::generateAssFile()
     getCompileProcess()->start("java",params);
 }
 
-void javaCompile::generateOutFile()
+void kotlinCompile::generateOutFile()
 {
     _p->currentState = 2;
     //将result.ass编译为.out文件
     getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_UVM_ASS_PATH,QStringList()<<_p->tempDir+"/result.ass");
 }
 
-void javaCompile::generateContractFile()
+void kotlinCompile::generateContractFile()
 {
     _p->currentState = 3;
     //将.out .meta.json文件编译为gpc文件
