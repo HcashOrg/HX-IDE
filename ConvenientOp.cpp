@@ -8,6 +8,8 @@
 #include <QTextCodec>
 #include <QCoreApplication>
 #include <QDir>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "popwidget/commondialog.h"
 #include "IDEUtil.h"
@@ -139,29 +141,97 @@ QString ConvenientOp::GetMetaJsonFile(const QString &filePath)
         resultDir = IDEUtil::getNextDir(topdir + DataDefine::KOTLIN_DIR,file);
     }
 
-    return resultDir+"/"+QFileInfo(resultDir).baseName()+".meta.json";
+    return resultDir+"/"+QFileInfo(resultDir).baseName()+"." + DataDefine::META_SUFFIX;
 }
 
-QString ConvenientOp::GetContractSuffixByDir(const QString &dirPath)
+QStringList ConvenientOp::GetContractSuffixByDir(const QString &dirPath)
 {
-    if(!QFileInfo(dirPath).isDir()) return "";
+    if(!QFileInfo(dirPath).isDir()) return QStringList();
 
     QString topDir = QCoreApplication::applicationDirPath() + "/" ;
     if(dirPath.startsWith(topDir + DataDefine::GLUA_DIR))
     {
-        return DataDefine::GLUA_SUFFIX;
+        return QStringList()<<DataDefine::GLUA_SUFFIX;
     }
     else if(dirPath.startsWith(topDir + DataDefine::JAVA_DIR))
     {
-        return DataDefine::JAVA_SUFFIX;
+        return QStringList()<<DataDefine::JAVA_SUFFIX;
     }
     else if(dirPath.startsWith(topDir + DataDefine::CSHARP_DIR))
     {
-        return DataDefine::CSHARP_SUFFIX;
+        return QStringList()<<DataDefine::CSHARP_SUFFIX;
     }
     else if(dirPath.startsWith(topDir + DataDefine::KOTLIN_DIR))
     {
-        return DataDefine::KOTLIN_SUFFIX;
+        return QStringList()<<DataDefine::KOTLIN_SUFFIX;
     }
-    return "";
+    else if(dirPath.startsWith(topDir + DataDefine::CONTRACT_DIR))
+    {
+        return QStringList()<<DataDefine::GLUA_SUFFIX
+                           <<DataDefine::JAVA_SUFFIX<<DataDefine::CSHARP_SUFFIX<<DataDefine::KOTLIN_SUFFIX;
+    }
+    return QStringList();
+}
+
+bool ConvenientOp::ImportContractFile(const QString &parentDir)
+{
+    QStringList suffixs = GetContractSuffixByDir(parentDir);
+    if(suffixs.isEmpty()) return false;
+
+    QString limits;
+    foreach(QString suffix,suffixs){
+        limits += "*." + suffix + " ";
+    }
+    limits.remove(limits.length()-1,1);
+
+    //源
+    QString file = QFileDialog::getOpenFileName(nullptr, tr("Choose your contract file."),"",limits);
+    if(!QFileInfo(file).exists()) return false;
+    //目标
+    QString dirPath = parentDir;
+    if(suffixs.count() > 1)
+    {
+        //根目录,先定位到是哪个合约类型
+        if(QFileInfo(file).suffix() == DataDefine::GLUA_SUFFIX){
+            dirPath += "/" + DataDefine::GLUA_DIR;
+        }
+        else if(QFileInfo(file).suffix() == DataDefine::JAVA_SUFFIX){
+            dirPath += "/" + DataDefine::JAVA_DIR;
+        }
+        else if(QFileInfo(file).suffix() == DataDefine::CSHARP_SUFFIX){
+            dirPath += "/" + DataDefine::CSHARP_DIR;
+        }
+        else if(QFileInfo(file).suffix() == DataDefine::KOTLIN_SUFFIX){
+            dirPath += "/" + DataDefine::KOTLIN_DIR;
+        }
+    }
+    QString top = QCoreApplication::applicationDirPath()+"/";
+    if(dirPath == top+DataDefine::GLUA_DIR || dirPath == top+DataDefine::JAVA_DIR ||
+       dirPath == top+DataDefine::CSHARP_DIR || dirPath == top+DataDefine::KOTLIN_DIR )
+    {
+        QString dir = dirPath + "/" +QFileInfo(file).baseName();
+        dirPath = IDEUtil::createDir(dir);
+    }
+
+    //开始复制
+    //正式导入文件
+    QString dstFilePath = dirPath + "/" + QFileInfo(file).fileName();
+    if(QFileInfo(dstFilePath).exists())
+    {
+        //提示存在,是否覆盖
+        if(QMessageBox::Yes == QMessageBox::question(nullptr,tr("question"),tr("already exists,yes to override!")))
+        {
+            QFile::remove(dstFilePath);
+            QFile::copy(file, dstFilePath);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        QFile::copy(file, dstFilePath);
+    }
+    return true;
 }

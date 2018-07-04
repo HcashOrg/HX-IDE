@@ -33,7 +33,6 @@ public:
     DataDefine::Language getCurrentLanguage()const;
     void setCurrentLanguage(DataDefine::Language);
 
-
 //后台
     BackStageBase *testManager()const;
     BackStageBase *formalManager()const;

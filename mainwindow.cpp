@@ -16,7 +16,6 @@
 #include "filewidget/FileWidget.h"
 #include "contentwidget/ContextWidget.h"
 
-
 #include "popwidget/NewFileDialog.h"
 #include "popwidget/consoledialog.h"
 
@@ -24,7 +23,9 @@
 #include "popwidget/registercontractdialog.h"
 #include "popwidget/TransferWidget.h"
 #include "popwidget/CallContractWidget.h"
+#include "popwidget/ConfigWidget.h"
 
+#include "ConvenientOp.h"
 
 class MainWindow::DataPrivate
 {
@@ -57,6 +58,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::InitWidget()
 {
+
+    //设置界面背景色
+    refreshStyle();
+    //标题
+    refreshTitle();
+    //翻译
+    refreshTranslator();
 //    startWidget();
     hide();
     if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
@@ -94,12 +102,6 @@ void MainWindow::startChain()
 void MainWindow::startWidget()
 {
     showMaximized();
-    //设置界面背景色
-    refreshStyle();
-    //标题
-    refreshTitle();
-    //翻译
-    refreshTranslator();
 
     //隐藏部分不需要的按钮
     ui->savaAsAction->setVisible(false);
@@ -119,7 +121,9 @@ void MainWindow::startWidget()
             std::bind(&OutputWidget::receiveCompileMessage,ui->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
     connect(ui->fileWidget,&FileWidget::fileClicked,ui->contentWidget,&ContextWidget::showFile);
     connect(ui->fileWidget,&FileWidget::compileFile,this,&MainWindow::on_compileAction_triggered);
-    //connect(ui->fileWidget,&FileWidget::deleteFile,this,&MainWindow::on);
+    connect(ui->fileWidget,&FileWidget::deleteFile,ui->contentWidget,&ContextWidget::CheckDeleteFile);
+    connect(ui->fileWidget,&FileWidget::newFile,this,&MainWindow::NewFile);
+
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
@@ -196,31 +200,42 @@ void MainWindow::showWaitingForSyncWidget()
 
 void MainWindow::on_newContractAction_glua_triggered()
 {//新建glua合约，只能放在glua文件夹下
-    NewFileDialog dia(QCoreApplication::applicationDirPath()+"/"+DataDefine::GLUA_DIR,QStringList()<<"."+DataDefine::GLUA_SUFFIX);
-    dia.exec();
-    NewFileCreated(dia.getNewFilePath());
+    NewFile(DataDefine::GLUA_SUFFIX);
 }
 
 void MainWindow::on_newContractAction_csharp_triggered()
 {//新建csharp合约，放在csharp目录下
-    NewFileDialog dia(QCoreApplication::applicationDirPath()+"/"+DataDefine::CSHARP_DIR,QStringList()<<"."+DataDefine::CSHARP_SUFFIX);
-    dia.exec();
-    NewFileCreated(dia.getNewFilePath());
+    NewFile(DataDefine::CSHARP_SUFFIX);
 }
 
 void MainWindow::on_newContractAtion_kotlin_triggered()
 {//新建kotlin合约，只能放在kotlin文件夹下
-    NewFileDialog dia(QCoreApplication::applicationDirPath()+"/"+DataDefine::KOTLIN_DIR,QStringList()<<"."+DataDefine::KOTLIN_SUFFIX);
-    dia.exec();
-    NewFileCreated(dia.getNewFilePath());
-
+    NewFile(DataDefine::KOTLIN_SUFFIX);
 }
 
 void MainWindow::on_newContractAction_java_triggered()
 {//新建java合约，放在java目录下
-    NewFileDialog dia(QCoreApplication::applicationDirPath()+"/"+DataDefine::JAVA_DIR,QStringList()<<"."+DataDefine::JAVA_SUFFIX);
-    dia.exec();
-    NewFileCreated(dia.getNewFilePath());
+    NewFile(DataDefine::JAVA_SUFFIX);
+}
+
+void MainWindow::on_importContractAction_glua_triggered()
+{
+    ConvenientOp::ImportContractFile(QCoreApplication::applicationDirPath()+"/"+DataDefine::GLUA_DIR);
+}
+
+void MainWindow::on_importContractAction_java_triggered()
+{
+    ConvenientOp::ImportContractFile(QCoreApplication::applicationDirPath()+"/"+DataDefine::JAVA_DIR);
+}
+
+void MainWindow::on_importContractAction_csharp_triggered()
+{
+    ConvenientOp::ImportContractFile(QCoreApplication::applicationDirPath()+"/"+DataDefine::CSHARP_DIR);
+}
+
+void MainWindow::on_importContractAction_kotlin_triggered()
+{
+    ConvenientOp::ImportContractFile(QCoreApplication::applicationDirPath()+"/"+DataDefine::KOTLIN_DIR);
 }
 
 void MainWindow::on_saveAction_triggered()
@@ -254,6 +269,16 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     {
         ui->contractWidget->RefreshTree();
     }
+}
+
+void MainWindow::on_configAction_triggered()
+{//配置界面
+    ConfigWidget config;
+    if(config.pop())
+    {
+        refreshTranslator();
+    }
+
 }
 
 void MainWindow::on_exitAction_triggered()
@@ -424,11 +449,49 @@ void MainWindow::ModifyActionState()
     ui->savaAsAction->setEnabled(ui->fileWidget->getCurrentFile().isEmpty());
 }
 
+void MainWindow::NewFile(const QString &suffix ,const QString &defaultPath)
+{
+    QString topDir;
+    QStringList suffixs;
+    if(suffix == DataDefine::GLUA_SUFFIX)
+    {
+        topDir = QCoreApplication::applicationDirPath()+"/"+DataDefine::GLUA_DIR;
+        suffixs<<"."+DataDefine::GLUA_SUFFIX;
+    }
+    else if(suffix == DataDefine::JAVA_SUFFIX)
+    {
+        topDir = QCoreApplication::applicationDirPath()+"/"+DataDefine::JAVA_DIR;
+        suffixs<<"."+DataDefine::JAVA_SUFFIX;
+
+    }
+    else if(suffix == DataDefine::CSHARP_SUFFIX)
+    {
+        topDir = QCoreApplication::applicationDirPath()+"/"+DataDefine::CSHARP_DIR;
+        suffixs<<"."+DataDefine::CSHARP_SUFFIX;
+
+    }
+    else if(suffix == DataDefine::KOTLIN_SUFFIX)
+    {
+        topDir = QCoreApplication::applicationDirPath()+"/"+DataDefine::KOTLIN_DIR;
+        suffixs<<"."+DataDefine::KOTLIN_SUFFIX;
+    }
+    NewFileDialog dia(topDir,suffixs,defaultPath);
+    dia.exec();
+    NewFileCreated(dia.getNewFilePath());
+}
+
+void MainWindow::ImportFile(const QString &dir)
+{
+
+}
+
 void MainWindow::NewFileCreated(const QString &filePath)
 {//新建了文件后，文件树刷新，点击文件树，
     if(filePath.isEmpty() || !QFileInfo(filePath).isFile()) return;
     ui->fileWidget->SelectFile(filePath);
     ui->contentWidget->showFile(filePath);
 }
+
+
 
 

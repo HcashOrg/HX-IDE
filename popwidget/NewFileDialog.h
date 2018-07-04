@@ -14,7 +14,7 @@ class NewFileDialog : public MoveableDialog
     Q_OBJECT
 
 public:
-    explicit NewFileDialog(const QString &topDir,const QStringList &docs,QWidget *parent = 0);
+    explicit NewFileDialog(const QString &topDir,const QStringList &docs,const QString &dirpath = "",QWidget *parent = 0);
     ~NewFileDialog();
 public:
     const QString &getNewFilePath()const;

@@ -189,6 +189,19 @@ QString IDEUtil::getNextDir(const QString &topDir, const QString &filePath)
 
 }
 
+QString IDEUtil::createDir(const QString &dirpath)
+{
+    //如果存在，则后面+1，直到不存在
+    QString path = dirpath;
+    while(QDir(path).exists())
+    {
+        path += "1";
+    }
+    QDir dir(path);
+    dir.mkpath(dir.path());
+    return path;
+}
+
 IDEUtil::IDEUtil()
 {
 

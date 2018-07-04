@@ -27,6 +27,14 @@ private slots:
 
     void on_newContractAtion_kotlin_triggered();
 
+    void on_importContractAction_glua_triggered();
+
+    void on_importContractAction_java_triggered();
+
+    void on_importContractAction_csharp_triggered();
+
+    void on_importContractAction_kotlin_triggered();
+
     void on_saveAction_triggered();
 
     void on_savaAsAction_triggered();
@@ -34,6 +42,8 @@ private slots:
     void on_saveAllAction_triggered();
 
     void on_closeAction_triggered();
+
+    void on_configAction_triggered();
 
     void on_exitAction_triggered();
 
@@ -89,6 +99,11 @@ private slots:
 
 
     void ModifyActionState();
+
+    void NewFile(const QString &suffix,const QString &defaultPath = "");//新建合约类型
+
+    void ImportFile(const QString &dir);
+
 private:
     void NewFileCreated(const QString &filePath);
 private:

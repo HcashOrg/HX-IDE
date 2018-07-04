@@ -15,6 +15,7 @@ signals:
     void compileFile();
     void deleteFile();
     void importContract();
+    void newFile(const QString &type,const QString &defalutPath = "");
 
 
 public slots:
@@ -22,11 +23,13 @@ public slots:
 
     void deleteFileSlots();
     void importContractSlots();
+    void newFileSlots();
     void retranslator();
 private slots:
     void IndexClicked(const QModelIndex &index);
 public:
     QString getCurrentFilePath()const;
+
 private:
     void InitWidget();
 protected:

@@ -94,14 +94,24 @@
     </property>
     <widget class="QMenu" name="menu_new">
      <property name="title">
-      <string>新建合约</string>
+      <string>新建文件</string>
      </property>
      <addaction name="newContractAction_glua"/>
      <addaction name="newContractAction_java"/>
      <addaction name="newContractAction_csharp"/>
      <addaction name="newContractAtion_kotlin"/>
     </widget>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>导入文件</string>
+     </property>
+     <addaction name="importContractAction_glua"/>
+     <addaction name="importContractAction_java"/>
+     <addaction name="importContractAction_csharp"/>
+     <addaction name="importContractAction_kotlin"/>
+    </widget>
     <addaction name="menu_new"/>
+    <addaction name="menu"/>
     <addaction name="separator"/>
     <addaction name="saveAction"/>
     <addaction name="savaAsAction"/>
@@ -109,6 +119,8 @@
     <addaction name="separator"/>
     <addaction name="closeAction"/>
     <addaction name="closeAllAction"/>
+    <addaction name="separator"/>
+    <addaction name="configAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
@@ -222,7 +234,7 @@
      <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
    </property>
    <property name="text">
-    <string>新建glua合约</string>
+    <string>新建uvlua合约</string>
    </property>
   </action>
   <action name="newContractAction_csharp">
@@ -232,7 +244,7 @@
      <disabledoff>:/pic/newContract_disable.png</disabledoff>:/pic/newContract_enable.png</iconset>
    </property>
    <property name="text">
-    <string>新建csharp合约</string>
+    <string>新建c#合约</string>
    </property>
   </action>
   <action name="newContractAction_java">
@@ -526,6 +538,55 @@
    </property>
    <property name="text">
     <string>逐步</string>
+   </property>
+  </action>
+  <action name="importContractAction_glua">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/import_enable.png</normaloff>
+     <disabledoff>:/pic/import_disable.png</disabledoff>:/pic/import_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入uvlua合约</string>
+   </property>
+  </action>
+  <action name="importContractAction_java">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/import_enable.png</normaloff>
+     <disabledoff>:/pic/import_disable.png</disabledoff>:/pic/import_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入java合约</string>
+   </property>
+  </action>
+  <action name="importContractAction_csharp">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/import_enable.png</normaloff>
+     <disabledoff>:/pic/import_disable.png</disabledoff>:/pic/import_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入c#合约</string>
+   </property>
+  </action>
+  <action name="importContractAction_kotlin">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/import_enable.png</normaloff>
+     <disabledoff>:/pic/import_disable.png</disabledoff>:/pic/import_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入kotlin合约</string>
+   </property>
+  </action>
+  <action name="configAction">
+   <property name="icon">
+    <iconset resource="chain.qrc">
+     <normaloff>:/pic/configure_enable.png</normaloff>:/pic/configure_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>配置</string>
    </property>
   </action>
  </widget>

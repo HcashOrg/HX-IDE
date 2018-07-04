@@ -252,39 +252,4 @@ void ChainIDE::getSystemEnvironmentPath()
     _p->appDataPath = env.valude("HOME") + idePath;
 #endif
     qDebug() << "appDataPath:" << _p->appDataPath;
-//    QStringList environment = QProcess::systemEnvironment();
-//    QString str;
-
-//    QProcessEnvironment::systemEnvironment().value("APPDATA");
-//#ifdef WIN32
-//    foreach(str,environment)
-//    {
-//        if (str.startsWith("APPDATA="))
-//        {
-//            _p->appDataPath = str.mid(8) + "\\ChainIDE";
-//            qDebug() << "appDataPath:" << _p->appDataPath;
-//            break;
-//        }
-//    }
-//#elif defined(TARGET_OS_MAC)
-//    foreach(str,environment)
-//    {
-//        if (str.startsWith("HOME="))
-//        {
-//            _p->appDataPath = str.mid(5) + "/Library/Application Support/HXChainIDE";
-//            qDebug() << "appDataPath:" << _p->appDataPath;
-//            break;
-//        }
-//    }
-//#else
-//    foreach(str,environment)
-//    {
-//        if (str.startsWith("HOME="))
-//        {
-//            _p->appDataPath = str.mid(5) + "/HXChainIDE";
-//            qDebug() << "appDataPath:" << _p->appDataPath;
-//            break;
-//        }
-//    }
-//#endif
 }

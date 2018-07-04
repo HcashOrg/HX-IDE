@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     ConvenientOp.cpp \
     contractwidget/ContractWidget.cpp \
     contractwidget/FunctionWidget.cpp \
-    compile/kotlinCompile.cpp
+    compile/kotlinCompile.cpp \
+    popwidget/ConfigWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -99,7 +100,8 @@ HEADERS  += MainWindow.h \
     ConvenientOp.h \
     contractwidget/ContractWidget.h \
     contractwidget/FunctionWidget.h \
-    compile/kotlinCompile.h
+    compile/kotlinCompile.h \
+    popwidget/ConfigWidget.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -118,7 +120,8 @@ FORMS    += MainWindow.ui \
     popwidget/TransferWidget.ui \
     popwidget/CallContractWidget.ui \
     contractwidget/ContractWidget.ui \
-    contractwidget/FunctionWidget.ui
+    contractwidget/FunctionWidget.ui \
+    popwidget/ConfigWidget.ui
 
 RESOURCES += \
     chain.qrc
@@ -129,5 +132,6 @@ TRANSLATIONS +=   IDE_Simplified_Chinese.ts  IDE_English.ts
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
 QMAKE_LFLAGS_RELEASE = $$QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO
 
-DISTFILES += \
-    ../te.glua.gpc
+win32{
+    RC_FILE += logo.rc
+}

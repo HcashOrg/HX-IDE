@@ -50,6 +50,8 @@ public slots:
     void saveAll();
 
     void onTextChanged();
+
+    void CheckDeleteFile();//文件被删除后使用，用于检查是否有被删除的文件正在被打开，是则关闭
 private slots:
     void currentTabChanged(int i);
     void tabCloseRquest(int i);

@@ -47,8 +47,6 @@ void FileView::selectFile(const QString &filePath)
 {
     QModelIndex index = _p->fileModel->index(filePath);
     if(!index.isValid()) return;
-//    selectionModel()->clearSelection();
-//    selectionModel()->select(index,QItemSelectionModel::Select);
     setCurrentIndex(index);
 }
 
@@ -57,38 +55,36 @@ void FileView::deleteFileSlots()
     QString filePath = _p->fileModel->filePath(this->currentIndex());
     if(QFileInfo(filePath).isFile())
     {
+        if(QFileInfo(filePath).suffix() == DataDefine::CONTRACT_SUFFIX)
+        {
+            QString meta = filePath;
+            meta.replace(QRegExp(DataDefine::CONTRACT_SUFFIX+"$"),DataDefine::META_SUFFIX);
+            QFile::remove(meta);
+        }
         QFile::remove(filePath);
     }
     else if(QFileInfo(filePath).isDir())
     {
         IDEUtil::deleteDir(filePath);
     }
+
+    emit deleteFile();
 }
 
 void FileView::importContractSlots()
 {
     QString dirpath = _p->fileModel->filePath(this->currentIndex());
-    QString suffix = ConvenientOp::GetContractSuffixByDir(dirpath);
-    if(suffix.isEmpty()) return;
 
-    QString file = QFileDialog::getOpenFileName(this, tr("Choose your contract file."),"",QString("(*.%1)").arg(suffix));
-    if(!QFileInfo(file).exists()) return;
-    //正式导入文件
-    QString dstFilePath = dirpath + "/" + QFileInfo(file).fileName();
-    if(QFileInfo(dstFilePath).exists())
-    {
-        //提示存在,是否覆盖
-        if(QMessageBox::Yes == QMessageBox::question(nullptr,tr("question"),tr("already exists,yes to override!")))
-        {
-            QFile::remove(dstFilePath);
-            QFile::copy(file, dstFilePath);
-        }
-    }
-    else
-    {
-        QFile::copy(file, dstFilePath);
-    }
+    ConvenientOp::ImportContractFile(dirpath);
+}
 
+void FileView::newFileSlots()
+{
+    QStringList suffixs = ConvenientOp::GetContractSuffixByDir(getCurrentFilePath());
+    if(!suffixs.empty())
+    {
+        emit newFile(suffixs.front(),getCurrentFilePath());
+    }
 }
 
 void FileView::IndexClicked(const QModelIndex &index)
@@ -143,7 +139,7 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
 
     if(ind.parent() == this->rootIndex())
     {
-        menu = new ContextMenu(ContextMenu::Import,this);
+        menu = new ContextMenu(ContextMenu::Import | ContextMenu::NewFile,this);
     }
     else
     {
@@ -163,7 +159,7 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
         }
         else if(info.isDir())
         {
-            menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Import,this);
+            menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Import | ContextMenu::NewFile,this);
         }
     }
 
@@ -171,8 +167,11 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
     if(menu)
     {
         connect(menu,&ContextMenu::compileTriggered,this,&FileView::compileFile);
+
         connect(menu,&ContextMenu::deleteTriggered,this,&FileView::deleteFileSlots);
+
         connect(menu,&ContextMenu::importTriggered,this,&FileView::importContractSlots);
+        connect(menu,&ContextMenu::newFileTriggered,this,&FileView::newFileSlots);
         menu->exec(QCursor::pos());
     }
 

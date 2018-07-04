@@ -24,7 +24,11 @@ public:
     static QString GetMetaJsonFile(const QString &filePath);
 
     //获取文件夹路径对应合约类型
-    static QString GetContractSuffixByDir(const QString &dirPath);
+    static QStringList GetContractSuffixByDir(const QString &dirPath);
+
+    //导入合约源码
+    static bool ImportContractFile(const QString &parentDir);
+
 
 };
 

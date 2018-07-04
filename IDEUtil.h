@@ -22,6 +22,10 @@ public:
 
     //取第一参数目录地下一集目录
     static QString getNextDir(const QString &topDir,const QString &filePath);
+
+    //新建目录，如果存在，后面加1
+    static QString createDir(const QString &dirpath);
+
 private:
     IDEUtil();
 };

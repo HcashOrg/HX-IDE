@@ -16,12 +16,14 @@ public:
     ~FileWidget();
 public:
     QString getCurrentFile()const;
+
 signals:
     void fileClicked(QString filepath);
 
     void compileFile();
     void deleteFile();
     void importContract();
+    void newFile(const QString &suffixType,const QString &defalutPath = "");
 public slots:
     void SelectFile(const QString &filePath);
 

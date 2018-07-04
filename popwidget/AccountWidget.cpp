@@ -166,7 +166,7 @@ void AccountWidget::QuerySlots()
     {//说明不是上次搜索的结果，取第一个
         ui->treeWidget->clearSelection();
         _p->findItems = findItems;
-        _p->findItems.front()->setSelected(true);
+        ui->treeWidget->setCurrentItem(_p->findItems.front());
     }
     else
     {//说明是上次搜索的结果
@@ -181,12 +181,12 @@ void AccountWidget::selectNext(const QList<QTreeWidgetItem *> &listItem)
     if(-1 == index || listItem.count() - 1 == index)
     {
         ui->treeWidget->clearSelection();
-        listItem.front()->setSelected(true);
+        ui->treeWidget->setCurrentItem(listItem.front());
     }
     else if(listItem.at(index + 1))
     {
         ui->treeWidget->clearSelection();
-        listItem.at(index+1)->setSelected(true);
+        ui->treeWidget->setCurrentItem(listItem.at(index+1));
     }
 }
 

@@ -85,5 +85,6 @@
         <file>template/initTemplate.kt</file>
         <file>IDE_English.qm</file>
         <file>IDE_Simplified_Chinese.qm</file>
+        <file>pic/configure_enable.png</file>
     </qresource>
 </RCC>

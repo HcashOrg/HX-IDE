@@ -25,6 +25,7 @@ namespace DataDefine
     static const QColor GRAY_COLOR = Qt::gray;
 
     //合约文件后缀
+    static const QString META_SUFFIX = "meta.json";
     static const QString CONTRACT_SUFFIX = "gpc";
     static const QString GLUA_SUFFIX = "uvlua";
     static const QString JAVA_SUFFIX = "java";

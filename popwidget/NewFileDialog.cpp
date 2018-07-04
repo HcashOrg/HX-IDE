@@ -12,9 +12,10 @@
 class NewFileDialog::DataPrivate
 {
 public:
-    DataPrivate(const QString &topDir,const QStringList &docs)
+    DataPrivate(const QString &topDir,const QStringList &docs,const QString &dirpath)
         :rootDir(topDir)
         ,types(docs)
+        ,defaultPath(dirpath)
     {
         IDEUtil::GetAllFileFolder(topDir,dirList);
     }
@@ -24,12 +25,14 @@ public:
     QStringList types;
 
     QString newFilePath;
+
+    QString defaultPath;
 };
 
-NewFileDialog::NewFileDialog(const QString &topDir,const QStringList &docs,QWidget *parent) :
+NewFileDialog::NewFileDialog(const QString &topDir,const QStringList &docs,const QString &dirpath,QWidget *parent) :
     MoveableDialog(parent),
     ui(new Ui::NewFileDialog),
-    _p(new DataPrivate(topDir,docs))
+    _p(new DataPrivate(topDir,docs,dirpath))
 {
     ui->setupUi(this);
     InitWidget();
@@ -76,6 +79,7 @@ void NewFileDialog::ConfirmSlot()
          ui->lineEdit->setText(ui->lineEdit->text()+_p->types.front());
      }
      _p->newFilePath = ui->comboBox->currentText() + "/"+ui->lineEdit->text();
+
      //判断目录是不是根目录，如果是，则新建一个同名文件夹
      QString curtex = ui->comboBox->currentText();
      if(curtex.endsWith("/") || curtex.endsWith("\\"))
@@ -85,7 +89,8 @@ void NewFileDialog::ConfirmSlot()
      QFileInfo fi(curtex);
      if(fi.absoluteFilePath() == _p->rootDir)
      {
-         _p->newFilePath = _p->rootDir + "/" + QFileInfo(_p->newFilePath).baseName() + "/" + ui->lineEdit->text();
+         QString dirPath = IDEUtil::createDir(_p->rootDir + "/" + QFileInfo(_p->newFilePath).baseName());
+         _p->newFilePath = dirPath + "/" + ui->lineEdit->text();
      }
 
 
@@ -110,6 +115,10 @@ void NewFileDialog::InitWidget()
     if(ui->comboBox->count() > 0)
     {
         ui->comboBox->setCurrentIndex(0);
+        if(!_p->defaultPath.isEmpty())
+        {
+            ui->comboBox->setCurrentText(_p->defaultPath);
+        }
     }
 
 
