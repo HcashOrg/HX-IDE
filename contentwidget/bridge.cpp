@@ -23,3 +23,15 @@ void bridge::onTextChanged()
 {
     emit textChanged();
 }
+
+void bridge::onMarkChange(int linenumber,bool isadd)
+{
+    emit markChanged(linenumber,isadd);
+    qDebug()<<"marker"<<linenumber<<isadd;
+}
+
+void bridge::gutterRightClicked()
+{
+    emit gutterRightClickedSignal();
+    qDebug()<<"right";
+}

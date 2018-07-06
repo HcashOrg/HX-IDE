@@ -6,6 +6,7 @@
 #include <QDebug>
 
 #include "aceeditor.h"
+#include "codeeditor.h"
 #include "bridge.h"
 
 static const QString EMPTYSTRING = "";
@@ -37,25 +38,23 @@ ContextWidget::~ContextWidget()
 
 void ContextWidget::undo()
 {
-    if(AceEditor *editor = getCurrentEditor())
+    if(Editor *editor = getCurrentEditor())
     {
         editor->undo();
-        contextUpdate();
     }
 }
 
 void ContextWidget::redo()
 {
-    if(AceEditor *editor = getCurrentEditor())
+    if(Editor *editor = getCurrentEditor())
     {
         editor->redo();
-        contextUpdate();
     }
 }
 
 bool ContextWidget::isUndoAvailable()
 {
-    if(AceEditor *editor = getCurrentEditor())
+    if(Editor *editor = getCurrentEditor())
     {
         return editor->isUndoAvailable();
     }
@@ -64,7 +63,7 @@ bool ContextWidget::isUndoAvailable()
 
 bool ContextWidget::isRedoAvailable()
 {
-    if(AceEditor *editor = getCurrentEditor())
+    if(Editor *editor = getCurrentEditor())
     {
         return editor->isRedoAvailable();
     }
@@ -77,7 +76,7 @@ bool ContextWidget::hasFileUnsaved()
     bool hasUnsaved = false;
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
-        if( AceEditor* w = getEditor(i))
+        if( Editor* w = getEditor(i))
         {
             if( !w->isSaved())
             {
@@ -92,7 +91,7 @@ bool ContextWidget::hasFileUnsaved()
 
 bool ContextWidget::currentFileUnsaved()
 {
-    if(AceEditor *editor = getCurrentEditor())
+    if(Editor *editor = getCurrentEditor())
     {
         return !editor->isSaved();
     }
@@ -104,11 +103,19 @@ const QString &ContextWidget::getCurrentFilePath() const
     return getPathFromNumber(ui->tabWidget->currentIndex());
 }
 
+void ContextWidget::TabBreakPoint()
+{
+    if(Editor *editor = getCurrentEditor())
+    {
+        editor->TabBreakPoint();
+    }
+}
+
 void ContextWidget::showFile(QString path)
 {
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
-        if(AceEditor* w = dynamic_cast<AceEditor*>(ui->tabWidget->widget(i)))
+        if(Editor* w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
         {
             if(w->getFilePath() == path)
             {
@@ -119,18 +126,18 @@ void ContextWidget::showFile(QString path)
 
     }
     //如果没找到，新建一个
-    AceEditor* w = new AceEditor(path, true );
+    Editor* w = new /*AceEditor*/codeeditor(path );
 
 
     ui->tabWidget->addTab(w,QIcon(":/pic/saved.png"),QFileInfo(path).fileName());
 
     ui->tabWidget->setCurrentWidget(w);
+    connect(w,&Editor::stateChanged,this,&ContextWidget::contextUpdate);
 }
 
 bool ContextWidget::closeFile(QString path)
 {
     closeFile(getTabNumber(path));
-    contextUpdate();
     return true;
 }
 
@@ -143,15 +150,12 @@ bool ContextWidget::closeAll()
             return false;
         }
     }
-
-    contextUpdate();
     return true;
 }
 
 void ContextWidget::saveFile()
 {
     saveFile(ui->tabWidget->currentIndex());
-    contextUpdate();
 }
 
 void ContextWidget::saveFile(QString path)
@@ -160,7 +164,6 @@ void ContextWidget::saveFile(QString path)
     if(-1 != i)
     {
         saveFile(i);
-        contextUpdate();
     }
 }
 
@@ -170,27 +173,16 @@ void ContextWidget::saveAll()
     {
         saveFile(i);
     }
-    contextUpdate();
 }
 
 void ContextWidget::onTextChanged()
 {
-    //qDebug() << "ContentWidget::onTextChanged" ;//<< isUndoAvailable();
+    qDebug() << "ContentWidget::onTextChanged" ;//<< isUndoAvailable();
 
-    AceEditor *w = getCurrentEditor();
+    Editor *w = getCurrentEditor();
     if(!w) return;
-
-    if( isUndoAvailable())      // 如果可撤销  则未保存
-    {
-        w->setSaved(false);
-    }
-    else
-    {
-        // 如果不可撤销 则已保存
-        w->setSaved(true);
-    }
-
-    contextUpdate();
+    w->setSaved(false);
+    w->checkState();
 }
 
 void ContextWidget::CheckDeleteFile()
@@ -206,7 +198,6 @@ void ContextWidget::CheckDeleteFile()
     }
 
     contextUpdate();
-
 }
 
 void ContextWidget::currentTabChanged(int i)
@@ -223,7 +214,7 @@ void ContextWidget::tabCloseRquest(int i)
 
 bool ContextWidget::saveFile(int i)
 {
-    if(AceEditor * w = getEditor(i))
+    if(Editor * w = getEditor(i))
     {
         if(!w->saveFile())
         {
@@ -238,7 +229,7 @@ bool ContextWidget::saveFile(int i)
 bool ContextWidget::closeFile(int i)
 {
     // 如果已经打开过，则close 并从map中删除
-    AceEditor* w = getEditor(i);
+    Editor* w = getEditor(i);
     if(!w) return false;
 
     if( !w->isSaved())
@@ -260,6 +251,7 @@ bool ContextWidget::closeFile(int i)
 
     //关闭当前页面
     ui->tabWidget->removeTab(i);
+    contextUpdate();
     return true;
 }
 
@@ -267,7 +259,7 @@ int ContextWidget::getTabNumber(const QString &path) const
 {
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
-        if(AceEditor *w = dynamic_cast<AceEditor*>(ui->tabWidget->widget(i)))
+        if(Editor *w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
         {
             if(path == w->getFilePath())
             {
@@ -280,37 +272,37 @@ int ContextWidget::getTabNumber(const QString &path) const
 
 const QString &ContextWidget::getPathFromNumber(int i) const
 {
-    if(AceEditor *w = dynamic_cast<AceEditor*>(ui->tabWidget->widget(i)))
+    if(Editor *w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
     {
         return w->getFilePath();
     }
     return EMPTYSTRING;
 }
 
-AceEditor *ContextWidget::getCurrentEditor() const
+Editor *ContextWidget::getCurrentEditor() const
 {
     if(ui->tabWidget->currentWidget())
     {
-        return dynamic_cast<AceEditor*>(ui->tabWidget->currentWidget());
+        return dynamic_cast<Editor*>(ui->tabWidget->currentWidget());
     }
     return nullptr;
 }
 
-AceEditor *ContextWidget::getEditor(int i) const
+Editor *ContextWidget::getEditor(int i) const
 {
     if(ui->tabWidget->widget(i))
     {
-        return dynamic_cast<AceEditor*>(ui->tabWidget->widget(i));
+        return dynamic_cast<Editor*>(ui->tabWidget->widget(i));
     }
     return nullptr;
 
 }
 
-AceEditor *ContextWidget::getEditor(const QString &path) const
+Editor *ContextWidget::getEditor(const QString &path) const
 {
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
-        if(AceEditor *w = getEditor(i))
+        if(Editor *w = getEditor(i))
         {
             if(w->getFilePath() == path)
             {
@@ -325,7 +317,7 @@ void ContextWidget::contextUpdate()
 {
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
-        if(AceEditor *w = getEditor(i))
+        if(Editor *w = getEditor(i))
         {
             ui->tabWidget->setTabIcon(i,w->isSaved()?QIcon(":/pic/saved.png"):QIcon(":/pic/unsaved.png"));
         }

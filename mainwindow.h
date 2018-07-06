@@ -75,6 +75,10 @@ private slots:
     void on_stopAction_triggered();
 
     void on_stepAction_triggered();
+
+    void on_TabBreaPointAction_triggered();
+
+    void on_DeleteAllBreakpointAction_triggered();
     //工具菜单
     void on_changeChainAction_triggered();
 
@@ -103,6 +107,7 @@ private slots:
     void NewFile(const QString &suffix,const QString &defaultPath = "");//新建合约类型
 
     void ImportFile(const QString &dir);
+
 
 private:
     void NewFileCreated(const QString &filePath);

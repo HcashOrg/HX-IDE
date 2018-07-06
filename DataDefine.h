@@ -32,10 +32,6 @@ namespace DataDefine
     static const QString CSHARP_SUFFIX = "cs";
     static const QString KOTLIN_SUFFIX = "kt";
 
-    //编辑器后缀转换
-    static const std::map<QString,QString> SUFFIX_MAP= {{CONTRACT_SUFFIX,"text"},{GLUA_SUFFIX,"glua"},
-                                                        {JAVA_SUFFIX,"java"},{CSHARP_SUFFIX,"csharp"},{KOTLIN_SUFFIX,"kotlin"}};
-
     //后台程序路径
     static const QString UBCD_NODE_EXE = "backstage/ubcd.exe";
     static const QString UBCD_CLIENT_EXE = "backstage/ubc-cli.exe";

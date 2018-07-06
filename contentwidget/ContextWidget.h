@@ -7,7 +7,7 @@ namespace Ui {
 class ContextWidget;
 }
 
-class AceEditor;
+class Editor;
 class ContextWidget : public QWidget
 {
     Q_OBJECT
@@ -30,6 +30,7 @@ public:
 
     const QString &getCurrentFilePath()const;
 
+    void TabBreakPoint();
 signals:
     void textChanged();
 
@@ -61,9 +62,9 @@ private:
 
     int getTabNumber(const QString &path)const;
     const QString &getPathFromNumber(int i)const;
-    AceEditor *getCurrentEditor()const;
-    AceEditor *getEditor(int i)const;
-    AceEditor *getEditor(const QString &path)const;
+    Editor *getCurrentEditor()const;
+    Editor *getEditor(int i)const;
+    Editor *getEditor(const QString &path)const;
 
     void contextUpdate();
 private:

@@ -63,6 +63,7 @@ void TransferWidget::jsonDataUpdated(const QString &id, const QString &data)
     if("transfer-to" == id)
     {
         ConvenientOp::ShowSyncCommonDialog(data);
+        close();
     }
 }
 

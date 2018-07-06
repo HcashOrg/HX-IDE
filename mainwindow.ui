@@ -171,6 +171,9 @@
     <addaction name="debugAction"/>
     <addaction name="stepAction"/>
     <addaction name="stopAction"/>
+    <addaction name="separator"/>
+    <addaction name="TabBreaPointAction"/>
+    <addaction name="DeleteAllBreakpointAction"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -587,6 +590,22 @@
    </property>
    <property name="text">
     <string>配置</string>
+   </property>
+  </action>
+  <action name="TabBreaPointAction">
+   <property name="text">
+    <string>切换断点</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="DeleteAllBreakpointAction">
+   <property name="text">
+    <string>删除所有断点</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F9</string>
    </property>
   </action>
  </widget>

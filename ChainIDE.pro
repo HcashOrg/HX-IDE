@@ -56,7 +56,9 @@ SOURCES += main.cpp\
     contractwidget/ContractWidget.cpp \
     contractwidget/FunctionWidget.cpp \
     compile/kotlinCompile.cpp \
-    popwidget/ConfigWidget.cpp
+    popwidget/ConfigWidget.cpp \
+    contentwidget/Editor.cpp \
+    contentwidget/codeeditor.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -101,7 +103,9 @@ HEADERS  += MainWindow.h \
     contractwidget/ContractWidget.h \
     contractwidget/FunctionWidget.h \
     compile/kotlinCompile.h \
-    popwidget/ConfigWidget.h
+    popwidget/ConfigWidget.h \
+    contentwidget/Editor.h \
+    contentwidget/codeeditor.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -121,7 +125,9 @@ FORMS    += MainWindow.ui \
     popwidget/CallContractWidget.ui \
     contractwidget/ContractWidget.ui \
     contractwidget/FunctionWidget.ui \
-    popwidget/ConfigWidget.ui
+    popwidget/ConfigWidget.ui \
+    contentwidget/Editor.ui \
+    contentwidget/codeeditor.ui
 
 RESOURCES += \
     chain.qrc

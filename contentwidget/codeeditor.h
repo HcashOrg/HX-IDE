@@ -1,21 +1,20 @@
-﻿#ifndef ACEEDITOR_H
-#define ACEEDITOR_H
+#ifndef CODEEDITOR_H
+#define CODEEDITOR_H
 
-#include <QWidget>
 #include "Editor.h"
 
 namespace Ui {
-class AceEditor;
+class codeeditor;
 }
-class QWebEnginePage;
 
-class AceEditor : public Editor
+class codeeditor : public Editor
 {
     Q_OBJECT
 
 public:
-    explicit AceEditor( const QString &path, QWidget *parent = 0);
-    ~AceEditor();
+    explicit codeeditor(const QString &path,QWidget *parent = 0);
+    ~codeeditor();
+
 public:
     void checkState();
 
@@ -39,10 +38,8 @@ public slots:
     void paste();
     void deleteText();
     void selectAll();
-
 private:
-    Ui::AceEditor *ui;
-
+    Ui::codeeditor *ui;
 };
 
-#endif // ACEEDITOR_H
+#endif // CODEEDITOR_H

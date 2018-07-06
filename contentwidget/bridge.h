@@ -17,11 +17,14 @@ public:
 
 signals:
     void textChanged();
-
+    void markChanged(int ,bool);
+    void gutterRightClickedSignal();
 public slots:
     void onTextChanged();
 
+    void onMarkChange(int linenumber,bool isadd);
 
+    void gutterRightClicked();
 private:
     bridge();
 
