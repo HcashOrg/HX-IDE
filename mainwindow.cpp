@@ -94,8 +94,11 @@ void MainWindow::startChain()
     //启动client ， node
     connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-    ChainIDE::getInstance()->testManager()->startExe();
-    //ChainIDE::getInstance()->formalManager()->startExe();
+    QTimer::singleShot(10,[](){
+        ChainIDE::getInstance()->testManager()->startExe();
+        //ChainIDE::getInstance()->formalManager()->startExe();
+    });
+
 
 }
 
@@ -168,6 +171,7 @@ void MainWindow::refreshTranslator()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    hide();
     ChainIDE::getInstance()->testManager()->ReadyClose();
     ChainIDE::getInstance()->formalManager()->ReadyClose();
     QWidget::closeEvent(event);

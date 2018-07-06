@@ -185,6 +185,13 @@ void ContextWidget::onTextChanged()
     w->checkState();
 }
 
+void ContextWidget::gutterRightClickedSignal()
+{
+    Editor *w = getCurrentEditor();
+    if(!w) return;
+
+}
+
 void ContextWidget::CheckDeleteFile()
 {
     //获取所有当前打开的文件
@@ -332,5 +339,6 @@ void ContextWidget::InitWidget()
     connect(ui->tabWidget,&QTabWidget::tabCloseRequested,this,&ContextWidget::tabCloseRquest);
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&ContextWidget::currentTabChanged);
     connect((QObject *)bridge::instance(), SIGNAL(textChanged()), this, SLOT(onTextChanged()), Qt::QueuedConnection);
+    connect((QObject *)bridge::instance(), SIGNAL(gutterRightClickedSignal()), this, SLOT(gutterRightClickedSignal()), Qt::QueuedConnection);
 }
 

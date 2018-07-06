@@ -77,7 +77,6 @@ void Editor::setEditable(bool is)
 
 void Editor::setSaved(bool isSaved)
 {
-    qDebug()<<"save"<<getFilePath() << isSaved;
     _p->hasSaved = isSaved;
 }
 
@@ -151,7 +150,6 @@ void Editor::InitEditor()
 
 void Editor::openFile(const QString &filePath)
 {
-    qDebug()<<"openFile";
     QFile file(filePath);
     if(filePath.endsWith(".gpc") && file.open(QIODevice::ReadOnly))
     {
@@ -193,6 +191,9 @@ bool Editor::eventFilter(QObject *watched, QEvent *e)
     {
         if(e->type() == QEvent::ContextMenu)
         {
+            //点击行数栏不弹出
+            if(this->mapFromGlobal(QCursor::pos()).x() < 50) return true;
+
             QString selectedText = getSelectedText();
 
             EditorContextMenu* menu = NULL;

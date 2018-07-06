@@ -10,7 +10,7 @@
 #include <QMimeData>
 #include "DataDefine.h"
 
-static const std::map<QString,QString> SUFFIX_MAP= {{DataDefine::CONTRACT_SUFFIX,"python"},{DataDefine::GLUA_SUFFIX,"lua"},
+static const std::map<QString,QString> SUFFIX_MAP= {{DataDefine::CONTRACT_SUFFIX,"lua"},{DataDefine::GLUA_SUFFIX,"lua"},
                                                     {DataDefine::JAVA_SUFFIX,"java"},{DataDefine::CSHARP_SUFFIX,"csharp"},
                                                     {DataDefine::KOTLIN_SUFFIX,"kotlin"}};
 
