@@ -43,7 +43,7 @@ void CallContractWidget::jsonDataUpdated(const QString &id, const QString &data)
 
 void CallContractWidget::CallContract()
 {
-    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toUbcdHttpJsonFormat("callcontract",QJsonArray()<<
+    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("callcontract",QJsonArray()<<
                                      ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
                                      <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
 }
@@ -52,7 +52,7 @@ void CallContractWidget::contractAddressChanged()
 {
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
-                                     IDEUtil::toUbcdHttpJsonFormat("getcontractinfo",QJsonArray()<<ui->contractAddress->currentText()));
+                                     IDEUtil::toJsonFormat("getcontractinfo",QJsonArray()<<ui->contractAddress->currentText()));
 }
 
 void CallContractWidget::InitWidget()

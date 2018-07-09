@@ -116,7 +116,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
         }
     }
 
-    ChainIDE::getInstance()->postRPC( "console-" + str, IDEUtil::toUbcdHttpJsonFormat( command, array )/*str*/);
+    ChainIDE::getInstance()->postRPC( "console-" + str, IDEUtil::toJsonFormat( command, array )/*str*/);
 
     ui->consoleLineEdit->clear();
 

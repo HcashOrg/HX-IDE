@@ -33,7 +33,7 @@ void FunctionWidget::RefreshContractAddr(const QString &addr)
     ui->tabWidget->setCurrentIndex(0);
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("function-contractinfo_"+addr,
-                                     IDEUtil::toUbcdHttpJsonFormat("getcontractinfo",QJsonArray()<<addr));
+                                     IDEUtil::toJsonFormat("getcontractinfo",QJsonArray()<<addr));
 }
 
 void FunctionWidget::jsonDataUpdated(const QString &id, const QString &data)

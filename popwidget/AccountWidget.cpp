@@ -50,7 +50,7 @@ void AccountWidget::on_newAccount_clicked()
     QString name = dia.pop();
     if(!name.isEmpty())
     {
-        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toUbcdHttpJsonFormat("getnewaddress",QJsonArray()<<name));
+        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toJsonFormat("getnewaddress",QJsonArray()<<name));
     }
 }
 

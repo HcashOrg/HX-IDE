@@ -22,7 +22,6 @@
         <file>pic/divLine.png</file>
         <file>pic/downArrow.png</file>
         <file>pic/downArrow_on.png</file>
-        <file>pic/exitSandboxIcon.png</file>
         <file>pic/export_disable.png</file>
         <file>pic/export_enable.png</file>
         <file>pic/help_disable.png</file>
@@ -86,5 +85,7 @@
         <file>IDE_English.qm</file>
         <file>IDE_Simplified_Chinese.qm</file>
         <file>pic/configure_enable.png</file>
+        <file>pic/exitSandbox_disable.png</file>
+        <file>pic/exitSandbox_enable.png</file>
     </qresource>
 </RCC>

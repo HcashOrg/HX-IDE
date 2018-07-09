@@ -46,10 +46,10 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
         if(!data.isEmpty() && !data.startsWith("Error"))
         {
             //获取合约地址
-            ChainIDE::getInstance()->postRPC("register-getcreatecontractaddress",IDEUtil::toUbcdHttpJsonFormat("getcreatecontractaddress",
+            ChainIDE::getInstance()->postRPC("register-getcreatecontractaddress",IDEUtil::toJsonFormat("getcreatecontractaddress",
                                               QJsonArray()<<data));
 
-            ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toUbcdHttpJsonFormat("sendrawtransaction",
+            ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toJsonFormat("sendrawtransaction",
                                              QJsonArray()<<data));
 
 
@@ -83,7 +83,7 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
             ConvenientOp::AddContract(ui->address->currentText(), contractAddress);
 
             //产一个块来确认
-            ChainIDE::getInstance()->postRPC("generate",IDEUtil::toUbcdHttpJsonFormat("generate",QJsonArray()<<1));
+            ChainIDE::getInstance()->postRPC("generate",IDEUtil::toJsonFormat("generate",QJsonArray()<<1));
         }
         ConvenientOp::ShowSyncCommonDialog(data);
         close();
@@ -105,7 +105,7 @@ void RegisterContractDialog::on_okBtn_clicked()
     //获取注册地址
     QString registerAddr = ui->address->currentText();
 
-    ChainIDE::getInstance()->postRPC("register-createcontract",IDEUtil::toUbcdHttpJsonFormat("createcontract",
+    ChainIDE::getInstance()->postRPC("register-createcontract",IDEUtil::toJsonFormat("createcontract",
                                      QJsonArray()<<registerAddr<<contractHex<<ui->gaslimit->value()<<
                                      ui->gasprice->value()<<QString::number(ui->fee->value())));
 

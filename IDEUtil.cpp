@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QDebug>
 
-QString IDEUtil::toJsonFormat(QString instruction, QJsonArray parameters)
+QString IDEUtil::toJsonFormat(QString instruction, const QJsonArray & parameters)
 {
     QJsonObject object;
     object.insert("id", 32800);
@@ -24,16 +24,6 @@ QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap 
     object.insert("method",instruction);
     object.insert("params",QJsonObject::fromVariantMap(parameters));
     return QJsonDocument(object).toJson();
-}
-
-QString IDEUtil::toUbcdHttpJsonFormat(const QString &instruction, const QJsonArray &parameters)
-{
-    QJsonObject object;
-    object.insert("id",1);
-    object.insert("method",instruction);
-    object.insert("params",parameters);
-    return QJsonDocument(object).toJson();
-
 }
 
 void IDEUtil::TemplateFile(const QString &filePath)

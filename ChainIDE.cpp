@@ -26,8 +26,8 @@ public:
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
         ,chainType(1)
         ,sanboxMode(false)
-        ,testManager(new UbtcBackStage(1))
-        ,formalManager(new UbtcBackStage(2))
+        ,testManager(new LinkBackStage(1))
+        ,formalManager(new LinkBackStage(2))
         ,compileManager(new CompileManager())
         ,dataManager(new DataManager())
     {

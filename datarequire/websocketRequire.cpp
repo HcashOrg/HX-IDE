@@ -55,9 +55,12 @@ void websocketRequire::onTextFrameReceived(QString _message, bool _isLastFrame)
 
     if(_isLastFrame)
     {
+
         QString result = _p->m_buff.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
+        qDebug()<<_p->m_buff;
         result = result.left( result.size() - 1);
 
+        qDebug()<<result;
         emit receiveData(result);
         _p->m_buff.clear();
     }

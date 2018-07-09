@@ -45,7 +45,7 @@ void DataManager::queryAccount()
     std::lock_guard<std::mutex> guard(_p->dataMutex);
     _p->accountData->clear();
 
-    ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toUbcdHttpJsonFormat("listaccounts",QJsonArray()));
+    ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("listaccounts",QJsonArray()));
 }
 
 const DataDefine::AccountDataPtr &DataManager::getAccount() const
@@ -55,7 +55,7 @@ const DataDefine::AccountDataPtr &DataManager::getAccount() const
 
 void DataManager::checkAddress(const QString &addr)
 {
-    ChainIDE::getInstance()->postRPC("data-checkaddress",IDEUtil::toUbcdHttpJsonFormat("validateaddress",QJsonArray()<<addr));
+    ChainIDE::getInstance()->postRPC("data-checkaddress",IDEUtil::toJsonFormat("validateaddress",QJsonArray()<<addr));
 }
 
 void DataManager::InitManager()
@@ -72,7 +72,7 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
             //查询每一个账户对应的地址
             std::for_each(_p->accountData->getAccount().begin(),_p->accountData->getAccount().end(),[](const AccountInfoPtr &account){
                 ChainIDE::getInstance()->postRPC(QString("query-getaddressesbyaccount_%1").arg(account->getAccountName()),
-                                                 IDEUtil::toUbcdHttpJsonFormat("getaddressesbyaccount",
+                                                 IDEUtil::toJsonFormat("getaddressesbyaccount",
                                                QJsonArray()<<account->getAccountName()));
             });
             ChainIDE::getInstance()->postRPC("query-getaddresses-finish","finishquery");
@@ -87,7 +87,7 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
     else if("query-getaddresses-finish" == id)
     {
         //查询每个地址对应的金额
-        ChainIDE::getInstance()->postRPC("listunspent",IDEUtil::toUbcdHttpJsonFormat("listunspent",QJsonArray()));
+        ChainIDE::getInstance()->postRPC("listunspent",IDEUtil::toJsonFormat("listunspent",QJsonArray()));
     }
     else if("listunspent" == id)
     {

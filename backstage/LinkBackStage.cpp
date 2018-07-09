@@ -26,7 +26,7 @@ public:
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testLinkDataPath" : "/formalLinkDataPath";
+        dataPath = 1 == type ? "/testlink" : "/formallink";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
@@ -83,6 +83,14 @@ bool LinkBackStage::exeRunning()
 QProcess *LinkBackStage::getProcess() const
 {
     return _p->clientProc;
+}
+
+void LinkBackStage::ReadyClose()
+{
+    disconnect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
+    disconnect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
+    _p->clientProc->close();
+    _p->nodeProc->close();
 }
 
 void LinkBackStage::onNodeExeStateChanged()

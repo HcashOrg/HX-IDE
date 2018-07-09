@@ -131,6 +131,7 @@ void MainWindow::startWidget()
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    connect(ui->fileWidget,&FileWidget::fileClicked,this,&MainWindow::ModifyActionState);
 
     ModifyActionState();
 
@@ -449,10 +450,11 @@ void MainWindow::ModifyActionState()
     ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
     ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
 
-    if(ui->fileWidget->getCurrentFile().endsWith(DataDefine::GLUA_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::JAVA_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::CSHARP_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::KOTLIN_SUFFIX))
+    QString currentFile = ui->fileWidget->getCurrentFile();
+    if(currentFile.endsWith(DataDefine::GLUA_SUFFIX)||
+       currentFile.endsWith(DataDefine::JAVA_SUFFIX)||
+       currentFile.endsWith(DataDefine::CSHARP_SUFFIX)||
+       currentFile.endsWith(DataDefine::KOTLIN_SUFFIX))
     {
         ui->compileAction->setEnabled(true);
     }

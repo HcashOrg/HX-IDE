@@ -13,6 +13,7 @@ public:
     void startExe();
     bool exeRunning();
     QProcess *getProcess()const;
+    void ReadyClose();
 private slots:
     void onNodeExeStateChanged();
     void checkNodeExeIsReady();
