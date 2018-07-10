@@ -33,7 +33,7 @@ void FunctionWidget::RefreshContractAddr(const QString &addr)
     ui->tabWidget->setCurrentIndex(0);
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("function-contractinfo_"+addr,
-                                     IDEUtil::toUbcdHttpJsonFormat("getcontractinfo",QJsonArray()<<addr));
+                                     IDEUtil::toJsonFormat("get_contract_info",QJsonArray()<<addr));
 }
 
 void FunctionWidget::jsonDataUpdated(const QString &id, const QString &data)
@@ -64,16 +64,16 @@ bool FunctionWidget::parseContractInfo(const QString &addr, const QString &data)
          ConvenientOp::DeleteContract(addr);
          return false;
     }
-    QJsonArray apisArr = parse_doucment.object().value("apis").toArray();
+    QJsonArray apisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("abi").toArray();
     foreach (QJsonValue val, apisArr) {
-        if(!val.isObject()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        if(!val.isString()) continue;
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
         ui->treeWidget_online->addTopLevelItem(itemChild);
     }
-    QJsonArray offapisArr = parse_doucment.object().value("offline_apis").toArray();
+    QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("offline_abi").toArray();
     foreach (QJsonValue val, offapisArr) {
-        if(!val.isObject()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        if(!val.isString()) continue;
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
         ui->treeWidget_offline->addTopLevelItem(itemChild);
     }
 

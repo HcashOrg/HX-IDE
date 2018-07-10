@@ -53,6 +53,11 @@ void httpRequire::startConnect()
 
 void httpRequire::requestFinished(QNetworkReply *reply)
 {
+//    QString res = reply->readAll();
+//    int index = res.indexOf(",\"error\":");
+//    qDebug()<<index;
+//    QString result = res.mid(0,index) + "}";
+//    emit receiveData(result);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(reply->readAll(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())

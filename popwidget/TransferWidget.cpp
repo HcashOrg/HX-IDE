@@ -7,6 +7,9 @@
 
 #include "ConvenientOp.h"
 
+Q_DECLARE_METATYPE(DataDefine::AccountInfoPtr)
+Q_DECLARE_METATYPE(DataDefine::AssetInfoPtr)
+
 TransferWidget::TransferWidget(QWidget *parent) :
     MoveableDialog(parent),
     ui(new Ui::TransferWidget)
@@ -22,40 +25,39 @@ TransferWidget::~TransferWidget()
 
 void TransferWidget::transferSlot()
 {
-    if(!ui->checkBox->isChecked())
-    {
-        ChainIDE::getInstance()->postRPC("transfer-to",IDEUtil::toUbcdHttpJsonFormat("sendtoaddress",QJsonArray()<<
-                                         ui->lineEdit->text()<<ui->doubleSpinBox->value()));
+
+    ChainIDE::getInstance()->postRPC( "transfer-to",
+                                     IDEUtil::toJsonFormat( "transfer_to_address",
+                                                   QJsonArray() << ui->comboBox_account->currentText()<< ui->lineEdit->text()
+                                                   << ui->doubleSpinBox->text() << ui->comboBox_asset->currentText()
+                                                   << "" << true ));
+
+}
+
+
+void TransferWidget::comboBoxAccountChangeSlot()
+{
+    ui->comboBox_asset->clear();
+    DataDefine::AccountInfoPtr info = ui->comboBox_account->currentData().value<DataDefine::AccountInfoPtr>();
+    for(auto it = info->getAssetInfos().begin();it != info->getAssetInfos().end();++it){
+        ui->comboBox_asset->addItem((*it)->GetAssetType(),QVariant::fromValue<DataDefine::AssetInfoPtr>(*it));
     }
-    else
+    if(ui->comboBox_asset->count() >= 1)
     {
-        ChainIDE::getInstance()->postRPC("transfer-to",IDEUtil::toUbcdHttpJsonFormat("sendfrom",QJsonArray()<<
-                                         ui->comboBox->currentText()<<ui->lineEdit->text()<<ui->doubleSpinBox->value()));
+        ui->comboBox_asset->setCurrentIndex(0);
     }
 }
 
-void TransferWidget::checkBoxChangeSlot()
+void TransferWidget::comboBoxAssetChangeSlot()
 {
-    ui->comboBox->setEnabled(ui->checkBox->isChecked());
-    ui->label_balance->setEnabled(ui->checkBox->isChecked());
-}
-
-void TransferWidget::comboBoxChangeSlot()
-{
-    ui->label_balance->setText(QString::number(ui->comboBox->currentData().toDouble(),'f',8));
-    ui->doubleSpinBox->setRange(0,ui->comboBox->currentData().toDouble());
-}
-
-void TransferWidget::addressChangeSlot()
-{
-    ChainIDE::getInstance()->getDataManager()->checkAddress(ui->lineEdit->text());
-}
-
-void TransferWidget::addressCheckSlot(bool isvalid)
-{
-    QString enable = DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ? "QLineEdit{color:white;}":"QLineEdit{color:black;}";
-    QString disable = "QLineEdit{color:red;}";
-    ui->lineEdit->setStyleSheet(isvalid?enable:disable);
+    //设置上限
+    if(DataDefine::AssetInfoPtr asset = ui->comboBox_asset->currentData().value<DataDefine::AssetInfoPtr>()){
+        double number = asset->GetBalance()/pow(10,asset->GetPrecision());
+        ui->label_balance->setText(QString::number(number,'f',asset->GetPrecision()));
+    }
+    else{
+        ui->label_balance->setText("/");
+    }
 }
 
 void TransferWidget::jsonDataUpdated(const QString &id, const QString &data)
@@ -71,20 +73,18 @@ void TransferWidget::InitWidget()
 {
     //
     setWindowFlags(Qt::FramelessWindowHint | windowFlags());
-    ui->checkBox->setChecked(true);
     ui->doubleSpinBox->setDecimals(8);
     ui->doubleSpinBox->setSingleStep(0.001);
 
-    connect(ChainIDE::getInstance()->getDataManager(),&DataManager::addressCheckFinish,this,&TransferWidget::addressCheckSlot);
     connect(ChainIDE::getInstance()->getDataManager(),&DataManager::queryAccountFinish,this,&TransferWidget::InitComboBox);
     ChainIDE::getInstance()->getDataManager()->queryAccount();
 
     connect(ui->closeBtn,&QToolButton::clicked,this,&QWidget::close);
     connect(ui->cancelBtn,&QToolButton::clicked,this,&QWidget::close);
     connect(ui->okBtn,&QToolButton::clicked,this,&TransferWidget::transferSlot);
-    connect(ui->checkBox,&QCheckBox::clicked,this,&TransferWidget::checkBoxChangeSlot);
-    connect(ui->lineEdit,&QLineEdit::textEdited,this,&TransferWidget::addressChangeSlot);
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&TransferWidget::jsonDataUpdated);
+    connect(ui->comboBox_account,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&TransferWidget::comboBoxAccountChangeSlot);
+    connect(ui->comboBox_asset,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&TransferWidget::comboBoxAssetChangeSlot);
 
 }
 
@@ -93,12 +93,11 @@ void TransferWidget::InitComboBox()
     DataDefine::AccountDataPtr accounts = ChainIDE::getInstance()->getDataManager()->getAccount();
     for(auto it = accounts->getAccount().begin();it != accounts->getAccount().end();++it)
     {
-        ui->comboBox->addItem((*it)->getAccountName(),(*it)->getTotalBalance());
+        ui->comboBox_account->addItem((*it)->getAccountName(),QVariant::fromValue<DataDefine::AccountInfoPtr>(*it));
     }
-    connect(ui->comboBox,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&TransferWidget::comboBoxChangeSlot);
 
-    if(ui->comboBox->count() >= 1)
+    if(ui->comboBox_account->count() >= 1)
     {
-        ui->comboBox->setCurrentIndex(0);
+        ui->comboBox_account->setCurrentIndex(0);
     }
 }

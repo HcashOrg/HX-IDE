@@ -24,6 +24,7 @@
 #include "popwidget/TransferWidget.h"
 #include "popwidget/CallContractWidget.h"
 #include "popwidget/ConfigWidget.h"
+#include "popwidget/PasswordVerifyWidget.h"
 
 #include "ConvenientOp.h"
 
@@ -96,7 +97,7 @@ void MainWindow::startChain()
     connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     QTimer::singleShot(10,[](){
         ChainIDE::getInstance()->testManager()->startExe();
-        //ChainIDE::getInstance()->formalManager()->startExe();
+       // ChainIDE::getInstance()->formalManager()->startExe();
     });
 
 
@@ -115,6 +116,7 @@ void MainWindow::startWidget()
     ui->importAction->setVisible(false);
     ui->exportAction->setVisible(false);
     ui->DeleteAllBreakpointAction->setVisible(false);
+    ui->upgradeAction->setVisible(false);
 
     //设置界面比例
     ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.9*ui->centralWidget->width());
@@ -131,6 +133,7 @@ void MainWindow::startWidget()
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    connect(ui->fileWidget,&FileWidget::fileClicked,this,&MainWindow::ModifyActionState);
 
     ModifyActionState();
 
@@ -173,7 +176,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     hide();
     ChainIDE::getInstance()->testManager()->ReadyClose();
-    ChainIDE::getInstance()->formalManager()->ReadyClose();
+    //ChainIDE::getInstance()->formalManager()->ReadyClose();
     QWidget::closeEvent(event);
 }
 
@@ -184,8 +187,10 @@ void MainWindow::exeStartedSlots()
        disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
        disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
 
+       //初始化数据管理
        ChainIDE::getInstance()->getDataManager()->InitManager();
-
+       ChainIDE::getInstance()->getDataManager()->dealNewState();//处理最新情况
+       //关闭等待窗
        if(_p->waitingForSync)
        {
            _p->waitingForSync->close();
@@ -345,6 +350,14 @@ void MainWindow::on_withdrawAction_triggered()
 void MainWindow::on_changeChainAction_triggered()
 {
     ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
+    if(ChainIDE::getInstance()->getCurrentChainType() == 2)
+    {
+        PasswordVerifyWidget password;
+        if(!password.pop())
+        {
+             ChainIDE::getInstance()->setCurrentChainType(1);
+        }
+    }
     refreshTitle();
     ModifyActionState();
 }
@@ -449,10 +462,11 @@ void MainWindow::ModifyActionState()
     ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
     ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
 
-    if(ui->fileWidget->getCurrentFile().endsWith(DataDefine::GLUA_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::JAVA_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::CSHARP_SUFFIX)||
-       ui->fileWidget->getCurrentFile().endsWith(DataDefine::KOTLIN_SUFFIX))
+    QString currentFile = ui->fileWidget->getCurrentFile();
+    if(currentFile.endsWith(DataDefine::GLUA_SUFFIX)||
+       currentFile.endsWith(DataDefine::JAVA_SUFFIX)||
+       currentFile.endsWith(DataDefine::CSHARP_SUFFIX)||
+       currentFile.endsWith(DataDefine::KOTLIN_SUFFIX))
     {
         ui->compileAction->setEnabled(true);
     }

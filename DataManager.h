@@ -11,24 +11,26 @@ public:
     explicit DataManager(QObject *parent = 0);
     ~DataManager();
 public:
-    void queryAccount();//查询ub账户信息
+    void queryAccount();//查询账户信息
     const DataDefine::AccountDataPtr &getAccount()const;
 
-    void checkAddress(const QString &addr);//检测地址合法性
+    void queryContract();//查询合约
+    const DataDefine::AddressContractDataPtr &getContract()const;
+
+    void dealNewState();//处理第一次打开ide的情况
 public:
     void InitManager();
 private slots:
     void jsonDataUpdated(const QString &id,const QString &data);
 signals:
     void queryAccountFinish();
-    void addressCheckFinish(bool);
-
+    void queryContractFinish();
 private:
     bool parseListAccount(const QString &data);
     bool parseAddresses(const QString &accountName,const QString &data);
     bool parseAddressBalances(const QString &data);
 
-
+    bool parseContract(const QString &accountName,const QString &data);
 private:
     class DataPrivate;
     DataPrivate *_p;

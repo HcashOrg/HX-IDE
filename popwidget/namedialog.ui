@@ -25,7 +25,7 @@
   <widget class="QLineEdit" name="nameLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>113</x>
      <y>110</y>
      <width>320</width>
      <height>30</height>
@@ -81,7 +81,7 @@
   <widget class="QLabel" name="addressNameTipLabel2">
    <property name="geometry">
     <rect>
-     <x>127</x>
+     <x>150</x>
      <y>150</y>
      <width>200</width>
      <height>20</height>
@@ -108,46 +108,6 @@
    </property>
    <property name="text">
     <string>取消</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="gifLabel">
-   <property name="geometry">
-    <rect>
-     <x>427</x>
-     <y>116</y>
-     <width>18</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>127</x>
-     <y>70</y>
-     <width>281</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(64,154,255);</string>
-   </property>
-   <property name="text">
-    <string>*地址未升级时，账户名不能用于转账</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="title_Label">
@@ -196,6 +156,19 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>120</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>账户名称：</string>
    </property>
   </widget>
  </widget>

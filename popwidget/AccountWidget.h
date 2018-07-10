@@ -19,6 +19,7 @@ private slots:
     void jsonDataUpdated(const QString &id,const QString &data);
 
     void on_newAccount_clicked();
+    void on_importKey_clicked();
     void on_closeBtn_clicked();
 
     void CopyAddr();

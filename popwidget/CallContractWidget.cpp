@@ -43,16 +43,17 @@ void CallContractWidget::jsonDataUpdated(const QString &id, const QString &data)
 
 void CallContractWidget::CallContract()
 {
-    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toUbcdHttpJsonFormat("callcontract",QJsonArray()<<
-                                     ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
-                                     <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
+    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract",QJsonArray()<<
+                                     ui->callAddress->currentText()<<ui->gasprice->text()<<ui->gaslimit->text()
+                                     <<ui->contractAddress->currentText()<<ui->function->currentText()
+                                     <<ui->param->text()));
 }
 
 void CallContractWidget::contractAddressChanged()
 {
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
-                                     IDEUtil::toUbcdHttpJsonFormat("getcontractinfo",QJsonArray()<<ui->contractAddress->currentText()));
+                                     IDEUtil::toJsonFormat("get_contract_info",QJsonArray()<<ui->contractAddress->currentText()));
 }
 
 void CallContractWidget::InitWidget()
@@ -60,9 +61,6 @@ void CallContractWidget::InitWidget()
     ui->gaslimit->setRange(0,999999);
     ui->gaslimit->setSingleStep(1);
     ui->gasprice->setRange(10,999999);
-    ui->fee->setRange(0,999999999999);
-    ui->fee->setDecimals(8);
-    ui->fee->setSingleStep(0.001);
 
     setWindowFlags(Qt::FramelessWindowHint);
 
@@ -71,11 +69,8 @@ void CallContractWidget::InitWidget()
 
     //读取所有账户信息
     connect(ChainIDE::getInstance()->getDataManager(),&DataManager::queryAccountFinish,this,&CallContractWidget::InitAccountAddress);
+    connect(ChainIDE::getInstance()->getDataManager(),&DataManager::queryContractFinish,this,&CallContractWidget::InitContractAddress);
     ChainIDE::getInstance()->getDataManager()->queryAccount();
-
-
-    //初始化合约地址
-    InitContractAddress();
 
     connect(ui->closeBtn,&QToolButton::clicked,this,&CallContractWidget::close);
     connect(ui->cancelBtn,&QToolButton::clicked,this,&CallContractWidget::close);
@@ -86,41 +81,24 @@ void CallContractWidget::InitWidget()
 
 void CallContractWidget::InitAccountAddress()
 {
-    QTreeWidget *tree = new QTreeWidget(this);
-    tree->header()->setVisible(false);
-
     DataDefine::AccountDataPtr data = ChainIDE::getInstance()->getDataManager()->getAccount();
-    int number = 0;
-    QString currentText;
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {
-        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->getAccountName());
-        item->setFlags(Qt::ItemIsEnabled);
-        tree->addTopLevelItem(item);
-
-        for(auto add = (*it)->getAddressInfos().begin();add != (*it)->getAddressInfos().end();++add)
-        {
-            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAddress());
-            item->addChild(childitem);
-            if(0 == number)
-            {
-                currentText = (*add)->GetAddress();
-            }
-            ++number;
-        }
+        ui->callAddress->addItem((*it)->getAccountName());
     }
-    tree->expandAll();
-    ui->callAddress->setModel(tree->model());
-    ui->callAddress->setView(tree);
+
+    //查询合约
+    ChainIDE::getInstance()->getDataManager()->queryContract();
 }
 
 void CallContractWidget::InitContractAddress()
 {
 
-    DataDefine::AddressContractDataPtr data = std::make_shared<DataDefine::AddressContractData>();
-    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,data);
+    DataDefine::AddressContractDataPtr data = ChainIDE::getInstance()->getDataManager()->getContract();
+
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);
+
     for(auto it = data->getAllData().begin();it != data->getAllData().end();++it)
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->GetOwnerAddr());
@@ -161,16 +139,16 @@ bool CallContractWidget::parseContractInfo(const QString &addr, const QString &d
          qDebug()<<json_error.errorString();
          return false;
     }
-    QJsonArray apisArr = parse_doucment.object().value("apis").toArray();
+    QJsonArray apisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("abi").toArray();
     foreach (QJsonValue val, apisArr) {
-        if(!val.isObject()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        if(!val.isString()) continue;
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
         item->addChild(itemChild);
     }
-    QJsonArray offapisArr = parse_doucment.object().value("offline_apis").toArray();
+    QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("offline_abi").toArray();
     foreach (QJsonValue val, offapisArr) {
-        if(!val.isObject()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        if(!val.isString()) continue;
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
         item1->addChild(itemChild);
     }
 

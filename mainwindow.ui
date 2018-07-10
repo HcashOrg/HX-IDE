@@ -142,8 +142,6 @@
      <string>工具</string>
     </property>
     <addaction name="changeChainAction"/>
-    <addaction name="enterSandboxAction"/>
-    <addaction name="exitSandboxAction"/>
     <addaction name="consoleAction"/>
     <addaction name="accountListAction"/>
     <addaction name="transferToAccountAction"/>
@@ -222,8 +220,6 @@
    <addaction name="stopAction"/>
    <addaction name="separator"/>
    <addaction name="changeChainAction"/>
-   <addaction name="enterSandboxAction"/>
-   <addaction name="exitSandboxAction"/>
    <addaction name="consoleAction"/>
    <addaction name="accountListAction"/>
    <addaction name="transferToAccountAction"/>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>230</height>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,8 +45,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>190</y>
+     <x>330</x>
+     <y>240</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>190</y>
+     <x>410</x>
+     <y>240</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -74,25 +74,28 @@
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>19</x>
-     <y>53</y>
-     <width>461</width>
-     <height>121</height>
+     <x>40</x>
+     <y>60</y>
+     <width>411</width>
+     <height>151</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QCheckBox" name="checkBox">
+     <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>使用账户：</string>
+       <string>账户名称：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboBox_account">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -102,6 +105,26 @@
      </widget>
     </item>
     <item row="1" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>资产类型：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="comboBox_asset">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>账户余额：</string>
@@ -111,14 +134,14 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="2" column="1">
      <widget class="QLabel" name="label_balance">
       <property name="text">
        <string>0</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
        <string>发往地址：</string>
@@ -128,7 +151,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <widget class="QLineEdit" name="lineEdit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -138,7 +161,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
        <string>转账金额：</string>
@@ -148,7 +171,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="4" column="1">
      <widget class="QDoubleSpinBox" name="doubleSpinBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">

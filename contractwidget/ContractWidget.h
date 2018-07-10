@@ -21,6 +21,7 @@ private slots:
     void ContractClicked(QTreeWidgetItem *item, QTreeWidgetItem *itempre);
 private:
     void InitWidget();
+    void InitTree();
 private:
     Ui::ContractWidget *ui;
 };

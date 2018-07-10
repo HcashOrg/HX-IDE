@@ -16,10 +16,8 @@ public:
     ~TransferWidget();
 private slots:
     void transferSlot();
-    void checkBoxChangeSlot();
-    void comboBoxChangeSlot();
-    void addressChangeSlot();
-    void addressCheckSlot(bool isvalid);
+    void comboBoxAccountChangeSlot();
+    void comboBoxAssetChangeSlot();
     void jsonDataUpdated(const QString &id,const QString &data);
 private:
     void InitWidget();

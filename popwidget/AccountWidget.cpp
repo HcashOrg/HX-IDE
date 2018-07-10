@@ -6,8 +6,10 @@
 #include "ChainIDE.h"
 #include "DataManager.h"
 #include "namedialog.h"
+#include "importdialog.h"
 #include "IDEUtil.h"
 
+Q_DECLARE_METATYPE(DataDefine::AccountInfoPtr)
 class AccountWidget::DataPrivate
 {
 public:
@@ -50,8 +52,14 @@ void AccountWidget::on_newAccount_clicked()
     QString name = dia.pop();
     if(!name.isEmpty())
     {
-        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toUbcdHttpJsonFormat("getnewaddress",QJsonArray()<<name));
+        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toJsonFormat("wallet_create_account",QJsonArray()<<name));
     }
+}
+
+void AccountWidget::on_importKey_clicked()
+{
+    ImportDialog dia;
+    dia.exec();
 }
 
 void AccountWidget::on_closeBtn_clicked()
@@ -63,7 +71,7 @@ void AccountWidget::CopyAddr()
 {
     if(QTreeWidgetItem *item = ui->treeWidget->currentItem())
     {
-        QApplication::clipboard()->setText(item->text(0));
+        QApplication::clipboard()->setText(item->data(0,Qt::UserRole).value<DataDefine::AccountInfoPtr>()->GetAccountAddress());
     }
 }
 
@@ -73,7 +81,7 @@ bool AccountWidget::eventFilter(QObject *o, QEvent *e)
     {
         if(QTreeWidgetItem *item = ui->treeWidget->currentItem())
         {
-            if(ui->treeWidget->currentColumn() == 0 && ui->treeWidget->itemAt(ui->treeWidget->viewport()->mapFromGlobal(QCursor::pos())) == item)
+            if(!item->parent() && ui->treeWidget->currentColumn() == 0 && ui->treeWidget->itemAt(ui->treeWidget->viewport()->mapFromGlobal(QCursor::pos())) == item)
             {
                 _p->contextMenu->exec(QCursor::pos());
             }
@@ -107,15 +115,17 @@ void AccountWidget::InitTree()
     ui->treeWidget->setColumnCount(3);
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {
-        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->getAccountName()<<QString::number((*it)->getTotalBalance(),'f',8)<<"");
+        QString name = (*it)->getAccountName()+"("+ (*it)->GetAccountAddress()+")";
+        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<name<<"");
+        item->setData(0,Qt::UserRole,QVariant::fromValue<DataDefine::AccountInfoPtr>(*it));
         item->setTextAlignment(0,Qt::AlignCenter);
         item->setTextAlignment(1,Qt::AlignCenter);
         item->setTextAlignment(2,Qt::AlignCenter);
         ui->treeWidget->addTopLevelItem(item);
 
-        for(auto add = (*it)->getAddressInfos().begin();add != (*it)->getAddressInfos().end();++add)
+        for(auto add = (*it)->getAssetInfos().begin();add != (*it)->getAssetInfos().end();++add)
         {
-            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAddress()<<QString::number((*add)->GetBalance(),'f',8)<<tr("转账"));
+            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAssetType()<<QString::number((*add)->GetBalance()/pow(10,(*add)->GetPrecision()),'f',(*add)->GetPrecision())<<tr("转账"));
             childitem->setTextAlignment(0,Qt::AlignCenter);
             childitem->setTextAlignment(1,Qt::AlignCenter);
             childitem->setTextAlignment(2,Qt::AlignCenter);
@@ -130,7 +140,7 @@ void AccountWidget::InitTree()
 
 void AccountWidget::InitContextMenu()
 {
-    QAction *copyAction = new QAction(tr("复制"),this);
+    QAction *copyAction = new QAction(tr("复制地址"),this);
     connect(copyAction,&QAction::triggered,this,&AccountWidget::CopyAddr);
     _p->contextMenu->addAction(copyAction);
 }
@@ -149,7 +159,7 @@ void AccountWidget::QuerySlots()
     QTreeWidgetItemIterator it(ui->treeWidget);
     while(*it)
     {
-        if(-1 != (*it)->text(0).indexOf(queryString,0,Qt::CaseInsensitive))
+        if(-1 != (*it)->text(0).indexOf(queryString,0,Qt::CaseInsensitive) && !(*it)->parent())
         {
             findItems.push_back(*it);
         }

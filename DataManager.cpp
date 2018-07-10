@@ -20,11 +20,13 @@ class DataManager::DataPrivate
 public:
     DataPrivate()
         :accountData(std::make_shared<AccountData>())
+        ,contractData(std::make_shared<AddressContractData>())
     {
 
     }
 public:
     DataDefine::AccountDataPtr accountData;
+    DataDefine::AddressContractDataPtr contractData;
     std::mutex dataMutex;
 };
 
@@ -42,10 +44,9 @@ DataManager::~DataManager()
 
 void DataManager::queryAccount()
 {
-    std::lock_guard<std::mutex> guard(_p->dataMutex);
     _p->accountData->clear();
 
-    ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toUbcdHttpJsonFormat("listaccounts",QJsonArray()));
+    ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("list_my_accounts",QJsonArray()));
 }
 
 const DataDefine::AccountDataPtr &DataManager::getAccount() const
@@ -53,9 +54,26 @@ const DataDefine::AccountDataPtr &DataManager::getAccount() const
     return _p->accountData;
 }
 
-void DataManager::checkAddress(const QString &addr)
+void DataManager::queryContract()
 {
-    ChainIDE::getInstance()->postRPC("data-checkaddress",IDEUtil::toUbcdHttpJsonFormat("validateaddress",QJsonArray()<<addr));
+    _p->contractData->clear();
+
+    for(auto it = _p->accountData->getAccount().begin();it != _p->accountData->getAccount().end();++it)
+    {
+        ChainIDE::getInstance()->postRPC("query-get_contract_"+(*it)->getAccountName(),IDEUtil::toJsonFormat("get_contract_addresses_by_owner",
+                                                              QJsonArray()<<(*it)->getAccountName()));
+    }
+    ChainIDE::getInstance()->postRPC("query-getcontract-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray()));
+}
+
+const AddressContractDataPtr &DataManager::getContract() const
+{
+    return _p->contractData;
+}
+
+void DataManager::dealNewState()
+{
+    ChainIDE::getInstance()->postRPC("deal-is_new",IDEUtil::toJsonFormat("is_new",QJsonArray()));
 }
 
 void DataManager::InitManager()
@@ -70,50 +88,70 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
         if(parseListAccount(data))
         {
             //查询每一个账户对应的地址
-            std::for_each(_p->accountData->getAccount().begin(),_p->accountData->getAccount().end(),[](const AccountInfoPtr &account){
-                ChainIDE::getInstance()->postRPC(QString("query-getaddressesbyaccount_%1").arg(account->getAccountName()),
-                                                 IDEUtil::toUbcdHttpJsonFormat("getaddressesbyaccount",
+            AccountInfoVec accounts = _p->accountData->getAccount();
+            std::for_each(accounts.begin(),accounts.end(),[](const AccountInfoPtr &account){
+                ChainIDE::getInstance()->postRPC(QString("query-getassetbyaccount_%1").arg(account->getAccountName()),
+                                                 IDEUtil::toJsonFormat("get_account_balances",
                                                QJsonArray()<<account->getAccountName()));
             });
-            ChainIDE::getInstance()->postRPC("query-getaddresses-finish","finishquery");
+            ChainIDE::getInstance()->postRPC("query-getaddresses-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray()));
         }
     }
-    else if(id.startsWith("query-getaddressesbyaccount_"))
+    else if(id.startsWith("query-getassetbyaccount_"))
     {
-        QString accountName = id.mid(QString("query-getaddressesbyaccount_").length());
+        QString accountName = id.mid(QString("query-getassetbyaccount_").length());
         //查找地址对应的余额
         parseAddresses(accountName,data);
     }
     else if("query-getaddresses-finish" == id)
     {
-        //查询每个地址对应的金额
-        ChainIDE::getInstance()->postRPC("listunspent",IDEUtil::toUbcdHttpJsonFormat("listunspent",QJsonArray()));
+        //查询资产信息
+        ChainIDE::getInstance()->postRPC("query-list_assets",IDEUtil::toJsonFormat("list_assets",QJsonArray()<<"A"<<100));
     }
-    else if("listunspent" == id)
+    else if("query-list_assets" == id)
     {
-        QString lidata = data;
-        if(parseAddressBalances(lidata))
+        if(parseAddressBalances(data))
         {
             emit queryAccountFinish();
         }
     }
-    //检测地址合法性
-    else if("data-checkaddress" == id)
+    //处理新内容
+    else if("deal-is_new" == id)
     {
         QJsonParseError json_error;
         QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
-            emit addressCheckFinish(false);
+            qDebug()<<json_error.errorString();
             return;
         }
-        QJsonObject jsonObject = parse_doucment.object();
-        emit addressCheckFinish(jsonObject.value("isvalid").toBool());
+        if(parse_doucment.object().value("result").toBool())
+        {
+            //设置默认密码 11111111
+            ChainIDE::getInstance()->postRPC("deal-set_password",IDEUtil::toJsonFormat("set_password",QJsonArray()<<"11111111"));
+        }
+        else if(ChainIDE::getInstance()->getCurrentChainType() == 1)
+        {
+            //如果是测试连，就直接解锁
+            ChainIDE::getInstance()->postRPC("deal-unlocktestchain",IDEUtil::toJsonFormat("unlock",QJsonArray()<<"11111111"));
+        }
+
+    }
+    //处理查询结果
+    else if(id.startsWith("query-get_contract_"))
+    {
+        QString accountName = id.mid(QString("query-get_contract_").length());
+        parseContract(accountName,data);
+    }
+    else if("query-getcontract-finish" == id)
+    {
+        emit queryContractFinish();
     }
 }
 
 bool DataManager::parseListAccount(const QString &data)
 {
+    std::lock_guard<std::mutex> lo(_p->dataMutex);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
@@ -121,28 +159,32 @@ bool DataManager::parseListAccount(const QString &data)
         qDebug()<<json_error.errorString();
         return false;
     }
-    QJsonObject jsonObject = parse_doucment.object();
-
-    foreach (QString name, jsonObject.keys()) {
-        _p->accountData->insertAccount(name,jsonObject.value(name).toDouble());
+    QJsonArray resultArray = parse_doucment.object().value("result").toArray();
+    foreach (QJsonValue addr, resultArray) {
+        if(!addr.isObject()) continue;
+        QJsonObject obj = addr.toObject();
+        _p->accountData->insertAccount(obj.value("name").toString(),obj.value("addr").toString());
     }
     return true;
 }
 
 bool DataManager::parseAddresses(const QString &accountName,const QString &data)
 {
+    std::lock_guard<std::mutex> lo(_p->dataMutex);
 //    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isArray())
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
          return false;
     }
-    QJsonArray jsonArr = parse_doucment.array();
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
 
     foreach (QJsonValue addr, jsonArr) {
-        _p->accountData->insertAddress(accountName,addr.toString(),0);
+        if(!addr.isObject()) continue;
+        QJsonObject obj = addr.toObject();
+        _p->accountData->insertAsset(accountName,obj.value("asset_id").toString(),obj.value("amount").toDouble());
     }
     return true;
 
@@ -150,21 +192,40 @@ bool DataManager::parseAddresses(const QString &accountName,const QString &data)
 
 bool DataManager::parseAddressBalances(const QString &data)
 {
+    std::lock_guard<std::mutex> lo(_p->dataMutex);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isArray())
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
          return false;
     }
-    QJsonArray jsonArr = parse_doucment.array();
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
     foreach(QJsonValue addr, jsonArr){
         if(!addr.isObject()) continue;
         QJsonObject obj = addr.toObject();
-//        qDebug()<<obj.value("address").toString()<<obj.value("amount").toDouble();
-        _p->accountData->addAddressBalance(obj.value("address").toString(),obj.value("amount").toDouble());
+        _p->accountData->makeupInfo(obj.value("id").toString(),obj.value("symbol").toString(),obj.value("precision").toInt());
     }
     return true;
+}
+
+bool DataManager::parseContract(const QString &accountName,const QString &data)
+{
+    std::lock_guard<std::mutex> lo(_p->dataMutex);
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+         qDebug()<<json_error.errorString();
+         return false;
+    }
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
+    foreach(QJsonValue addr, jsonArr){
+        if(!addr.isString()) continue;
+        _p->contractData->AddContract(accountName,addr.toString());
+    }
+    return true;
+
 }
 
 

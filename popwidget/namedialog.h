@@ -1,7 +1,6 @@
 #ifndef NAMEDIALOG_H
 #define NAMEDIALOG_H
 
-#include <QDialog>
 #include "MoveableDialog.h"
 
 namespace Ui {
@@ -32,7 +31,6 @@ private slots:
 private:
     Ui::NameDialog *ui;
     bool yesOrNO;
-    QMovie* gif;
 };
 
 #endif // NAMEDIALOG_H

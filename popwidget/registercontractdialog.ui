@@ -110,7 +110,7 @@
      <height>191</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0" columnstretch="1,3">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0" columnstretch="1,5">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
@@ -121,6 +121,9 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="address"/>
+    </item>
     <item row="0" column="1">
      <widget class="QComboBox" name="contractFile">
       <property name="minimumSize">
@@ -130,9 +133,6 @@
        </size>
       </property>
      </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="address"/>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_7">
@@ -161,19 +161,6 @@
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>基本费用：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="fee"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>手续费用：</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -201,10 +201,11 @@ void ContextWidget::CheckDeleteFile()
         if(!QFileInfo(path).exists())
         {
             ui->tabWidget->removeTab(i);
+            contextUpdate();
+            break;
         }
     }
 
-    contextUpdate();
 }
 
 void ContextWidget::currentTabChanged(int i)

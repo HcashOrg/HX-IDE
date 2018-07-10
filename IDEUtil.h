@@ -8,9 +8,8 @@
 class IDEUtil
 {
 public:
-    static QString toJsonFormat(QString instruction,QJsonArray parameters);
+    static QString toJsonFormat(QString instruction,const QJsonArray &parameters);
     static QString toHttpJsonFormat(const QString &instruction,const QVariantMap &parameters);
-    static QString toUbcdHttpJsonFormat(const QString &instruction,const QJsonArray &parameters);
 
     //根据模板填充文件，如果文件不存在就创建
     static void TemplateFile(const QString &filePath);
@@ -26,6 +25,7 @@ public:
     //新建目录，如果存在，后面加1
     static QString createDir(const QString &dirpath);
 
+    static void msecSleep(int msec);
 private:
     IDEUtil();
 };

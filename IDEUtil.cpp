@@ -5,8 +5,9 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
+#include <QTime>
 
-QString IDEUtil::toJsonFormat(QString instruction, QJsonArray parameters)
+QString IDEUtil::toJsonFormat(QString instruction, const QJsonArray & parameters)
 {
     QJsonObject object;
     object.insert("id", 32800);
@@ -24,16 +25,6 @@ QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap 
     object.insert("method",instruction);
     object.insert("params",QJsonObject::fromVariantMap(parameters));
     return QJsonDocument(object).toJson();
-}
-
-QString IDEUtil::toUbcdHttpJsonFormat(const QString &instruction, const QJsonArray &parameters)
-{
-    QJsonObject object;
-    object.insert("id",1);
-    object.insert("method",instruction);
-    object.insert("params",parameters);
-    return QJsonDocument(object).toJson();
-
 }
 
 void IDEUtil::TemplateFile(const QString &filePath)
@@ -200,6 +191,15 @@ QString IDEUtil::createDir(const QString &dirpath)
     QDir dir(path);
     dir.mkpath(dir.path());
     return path;
+}
+
+void IDEUtil::msecSleep(int msec)
+{
+    QTime n=QTime::currentTime();
+    QTime now;
+    do{
+         now=QTime::currentTime();
+       }while (n.msecsTo(now)<=msec);
 }
 
 IDEUtil::IDEUtil()

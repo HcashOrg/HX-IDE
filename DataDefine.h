@@ -45,7 +45,8 @@ namespace DataDefine
     static const QString CSHARP_DIR = "contracts/csharp";
     static const QString KOTLIN_DIR = "contracts/kotlin";
 
-    static const QString LOCAL_CONTRACT_PATH = "contracts/contracts.contract";
+    static const QString LOCAL_CONTRACT_TEST_PATH = "contracts/contracts_test.contract";
+    static const QString LOCAL_CONTRACT_FORMAL_PATH = "contracts/contracts_formal.contract";
 
 
     //编译工具路径
@@ -107,20 +108,28 @@ namespace DataDefine
 
 //账户类型
     //地址类
-    class AddressInfo
+    class AssetInfo
     {
     public:
-        void SetAddress(const QString &add){ address = add;}
-        const QString &GetAddress()const{return address;}
+        void SetAssetID(const QString &id){ assetId = id;}
+        const QString &GetAssetID()const{return assetId;}
+
+        void SetAssetType(const QString &type){assetType = type;}
+        const QString &GetAssetType()const{return assetType;}
+
+        void SetPrecision(int pre){precision = pre;}
+        int GetPrecision()const{return precision;}
 
         void SetBalance(double bal){balances = bal;}
-        void AddBalance(double bal){balances += bal;}
         double GetBalance()const{return balances;}
+
     private:
-        QString address;
-        double balances;
+        QString assetId;//资产类型id
+        QString assetType;//资产类型名称
+        int precision;//精度
+        double balances;//资产余额
     };
-    typedef std::shared_ptr<AddressInfo> AddressInfoPtr;
+    typedef std::shared_ptr<AssetInfo> AssetInfoPtr;
     //账户类
     class AccountInfo
     {
@@ -128,38 +137,57 @@ namespace DataDefine
         void SetAccountName(const QString &name){accountName = name;}
         const QString &getAccountName()const{return accountName;}
 
-        void SetAccountBalance(double bal){totalBalances = bal;}
-        double getTotalBalance()const{return totalBalances;}
+        void SetAccountAddress(const QString &addr){accountAddress = addr;}
+        const QString &GetAccountAddress()const{return accountAddress;}
 
-        const std::vector<AddressInfoPtr> &getAddressInfos()const{return addresses;}
+        const std::vector<AssetInfoPtr> &getAssetInfos()const{return assets;}
     public:
-        AddressInfoPtr getAddressInfoByAddr(const QString &addr)const{
-            auto it = std::find_if(addresses.begin(),addresses.end(),[addr](const AddressInfoPtr &info){
-                return info->GetAddress() == addr;
+        AssetInfoPtr getAssetInfoById(const QString &id)const{
+            auto it = std::find_if(assets.begin(),assets.end(),[id](const AssetInfoPtr &info){
+                return info->GetAssetID() == id;
             });
-            if(it != addresses.end())
+            if(it != assets.end())
             {
                 return *it;
             }
             return nullptr;
         }
 
-        bool insertAddress(const QString &addr,double bal){
-            if(getAddressInfoByAddr(addr)) return false;
-            AddressInfoPtr asset = std::make_shared<AddressInfo>();
-            asset->SetAddress(addr);
+        AssetInfoPtr getAssetInfoByType(const QString &type)const{
+            auto it = std::find_if(assets.begin(),assets.end(),[type](const AssetInfoPtr &info){
+                return info->GetAssetType() == type;
+            });
+            if(it != assets.end())
+            {
+                return *it;
+            }
+            return nullptr;
+        }
+
+        bool insertAsset(const QString &id,double bal){
+            if(getAssetInfoById(id)) return false;
+            AssetInfoPtr asset = std::make_shared<AssetInfo>();
+            asset->SetAssetID(id);
             asset->SetBalance(bal);
-            addresses.push_back(asset);
+            assets.push_back(asset);
             return true;
         }
+        //补全账户信息
+        void makeUpInfo(const QString &id,const QString &type,int pre){
+            AssetInfoPtr info = getAssetInfoById(id);
+            if(!info) return;
+            info->SetAssetType(type);
+            info->SetPrecision(pre);
+        }
+
     private:
         QString accountName;
-        double totalBalances;
-        std::vector<AddressInfoPtr> addresses;
+        QString accountAddress;
+        std::vector<AssetInfoPtr> assets;
     };
     typedef std::shared_ptr<AccountInfo> AccountInfoPtr;
     typedef std::vector<AccountInfoPtr> AccountInfoVec;
-    //总类
+//总类
     class AccountData
     {
     public:
@@ -176,44 +204,42 @@ namespace DataDefine
             }
             return nullptr;
         }
-        //根据地址，获取地址信息
-        AddressInfoPtr getAddressInfoByAddr(const QString &addr)const{
-            for(auto it = data.begin();it != data.end();++it){
-                if(AddressInfoPtr add =  (*it)->getAddressInfoByAddr(addr))
-                {
-                    return add;
-                }
+        //根据地址，获取账户信息
+        AccountInfoPtr getAccountByAddr(const QString &addr)const{
+            auto it = std::find_if(data.begin(),data.end(),[addr](const AccountInfoPtr &info){
+                return info->GetAccountAddress() == addr;
+            });
+            if(it != data.end())
+            {
+                return *it;
             }
             return nullptr;
         }
+
         //插入账户
-        bool insertAccount(const QString &name,double balance){
+        bool insertAccount(const QString &name,const QString &addr){
             if(getAccountByName(name))
             {
                 return false;
             }
             AccountInfoPtr info = std::make_shared<AccountInfo>();
             info->SetAccountName(name);
-            info->SetAccountBalance(balance);
+            info->SetAccountAddress(addr);
             data.push_back(info);
             return true;
         }
         //插入地址
-        bool insertAddress(const QString &accountName,const QString &addr,double bal){
+        bool insertAsset(const QString &accountName,const QString &assetid,double bal){
             AccountInfoPtr account = getAccountByName(accountName);
             if(!account) return false;
-            return account->insertAddress(addr,bal);
+            return account->insertAsset(assetid,bal);
         }
-        //增加余额
-        bool addAddressBalance(const QString &addr,double bal){
-            if(AddressInfoPtr addInfo = getAddressInfoByAddr(addr))
-            {
-                addInfo->AddBalance(bal);
-                return true;
+        //补全信息
+        void makeupInfo(const QString &id,const QString &type,int pre){
+            for(auto it = data.begin();it != data.end();++it){
+                (*it)->makeUpInfo(id,type,pre);
             }
-            return false;
         }
-
         //清空内容
         void clear(){data.clear();}
     private:

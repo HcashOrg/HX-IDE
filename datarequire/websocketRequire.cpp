@@ -34,7 +34,6 @@ void websocketRequire::postData(const QString &data)
         qDebug()<<"websocket not connect to "<<getConnectPort();
         return;
     }
-
     _p->m_buff.clear();
     _p->m_webSocket->sendTextMessage(data);
 }
@@ -55,9 +54,11 @@ void websocketRequire::onTextFrameReceived(QString _message, bool _isLastFrame)
 
     if(_isLastFrame)
     {
+
         QString result = _p->m_buff.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
         result = result.left( result.size() - 1);
-
+        result.prepend("{");
+        result.append("}");
         emit receiveData(result);
         _p->m_buff.clear();
     }
@@ -69,6 +70,7 @@ void websocketRequire::onStateChanged(QAbstractSocket::SocketState _state)
 
     if( _state == QAbstractSocket::UnconnectedState)
     {
+        qDebug()<<"dis connected ,reconnect";
         startConnect();
     }
     else if(_state == QAbstractSocket::ConnectedState)

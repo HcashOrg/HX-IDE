@@ -76,7 +76,7 @@ void InterfaceWidget::InitData()
         //filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
 
         filePath = ConvenientOp::GetMetaJsonFile(_p->currentFilePath);
-        qDebug()<<filePath;
+        //qDebug()<<filePath;
     }
 
     if(readApiFromPath(filePath,_p->data))

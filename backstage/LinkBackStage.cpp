@@ -9,12 +9,13 @@
 
 #include "DataDefine.h"
 #include "ChainIDE.h"
+#include "IDEUtil.h"
 #include "popwidget/commondialog.h"
 
 #include "datarequire/DataRequireManager.h"
 
-static const int NODE_RPC_PORT = 50320;//node端口  test    formal = test+10
-static const int CLIENT_RPC_PORT = 50321;//client端口  test    formal = test+10
+static const int NODE_RPC_PORT = 60320;//node端口  test    formal = test+10
+static const int CLIENT_RPC_PORT = 60321;//client端口  test    formal = test+10
 
 class LinkBackStage::DataPrivate
 {
@@ -26,7 +27,7 @@ public:
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testLinkDataPath" : "/formalLinkDataPath";
+        dataPath = 1 == type ? "/testlink" : "/formallink";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
@@ -83,6 +84,20 @@ bool LinkBackStage::exeRunning()
 QProcess *LinkBackStage::getProcess() const
 {
     return _p->clientProc;
+}
+
+void LinkBackStage::ReadyClose()
+{
+    disconnect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
+    disconnect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
+    //先lock
+    rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
+    rpcPostedSlot( "id-witness_node_stop",IDEUtil::toJsonFormat( "witness_node_stop", QJsonArray()));
+
+    IDEUtil::msecSleep(5000);
+
+    _p->clientProc->close();
+    _p->nodeProc->close();
 }
 
 void LinkBackStage::onNodeExeStateChanged()

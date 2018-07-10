@@ -13,6 +13,7 @@
 
 #include "popwidget/commondialog.h"
 #include "IDEUtil.h"
+#include "ChainIDE.h"
 
 ConvenientOp::ConvenientOp(QObject *parent) : QObject(parent)
 {
@@ -69,17 +70,19 @@ bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::Add
 void ConvenientOp::AddContract(const QString &owneraddr, const QString &contractaddr, const QString &contractname)
 {
     DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
+    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->AddContract(owneraddr, contractaddr,contractname);
-    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
 }
 
 void ConvenientOp::DeleteContract(const QString &ownerOrcontract)
 {
     DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
+    ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->DeleteContract(ownerOrcontract);
-    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LOCAL_CONTRACT_PATH,contractData);
+    ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
 }
 
 bool ConvenientOp::WriteContractToFile(const QString &filePath, const DataDefine::AddressContractDataPtr &data)
