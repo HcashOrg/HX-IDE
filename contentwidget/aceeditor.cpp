@@ -116,11 +116,6 @@ void AceEditor::setEditable(bool bIs)
     RunJavaScript( QString("setReadOnly(%1)").arg(!bIs));
 }
 
-void AceEditor::TabBreakPoint()
-{
-
-}
-
 void AceEditor::copy()
 {
     QClipboard* cb = QApplication::clipboard();

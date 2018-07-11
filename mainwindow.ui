@@ -283,6 +283,9 @@
    <property name="text">
     <string>另存为</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
   </action>
   <action name="saveAllAction">
    <property name="icon">
@@ -598,7 +601,10 @@
   </action>
   <action name="DeleteAllBreakpointAction">
    <property name="text">
-    <string>删除所有断点</string>
+    <string>清空断点</string>
+   </property>
+   <property name="toolTip">
+    <string>清空断点</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+F9</string>

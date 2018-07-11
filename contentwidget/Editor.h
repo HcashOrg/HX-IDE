@@ -23,7 +23,8 @@ public:
 
     virtual QString getSelectedText() = 0;
 
-    virtual void TabBreakPoint() = 0;
+    virtual void TabBreakPoint();
+    virtual void ClearBreakPoint();
 
     bool isUndoAvailable();
     bool isRedoAvailable();

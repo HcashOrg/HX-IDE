@@ -29,8 +29,6 @@ public:
 
     void setEditable(bool bIs);
 
-    void TabBreakPoint();
-
 public slots:
     void undo();
     void redo();

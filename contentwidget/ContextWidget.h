@@ -31,6 +31,8 @@ public:
     const QString &getCurrentFilePath()const;
 
     void TabBreakPoint();
+
+    void ClearBreakPoint();
 signals:
     void textChanged();
 

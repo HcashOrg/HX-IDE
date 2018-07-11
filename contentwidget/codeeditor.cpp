@@ -100,8 +100,12 @@ void codeeditor::setEditable(bool bIs)
 
 void codeeditor::TabBreakPoint()
 {
-    qDebug()<<"point";
     RunJavaScript("TabBreakpoint()");
+}
+
+void codeeditor::ClearBreakPoint()
+{
+    RunJavaScript("ClearBreakpoint()");
 }
 
 void codeeditor::undo()

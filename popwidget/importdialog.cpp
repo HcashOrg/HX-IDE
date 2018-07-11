@@ -1,11 +1,15 @@
 ﻿#include "importdialog.h"
 #include "ui_importdialog.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QDesktopWidget>
 
 #include "ChainIDE.h"
 #include "ConvenientOp.h"
 #include "DataManager.h"
+#include "IDEUtil.h"
 
 ImportDialog::ImportDialog(QWidget *parent) :
     MoveableDialog(parent),
@@ -19,8 +23,6 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->name->setPlaceholderText( tr("Beginning with letter,letters or numbers"));
     ui->name->setAttribute(Qt::WA_InputMethodEnabled, false);
 
-    ui->okBtn->setEnabled(false);
-
     QRegExp regx("[a-z][a-z0-9]+$");
     QValidator *validator = new QRegExpValidator(regx, this);
 
@@ -28,7 +30,7 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->name->setValidator( validator );
 
     ui->name->setFocus();
-    connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&RegisterContractDialog::jsonDataUpdated);
+    connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&ImportDialog::jsonDataUpdated);
 
 }
 
@@ -40,8 +42,8 @@ ImportDialog::~ImportDialog()
 void ImportDialog::on_okBtn_clicked()
 {
 
-    UBChain::getInstance()->postRPC( "import-import_key",
-                                     toJsonFormat( "import_key", QJsonArray() <<ui->name->text() << ui->lineEdit->text()));
+    ChainIDE::getInstance()->postRPC( "import-import_key",
+                                     IDEUtil::toJsonFormat( "import_key", QJsonArray() <<ui->name->text() << ui->privatekey->text()));
 
 }
 

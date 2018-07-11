@@ -55,6 +55,16 @@ Editor::~Editor()
     delete ui;
 }
 
+void Editor::TabBreakPoint()
+{//todo
+
+}
+
+void Editor::ClearBreakPoint()
+{//todo
+
+}
+
 bool Editor::isUndoAvailable()
 {
     return _p->isundoAvaliable;

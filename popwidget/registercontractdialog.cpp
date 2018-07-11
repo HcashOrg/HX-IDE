@@ -43,51 +43,6 @@ void RegisterContractDialog::jsonDataUpdated(const QString &id,const QString &da
 {
     if("register-register_contract" == id)
     {
-<<<<<<< HEAD
-=======
-        if(!data.isEmpty() && !data.startsWith("Error"))
-        {
-            //获取合约地址
-            ChainIDE::getInstance()->postRPC("register-getcreatecontractaddress",IDEUtil::toJsonFormat("getcreatecontractaddress",
-                                              QJsonArray()<<data));
-
-            ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toJsonFormat("sendrawtransaction",
-                                             QJsonArray()<<data));
-
-
-        }
-        else
-        {
-            ConvenientOp::ShowSyncCommonDialog(data);
-        }
-    }
-    else if("register-getcreatecontractaddress" == id)
-    {
-        //保存合约
-        QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
-        {
-            ConvenientOp::ShowSyncCommonDialog(data);
-            contractAddress.clear();
-            return;
-        }
-        contractAddress = parse_doucment.object().value("address").toString();
-
-        qDebug()<<contractAddress;
-
-    }
-    else if("register-sendrawtransaction" == id)
-    {
-        if(!data.startsWith("Error") && !data.isEmpty())
-        {//储存合约地址
-            //写入合约文件
-            ConvenientOp::AddContract(ui->address->currentText(), contractAddress);
-
-            //产一个块来确认
-            ChainIDE::getInstance()->postRPC("generate",IDEUtil::toJsonFormat("generate",QJsonArray()<<1));
-        }
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
         ConvenientOp::ShowSyncCommonDialog(data);
         close();
     }
@@ -101,16 +56,10 @@ void RegisterContractDialog::on_okBtn_clicked()
     //获取注册地址
     QString registerName = ui->address->currentText();
 
-<<<<<<< HEAD
     QString price = QString::number(ui->gasprice->value()/pow(10,5));
     ChainIDE::getInstance()->postRPC("register-register_contract",IDEUtil::toJsonFormat("register_contract",
                                      QJsonArray()<<registerName<<price<<ui->gaslimit->text()<<
                                      contract));
-=======
-    ChainIDE::getInstance()->postRPC("register-createcontract",IDEUtil::toJsonFormat("createcontract",
-                                     QJsonArray()<<registerAddr<<contractHex<<ui->gaslimit->value()<<
-                                     ui->gasprice->value()<<QString::number(ui->fee->value())));
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 
 }
 

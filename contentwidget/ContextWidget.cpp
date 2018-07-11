@@ -111,6 +111,17 @@ void ContextWidget::TabBreakPoint()
     }
 }
 
+void ContextWidget::ClearBreakPoint()
+{
+    for(int i = 0;i < ui->tabWidget->count();++i)
+    {
+        if(Editor* w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
+        {
+            w->ClearBreakPoint();
+        }
+    }
+}
+
 void ContextWidget::showFile(QString path)
 {
     for(int i = 0;i < ui->tabWidget->count();++i)

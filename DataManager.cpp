@@ -46,11 +46,7 @@ void DataManager::queryAccount()
 {
     _p->accountData->clear();
 
-<<<<<<< HEAD
     ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("list_my_accounts",QJsonArray()));
-=======
-    ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("listaccounts",QJsonArray()));
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 }
 
 const DataDefine::AccountDataPtr &DataManager::getAccount() const
@@ -60,7 +56,6 @@ const DataDefine::AccountDataPtr &DataManager::getAccount() const
 
 void DataManager::queryContract()
 {
-<<<<<<< HEAD
     _p->contractData->clear();
 
     for(auto it = _p->accountData->getAccount().begin();it != _p->accountData->getAccount().end();++it)
@@ -79,9 +74,6 @@ const AddressContractDataPtr &DataManager::getContract() const
 void DataManager::dealNewState()
 {
     ChainIDE::getInstance()->postRPC("deal-is_new",IDEUtil::toJsonFormat("is_new",QJsonArray()));
-=======
-    ChainIDE::getInstance()->postRPC("data-checkaddress",IDEUtil::toJsonFormat("validateaddress",QJsonArray()<<addr));
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 }
 
 void DataManager::InitManager()
@@ -96,16 +88,10 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
         if(parseListAccount(data))
         {
             //查询每一个账户对应的地址
-<<<<<<< HEAD
             AccountInfoVec accounts = _p->accountData->getAccount();
             std::for_each(accounts.begin(),accounts.end(),[](const AccountInfoPtr &account){
                 ChainIDE::getInstance()->postRPC(QString("query-getassetbyaccount_%1").arg(account->getAccountName()),
                                                  IDEUtil::toJsonFormat("get_account_balances",
-=======
-            std::for_each(_p->accountData->getAccount().begin(),_p->accountData->getAccount().end(),[](const AccountInfoPtr &account){
-                ChainIDE::getInstance()->postRPC(QString("query-getaddressesbyaccount_%1").arg(account->getAccountName()),
-                                                 IDEUtil::toJsonFormat("getaddressesbyaccount",
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
                                                QJsonArray()<<account->getAccountName()));
             });
             ChainIDE::getInstance()->postRPC("query-getaddresses-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray()));
@@ -119,13 +105,8 @@ void DataManager::jsonDataUpdated(const QString &id, const QString &data)
     }
     else if("query-getaddresses-finish" == id)
     {
-<<<<<<< HEAD
         //查询资产信息
         ChainIDE::getInstance()->postRPC("query-list_assets",IDEUtil::toJsonFormat("list_assets",QJsonArray()<<"A"<<100));
-=======
-        //查询每个地址对应的金额
-        ChainIDE::getInstance()->postRPC("listunspent",IDEUtil::toJsonFormat("listunspent",QJsonArray()));
->>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
     }
     else if("query-list_assets" == id)
     {

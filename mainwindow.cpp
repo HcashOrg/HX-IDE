@@ -115,7 +115,6 @@ void MainWindow::startWidget()
     ui->transferAction->setVisible(false);
     ui->importAction->setVisible(false);
     ui->exportAction->setVisible(false);
-    ui->DeleteAllBreakpointAction->setVisible(false);
     ui->upgradeAction->setVisible(false);
 
     //设置界面比例
@@ -367,7 +366,7 @@ void MainWindow::on_compileAction_triggered()
     //先触发保存判断
     if( ui->contentWidget->currentFileUnsaved() && ui->contentWidget->getCurrentFilePath() == ui->fileWidget->getCurrentFile())
     {
-        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", ui->contentWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        QMessageBox::StandardButton choice = QMessageBox::information(NULL, "", ui->contentWidget->getCurrentFilePath() + " " + tr("文件已修改，是否保存?"), QMessageBox::Yes | QMessageBox::No);
         if( QMessageBox::Yes == choice)
         {
             ui->contentWidget->saveFile();
@@ -404,8 +403,8 @@ void MainWindow::on_TabBreaPointAction_triggered()
 }
 
 void MainWindow::on_DeleteAllBreakpointAction_triggered()
-{//
-
+{//清空断点
+    ui->contentWidget->ClearBreakPoint();
 }
 
 void MainWindow::on_enterSandboxAction_triggered()

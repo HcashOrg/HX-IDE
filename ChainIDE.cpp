@@ -19,7 +19,6 @@
 
 static QMutex mutexForChainType;
 
-
 class ChainIDE::DataPrivate
 {
 public:
