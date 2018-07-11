@@ -15,6 +15,8 @@ public:
     const DataDefine::AddressContractDataPtr &getContract()const;
 
     void dealNewState();//处理第一次打开ide的情况
+
+    void unlockWallet(const QString &password);
 public:
     void InitManager();
 private slots:

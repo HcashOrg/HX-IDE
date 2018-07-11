@@ -86,6 +86,11 @@ void DataManagerHX::dealNewState()
     ChainIDE::getInstance()->postRPC("deal-is_new",IDEUtil::toJsonFormat("is_new",QJsonArray()));
 }
 
+void DataManagerHX::unlockWallet(const QString &password)
+{
+    ChainIDE::getInstance()->postRPC( "deal_unlock-lockpage", IDEUtil::toJsonFormat( "unlock", QJsonArray() << password ));
+}
+
 void DataManagerHX::InitManager()
 {
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&DataManagerHX::jsonDataUpdated);

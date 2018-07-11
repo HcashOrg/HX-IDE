@@ -20,6 +20,7 @@
 #include "popwidget/NewFileDialog.h"
 #include "popwidget/consoledialog.h"
 #include "popwidget/ConfigWidget.h"
+#include "popwidget/commondialog.h"
 
 #include "custom/AccountWidgetHX.h"
 #include "custom/RegisterContractDialogHX.h"
@@ -382,13 +383,27 @@ void MainWindow::on_withdrawAction_triggered()
 void MainWindow::on_changeChainAction_triggered()
 {
     ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
+
     if(ChainIDE::getInstance()->getCurrentChainType() == 2)
     {
-        PasswordVerifyWidgetHX password;
-        if(!password.pop())
+        CommonDialog dia(CommonDialog::OkAndCancel);
+        dia.setText(tr("Sure to switch to formal chain?"));
+        if(dia.pop())
         {
-             ChainIDE::getInstance()->setCurrentChainType(1);
+            if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+            {
+                DataManagerHX::getInstance()->unlockWallet("11111111");
+            }
         }
+        else
+        {
+            ChainIDE::getInstance()->setCurrentChainType(1);
+        }
+//        PasswordVerifyWidgetHX password;
+//        if(!password.pop())
+//        {
+//             ChainIDE::getInstance()->setCurrentChainType(1);
+//        }
     }
     refreshTitle();
     ModifyActionState();
