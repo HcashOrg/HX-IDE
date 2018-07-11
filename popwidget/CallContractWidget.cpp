@@ -43,17 +43,27 @@ void CallContractWidget::jsonDataUpdated(const QString &id, const QString &data)
 
 void CallContractWidget::CallContract()
 {
+<<<<<<< HEAD
     ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract",QJsonArray()<<
                                      ui->callAddress->currentText()<<ui->gasprice->text()<<ui->gaslimit->text()
                                      <<ui->contractAddress->currentText()<<ui->function->currentText()
                                      <<ui->param->text()));
+=======
+    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("callcontract",QJsonArray()<<
+                                     ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
+                                     <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
+>>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 }
 
 void CallContractWidget::contractAddressChanged()
 {
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
+<<<<<<< HEAD
                                      IDEUtil::toJsonFormat("get_contract_info",QJsonArray()<<ui->contractAddress->currentText()));
+=======
+                                     IDEUtil::toJsonFormat("getcontractinfo",QJsonArray()<<ui->contractAddress->currentText()));
+>>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 }
 
 void CallContractWidget::InitWidget()

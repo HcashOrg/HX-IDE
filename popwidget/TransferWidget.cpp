@@ -25,6 +25,20 @@ TransferWidget::~TransferWidget()
 
 void TransferWidget::transferSlot()
 {
+<<<<<<< HEAD
+=======
+    if(!ui->checkBox->isChecked())
+    {
+        ChainIDE::getInstance()->postRPC("transfer-to",IDEUtil::toJsonFormat("sendtoaddress",QJsonArray()<<
+                                         ui->lineEdit->text()<<ui->doubleSpinBox->value()));
+    }
+    else
+    {
+        ChainIDE::getInstance()->postRPC("transfer-to",IDEUtil::toJsonFormat("sendfrom",QJsonArray()<<
+                                         ui->comboBox->currentText()<<ui->lineEdit->text()<<ui->doubleSpinBox->value()));
+    }
+}
+>>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
 
     ChainIDE::getInstance()->postRPC( "transfer-to",
                                      IDEUtil::toJsonFormat( "transfer_to_address",

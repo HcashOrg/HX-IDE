@@ -52,7 +52,11 @@ void AccountWidget::on_newAccount_clicked()
     QString name = dia.pop();
     if(!name.isEmpty())
     {
+<<<<<<< HEAD
         ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toJsonFormat("wallet_create_account",QJsonArray()<<name));
+=======
+        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toJsonFormat("getnewaddress",QJsonArray()<<name));
+>>>>>>> b41c4ef8ab0b45651d7ad4ccd9b34bd3691512f8
     }
 }
 
