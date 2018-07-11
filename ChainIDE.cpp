@@ -15,8 +15,6 @@
 #include "backstage/UbtcBackStage.h"
 #include "compile/CompileManager.h"
 
-#include "DataManager.h"
-
 static QMutex mutexForChainType;
 
 class ChainIDE::DataPrivate
@@ -25,11 +23,9 @@ public:
     DataPrivate()
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
         ,chainType(1)
-        ,sanboxMode(false)
-        ,testManager(new LinkBackStage(1))
-        ,formalManager(new LinkBackStage(2))
+        ,testManager(nullptr)
+        ,formalManager(nullptr)
         ,compileManager(new CompileManager())
-        ,dataManager(new DataManager())
     {
 
     }
@@ -39,7 +35,6 @@ public:
         delete testManager;
         delete formalManager;
         delete compileManager;
-        delete dataManager;
     }
 
 public:
@@ -48,10 +43,8 @@ public:
     BackStageBase *testManager;
     BackStageBase *formalManager;
     int chainType;//链类型1==测试 2==正式
-    bool sanboxMode;//沙盒模式
 
     CompileManager *compileManager;//编译器
-    DataManager *dataManager;
 };
 
 ChainIDE *ChainIDE::getInstance()
@@ -107,16 +100,6 @@ void ChainIDE::setCurrentChainType(int type)
     mutexForChainType.unlock();
 }
 
-bool ChainIDE::isSandBoxMode() const
-{
-    return _p->sanboxMode;
-}
-
-void ChainIDE::setSandboxMode(bool mode)
-{
-    _p->sanboxMode = mode;
-}
-
 QString ChainIDE::getEnvAppDataPath() const
 {
     return _p->appDataPath;
@@ -145,6 +128,34 @@ DataDefine::Language ChainIDE::getCurrentLanguage() const
 void ChainIDE::setCurrentLanguage(DataDefine::Language lan)
 {
     _p->configFile->setValue("/settings/language",lan == DataDefine::SimChinese ? "SimChinese" : "English");
+}
+
+DataDefine::BlockChainClass ChainIDE::getChainClass() const
+{
+    if(_p->configFile->value("/settings/chainClass").toString() == "hx")
+    {
+        return DataDefine::HX;
+    }
+    else if(_p->configFile->value("/settings/chainClass").toString() == "ub")
+    {
+        return DataDefine::UB;
+    }
+
+    return DataDefine::UB;
+}
+
+void ChainIDE::setChainClass(DataDefine::BlockChainClass name)
+{
+    switch (name) {
+    case DataDefine::HX:
+        _p->configFile->setValue("/settings/chainClass","hx");
+        break;
+    case DataDefine::UB:
+        _p->configFile->setValue("/settings/chainClass","ub");
+        break;
+    default:
+        break;
+    }
 }
 
 void ChainIDE::setConfigAppDataPath(const QString &path)
@@ -193,11 +204,6 @@ CompileManager *ChainIDE::getCompileManager() const
     return _p->compileManager;
 }
 
-DataManager *ChainIDE::getDataManager() const
-{
-    return _p->dataManager;
-}
-
 void ChainIDE::refreshStyleSheet()
 {
     QString path ;
@@ -228,17 +234,43 @@ void ChainIDE::refreshTranslator()
 
 void ChainIDE::InitConfig()
 {
-    if("black" != _p->configFile->value("/settings/theme").toString() && "white" != _p->configFile->value("/settings/theme").toString())
+    if("black" != _p->configFile->value("/settings/theme").toString() &&
+       "white" != _p->configFile->value("/settings/theme").toString())
     {
-
         _p->configFile->setValue("/settings/theme","black");
+    }
+
+    if("SimChinese" != _p->configFile->value("/settings/language").toString() &&
+       "English" != _p->configFile->value("/settings/language").toString())
+    {
+        _p->configFile->setValue("/settings/language","English");
+    }
+
+    if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
+       "hx" != _p->configFile->value("/settings/chainClass").toString())
+    {
+        _p->configFile->setValue("/settings/chainClass","ub");
     }
 }
 
 void ChainIDE::InitExeManager()
 {
+    if(getChainClass() == DataDefine::HX)
+    {
+        _p->testManager = new LinkBackStage(1);
+        _p->formalManager = new LinkBackStage(2);
+    }
+    else if(getChainClass() == DataDefine::UB)
+    {
+        _p->testManager = new UbtcBackStage(1);
+        _p->formalManager = new UbtcBackStage(2);
+    }
+
     connect(this,&ChainIDE::rpcPosted,_p->testManager,&BackStageBase::rpcPostedSlot);
     connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
+
+    connect(_p->testManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
+    connect(_p->formalManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
 }
 
 void ChainIDE::getSystemEnvironmentPath()

@@ -14,9 +14,10 @@ public:
     virtual void startExe() = 0;
     virtual bool exeRunning() = 0;
     virtual QProcess *getProcess()const = 0;
-    virtual void ReadyClose();
+    virtual void ReadyClose() = 0;
 signals:
     void exeStarted();
+    void rpcReceived(const QString &,const QString &);
 public slots:
     virtual void rpcPostedSlot(const QString &,const QString &) = 0;
 };

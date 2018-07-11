@@ -45,22 +45,31 @@ SOURCES += main.cpp\
     backstage/BackStageBase.cpp \
     backstage/LinkBackStage.cpp \
     backstage/UbtcBackStage.cpp \
-    DataManager.cpp \
-    popwidget/AccountWidget.cpp \
-    popwidget/namedialog.cpp \
+    datamanager/DataManagerHX.cpp \
+    datamanager/DataManagerUB.cpp \
+    custom/AccountWidgetHX.cpp \
+    custom/NameDialogHX.cpp \
     popwidget/MoveableDialog.cpp \
-    popwidget/registercontractdialog.cpp \
-    popwidget/TransferWidget.cpp \
-    popwidget/CallContractWidget.cpp \
+    custom/RegisterContractDialogHX.cpp \
+    custom/TransferWidgetHX.cpp \
+    custom/CallContractWidgetHX.cpp \
     ConvenientOp.cpp \
-    contractwidget/ContractWidget.cpp \
-    contractwidget/FunctionWidget.cpp \
+    contractwidget/ContractWidgetHX.cpp \
+    contractwidget/FunctionWidgetHX.cpp \
     compile/kotlinCompile.cpp \
     popwidget/ConfigWidget.cpp \
     contentwidget/Editor.cpp \
     contentwidget/codeeditor.cpp \
-    popwidget/PasswordVerifyWidget.cpp \
-    popwidget/importdialog.cpp
+    custom/PasswordVerifyWidgetHX.cpp \
+    custom/ImportDialogHX.cpp \
+    custom/AccountWidgetUB.cpp \
+    custom/CallContractWidgetUB.cpp \
+    custom/ImportDialogUB.cpp \
+    custom/NameDialogUB.cpp \
+    custom/RegisterContractDialogUB.cpp \
+    custom/TransferWidgetUB.cpp \
+    contractwidget/ContractWidgetUB.cpp \
+    contractwidget/FunctionWidgetUB.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -94,22 +103,31 @@ HEADERS  += MainWindow.h \
     backstage/BackStageBase.h \
     backstage/LinkBackStage.h \
     backstage/UbtcBackStage.h \
-    DataManager.h \
-    popwidget/AccountWidget.h \
-    popwidget/namedialog.h \
+    datamanager/DataManagerHX.h \
+    datamanager/DataManagerUB.h \
+    custom/AccountWidgetHX.h \
+    custom/NameDialogHX.h \
     popwidget/MoveableDialog.h \
-    popwidget/registercontractdialog.h \
-    popwidget/TransferWidget.h \
-    popwidget/CallContractWidget.h \
+    custom/RegisterContractDialogHX.h \
+    custom/TransferWidgetHX.h \
+    custom/CallContractWidgetHX.h \
     ConvenientOp.h \
-    contractwidget/ContractWidget.h \
-    contractwidget/FunctionWidget.h \
+    contractwidget/ContractWidgetHX.h \
+    contractwidget/FunctionWidgetHX.h \
     compile/kotlinCompile.h \
     popwidget/ConfigWidget.h \
     contentwidget/Editor.h \
     contentwidget/codeeditor.h \
-    popwidget/PasswordVerifyWidget.h \
-    popwidget/importdialog.h
+    custom/PasswordVerifyWidgetHX.h \
+    custom/ImportDialogHX.h \
+    custom/AccountWidgetUB.h \
+    custom/CallContractWidgetUB.h \
+    custom/ImportDialogUB.h \
+    custom/NameDialogUB.h \
+    custom/RegisterContractDialogUB.h \
+    custom/TransferWidgetUB.h \
+    contractwidget/ContractWidgetUB.h \
+    contractwidget/FunctionWidgetUB.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -122,18 +140,26 @@ FORMS    += MainWindow.ui \
     filewidget/InterfaceWidget.ui \
     popwidget/consoledialog.ui \
     contentwidget/ContextWidget.ui \
-    popwidget/AccountWidget.ui \
-    popwidget/namedialog.ui \
-    popwidget/registercontractdialog.ui \
-    popwidget/TransferWidget.ui \
-    popwidget/CallContractWidget.ui \
-    contractwidget/ContractWidget.ui \
-    contractwidget/FunctionWidget.ui \
+    custom/AccountWidgetHX.ui \
+    custom/NameDialogHX.ui \
+    custom/RegisterContractDialogHX.ui \
+    custom/TransferWidgetHX.ui \
+    custom/CallContractWidgetHX.ui \
+    contractwidget/ContractWidgetHX.ui \
+    contractwidget/FunctionWidgetHX.ui \
     popwidget/ConfigWidget.ui \
     contentwidget/Editor.ui \
     contentwidget/codeeditor.ui \
-    popwidget/PasswordVerifyWidget.ui \
-    popwidget/importdialog.ui
+    custom/PasswordVerifyWidgetHX.ui \
+    custom/ImportDialogHX.ui \
+    custom/AccountWidgetUB.ui \
+    custom/CallContractWidgetUB.ui \
+    custom/ImportDialogUB.ui \
+    custom/NameDialogUB.ui \
+    custom/RegisterContractDialogUB.ui \
+    custom/TransferWidgetUB.ui \
+    contractwidget/ContractWidgetUB.ui \
+    contractwidget/FunctionWidgetUB.ui
 
 RESOURCES += \
     chain.qrc

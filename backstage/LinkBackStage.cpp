@@ -168,7 +168,7 @@ void LinkBackStage::onClientExeStateChanged()
 
 void LinkBackStage::initSocketManager()
 {
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated);
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
 
     _p->dataRequire->startManager(DataRequireManager::WEBSOCKET);

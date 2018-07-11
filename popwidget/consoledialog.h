@@ -2,7 +2,7 @@
 #define CONSOLEDIALOG_H
 
 #include <QDialog>
-#include "MoveableDialog.h"
+#include "popwidget/MoveableDialog.h"
 
 namespace Ui {
 class ConsoleDialog;

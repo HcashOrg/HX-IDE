@@ -82,10 +82,6 @@ private slots:
     //工具菜单
     void on_changeChainAction_triggered();
 
-    void on_enterSandboxAction_triggered();
-
-    void on_exitSandboxAction_triggered();
-
     void on_accountListAction_triggered();
 
     void on_consoleAction_triggered();

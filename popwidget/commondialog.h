@@ -1,7 +1,7 @@
 #ifndef COMMONDIALOG_H
 #define COMMONDIALOG_H
 
-#include "MoveableDialog.h"
+#include "popwidget/MoveableDialog.h"
 
 namespace Ui {
 class CommonDialog;

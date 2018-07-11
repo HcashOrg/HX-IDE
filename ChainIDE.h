@@ -6,7 +6,6 @@
 
 class BackStageBase;
 class CompileManager;
-class DataManager;
 class QProcess;
 
 class ChainIDE : public QObject
@@ -18,9 +17,6 @@ public:
 //链类型
     int getCurrentChainType()const;
     void setCurrentChainType(int type);
-//是否是沙盒
-    bool isSandBoxMode()const;
-    void setSandboxMode(bool mode);
 //配置
     QString getEnvAppDataPath()const;
 
@@ -33,14 +29,15 @@ public:
     DataDefine::Language getCurrentLanguage()const;
     void setCurrentLanguage(DataDefine::Language);
 
+    DataDefine::BlockChainClass getChainClass()const;
+    void setChainClass(DataDefine::BlockChainClass);
+
 //后台
     BackStageBase *testManager()const;
     BackStageBase *formalManager()const;
     QProcess *getProcess(int type = 0)const;//0当前 1测试  2正式
 //编译
     CompileManager *getCompileManager()const;
-//数据管理
-    DataManager *getDataManager()const;
 public:
     void refreshStyleSheet();//刷新样式表
     void refreshTranslator();//刷新翻译

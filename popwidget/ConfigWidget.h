@@ -1,7 +1,7 @@
 #ifndef CONFIGWIDGET_H
 #define CONFIGWIDGET_H
 
-#include "MoveableDialog.h"
+#include "popwidget/MoveableDialog.h"
 
 namespace Ui {
 class ConfigWidget;

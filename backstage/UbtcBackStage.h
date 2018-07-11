@@ -20,8 +20,6 @@ public slots:
 private slots:
     void onNodeExeStateChanged();
 
-signals:
-    void rpcReceived(const QString &,const QString &);
 private:
     void initSocketManager();
 private:

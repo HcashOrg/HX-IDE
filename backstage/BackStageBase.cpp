@@ -9,8 +9,3 @@ BackStageBase::~BackStageBase()
 {
 
 }
-
-void BackStageBase::ReadyClose()
-{
-
-}

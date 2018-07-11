@@ -107,30 +107,13 @@ void UbtcBackStage::ReadyClose()
 
     _p->clientProc->waitForFinished(30000);
     qDebug()<<"stop";
+    _p->clientProc->close();
+    _p->nodeProc->close();
 }
 
 void UbtcBackStage::rpcPostedSlot(const QString &cmd, const QString & param)
 {
-//    _p->clientProc->waitForFinished(30000);
-//    QStringList paramsList = param.split(' ');
-//    if(paramsList.back() == "\"\"")
-//    {
-//        paramsList.pop_back();
-//        paramsList<<"";
-//    }
-//    QStringList strList;
-//    strList << "-rpcport="+QString::number(_p->clientPort)
-//            << "-rpcuser="+RPC_USER<<"-rpcpassword="+RPC_PASSWORD<<paramsList;
-//    _p->currentCMD = cmd;
-//    qDebug()<<"postData"<<strList;
-//    _p->clientProc->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::UBCD_CLIENT_EXE,strList);
-
-//    _p->clientProc->waitForReadyRead(30000);
-
-//    emit rpcReceived(cmd,_p->clientProc->readAll());
-
     _p->dataRequire->requirePosted(cmd,param);
-
 }
 
 void UbtcBackStage::onNodeExeStateChanged()
@@ -142,8 +125,6 @@ void UbtcBackStage::onNodeExeStateChanged()
     else if(_p->nodeProc->state() == QProcess::Running)
     {
         qDebug() << QString("%1 is running").arg("ubcd.exe");
-        //connect(this,&UbtcBackStage::rpcReceived,ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated);
-        //connect(_p->clientProc,&QProcess::readyReadStandardOutput,this,&UbtcBackStage::readData);
 
         initSocketManager();
         //emit exeStarted();
@@ -159,7 +140,7 @@ void UbtcBackStage::onNodeExeStateChanged()
 
 void UbtcBackStage::initSocketManager()
 {
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated);
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
 
     _p->dataRequire->startManager(DataRequireManager::HTTP);

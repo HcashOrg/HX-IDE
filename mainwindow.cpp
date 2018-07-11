@@ -7,7 +7,8 @@
 #include <QMessageBox>
 
 #include "ChainIDE.h"
-#include "DataManager.h"
+#include "datamanager/DataManagerHX.h"
+#include "datamanager/DataManagerUB.h"
 #include "selectpathwidget.h"
 #include "waitingforsync.h"
 #include "outputwidget.h"
@@ -18,13 +19,18 @@
 
 #include "popwidget/NewFileDialog.h"
 #include "popwidget/consoledialog.h"
-
-#include "popwidget/AccountWidget.h"
-#include "popwidget/registercontractdialog.h"
-#include "popwidget/TransferWidget.h"
-#include "popwidget/CallContractWidget.h"
 #include "popwidget/ConfigWidget.h"
-#include "popwidget/PasswordVerifyWidget.h"
+
+#include "custom/AccountWidgetHX.h"
+#include "custom/RegisterContractDialogHX.h"
+#include "custom/TransferWidgetHX.h"
+#include "custom/CallContractWidgetHX.h"
+#include "custom/PasswordVerifyWidgetHX.h"
+
+#include "custom/AccountWidgetUB.h"
+#include "custom/RegisterContractDialogUB.h"
+#include "custom/TransferWidgetUB.h"
+#include "custom/CallContractWidgetUB.h"
 
 #include "ConvenientOp.h"
 
@@ -137,9 +143,8 @@ void MainWindow::startWidget()
     ModifyActionState();
 
     //已注册合约
-    //connect(ChainIDE::getInstance()->getDataManager(),&DataManager::queryContractFinish,ui->contractWidget,&ContractWidget::RefreshTree);
+    ui->tabWidget->removeTab(ChainIDE::getInstance()->getChainClass() == DataDefine::UB ? 1 : 2);
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::on_tabWidget_currentChanged);
-    //QTimer::singleShot(3000,[](){ChainIDE::getInstance()->getDataManager()->queryContract();});
 
 }
 
@@ -168,7 +173,7 @@ void MainWindow::refreshTranslator()
 
     ui->fileWidget->retranslator();
     ui->outputWidget->retranslator();
-    ui->contractWidget->retranslator();
+    ui->contractWidgetHX->retranslator();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -187,8 +192,16 @@ void MainWindow::exeStartedSlots()
        disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
 
        //初始化数据管理
-       ChainIDE::getInstance()->getDataManager()->InitManager();
-       ChainIDE::getInstance()->getDataManager()->dealNewState();//处理最新情况
+       if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+       {
+           DataManagerHX::getInstance()->InitManager();
+           DataManagerHX::getInstance()->dealNewState();//处理最新情况
+       }
+       else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+       {
+           DataManagerUB::getInstance()->InitManager();
+       }
+
        //关闭等待窗
        if(_p->waitingForSync)
        {
@@ -276,7 +289,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     if(index == 1)
     {
-        ui->contractWidget->RefreshTree();
+        ui->contractWidgetHX->RefreshTree();
+    }
+    else if(index == 2)
+    {
+        ui->contractWidgetHX->RefreshTree();
     }
 }
 
@@ -321,8 +338,16 @@ void MainWindow::on_exportAction_triggered()
 
 void MainWindow::on_registerAction_triggered()
 {
-    RegisterContractDialog dia;
-    dia.exec();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        RegisterContractDialogHX dia;
+        dia.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        RegisterContractDialogUB dia;
+        dia.exec();
+    }
 }
 
 void MainWindow::on_transferAction_triggered()
@@ -332,8 +357,16 @@ void MainWindow::on_transferAction_triggered()
 
 void MainWindow::on_callAction_triggered()
 {//调用合约
-    CallContractWidget callWidget;
-    callWidget.exec();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        CallContractWidgetHX callWidget;
+        callWidget.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        CallContractWidgetUB callWidget;
+        callWidget.exec();
+    }
 }
 
 void MainWindow::on_upgradeAction_triggered()
@@ -351,7 +384,7 @@ void MainWindow::on_changeChainAction_triggered()
     ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
     if(ChainIDE::getInstance()->getCurrentChainType() == 2)
     {
-        PasswordVerifyWidget password;
+        PasswordVerifyWidgetHX password;
         if(!password.pop())
         {
              ChainIDE::getInstance()->setCurrentChainType(1);
@@ -407,22 +440,18 @@ void MainWindow::on_DeleteAllBreakpointAction_triggered()
     ui->contentWidget->ClearBreakPoint();
 }
 
-void MainWindow::on_enterSandboxAction_triggered()
-{
-    ChainIDE::getInstance()->setSandboxMode(true);
-    ModifyActionState();
-}
-
-void MainWindow::on_exitSandboxAction_triggered()
-{
-    ChainIDE::getInstance()->setSandboxMode(false);
-    ModifyActionState();
-}
-
 void MainWindow::on_accountListAction_triggered()
 {
-    AccountWidget accountWidget;
-    accountWidget.exec();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        AccountWidgetHX account;
+        account.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        AccountWidgetUB account;
+        account.exec();
+    }
 }
 
 void MainWindow::on_consoleAction_triggered()
@@ -433,8 +462,17 @@ void MainWindow::on_consoleAction_triggered()
 
 void MainWindow::on_transferToAccountAction_triggered()
 {//转账
-    TransferWidget transferWidget;
-    transferWidget.exec();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        TransferWidgetHX transfer;
+        transfer.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        TransferWidgetUB transfer;
+        transfer.exec();
+    }
+
 }
 
 void MainWindow::on_helpAction_triggered()
@@ -457,9 +495,6 @@ void MainWindow::ModifyActionState()
     ui->redoAction->setEnabled(ui->contentWidget->isRedoAvailable());
     ui->saveAction->setEnabled(ui->contentWidget->currentFileUnsaved());
     ui->saveAllAction->setEnabled(ui->contentWidget->hasFileUnsaved());
-
-    ui->enterSandboxAction->setEnabled(!ChainIDE::getInstance()->isSandBoxMode());
-    ui->exitSandboxAction->setEnabled(ChainIDE::getInstance()->isSandBoxMode());
 
     QString currentFile = ui->fileWidget->getCurrentFile();
     if(currentFile.endsWith(DataDefine::GLUA_SUFFIX)||

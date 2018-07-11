@@ -40,6 +40,9 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
+      <property name="handleWidth">
+       <number>1</number>
+      </property>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
         <number>0</number>
@@ -49,7 +52,12 @@
          <string>合约项目</string>
         </attribute>
        </widget>
-       <widget class="ContractWidget" name="contractWidget">
+       <widget class="ContractWidgetHX" name="contractWidgetHX">
+        <attribute name="title">
+         <string>已注册合约</string>
+        </attribute>
+       </widget>
+       <widget class="ContractWidgetUB" name="contractWidgetUB">
         <attribute name="title">
          <string>已注册合约</string>
         </attribute>
@@ -58,6 +66,9 @@
       <widget class="QSplitter" name="splitter_ver">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
+       </property>
+       <property name="handleWidth">
+        <number>1</number>
        </property>
        <widget class="ContextWidget" name="contentWidget" native="true">
         <property name="minimumSize">
@@ -632,9 +643,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ContractWidget</class>
+   <class>ContractWidgetHX</class>
    <extends>QWidget</extends>
-   <header>contractwidget/contractwidget.h</header>
+   <header>contractwidget/contractwidgethx.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ContractWidgetUB</class>
+   <extends>QWidget</extends>
+   <header>contractwidget/contractwidgetub.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

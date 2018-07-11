@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QMouseEvent>
-#include "MoveableDialog.h"
+#include "popwidget/MoveableDialog.h"
 
 namespace Ui {
 class NewFileDialog;
