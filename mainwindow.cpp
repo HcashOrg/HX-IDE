@@ -290,11 +290,14 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     if(index == 1)
     {
-        ui->contractWidgetHX->RefreshTree();
-    }
-    else if(index == 2)
-    {
-        ui->contractWidgetHX->RefreshTree();
+        if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+        {
+            ui->contractWidgetHX->RefreshTree();
+        }
+        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+        {
+            ui->contractWidgetUB->RefreshTree();
+        }
     }
 }
 
