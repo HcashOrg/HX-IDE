@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TransferWidgetUB</class>
- <widget class="QDialog" name="TransferWidget">
+ <widget class="QDialog" name="TransferWidgetUB">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +29,7 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>457</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>

@@ -49,14 +49,7 @@ OutputWidget::OutputWidget(QWidget *parent) :
     ui->compileStack->setCurrentWidget(_p->testCompile);
     ui->outputStack->setCurrentWidget(_p->testOut);
     ui->tabWidget->setCurrentIndex(0);
-
-    //不知道为啥，只有textbrowser的背景色样式表不起作用，需要单独设置，诡异的很
-    QString background = ChainIDE::getInstance()->getCurrentTheme() == DataDefine::Black_Theme ?
-                         "background-color:rgb(46,46,46);":"background-color:rgb(255,255,255);";
-    _p->testCompile->setStyleSheet(background);
-    _p->testOut->setStyleSheet(background);
-    _p->formalCompile->setStyleSheet(background);
-    _p->formalOut->setStyleSheet(background);
+    refreshStyle();
 }
 
 OutputWidget::~OutputWidget()
@@ -86,4 +79,16 @@ void OutputWidget::receiveOutputMessage(const QString &text, int chainType)
 void OutputWidget::retranslator()
 {
     ui->retranslateUi(this);
+}
+
+void OutputWidget::refreshStyle()
+{
+    //不知道为啥，只有textbrowser的背景色样式表不起作用，需要单独设置，诡异的很
+    QString background = ChainIDE::getInstance()->getCurrentTheme() == DataDefine::Black_Theme ?
+                         "background-color:rgb(46,46,46);":"background-color:rgb(255,255,255);";
+    _p->testCompile->setStyleSheet(background);
+    _p->testOut->setStyleSheet(background);
+    _p->formalCompile->setStyleSheet(background);
+    _p->formalOut->setStyleSheet(background);
+
 }

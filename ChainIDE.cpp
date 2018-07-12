@@ -23,6 +23,8 @@ public:
     DataPrivate()
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
         ,chainType(1)
+        ,chainClass(DataDefine::HX)
+        ,themeStyle(DataDefine::Black_Theme)
         ,testManager(nullptr)
         ,formalManager(nullptr)
         ,compileManager(new CompileManager())
@@ -40,9 +42,13 @@ public:
 public:
     QSettings *configFile;//配置文件
     QString appDataPath;//系统环境变量的appdatapath
+
     BackStageBase *testManager;
     BackStageBase *formalManager;
+
     int chainType;//链类型1==测试 2==正式
+    DataDefine::BlockChainClass chainClass;//链类ub hx等
+    DataDefine::ThemeStyle themeStyle;//主题
 
     CompileManager *compileManager;//编译器
 };
@@ -110,9 +116,14 @@ QString ChainIDE::getConfigAppDataPath() const
     return _p->configFile->value("/settings/chainPath").toString();
 }
 
+void ChainIDE::setConfigAppDataPath(const QString &path)
+{
+    _p->configFile->setValue("/settings/chainPath",path);
+}
+
 DataDefine::ThemeStyle ChainIDE::getCurrentTheme() const
 {
-    return _p->configFile->value("/settings/theme").toString() == "black"?DataDefine::Black_Theme : DataDefine::White_Theme;
+    return _p->themeStyle;
 }
 
 void ChainIDE::setCurrentTheme(DataDefine::ThemeStyle style)
@@ -132,16 +143,7 @@ void ChainIDE::setCurrentLanguage(DataDefine::Language lan)
 
 DataDefine::BlockChainClass ChainIDE::getChainClass() const
 {
-    if(_p->configFile->value("/settings/chainClass").toString() == "hx")
-    {
-        return DataDefine::HX;
-    }
-    else if(_p->configFile->value("/settings/chainClass").toString() == "ub")
-    {
-        return DataDefine::UB;
-    }
-
-    return DataDefine::UB;
+    return _p->chainClass;
 }
 
 void ChainIDE::setChainClass(DataDefine::BlockChainClass name)
@@ -156,11 +158,6 @@ void ChainIDE::setChainClass(DataDefine::BlockChainClass name)
     default:
         break;
     }
-}
-
-void ChainIDE::setConfigAppDataPath(const QString &path)
-{
-    _p->configFile->setValue("/settings/chainPath",path);
 }
 
 BackStageBase *ChainIDE::testManager() const
@@ -250,6 +247,25 @@ void ChainIDE::InitConfig()
        "hx" != _p->configFile->value("/settings/chainClass").toString())
     {
         _p->configFile->setValue("/settings/chainClass","ub");
+    }
+
+    //链类型设置
+    if(_p->configFile->value("/settings/chainClass").toString() == "hx")
+    {
+        _p->chainClass =  DataDefine::HX;
+    }
+    else if(_p->configFile->value("/settings/chainClass").toString() == "ub")
+    {
+        _p->chainClass =  DataDefine::UB;
+    }
+    //主题类型
+    if(_p->configFile->value("/settings/theme").toString() == "black")
+    {
+        _p->themeStyle =  DataDefine::Black_Theme;
+    }
+    else if(_p->configFile->value("/settings/theme").toString() == "white")
+    {
+        _p->themeStyle =  DataDefine::White_Theme;
     }
 }
 

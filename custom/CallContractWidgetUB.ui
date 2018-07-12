@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CallContractWidgetUB</class>
- <widget class="QDialog" name="CallContractWidget">
+ <widget class="QDialog" name="CallContractWidgetUB">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +29,7 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>554</x>
      <y>8</y>
      <width>38</width>
      <height>21</height>

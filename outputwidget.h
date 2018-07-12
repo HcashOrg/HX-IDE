@@ -24,6 +24,7 @@ public slots:
 
 
     void retranslator();
+    void refreshStyle();
 private:
     Ui::OutputWidget *ui;
     class DataPrivate;

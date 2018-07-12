@@ -34,6 +34,9 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="handleWidth">
+      <number>1</number>
+     </property>
      <widget class="QTreeWidget" name="treeWidget">
       <column>
        <property name="text">
@@ -50,7 +53,7 @@
   <customwidget>
    <class>FunctionWidgetUB</class>
    <extends>QWidget</extends>
-   <header>contractwidgetB/functionwidgetub.h</header>
+   <header>contractwidget/functionwidgetub.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

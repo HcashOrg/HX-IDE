@@ -24,10 +24,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>12</y>
-     <width>16</width>
-     <height>16</height>
+     <x>467</x>
+     <y>11</y>
+     <width>21</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -119,7 +119,7 @@ color: rgb(255, 255, 255);</string>
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -205,14 +205,11 @@ color: rgb(255, 255, 255);</string>
     </item>
    </layout>
   </widget>
-  <zorder>privatekey</zorder>
-  <zorder>label</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>title_Label</zorder>
   <zorder>okBtn</zorder>
   <zorder>cancelBtn</zorder>
   <zorder>closeBtn</zorder>
-  <zorder>label_2</zorder>
-  <zorder>name</zorder>
  </widget>
  <tabstops>
   <tabstop>privatekey</tabstop>

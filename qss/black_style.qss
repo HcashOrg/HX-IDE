@@ -1,3 +1,7 @@
+QMainWindow{
+    background-color:rgb(31,31,31);
+}
+
 QSplitter::handle {
     background-color: rgb(31,31,31);
 }
@@ -35,7 +39,7 @@ QMenu{
     border:1px solid rgb(10,10,10);
 }
 QMenu::item{
-    margin-left:2px;
+    margin-left:4px;
     padding:8px 23px 8px 23px;
     border:1px solid transparent;
     font: 14px \"微软雅黑\";
@@ -125,18 +129,19 @@ QTabBar::close-button {
 }
 
 QScrollBar:vertical {
-     border: 1px solid rgb(71,71,71);
+     border: 0px solid rgb(71,71,71);
      background: rgb(46,46,46);
-     width: 15px;
-     margin: 17px 0 17px 0;
+     width: 10px;
+     margin: 1px 0 1px 0;
  }
  QScrollBar::handle:vertical {
-    border: 1px solid rgb(71,71,71);
-    background: rgb(41,41,41);
+    border: 0px solid rgb(71,71,71);
+    border-radius:5px;
+    background: rgb(38,38,38);
     min-height:30px;
  }
  QScrollBar::add-line:vertical {
- border: 1px solid rgb(71,71,71);
+ border: 0px solid rgb(71,71,71);
      background: rgb(46,46,46);
      height: 15px;
      subcontrol-position: bottom;
@@ -144,14 +149,14 @@ QScrollBar:vertical {
  }
 
  QScrollBar::sub-line:vertical {
- border: 1px solid rgb(71,71,71);
+ border: 0px solid rgb(71,71,71);
      background: rgb(46,46,46);
      height: 15px;
      subcontrol-position: top;
      subcontrol-origin: margin;
  }
  QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-     border: 1px solid rgb(71,71,71);
+     border: 0px solid rgb(71,71,71);
      width: 5px;
      height: 5px;
      background: white;
@@ -326,6 +331,7 @@ QToolButton#clearBtn{
     background-color:rgb(66,66,66);
     border:1px solid gray;
     border-radius:10px;
+    color:white;
 }
 QToolButton#clearBtn:pressed{
     background-color:rgb(50,50,50);
@@ -381,4 +387,8 @@ QToolButton#newAccount:disabled,QToolButton#importKey:disabled{
 
 QToolButton#newAccount:pressed,QToolButton#importKey:pressed{
     background-color:rgb(50,50,50);
+}
+
+QWidget#ContextWidget{
+    background-color:black;
 }

@@ -366,19 +366,55 @@
     </message>
     <message>
         <location filename="popwidget/ConfigWidget.ui" line="90"/>
-        <source>语言:</source>
+        <source>语言：</source>
+        <oldsource>语言:</oldsource>
         <translation type="unfinished">语言：</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="39"/>
+        <location filename="popwidget/ConfigWidget.ui" line="103"/>
+        <source>主题：</source>
+        <translation type="unfinished">主题：</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.ui" line="116"/>
+        <source>链类型：</source>
+        <translation type="unfinished">链类型：</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="36"/>
+        <source>the change will take effect after restart!</source>
+        <translation type="unfinished">重启后生效！</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="47"/>
         <source>  English</source>
         <oldsource>english</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="40"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="48"/>
         <source>  Chinese</source>
         <oldsource>Chinese</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="60"/>
+        <source>  Black</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="61"/>
+        <source>  White</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="73"/>
+        <source>  UB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="74"/>
+        <source>  HX</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -395,12 +431,12 @@
         <translation type="unfinished">在此输入命令并回车</translation>
     </message>
     <message>
-        <location filename="popwidget/consoledialog.ui" line="114"/>
+        <location filename="popwidget/consoledialog.ui" line="154"/>
         <source>控制台</source>
         <translation type="unfinished">控制台</translation>
     </message>
     <message>
-        <location filename="popwidget/consoledialog.ui" line="165"/>
+        <location filename="popwidget/consoledialog.ui" line="138"/>
         <source>清空</source>
         <translation type="unfinished">清空</translation>
     </message>
@@ -890,7 +926,7 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="467"/>
-        <location filename="MainWindow.cpp" line="510"/>
+        <location filename="MainWindow.cpp" line="514"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1006,17 +1042,17 @@
         <translation type="unfinished">正式链IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="393"/>
+        <location filename="MainWindow.cpp" line="397"/>
         <source>Sure to switch to formal chain?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="420"/>
+        <location filename="MainWindow.cpp" line="424"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="510"/>
+        <location filename="MainWindow.cpp" line="514"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>

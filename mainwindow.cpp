@@ -155,15 +155,17 @@ void MainWindow::refreshTitle()
 }
 
 void MainWindow::refreshStyle()
-{
+{/*
     setAutoFillBackground(true);
     QPalette palette;
     palette.setColor(QPalette::Window, DataDefine::Black_Theme == ChainIDE::getInstance()->getCurrentTheme() ?
                                        DataDefine::DARK_CLACK_BACKGROUND : DataDefine::WHITE_BACKGROUND);
-    setPalette(palette);
+    setPalette(palette);*/
 
     //初始化样式表
     ChainIDE::getInstance()->refreshStyleSheet();
+
+    ui->outputWidget->refreshStyle();
 }
 
 void MainWindow::refreshTranslator()
@@ -175,6 +177,7 @@ void MainWindow::refreshTranslator()
     ui->fileWidget->retranslator();
     ui->outputWidget->retranslator();
     ui->contractWidgetHX->retranslator();
+    ui->contractWidgetUB->retranslator();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -307,6 +310,7 @@ void MainWindow::on_configAction_triggered()
     if(config.pop())
     {
         refreshTranslator();
+        refreshStyle();
     }
 
 }

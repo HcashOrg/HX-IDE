@@ -13,12 +13,12 @@
 
 ConsoleDialog::ConsoleDialog(QWidget *parent) :
     MoveableDialog(parent),
-    cmdIndex(0),
-    ui(new Ui::ConsoleDialog)
+    ui(new Ui::ConsoleDialog),
+    cmdIndex(0)
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint | windowFlags());
 
     ui->consoleLineEdit->installEventFilter(this);
 

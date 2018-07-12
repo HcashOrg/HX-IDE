@@ -29,7 +29,7 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>357</x>
+     <x>361</x>
      <y>10</y>
      <width>31</width>
      <height>20</height>
@@ -45,8 +45,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>200</y>
+     <x>220</x>
+     <y>190</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>200</y>
+     <x>310</x>
+     <y>190</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -78,16 +78,16 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>90</y>
+     <y>70</y>
      <width>371</width>
-     <height>24</height>
+     <height>91</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="1,6">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="1,4">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>语言:</string>
+       <string>语言：</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -95,7 +95,33 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QComboBox" name="comboBox"/>
+     <widget class="QComboBox" name="language"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>主题：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="theme"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>链类型：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="chainclass"/>
     </item>
    </layout>
   </widget>

@@ -137,10 +137,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>469</x>
-     <y>12</y>
-     <width>16</width>
-     <height>16</height>
+     <x>471</x>
+     <y>9</y>
+     <width>21</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

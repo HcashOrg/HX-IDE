@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>NameDialogUB</class>
- <widget class="QDialog" name="NameDialog">
+ <widget class="QDialog" name="NameDialogUB">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -137,10 +137,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>469</x>
-     <y>12</y>
-     <width>16</width>
-     <height>16</height>
+     <x>470</x>
+     <y>11</y>
+     <width>21</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

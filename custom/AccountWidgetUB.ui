@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>AccountWidgetUB</class>
- <widget class="QDialog" name="AccountWidget">
+ <widget class="QDialog" name="AccountWidgetUB">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -102,7 +102,7 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>554</x>
+     <x>558</x>
      <y>10</y>
      <width>31</width>
      <height>21</height>
