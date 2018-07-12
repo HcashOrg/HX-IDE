@@ -64,13 +64,13 @@ bool FunctionWidgetUB::parseContractInfo(const QString &addr, const QString &dat
          ConvenientOp::DeleteContract(addr);
          return false;
     }
-    QJsonArray apisArr = parse_doucment.object().value("apis").toArray();
+    QJsonArray apisArr = parse_doucment.object().value("result").toObject().value("apis").toArray();
     foreach (QJsonValue val, apisArr) {
         if(!val.isObject()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
         ui->treeWidget_online->addTopLevelItem(itemChild);
     }
-    QJsonArray offapisArr = parse_doucment.object().value("offline_apis").toArray();
+    QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("offline_apis").toArray();
     foreach (QJsonValue val, offapisArr) {
         if(!val.isObject()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());

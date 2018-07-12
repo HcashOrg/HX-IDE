@@ -21,10 +21,15 @@ namespace DataDefine
     //链类型
     enum BlockChainClass{UB,HX};
 
+    //一些颜色定义
     static const QColor BLACK_BACKGROUND = QColor(41,41,41);
     static const QColor DARK_CLACK_BACKGROUND = QColor(30,30,30);
     static const QColor WHITE_BACKGROUND = QColor(255,255,255);
     static const QColor GRAY_COLOR = Qt::gray;
+
+    //codemirror路径
+    static const QString CODEMIRROR_BLACK = "codemirror/editor_black.html";
+    static const QString CODEMIRROR_WHITE = "codemirror/editor_white.html";
 
     //合约文件后缀
     static const QString META_SUFFIX = "meta.json";

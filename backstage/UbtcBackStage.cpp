@@ -143,5 +143,6 @@ void UbtcBackStage::initSocketManager()
     connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
 
-    _p->dataRequire->startManager(DataRequireManager::HTTP);
+    _p->dataRequire->setAdditional("Authorization","Basic YTpi");
+    _p->dataRequire->startManager(DataRequireManager::HTTPWITHUSER);
 }

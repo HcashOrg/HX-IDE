@@ -2,6 +2,7 @@
 #define CODEEDITOR_H
 
 #include "Editor.h"
+#include "DataDefine.h"
 
 namespace Ui {
 class codeeditor;
@@ -12,7 +13,7 @@ class codeeditor : public Editor
     Q_OBJECT
 
 public:
-    explicit codeeditor(const QString &path,QWidget *parent = 0);
+    explicit codeeditor(const QString &path, DataDefine::ThemeStyle theme = DataDefine::Black_Theme, QWidget *parent = 0);
     ~codeeditor();
 
 public:

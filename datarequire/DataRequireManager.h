@@ -10,12 +10,14 @@ class DataRequireManager : public QObject
 public:
     explicit DataRequireManager(const QString &ip="127.0.0.1",const QString & connectPort = "50320",QObject *parent = 0);
     ~DataRequireManager();
-    enum ConnectType{WEBSOCKET,TCP,HTTP};
+    enum ConnectType{WEBSOCKET,TCP,HTTP,HTTPWITHUSER};
 public:
     //开始连接器,需要链接的时候，调用此函数
     void startManager(ConnectType connecttype = WEBSOCKET);
     //清空请求
     void requireClear();
+    //设置额外信息---主要给http使用，有点多余，但没办法
+    void setAdditional(const QByteArray &headerName, const QByteArray &value);
 signals:
     void requireResponse(const QString &_rpcId,const QString &message);//回到远程回复
     void connectFinish();

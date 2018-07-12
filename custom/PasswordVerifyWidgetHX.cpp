@@ -50,7 +50,6 @@ void PasswordVerifyWidgetHX::jsonDataUpdated(const QString &id, const QString &d
 {
     if( id == "verify_unlock-lockpage")
     {
-        qDebug()<<data;
         QJsonParseError json_error;
         QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())

@@ -16,7 +16,7 @@ static const std::map<QString,QString> SUFFIX_MAP= {{DataDefine::CONTRACT_SUFFIX
                                                     {DataDefine::JAVA_SUFFIX,"java"},{DataDefine::CSHARP_SUFFIX,"csharp"},
                                                     {DataDefine::KOTLIN_SUFFIX,"kotlin"}};
 
-AceEditor::AceEditor(const QString &path, QWidget *parent) :
+AceEditor::AceEditor(const QString &path, DataDefine::ThemeStyle theme,QWidget *parent) :
     Editor(path,QCoreApplication::applicationDirPath()+QDir::separator()+"ace/editor.html",parent),
     ui(new Ui::AceEditor)
 {

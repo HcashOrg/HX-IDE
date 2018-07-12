@@ -27,7 +27,6 @@ void ContractWidgetUB::RefreshTree()
     DataDefine::AddressContractDataPtr data = std::make_shared<DataDefine::AddressContractData>();
     QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,data);
-qDebug()<<data->getAllData().size();
     for(auto it = data->getAllData().begin();it != data->getAllData().end();++it)
     {
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<(*it)->GetOwnerAddr());

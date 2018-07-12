@@ -148,9 +148,7 @@ void csharpCompile::generateContractFile()
     getCompileProcess()->setWorkingDirectory(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_COMPILE_DIR);
     QStringList params;
     params<<"--gpc"<<_p->tempDir+QDir::separator()+"result.dll";
-    foreach (QString is, params) {
-        qDebug()<<is;
-    }
+
     getCompileProcess()->start(DataDefine::CSHARP_COMPILE_PATH,params);
 
 }

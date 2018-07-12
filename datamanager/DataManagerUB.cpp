@@ -112,12 +112,12 @@ void DataManagerUB::jsonDataUpdated(const QString &id, const QString &data)
     {
         QJsonParseError json_error;
         QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        if(json_error.error != QJsonParseError::NoError)
         {
             emit addressCheckFinish(false);
             return;
         }
-        QJsonObject jsonObject = parse_doucment.object();
+        QJsonObject jsonObject = parse_doucment.object().value("result").toObject();
         emit addressCheckFinish(jsonObject.value("isvalid").toBool());
     }
 }
@@ -126,12 +126,12 @@ bool DataManagerUB::parseListAccount(const QString &data)
 {
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    if(json_error.error != QJsonParseError::NoError)
     {
         qDebug()<<json_error.errorString();
         return false;
     }
-    QJsonObject jsonObject = parse_doucment.object();
+    QJsonObject jsonObject = parse_doucment.object().value("result").toObject();
 
     foreach (QString name, jsonObject.keys()) {
         _p->accountData->insertAccount(name,jsonObject.value(name).toDouble());
@@ -144,12 +144,12 @@ bool DataManagerUB::parseAddresses(const QString &accountName,const QString &dat
 //    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isArray())
+    if(json_error.error != QJsonParseError::NoError)
     {
          qDebug()<<json_error.errorString();
          return false;
     }
-    QJsonArray jsonArr = parse_doucment.array();
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
 
     foreach (QJsonValue addr, jsonArr) {
         _p->accountData->insertAddress(accountName,addr.toString(),0);
@@ -162,12 +162,12 @@ bool DataManagerUB::parseAddressBalances(const QString &data)
 {
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isArray())
+    if(json_error.error != QJsonParseError::NoError )
     {
          qDebug()<<json_error.errorString();
          return false;
     }
-    QJsonArray jsonArr = parse_doucment.array();
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
     foreach(QJsonValue addr, jsonArr){
         if(!addr.isObject()) continue;
         QJsonObject obj = addr.toObject();

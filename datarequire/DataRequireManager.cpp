@@ -39,6 +39,10 @@ public:
     QString connectPort;
     QString connectIP;
     int loopNumber;//循环次数，超出一定次数就跳过该请求
+
+    //多余信息--http使用
+    QByteArray header;
+    QByteArray values;
 };
 
 DataRequireManager::DataRequireManager(const QString &ip,const QString & connectPort,QObject *parent)
@@ -77,6 +81,12 @@ void DataRequireManager::requireClear()
     _p->pendingRpcs.clear();
 }
 
+void DataRequireManager::setAdditional(const QByteArray &headerName, const QByteArray &value)
+{
+    _p->header = headerName;
+    _p->values = value;
+}
+
 void DataRequireManager::startManager(ConnectType connecttype)
 {
     if(connecttype == WEBSOCKET)
@@ -90,6 +100,11 @@ void DataRequireManager::startManager(ConnectType connecttype)
     else if(connecttype == HTTP)
     {
         _p->requireBase = new httpRequire(_p->connectIP,_p->connectPort);
+    }
+    else if(connecttype == HTTPWITHUSER)
+    {
+        _p->requireBase = new httpRequire(_p->connectIP,_p->connectPort);
+        dynamic_cast<httpRequire*>(_p->requireBase)->setRawHeader(_p->header,_p->values);
     }
 
     connect(_p->requireBase,&RequireBase::receiveData,this,&DataRequireManager::receiveResponse);

@@ -43,14 +43,24 @@ void RegisterContractDialogUB::jsonDataUpdated(const QString &id,const QString &
 {
     if("register-createcontract" == id)
     {
-        if(!data.isEmpty() && !data.startsWith("Error"))
+        //保存合约
+        QJsonParseError json_error;
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        {
+            ConvenientOp::ShowSyncCommonDialog(data);
+            close();
+            return;
+        }
+        QString res = parse_doucment.object().value("result").toString();
+        if(!res.isEmpty())
         {
             //获取合约地址
             ChainIDE::getInstance()->postRPC("register-getcreatecontractaddress",IDEUtil::toJsonFormat("getcreatecontractaddress",
-                                              QJsonArray()<<data));
+                                              QJsonArray()<<res));
 
             ChainIDE::getInstance()->postRPC("register-sendrawtransaction",IDEUtil::toJsonFormat("sendrawtransaction",
-                                             QJsonArray()<<data));
+                                             QJsonArray()<<res));
 
 
         }
@@ -68,16 +78,24 @@ void RegisterContractDialogUB::jsonDataUpdated(const QString &id,const QString &
         {
             ConvenientOp::ShowSyncCommonDialog(data);
             contractAddress.clear();
+            close();
             return;
         }
-        contractAddress = parse_doucment.object().value("address").toString();
-
-        qDebug()<<contractAddress;
+        contractAddress = parse_doucment.object().value("result").toObject().value("address").toString();
 
     }
     else if("register-sendrawtransaction" == id)
     {
-        if(!data.startsWith("Error") && !data.isEmpty())
+        QJsonParseError json_error;
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        {
+            ConvenientOp::ShowSyncCommonDialog(data);
+            close();
+            return;
+        }
+
+        if(!parse_doucment.object().value("result").toString().isEmpty())
         {//储存合约地址
             //写入合约文件
             ConvenientOp::AddContract(ui->address->currentText(), contractAddress);

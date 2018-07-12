@@ -46,51 +46,23 @@ void httpRequire::postData(const QString &data)
 void httpRequire::startConnect()
 {
     _p->httpRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
-    _p->httpRequest.setRawHeader("Authorization","Basic YTpi");
     _p->httpRequest.setUrl(QUrl(QString("http://%1:%2").arg(getConnectIP()).arg(getConnectPort())));
     emit connectFinish();
 }
 
+void httpRequire::setRawHeader(const QByteArray &headerName, const QByteArray &value)
+{
+    //_p->httpRequest.setRawHeader("Authorization","Basic YTpi");
+    _p->httpRequest.setRawHeader(headerName,value);
+}
+
 void httpRequire::requestFinished(QNetworkReply *reply)
 {
-//    QString res = reply->readAll();
-//    int index = res.indexOf(",\"error\":");
-//    qDebug()<<index;
-//    QString result = res.mid(0,index) + "}";
-//    emit receiveData(result);
-    QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(reply->readAll(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
-    {
-         emit receiveData("Error "+json_error.errorString());
-         return;
-    }
-    else if(reply->error() != QNetworkReply::NoError)
-    {
-         emit receiveData("Error "+parse_doucment.object().value("error").toObject().value("message").toString());
-         return;
-    }
-    QJsonValue val = parse_doucment.object().value("result");
-    if(val.isArray())
-    {
-        emit receiveData(QJsonDocument(val.toArray()).toJson());
-    }
-    else if(val.isObject())
-    {
-        emit receiveData(QJsonDocument(val.toObject()).toJson());
-    }
-    else if(val.isString())
-    {
-        emit receiveData(val.toString());
-    }
-    else if(val.isDouble())
-    {
-        emit receiveData(QString::number(val.toDouble()));
-    }
-    else if(val.isNull())
-    {
-        emit receiveData("");
-    }
+    QString res = reply->readAll();
+    int index = res.indexOf(",\"error\":");
+    qDebug()<<index;
+    QString result = res.mid(0,index) + "}";
+    emit receiveData(result);
 
     reply->deleteLater();
 }

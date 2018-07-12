@@ -14,8 +14,8 @@ static const std::map<QString,QString> SUFFIX_MAP= {{DataDefine::CONTRACT_SUFFIX
                                                     {DataDefine::JAVA_SUFFIX,"java"},{DataDefine::CSHARP_SUFFIX,"csharp"},
                                                     {DataDefine::KOTLIN_SUFFIX,"kotlin"}};
 
-codeeditor::codeeditor(const QString &path,QWidget *parent) :
-    Editor(path,QCoreApplication::applicationDirPath()+QDir::separator()+"codemirror/editor.html",parent),
+codeeditor::codeeditor(const QString &path, DataDefine::ThemeStyle theme,QWidget *parent) :
+    Editor(path,QCoreApplication::applicationDirPath()+QDir::separator()+(theme==DataDefine::Black_Theme?DataDefine::CODEMIRROR_BLACK:DataDefine::CODEMIRROR_WHITE),parent),
     ui(new Ui::codeeditor)
 {
     ui->setupUi(this);

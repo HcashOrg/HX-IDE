@@ -9,6 +9,8 @@
 #include "codeeditor.h"
 #include "bridge.h"
 
+#include "ChainIDE.h"
+
 static const QString EMPTYSTRING = "";
 class ContextWidget::DataPrivate
 {
@@ -137,7 +139,7 @@ void ContextWidget::showFile(QString path)
 
     }
     //如果没找到，新建一个
-    Editor* w = new /*AceEditor*/codeeditor(path );
+    Editor* w = new /*AceEditor*/codeeditor(path,ChainIDE::getInstance()->getCurrentTheme() );
 
 
     ui->tabWidget->addTab(w,QIcon(":/pic/saved.png"),QFileInfo(path).fileName());

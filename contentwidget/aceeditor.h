@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Editor.h"
+#include "DataDefine.h"
 
 namespace Ui {
 class AceEditor;
@@ -14,7 +15,7 @@ class AceEditor : public Editor
     Q_OBJECT
 
 public:
-    explicit AceEditor( const QString &path, QWidget *parent = 0);
+    explicit AceEditor( const QString &path, DataDefine::ThemeStyle theme = DataDefine::Black_Theme,QWidget *parent = 0);
     ~AceEditor();
 public:
     void checkState();
