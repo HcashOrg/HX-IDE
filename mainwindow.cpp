@@ -53,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _p(new DataPrivate())
 {
     ui->setupUi(this);
-    setWindowTitle("chain");
     InitWidget();
 }
 
@@ -97,17 +96,28 @@ void MainWindow::showSelectPathWidget()
 
 void MainWindow::startChain()
 {
+    if(ChainIDE::getInstance()->getStartChainTypes() == DataDefine::NONE)
+    {
+        //直接开启窗口
+        startWidget();
+        return;
+    }
+
     showWaitingForSyncWidget();
 
     //启动client ， node
     connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
     QTimer::singleShot(10,[](){
-        ChainIDE::getInstance()->testManager()->startExe();
-       // ChainIDE::getInstance()->formalManager()->startExe();
+        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+        {
+            ChainIDE::getInstance()->testManager()->startExe();
+        }
+        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+        {
+            ChainIDE::getInstance()->formalManager()->startExe();
+        }
     });
-
-
 }
 
 void MainWindow::startWidget()
@@ -115,14 +125,7 @@ void MainWindow::startWidget()
     showMaximized();
 
     //隐藏部分不需要的按钮
-    ui->savaAsAction->setVisible(false);
-    ui->enterSandboxAction->setVisible(false);
-    ui->exitSandboxAction->setVisible(false);
-    ui->withdrawAction->setVisible(false);
-    ui->transferAction->setVisible(false);
-    ui->importAction->setVisible(false);
-    ui->exportAction->setVisible(false);
-    ui->upgradeAction->setVisible(false);
+    HideAction();
 
     //设置界面比例
     ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.9*ui->centralWidget->width());
@@ -144,14 +147,21 @@ void MainWindow::startWidget()
     ModifyActionState();
 
     //已注册合约
-    ui->tabWidget->removeTab(ChainIDE::getInstance()->getChainClass() == DataDefine::UB ? 1 : 2);
-    connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::on_tabWidget_currentChanged);
+    connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabWidget_currentChanged);
 
 }
 
 void MainWindow::refreshTitle()
 {
-    setWindowTitle(ChainIDE::getInstance()->getCurrentChainType() == 1 ? tr("测试链IDE"):tr("正式链IDE"));
+    if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::NONE)
+    {
+        setWindowTitle(tr("IDE"));
+    }
+    else
+    {
+        setWindowTitle(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST ? tr("测试链IDE"):tr("正式链IDE"));
+    }
+
 }
 
 void MainWindow::refreshStyle()
@@ -183,36 +193,69 @@ void MainWindow::refreshTranslator()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     hide();
-    ChainIDE::getInstance()->testManager()->ReadyClose();
-    //ChainIDE::getInstance()->formalManager()->ReadyClose();
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+    {
+        ChainIDE::getInstance()->testManager()->ReadyClose();
+    }
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+    {
+        ChainIDE::getInstance()->formalManager()->ReadyClose();
+    }
     QWidget::closeEvent(event);
 }
 
 void MainWindow::exeStartedSlots()
 {
-    if(ChainIDE::getInstance()->testManager()->exeRunning() /*&& ChainIDE::getInstance()->formalManager()->exeRunning()*/)
+    bool test = false;
+    bool formal = false;
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
     {
-       disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-       disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-
-       //初始化数据管理
-       if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
-       {
-           DataManagerHX::getInstance()->InitManager();
-           DataManagerHX::getInstance()->dealNewState();//处理最新情况
-       }
-       else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
-       {
-           DataManagerUB::getInstance()->InitManager();
-       }
-
-       //关闭等待窗
-       if(_p->waitingForSync)
-       {
-           _p->waitingForSync->close();
-       }
-       startWidget();
+        if(ChainIDE::getInstance()->testManager()->exeRunning())
+        {
+            test = true;
+        }
     }
+    else
+    {
+        test = true;
+    }
+
+    if(!test) return;
+
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+    {
+        if(ChainIDE::getInstance()->formalManager()->exeRunning())
+        {
+          formal = true;
+        }
+    }
+    else
+    {
+        formal = true;
+    }
+
+    if(!formal) return;
+
+    disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+    disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+
+    //初始化数据管理
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        DataManagerHX::getInstance()->InitManager();
+        DataManagerHX::getInstance()->dealNewState();//处理最新情况
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        DataManagerUB::getInstance()->InitManager();
+    }
+
+    //关闭等待窗
+    if(_p->waitingForSync)
+    {
+        _p->waitingForSync->close();
+    }
+    startWidget();
 }
 
 void MainWindow::showWaitingForSyncWidget()
@@ -289,7 +332,7 @@ void MainWindow::on_closeAllAction_triggered()
     ui->contentWidget->closeAll();
 }
 
-void MainWindow::on_tabWidget_currentChanged(int index)
+void MainWindow::tabWidget_currentChanged(int index)
 {
     if(index == 1)
     {
@@ -302,6 +345,39 @@ void MainWindow::on_tabWidget_currentChanged(int index)
             ui->contractWidgetUB->RefreshTree();
         }
     }
+}
+
+void MainWindow::HideAction()
+{
+    //隐藏不需要的按钮
+    ui->savaAsAction->setVisible(false);
+    ui->enterSandboxAction->setVisible(false);
+    ui->exitSandboxAction->setVisible(false);
+    ui->withdrawAction->setVisible(false);
+    ui->transferAction->setVisible(false);
+    ui->importAction->setVisible(false);
+    ui->exportAction->setVisible(false);
+    ui->upgradeAction->setVisible(false);
+
+    //启动链引起的按钮显示不可用
+    ui->changeChainAction->setVisible((ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST) &&
+                                      (ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL));
+    if(ChainIDE::getInstance()->getStartChainTypes() == DataDefine::NONE)
+    {
+        ui->tabWidget->removeTab(2);
+        ui->tabWidget->removeTab(1);
+    }
+    else
+    {
+        ui->tabWidget->removeTab(ChainIDE::getInstance()->getChainClass() == DataDefine::UB ? 1 : 2);
+    }
+
+    ui->callAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+    ui->registerAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+    ui->accountListAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+    ui->transferToAccountAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+    ui->consoleAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+
 }
 
 void MainWindow::on_configAction_triggered()
@@ -389,9 +465,9 @@ void MainWindow::on_withdrawAction_triggered()
 
 void MainWindow::on_changeChainAction_triggered()
 {
-    ChainIDE::getInstance()->setCurrentChainType(ChainIDE::getInstance()->getCurrentChainType() == 1?2:1);
+    ChainIDE::getInstance()->setCurrentChainType(static_cast<DataDefine::ChainType>(ChainIDE::getInstance()->getCurrentChainType() ^ ChainIDE::getInstance()->getStartChainTypes()));
 
-    if(ChainIDE::getInstance()->getCurrentChainType() == 2)
+    if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::FORMAL)
     {
         CommonDialog dia(CommonDialog::OkAndCancel);
         dia.setText(tr("Sure to switch to formal chain?"));
@@ -404,7 +480,7 @@ void MainWindow::on_changeChainAction_triggered()
         }
         else
         {
-            ChainIDE::getInstance()->setCurrentChainType(1);
+            ChainIDE::getInstance()->setCurrentChainType(DataDefine::TEST);
         }
 //        PasswordVerifyWidgetHX password;
 //        if(!password.pop())
@@ -509,9 +585,9 @@ void MainWindow::on_aboutAction_triggered()
 
 void MainWindow::ModifyActionState()
 {
-    ui->changeChainAction->setIcon(ChainIDE::getInstance()->getCurrentChainType()==1?
+    ui->changeChainAction->setIcon(ChainIDE::getInstance()->getCurrentChainType()==DataDefine::TEST?
                                    QIcon(":/pic/changeToFormal_enable.png"):QIcon(":/pic/changeToTest_enable.png"));
-    ui->changeChainAction->setText(ChainIDE::getInstance()->getCurrentChainType()==1?tr("切换到正式链"):tr("切换到测试链"));
+    ui->changeChainAction->setText(ChainIDE::getInstance()->getCurrentChainType()==DataDefine::TEST?tr("切换到正式链"):tr("切换到测试链"));
 
     ui->undoAction->setEnabled(ui->contentWidget->isUndoAvailable());
     ui->redoAction->setEnabled(ui->contentWidget->isRedoAvailable());

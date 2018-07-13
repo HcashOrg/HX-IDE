@@ -30,6 +30,7 @@ public:
         dataPath = 1 == type ? "/testlink" : "/formallink";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
+        qDebug()<<"connectto"<<clientPort<<nodePort;
     }
     ~DataPrivate()
     {
@@ -91,13 +92,31 @@ void LinkBackStage::ReadyClose()
     disconnect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
     disconnect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
     //先lock
+
+    QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
+
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,[&loop,this](const QString &_rpcId,const QString &message){
+        if(_rpcId == "id-lock-onCloseIDE")
+        {
+            rpcPostedSlot( "id-witness_node_stop",IDEUtil::toJsonFormat( "witness_node_stop", QJsonArray()));
+        }
+        else if(_rpcId == "id-witness_node_stop")
+        {
+            qDebug()<<"stop hx "<<_p->chaintype;
+            this->_p->clientProc->close();
+            this->_p->nodeProc->close();
+            if(loop && loop->isRunning())
+            {
+                loop->quit();
+            }
+        }
+    });
     rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
-    rpcPostedSlot( "id-witness_node_stop",IDEUtil::toJsonFormat( "witness_node_stop", QJsonArray()));
 
-    IDEUtil::msecSleep(5000);
+    loop->exec();
 
-    _p->clientProc->close();
-    _p->nodeProc->close();
+    //IDEUtil::msecSleep(5000);
+
 }
 
 void LinkBackStage::onNodeExeStateChanged()
@@ -153,8 +172,7 @@ void LinkBackStage::onClientExeStateChanged()
     {
         qDebug() << QString("%1 is running").arg("lnk_client.exe");
 
-        qDebug()<<QString("start socket connected");
-
+        qDebug()<<QString("start socket connected")<<_p->chaintype;
         initSocketManager();
     }
     else if(_p->clientProc->state() == QProcess::NotRunning)

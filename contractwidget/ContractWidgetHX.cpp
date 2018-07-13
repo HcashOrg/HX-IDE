@@ -44,7 +44,7 @@ void ContractWidgetHX::InitWidget()
     connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,DataManagerHX::getInstance(),&DataManagerHX::queryContract);
     connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&ContractWidgetHX::InitTree);
 
-    RefreshTree();
+   // RefreshTree();
 }
 
 void ContractWidgetHX::InitTree()

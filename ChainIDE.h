@@ -15,8 +15,8 @@ public:
 //数据发送
     void postRPC(QString _rpcId, QString _rpcCmd);
 //链类型
-    int getCurrentChainType()const;
-    void setCurrentChainType(int type);
+    DataDefine::ChainType getCurrentChainType()const;
+    void setCurrentChainType(DataDefine::ChainType type);
 //配置
     QString getEnvAppDataPath()const;
 
@@ -31,6 +31,9 @@ public:
 
     DataDefine::BlockChainClass getChainClass()const;
     void setChainClass(DataDefine::BlockChainClass);
+
+    DataDefine::ChainTypes getStartChainTypes()const;
+    void setStartChainTypes(DataDefine::ChainTypes ty);
 
 //后台
     BackStageBase *testManager()const;

@@ -54,7 +54,6 @@ void websocketRequire::onTextFrameReceived(QString _message, bool _isLastFrame)
 
     if(_isLastFrame)
     {
-
         QString result = _p->m_buff.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
         result = result.left( result.size() - 1);
         result.prepend("{");
@@ -75,7 +74,7 @@ void websocketRequire::onStateChanged(QAbstractSocket::SocketState _state)
     }
     else if(_state == QAbstractSocket::ConnectedState)
     {
-         qDebug() << "websocket connected ";
+         qDebug() << "websocket connected " << getConnectPort();
         emit connectFinish();
     }
 }

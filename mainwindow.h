@@ -95,9 +95,9 @@ private slots:
 
     void on_closeAllAction_triggered();
 
-    void on_tabWidget_currentChanged(int index);
+    void tabWidget_currentChanged(int index);
 
-
+    void HideAction();
     void ModifyActionState();
 
     void NewFile(const QString &suffix,const QString &defaultPath = "");//新建合约类型

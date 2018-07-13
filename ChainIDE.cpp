@@ -22,7 +22,8 @@ class ChainIDE::DataPrivate
 public:
     DataPrivate()
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
-        ,chainType(1)
+        ,chainType(DataDefine::TEST)
+        ,startChainTypes(DataDefine::TEST | DataDefine::FORMAL)
         ,chainClass(DataDefine::HX)
         ,themeStyle(DataDefine::Black_Theme)
         ,testManager(nullptr)
@@ -46,9 +47,10 @@ public:
     BackStageBase *testManager;
     BackStageBase *formalManager;
 
-    int chainType;//链类型1==测试 2==正式
+    DataDefine::ChainType chainType;//链类型1==测试 2==正式
     DataDefine::BlockChainClass chainClass;//链类ub hx等
     DataDefine::ThemeStyle themeStyle;//主题
+    DataDefine::ChainTypes startChainTypes;//配置文件的启动链类型
 
     CompileManager *compileManager;//编译器
 };
@@ -83,10 +85,10 @@ void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
 {
     switch (getCurrentChainType())
     {
-    case 1:
+    case DataDefine::TEST:
         emit rpcPosted(_rpcId,_rpcCmd);
         break;
-    case 2:
+    case DataDefine::FORMAL:
         emit rpcPostedFormal(_rpcId,_rpcCmd);
         break;
     default:
@@ -94,12 +96,12 @@ void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
     }
 }
 
-int ChainIDE::getCurrentChainType() const
+DataDefine::ChainType ChainIDE::getCurrentChainType() const
 {
     return _p->chainType;
 }
 
-void ChainIDE::setCurrentChainType(int type)
+void ChainIDE::setCurrentChainType(DataDefine::ChainType type)
 {
     mutexForChainType.lock();
     _p->chainType = type;
@@ -160,6 +162,31 @@ void ChainIDE::setChainClass(DataDefine::BlockChainClass name)
     }
 }
 
+DataDefine::ChainTypes ChainIDE::getStartChainTypes() const
+{
+    return _p->startChainTypes;
+}
+
+void ChainIDE::setStartChainTypes(DataDefine::ChainTypes ty)
+{
+    if(ty == (DataDefine::TEST | DataDefine::FORMAL))
+    {
+        _p->configFile->setValue("/settings/starTypes","all");
+    }
+    else if(ty == DataDefine::NONE)
+    {
+        _p->configFile->setValue("/settings/starTypes","none");
+    }
+    else if(ty == DataDefine::TEST)
+    {
+        _p->configFile->setValue("/settings/starTypes","test");
+    }
+    else if(ty == DataDefine::FORMAL)
+    {
+        _p->configFile->setValue("/settings/starTypes","formal");
+    }
+}
+
 BackStageBase *ChainIDE::testManager() const
 {
     return _p->testManager;
@@ -175,11 +202,11 @@ QProcess *ChainIDE::getProcess(int type)const
     QProcess* p = NULL;
     if(type == 0)
     {
-        if( getCurrentChainType() == 1)
+        if( getCurrentChainType() == DataDefine::TEST)
         {
             p = _p->testManager->getProcess();
         }
-        else if( getCurrentChainType() == 2)
+        else if( getCurrentChainType() == DataDefine::FORMAL)
         {
             p = _p->formalManager->getProcess();
         }
@@ -230,6 +257,20 @@ void ChainIDE::refreshTranslator()
 
 void ChainIDE::InitConfig()
 {
+    if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
+       "hx" != _p->configFile->value("/settings/chainClass").toString())
+    {
+        _p->configFile->setValue("/settings/chainClass","ub");
+    }
+
+    if("all" != _p->configFile->value("/settings/starTypes").toString() &&
+       "test" != _p->configFile->value("/settings/starTypes").toString() &&
+       "formal" != _p->configFile->value("/settings/starTypes").toString() &&
+       "none" != _p->configFile->value("/settings/starTypes").toString() )
+    {
+        _p->configFile->setValue("/settings/starTypes","test");
+    }
+
     if("black" != _p->configFile->value("/settings/theme").toString() &&
        "white" != _p->configFile->value("/settings/theme").toString())
     {
@@ -242,11 +283,6 @@ void ChainIDE::InitConfig()
         _p->configFile->setValue("/settings/language","English");
     }
 
-    if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
-       "hx" != _p->configFile->value("/settings/chainClass").toString())
-    {
-        _p->configFile->setValue("/settings/chainClass","ub");
-    }
 
     //链类型设置
     if(_p->configFile->value("/settings/chainClass").toString() == "hx")
@@ -257,6 +293,29 @@ void ChainIDE::InitConfig()
     {
         _p->chainClass =  DataDefine::UB;
     }
+
+    //启动类型设置
+    if(_p->configFile->value("/settings/starTypes").toString() == "all")
+    {
+        _p->startChainTypes =  DataDefine::TEST | DataDefine::FORMAL;
+        _p->chainType = DataDefine::TEST;
+    }
+    else if(_p->configFile->value("/settings/starTypes").toString() == "test")
+    {
+        _p->startChainTypes =  DataDefine::TEST;
+        _p->chainType = DataDefine::TEST;
+    }
+    if(_p->configFile->value("/settings/starTypes").toString() == "formal")
+    {
+        _p->startChainTypes =  DataDefine::FORMAL;
+        _p->chainType = DataDefine::FORMAL;
+    }
+    else if(_p->configFile->value("/settings/starTypes").toString() == "none")
+    {
+        _p->startChainTypes =  DataDefine::NONE;
+        _p->chainType = DataDefine::NONE;
+    }
+
     //主题类型
     if(_p->configFile->value("/settings/theme").toString() == "black")
     {

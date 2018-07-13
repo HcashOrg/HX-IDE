@@ -60,7 +60,6 @@ void httpRequire::requestFinished(QNetworkReply *reply)
 {
     QString res = reply->readAll();
     int index = res.indexOf(",\"error\":");
-    qDebug()<<index;
     QString result = res.mid(0,index) + "}";
     emit receiveData(result);
 

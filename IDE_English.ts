@@ -378,44 +378,69 @@
     <message>
         <location filename="popwidget/ConfigWidget.ui" line="116"/>
         <source>链类型：</source>
-        <translation type="unfinished">Chain:</translation>
+        <translation type="unfinished">ChainType:</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="36"/>
+        <location filename="popwidget/ConfigWidget.ui" line="129"/>
+        <source>启动类型：</source>
+        <translation type="unfinished">StartChain:</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="38"/>
         <source>the change will take effect after restart!</source>
         <translation type="unfinished">the change will take effect after restart!</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="47"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="49"/>
         <source>  English</source>
         <oldsource>english</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">English</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="48"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="50"/>
         <source>  Chinese</source>
         <oldsource>Chinese</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chinese</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="60"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="62"/>
         <source>  Black</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Black</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="61"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="63"/>
         <source>  White</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">White</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="73"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="75"/>
         <source>  UB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="74"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="76"/>
         <source>  HX</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="87"/>
+        <source>  All</source>
+        <translation type="unfinished">All</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="88"/>
+        <source>  Test</source>
+        <translation type="unfinished">Test</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="89"/>
+        <source>  Formal</source>
+        <translation type="unfinished">Formal</translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="90"/>
+        <source>  None</source>
+        <translation type="unfinished">None</translation>
     </message>
 </context>
 <context>
@@ -732,8 +757,8 @@
 <context>
     <name>LinkBackStage</name>
     <message>
-        <location filename="backstage/LinkBackStage.cpp" line="118"/>
-        <location filename="backstage/LinkBackStage.cpp" line="164"/>
+        <location filename="backstage/LinkBackStage.cpp" line="137"/>
+        <location filename="backstage/LinkBackStage.cpp" line="182"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">Fail to launch %1 !</translation>
     </message>
@@ -954,7 +979,7 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="467"/>
-        <location filename="MainWindow.cpp" line="514"/>
+        <location filename="MainWindow.cpp" line="590"/>
         <source>切换到正式链</source>
         <translation type="unfinished">ChangeToFormalChain</translation>
     </message>
@@ -1060,27 +1085,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="154"/>
+        <location filename="MainWindow.cpp" line="158"/>
+        <source>IDE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="162"/>
         <source>测试链IDE</source>
         <translation type="unfinished">testchain-IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="154"/>
+        <location filename="MainWindow.cpp" line="162"/>
         <source>正式链IDE</source>
         <translation type="unfinished">formalchain-IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="397"/>
+        <location filename="MainWindow.cpp" line="473"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">Sure to switch to formal chain?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="424"/>
+        <location filename="MainWindow.cpp" line="500"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">File modified,do you want to save?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="514"/>
+        <location filename="MainWindow.cpp" line="590"/>
         <source>切换到测试链</source>
         <translation type="unfinished">ChangeToTestChain</translation>
     </message>
@@ -1632,7 +1662,7 @@
 <context>
     <name>UbtcBackStage</name>
     <message>
-        <location filename="backstage/UbtcBackStage.cpp" line="136"/>
+        <location filename="backstage/UbtcBackStage.cpp" line="146"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">Fail to launch %1 !</translation>
     </message>

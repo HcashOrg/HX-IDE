@@ -118,7 +118,7 @@ void CallContractWidgetUB::InitContractAddress()
 {
 
     DataDefine::AddressContractDataPtr data = std::make_shared<DataDefine::AddressContractData>();
-    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
+    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,data);
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);

@@ -69,6 +69,7 @@ void DataRequireManager::receiveResponse(const QString &message)
     _p->isBusy = false;
     if(!_p->pendingRpcs.empty())
     {//将第一个数据移除，发送收到回复的消息
+        //qDebug()<<_p->pendingRpcs.at(0);
         emit requireResponse(_p->pendingRpcs.at(0).split(SPLITFLAG).at(0),message);
         _p->pendingRpcs.removeFirst();
     }

@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "ChainIDE.h"
 #include <QApplication>
 #include <QTextCodec>
 #include <QDateTime>
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
     //QTextCodec::setCodecForLocale(QTextCodec::codecForName("system"));
     //qInstallMessageHandler(myMessageOutput);
     QApplication a(argc, argv);
+    ChainIDE::getInstance();
     MainWindow w;
 //    w.show();
 

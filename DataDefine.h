@@ -18,8 +18,11 @@ namespace DataDefine
     enum ThemeStyle{Black_Theme,White_Theme};
     //语言类型
     enum Language{SimChinese,English};
-    //链类型
+    //链类型--种类
     enum BlockChainClass{UB,HX};
+    //链类型--测试、正式
+    enum ChainType{NONE = 0,TEST = 1 << 0,FORMAL = 1 << 1};
+    typedef int ChainTypes;
 
     //一些颜色定义
     static const QColor BLACK_BACKGROUND = QColor(41,41,41);

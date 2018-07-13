@@ -28,10 +28,12 @@ void ConfigWidget::ConfirmSlots()
     ChainIDE::getInstance()->setCurrentLanguage(static_cast<DataDefine::Language>(ui->language->currentData().toInt()));
     ChainIDE::getInstance()->setCurrentTheme(static_cast<DataDefine::ThemeStyle>(ui->theme->currentData().toInt()));
     ChainIDE::getInstance()->setChainClass(static_cast<DataDefine::BlockChainClass>(ui->chainclass->currentData().toInt()));
+    ChainIDE::getInstance()->setStartChainTypes(static_cast<DataDefine::ChainTypes>(ui->starttype->currentData().toUInt()));
     isOk = true;
 
     if(ChainIDE::getInstance()->getCurrentTheme() != ui->theme->currentData().toInt() ||
-       ChainIDE::getInstance()->getChainClass() != ui->chainclass->currentData().toInt())
+       ChainIDE::getInstance()->getChainClass() != ui->chainclass->currentData().toInt() ||
+       ChainIDE::getInstance()->getStartChainTypes() != ui->starttype->currentData().toInt())
     {
         ConvenientOp::ShowSyncCommonDialog(tr("the change will take effect after restart!"));
     }
@@ -79,6 +81,28 @@ void ConfigWidget::InitWidget()
     else if(ChainIDE::getInstance()->getChainClass() ==DataDefine::HX)
     {
         ui->chainclass->setCurrentIndex(1);
+    }
+    //初始化启动类型
+    ui->starttype->clear();
+    ui->starttype->addItem(tr("  All"),static_cast<int>(DataDefine::TEST|DataDefine::FORMAL));
+    ui->starttype->addItem(tr("  Test"),static_cast<int>(DataDefine::TEST));
+    ui->starttype->addItem(tr("  Formal"),static_cast<int>(DataDefine::FORMAL));
+    ui->starttype->addItem(tr("  None"),static_cast<int>(DataDefine::NONE));
+    if(ChainIDE::getInstance()->getStartChainTypes() ==DataDefine::TEST)
+    {
+        ui->starttype->setCurrentIndex(1);
+    }
+    else if(ChainIDE::getInstance()->getStartChainTypes() ==DataDefine::FORMAL)
+    {
+        ui->starttype->setCurrentIndex(2);
+    }
+    else if(ChainIDE::getInstance()->getStartChainTypes() ==DataDefine::NONE)
+    {
+        ui->starttype->setCurrentIndex(3);
+    }
+    else if((ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST) &&(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL))
+    {
+        ui->starttype->setCurrentIndex(0);
     }
 
     connect(ui->cancelBtn,&QToolButton::clicked,this,&ConfigWidget::close);

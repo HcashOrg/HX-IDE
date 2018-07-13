@@ -70,7 +70,7 @@ bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::Add
 void ConvenientOp::AddContract(const QString &owneraddr, const QString &contractaddr, const QString &contractname)
 {
     DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
+    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->AddContract(owneraddr, contractaddr,contractname);
     ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
@@ -79,7 +79,7 @@ void ConvenientOp::AddContract(const QString &owneraddr, const QString &contract
 void ConvenientOp::DeleteContract(const QString &ownerOrcontract)
 {
     DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
-    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == 1? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
+    QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->DeleteContract(ownerOrcontract);
     ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);

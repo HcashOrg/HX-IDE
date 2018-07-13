@@ -145,7 +145,7 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
             //设置默认密码 11111111
             ChainIDE::getInstance()->postRPC("deal-set_password",IDEUtil::toJsonFormat("set_password",QJsonArray()<<"11111111"));
         }
-        else if(ChainIDE::getInstance()->getCurrentChainType() == 1)
+        else if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST)
         {
             //如果是测试连，就直接解锁
             ChainIDE::getInstance()->postRPC("deal-unlocktestchain",IDEUtil::toJsonFormat("unlock",QJsonArray()<<"11111111"));

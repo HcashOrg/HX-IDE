@@ -80,9 +80,19 @@ void UbtcBackStage::startExe()
     }
 
     QStringList strList;
-    strList << "-datadir=" + dataPath
-            << "-testnet"<<"-staking"<<"-port="+QString::number(_p->nodePort)<<"-rpcport="+QString::number(_p->clientPort)
-            << "-rpcuser="+RPC_USER<<"-rpcpassword="+RPC_PASSWORD<<"-txindex"<<"-server";
+    if(1 == _p->chaintype)
+    {//测试链 + testnet
+        strList << "-datadir=" + dataPath
+                << "-testnet"<<"-staking"<<"-port="+QString::number(_p->nodePort)<<"-rpcport="+QString::number(_p->clientPort)
+                << "-rpcuser="+RPC_USER<<"-rpcpassword="+RPC_PASSWORD<<"-txindex"<<"-server";
+    }
+    else if(2 == _p->chaintype)
+    {//正式链
+        strList << "-datadir=" + dataPath
+                <<"-staking"<<"-port="+QString::number(_p->nodePort)<<"-rpcport="+QString::number(_p->clientPort)
+                << "-rpcuser="+RPC_USER<<"-rpcpassword="+RPC_PASSWORD<<"-txindex"<<"-server";
+
+    }
     qDebug() << "start ubcd.exe " << strList;
     _p->nodeProc->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::UBCD_NODE_EXE,strList);
 }
@@ -106,7 +116,7 @@ void UbtcBackStage::ReadyClose()
     _p->clientProc->execute(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::UBCD_CLIENT_EXE,strList);
 
     _p->clientProc->waitForFinished(30000);
-    qDebug()<<"stop";
+    qDebug()<<"stop ubtc"<<_p->chaintype;
     _p->clientProc->close();
     _p->nodeProc->close();
 }
