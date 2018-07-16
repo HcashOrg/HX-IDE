@@ -38,8 +38,6 @@ void ConsoleDialog::pop()
     exec();
 }
 
-
-
 bool ConsoleDialog::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched == ui->consoleLineEdit)
@@ -128,7 +126,15 @@ void ConsoleDialog::jsonDataUpdated(const QString &id,const QString &data)
     if( id.startsWith("console-"))
     {
         ui->consoleBrowser->append(">>>" + id.mid(8));
-        ui->consoleBrowser->append( data);
+        QJsonParseError json_error;
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        {
+            ui->consoleBrowser->append(json_error.errorString());
+            ui->consoleBrowser->append("\n");
+            return;
+        }
+        ui->consoleBrowser->append(parse_doucment.toJson());
         ui->consoleBrowser->append("\n");
         return;
     }
