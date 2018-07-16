@@ -1,4 +1,4 @@
-#IDE for contract
+# IDE for contract
 
 This is IDE built to create & debug contract.
 
