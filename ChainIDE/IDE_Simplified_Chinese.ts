@@ -2,6 +2,87 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
+    <name>AboutWidget</name>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="19"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="42"/>
+        <source>关于我们</source>
+        <translation type="unfinished">关于我们</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="63"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI Light&apos;; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IDE是一款非常好用的合约编辑器，内置UB、HX，能够实现合约的编辑、调试、编译。提供合约的注册、调用功能。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI Light&apos;; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IDE是一款非常好用的合约编辑器，内置UB、HX，能够实现合约的编辑、调试、编译。提供合约的注册、调用功能。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="92"/>
+        <source>暂无更新</source>
+        <translation type="unfinished">暂无更新</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="120"/>
+        <source>Windows桌面版 v</source>
+        <translation type="unfinished">Windows桌面版 v</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="139"/>
+        <source>升级</source>
+        <translation type="unfinished">升级</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="155"/>
+        <source>检查更新</source>
+        <translation type="unfinished">检查更新</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.ui" line="171"/>
+        <source>立即重启</source>
+        <translation type="unfinished">立即重启</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="41"/>
+        <source>Checking updates...</source>
+        <translation type="unfinished">正在检查更新。。。</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="52"/>
+        <source>No new version!</source>
+        <translation type="unfinished">已是最新版本！</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="58"/>
+        <source>New version found! </source>
+        <translation type="unfinished">发现新版本！</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="66"/>
+        <source>Downloading... Please wait a moment! </source>
+        <translation type="unfinished">正在下载，请稍后！</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="74"/>
+        <source>Update finished. Restart and it will take effect! </source>
+        <translation type="unfinished">更新完成，重启后生效！</translation>
+    </message>
+    <message>
+        <location filename="popwidget/AboutWidget.cpp" line="81"/>
+        <source>Update error! </source>
+        <translation type="unfinished">更新出错！</translation>
+    </message>
+</context>
+<context>
     <name>AccountWidget</name>
     <message>
         <source>账户</source>
@@ -951,7 +1032,7 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="467"/>
-        <location filename="MainWindow.cpp" line="590"/>
+        <location filename="MainWindow.cpp" line="595"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1057,32 +1138,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="158"/>
+        <location filename="MainWindow.cpp" line="161"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="162"/>
+        <location filename="MainWindow.cpp" line="165"/>
         <source>测试链IDE</source>
         <translation type="unfinished">测试链IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="162"/>
+        <location filename="MainWindow.cpp" line="165"/>
         <source>正式链IDE</source>
         <translation type="unfinished">正式链IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="473"/>
+        <location filename="MainWindow.cpp" line="475"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="500"/>
+        <location filename="MainWindow.cpp" line="502"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="590"/>
+        <location filename="MainWindow.cpp" line="595"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
