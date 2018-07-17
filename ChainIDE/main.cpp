@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
+#include <QMutex>
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
