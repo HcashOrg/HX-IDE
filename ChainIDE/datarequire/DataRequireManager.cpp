@@ -8,7 +8,7 @@
 #include "httpRequire.h"
 
 static const QString SPLITFLAG = "****";
-static const int MAXLOOPNUMBER = 100000;
+static const int MAXLOOPNUMBER = 2000;
 
 class DataRequireManager::DataPrivate
 {
@@ -59,25 +59,32 @@ DataRequireManager::~DataRequireManager()
 
 void DataRequireManager::requirePosted(const QString &_rpcId, const QString & _rpcCmd)
 {
-    std::lock_guard<std::mutex> loc(_p->dataMutex);
+    std::lock_guard<std::mutex> loc1(_p->dataMutex);
     _p->pendingRpcs.append(_rpcId + SPLITFLAG + _rpcCmd);
 }
 
 void DataRequireManager::receiveResponse(const QString &message)
 {
-    //std::lock_guard<std::mutex> loc(_p->dataMutex);
-    _p->isBusy = false;
-    if(!_p->pendingRpcs.empty())
-    {//将第一个数据移除，发送收到回复的消息
-        //qDebug()<<_p->pendingRpcs.at(0);
-        emit requireResponse(_p->pendingRpcs.at(0).split(SPLITFLAG).at(0),message);
-        _p->pendingRpcs.removeFirst();
+    QString id = _p->pendingRpcs.empty()?"":_p->pendingRpcs.at(0).split(SPLITFLAG).at(0);
+
+    {
+        std::lock_guard<std::mutex> loc2(_p->dataMutex);
+        _p->isBusy = false;
+        _p->loopNumber = 0;
+        if(!_p->pendingRpcs.empty())
+        {//将第一个数据移除，发送收到回复的消息
+            _p->pendingRpcs.removeFirst();
+        }
+    }
+    if(!id.isEmpty())
+    {
+        emit requireResponse(id,message);
     }
 }
 
 void DataRequireManager::requireClear()
 {
-    //std::lock_guard<std::mutex> loc(_p->dataMutex);
+    std::lock_guard<std::mutex> loc(_p->dataMutex);
     _p->isBusy = false;
     _p->pendingRpcs.clear();
 }
@@ -112,26 +119,26 @@ void DataRequireManager::startManager(ConnectType connecttype)
     connect(_p->requireBase,&RequireBase::connectFinish,this,&DataRequireManager::connectFinish);
 
     _p->requireBase->startConnect();
-    _p->requireTimer->start(50);
+    _p->requireTimer->start(30);
 }
 
 void DataRequireManager::processRequire()
 {
-    //std::lock_guard<std::mutex> loc(_p->dataMutex);
-    if(_p->isBusy || _p->pendingRpcs.empty()) return;
-
-    if(_p->loopNumber >= MAXLOOPNUMBER)
-    {//请求超时，清楚该请求，继续下一个
-        _p->loopNumber = 0;
-        _p->pendingRpcs.removeFirst();
-        if(_p->pendingRpcs.empty())
+    if(_p->isBusy)
+    {
+        std::lock_guard<std::mutex> loc(_p->dataMutex);
+        ++_p->loopNumber;
+        if(_p->loopNumber >= MAXLOOPNUMBER)
         {
+            //请求超时，清楚该请求，继续下一个
+            _p->loopNumber = 0;
+            _p->pendingRpcs.removeFirst();
             _p->isBusy = false;
-            return;
         }
     }
 
-    ++_p->loopNumber;
+    if(_p->isBusy || _p->pendingRpcs.empty()) return;
+
     _p->isBusy = true;
     QStringList rpc = _p->pendingRpcs.at(0).split(SPLITFLAG);
     _p->requireBase->postData(rpc.at(1));

@@ -1,6 +1,5 @@
 #include "datamanager/DataManagerUB.h"
 
-#include <mutex>
 #include <QDebug>
 #include <QCoreApplication>
 #include <QDir>
@@ -25,7 +24,6 @@ public:
     }
 public:
     DataDefine::AccountUB::AccountDataPtr accountData;
-    std::mutex dataMutex;
 };
 
 DataManagerUB *DataManagerUB::getInstance()
@@ -52,7 +50,6 @@ DataManagerUB::~DataManagerUB()
 
 void DataManagerUB::queryAccount()
 {
-    std::lock_guard<std::mutex> guard(_p->dataMutex);
     _p->accountData->clear();
 
     ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("listaccounts",QJsonArray()));

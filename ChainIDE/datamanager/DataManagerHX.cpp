@@ -1,6 +1,5 @@
 #include "DataManagerHX.h"
 
-#include <mutex>
 #include <QDebug>
 #include <QCoreApplication>
 #include <QDir>
@@ -27,7 +26,6 @@ public:
 public:
     DataDefine::AccountHX::AccountDataPtr accountData;
     DataDefine::AddressContractDataPtr contractData;
-    std::mutex dataMutex;
 };
 
 DataManagerHX *DataManagerHX::getInstance()
@@ -166,7 +164,6 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
 
 bool DataManagerHX::parseListAccount(const QString &data)
 {
-    std::lock_guard<std::mutex> lo(_p->dataMutex);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
@@ -185,7 +182,6 @@ bool DataManagerHX::parseListAccount(const QString &data)
 
 bool DataManagerHX::parseAddresses(const QString &accountName,const QString &data)
 {
-    std::lock_guard<std::mutex> lo(_p->dataMutex);
 //    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
@@ -207,7 +203,6 @@ bool DataManagerHX::parseAddresses(const QString &accountName,const QString &dat
 
 bool DataManagerHX::parseAddressBalances(const QString &data)
 {
-    std::lock_guard<std::mutex> lo(_p->dataMutex);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
@@ -226,7 +221,6 @@ bool DataManagerHX::parseAddressBalances(const QString &data)
 
 bool DataManagerHX::parseContract(const QString &accountName,const QString &data)
 {
-    std::lock_guard<std::mutex> lo(_p->dataMutex);
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())

@@ -236,6 +236,7 @@ namespace AccountHX {
             AccountInfoPtr info = std::make_shared<AccountInfo>();
             info->SetAccountName(name);
             info->SetAccountAddress(addr);
+            std::lock_guard<std::mutex> lockguard(dataMutex);
             data.push_back(info);
             return true;
         }
@@ -243,18 +244,24 @@ namespace AccountHX {
         bool insertAsset(const QString &accountName,const QString &assetid,double bal){
             AccountInfoPtr account = getAccountByName(accountName);
             if(!account) return false;
+            std::lock_guard<std::mutex> lockguard(dataMutex);
             return account->insertAsset(assetid,bal);
         }
         //补全信息
         void makeupInfo(const QString &id,const QString &type,int pre){
             for(auto it = data.begin();it != data.end();++it){
+                std::lock_guard<std::mutex> lockguard(dataMutex);
                 (*it)->makeUpInfo(id,type,pre);
             }
         }
         //清空内容
-        void clear(){data.clear();}
+        void clear(){
+            std::lock_guard<std::mutex> lockguard(dataMutex);
+            data.clear();
+        }
     private:
         AccountInfoVec data;
+        std::mutex dataMutex;
 
     };
     typedef std::shared_ptr<AccountData> AccountDataPtr;
@@ -351,6 +358,7 @@ namespace AccountUB {
             AccountInfoPtr info = std::make_shared<AccountInfo>();
             info->SetAccountName(name);
             info->SetAccountBalance(balance);
+            std::lock_guard<std::mutex> lockguard(dataMutex);
             data.push_back(info);
             return true;
         }
@@ -358,12 +366,14 @@ namespace AccountUB {
         bool insertAddress(const QString &accountName,const QString &addr,double bal){
             AccountInfoPtr account = getAccountByName(accountName);
             if(!account) return false;
+            std::lock_guard<std::mutex> lockguard(dataMutex);
             return account->insertAddress(addr,bal);
         }
         //增加余额
         bool addAddressBalance(const QString &addr,double bal){
             if(AddressInfoPtr addInfo = getAddressInfoByAddr(addr))
             {
+                std::lock_guard<std::mutex> lockguard(dataMutex);
                 addInfo->AddBalance(bal);
                 return true;
             }
@@ -371,9 +381,13 @@ namespace AccountUB {
         }
 
         //清空内容
-        void clear(){data.clear();}
+        void clear(){
+            std::lock_guard<std::mutex> lockguard(dataMutex);
+            data.clear();
+        }
     private:
         AccountInfoVec data;
+        std::mutex dataMutex;
 
     };
     typedef std::shared_ptr<AccountData> AccountDataPtr;
