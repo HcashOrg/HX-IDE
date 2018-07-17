@@ -43,7 +43,7 @@ javaCompile::~javaCompile()
     _p = nullptr;
 }
 
-void javaCompile::startCompileFile(const QString &sourceFilePath)
+void javaCompile::initConfig(const QString &sourceFilePath)
 {
     _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
                   DataDefine::JAVA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
@@ -53,15 +53,27 @@ void javaCompile::startCompileFile(const QString &sourceFilePath)
 
     _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
-    //设置控制台路径为当前路径
-    getCompileProcess()->setWorkingDirectory(_p->tempDir);
-
     IDEUtil::deleteDir(_p->tempDir);
     QDir dir(_p->tempDir);
     if(!dir.exists())
     {
         dir.mkpath(dir.path());
     }
+
+    //删除之前的文件
+    QFile::remove(_p->dstFilePath+".gpc");
+    QFile::remove(_p->dstFilePath+".meta.json");
+
+
+}
+
+void javaCompile::startCompileFile(const QString &sourceFilePath)
+{
+    initConfig(sourceFilePath);
+
+    //设置控制台路径为当前路径
+    getCompileProcess()->setWorkingDirectory(_p->tempDir);
+
     emit CompileOutput(QString("start Compile %1").arg(_p->sourceDir));
     generateClassFile();
 }
@@ -92,10 +104,6 @@ void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         }
         else if(3 == _p->currentState)
         {
-            //删除之前的文件
-            QFile::remove(_p->dstFilePath+".gpc");
-            QFile::remove(_p->dstFilePath+".meta.json");
-
             //复制gpc meta.json文件到源目录
             QFile::copy(_p->tempDir+"/result.gpc",_p->dstFilePath+".gpc");
             QFile::copy(_p->tempDir+"/result.meta.json",_p->dstFilePath+".meta.json");
@@ -115,9 +123,9 @@ void javaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         emit CompileOutput(QString("compile error:stage %1").arg(_p->currentState));
 
         //删除之前的文件
-        QString targetPath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
-        QFile::remove(targetPath+".gpc");
-        QFile::remove(targetPath+".meta.json");
+        QFile::remove(_p->dstFilePath+".gpc");
+        QFile::remove(_p->dstFilePath+".meta.json");
+
         //删除临时目录
         IDEUtil::deleteDir(_p->tempDir);
     }
@@ -187,3 +195,4 @@ void javaCompile::generateContractFile()
                                QStringList()<<_p->tempDir+"/result.out"<<_p->tempDir+"/result.meta.json");
 
 }
+

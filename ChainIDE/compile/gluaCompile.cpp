@@ -39,7 +39,7 @@ gluaCompile::~gluaCompile()
     _p = nullptr;
 }
 
-void gluaCompile::startCompileFile(const QString &sourceFilePath)
+void gluaCompile::initConfig(const QString &sourceFilePath)
 {
     //当前文件路径名
     _p->sourceFile = sourceFilePath;
@@ -47,6 +47,8 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
                   DataDefine::GLUA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
     _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_DIR,
                                         sourceFilePath);;
+
+    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
     IDEUtil::deleteDir(_p->tempDir);
     QDir dir(_p->tempDir);
@@ -56,7 +58,14 @@ void gluaCompile::startCompileFile(const QString &sourceFilePath)
         dir.mkpath(dir.path());
     }
 
-    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
+    //删除之前的文件
+    QFile::remove(_p->dstFilePath+".gpc");
+    QFile::remove(_p->dstFilePath+".meta.json");
+}
+
+void gluaCompile::startCompileFile(const QString &sourceFilePath)
+{
+    initConfig(sourceFilePath);
 
     emit CompileOutput(QString("start compile %1").arg(_p->sourceDir));
 
@@ -72,9 +81,6 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
     if(exitStatus == QProcess::NormalExit)
     {
         //生成完毕
-        //删除之前的文件
-        QFile::remove(_p->dstFilePath+".gpc");
-        QFile::remove(_p->dstFilePath+".meta.json");
 
         //复制gpc meta.json文件到源目录
         QFile::copy(_p->tempDir+"/"+QFileInfo(_p->sourceFile).fileName()+".gpc",_p->dstFilePath+".gpc");
@@ -110,4 +116,5 @@ void gluaCompile::onReadStandardError()
 {
     emit CompileOutput(QString::fromLocal8Bit(getCompileProcess()->readAllStandardError()));
 }
+
 

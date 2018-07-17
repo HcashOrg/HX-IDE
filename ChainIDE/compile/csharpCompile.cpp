@@ -38,24 +38,37 @@ csharpCompile::~csharpCompile()
     _p = nullptr;
 }
 
-void csharpCompile::startCompileFile(const QString &sourceFilePath)
+void csharpCompile::initConfig(const QString &sourceFilePath)
 {
     _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
                   DataDefine::CSHARP_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+
     _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_DIR,
                                         sourceFilePath);;
 
     _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
-    //设置控制台路径为当前路径
-    getCompileProcess()->setWorkingDirectory(_p->tempDir);
-
+    //清空临时目录
     IDEUtil::deleteDir(_p->tempDir);
     QDir dir(_p->tempDir);
     if(!dir.exists())
     {
         dir.mkpath(dir.path());
     }
+
+    //删除上次生成的文件
+    QFile::remove(_p->dstFilePath+".gpc");
+    QFile::remove(_p->dstFilePath+".meta.json");
+
+}
+
+void csharpCompile::startCompileFile(const QString &sourceFilePath)
+{
+    initConfig(sourceFilePath);
+
+    //设置控制台路径为当前路径
+    getCompileProcess()->setWorkingDirectory(_p->tempDir);
+
     emit CompileOutput(QString("start Compile %1").arg(_p->sourceDir));
     generateDllFile();
 }
@@ -71,9 +84,6 @@ void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         }
         else if(1 == _p->currentState)
         {
-            //删除之前的文件
-            QFile::remove(_p->dstFilePath+".gpc");
-            QFile::remove(_p->dstFilePath+".meta.json");
 
             //复制gpc meta.json文件到源目录
             QFile::copy(_p->tempDir+"/result.gpc",_p->dstFilePath+".gpc");
@@ -94,9 +104,8 @@ void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         emit CompileOutput(QString("compile error:stage %1").arg(_p->currentState));
 
         //删除之前的文件
-        QString targetPath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
-        QFile::remove(targetPath+".gpc");
-        QFile::remove(targetPath+".meta.json");
+        QFile::remove(_p->dstFilePath+".gpc");
+        QFile::remove(_p->dstFilePath+".meta.json");
         //删除临时目录
         IDEUtil::deleteDir(_p->tempDir);
     }
@@ -152,3 +161,4 @@ void csharpCompile::generateContractFile()
     getCompileProcess()->start(DataDefine::CSHARP_COMPILE_PATH,params);
 
 }
+

@@ -18,6 +18,8 @@ protected slots:
     virtual void onReadStandardOutput();
     virtual void onReadStandardError();
 private:
+    void initConfig(const QString &sourceFilePath);
+private:
     class DataPrivate;
     DataPrivate *_p;
 };

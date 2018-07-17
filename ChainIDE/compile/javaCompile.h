@@ -22,6 +22,8 @@ private:
     void generateOutFile();
     void generateContractFile();
 private:
+    void initConfig(const QString &sourceFilePath);
+private:
     class DataPrivate;
     DataPrivate *_p;
 };

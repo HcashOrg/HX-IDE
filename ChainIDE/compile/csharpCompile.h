@@ -17,6 +17,7 @@ protected slots:
 private:
     void generateDllFile();
     void generateContractFile();
+    void initConfig(const QString &sourceFilePath);
 private:
     class DataPrivate;
     DataPrivate *_p;
