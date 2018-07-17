@@ -5,6 +5,8 @@ QMainWindow{
 QSplitter::handle {
     background-color: rgb(200,200,200);
 }
+
+
 QToolBar {
     padding:0px 0px 0px 6px;
     background: rgb(255,255,255);
@@ -15,6 +17,8 @@ QToolBar::separator{
     margin:0px 0px 0px 0px;
     background-color: rgb(200,200,200);
 }
+
+
 QMenuBar{
     padding:0px 0px 0px 10px;
     background: rgb(255,255,255);
@@ -32,6 +36,7 @@ QMenuBar::item:selected {
     background:rgb(200,200,200);
     color:black;
 }
+
 
 QMenu{
     background-color:rgb(255,255,255);
@@ -51,6 +56,7 @@ QMenu::item:selected{
 QMenu::item:disabled{
     color:gray;
 }
+
 
 QTreeView{
     background-color:rgb(255,255,255);
@@ -95,6 +101,7 @@ QTreeView::item:has-children{
     color:black;
 }
 
+
 QTextEdit{
     background-color: rgb(255,255,255);
     color: black;
@@ -103,9 +110,12 @@ QTextEdit{
     padding: 0px 10px 0px 6px;
 }
 
+
 QTabWidget::pane{
     border: 0px solid #C2C7CB;
 }
+
+
 QTabBar::tab{
     background-color:rgb(255,255,255);
     color:rgb(50,50,50) ;
@@ -132,38 +142,57 @@ QScrollBar:vertical {
      background: rgb(255,255,255);
      width: 10px;
      margin: 1px 0 1px 0;
- }
- QScrollBar::handle:vertical {
-    border: 0px solid rgb(71,71,71);
-    background: rgb(200,200,200);
-    border-radius:5px;
-    min-height:30px;
- }
- QScrollBar::add-line:vertical {
- border: 0px solid rgb(71,71,71);
-     background: rgb(255,255,255);
-     height: 15px;
-     subcontrol-position: bottom;
-     subcontrol-origin: margin;
- }
-
- QScrollBar::sub-line:vertical {
- border: 0px solid rgb(71,71,71);
-     background: rgb(255,255,255);
-     height: 15px;
-     subcontrol-position: top;
-     subcontrol-origin: margin;
- }
- QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+}
+QScrollBar:horizontal {
      border: 0px solid rgb(71,71,71);
-     width: 5px;
-     height: 5px;
      background: rgb(255,255,255);
+     height: 10px;
+     margin: 0px 1px 0px 1px;
  }
-
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+QScrollBar::handle:vertical {
+     border: 0px solid rgb(71,71,71);
+     background: rgb(200,200,200);
+     border-radius:5px;
+     min-height:30px;
+}
+QScrollBar::add-line:vertical {
+border: 0px solid rgb(71,71,71);
+    background: rgb(255,255,255);
+    height: 15px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-line:horizontal {
+border: 0px solid rgb(71,71,71);
+    background: rgb(255,255,255);
+    width: 15px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical {
+border: 0px solid rgb(71,71,71);
+    background: rgb(255,255,255);
+    height: 15px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:horizontal {
+border: 0px solid rgb(71,71,71);
+    background: rgb(255,255,255);
+    width: 15px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical,QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+    border: 0px solid rgb(71,71,71);
+    width: 5px;
+    height: 5px;
+    background: rgb(255,255,255);
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
      background: rgb(255,255,255);
 }
+
 
 QLineEdit{
     color:black;
@@ -175,6 +204,7 @@ QLineEdit:focus{
     border:1px solid rgb(220,220,220);
 }
 
+
 QComboBox{
     background-color:transparent;
     border:none;
@@ -183,7 +213,6 @@ QComboBox{
     padding-left: 5px;
     font: 14px \"Microsoft YaHei UI Light\";
 }
-
 QComboBox:on{
     border:0px solid rgb(93,107,144);
     color:white;
@@ -199,6 +228,8 @@ QComboBox::down-arrow {
 QComboBox::down-arrow:on {
     image: url(:/pic/downArrow_on.png);
 }
+
+
 QComboBox QAbstractItemView {
     background:rgb(255,255,255);
     border:1px solid darkgray;
@@ -212,7 +243,6 @@ QComboBox QAbstractItemView::item:hover
     background-color:rgb(200,200,200);
     border:none;
 }
-
 QComboBox QAbstractItemView::item:selected
 {
     color:#44D9C7;
@@ -234,6 +264,7 @@ QHeaderView:section{
     border:none;
     background-color:rgb(255,255,255);
 }
+
 
 QDoubleSpinBox::up-button {
     width:0;
@@ -299,6 +330,7 @@ QSpinBox:disabled{
     background:transparent;
     color: rgb(83,90,109);
 }
+
 
 QCheckBox{
     color:black;

@@ -118,6 +118,7 @@ void FileView::InitWidget()
     setSelectionBehavior(QAbstractItemView::SelectRows);
     header()->setVisible(false);
 
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     for(int i = 1;i < _p->fileModel->columnCount();++i)
     {

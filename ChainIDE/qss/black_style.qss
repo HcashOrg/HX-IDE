@@ -5,6 +5,8 @@ QMainWindow{
 QSplitter::handle {
     background-color: rgb(31,31,31);
 }
+
+
 QToolBar {
     padding:0px 0px 0px 6px;
     background: #323232;border-bottom:
@@ -34,6 +36,7 @@ QMenuBar::item:selected {
     color:white;
 }
 
+
 QMenu{
     background-color:#323232;
     border:1px solid rgb(10,10,10);
@@ -52,6 +55,7 @@ QMenu::item:selected{
 QMenu::item:disabled{
     color:gray;
 }
+
 
 QTreeView{
     background-color:rgb(46,46,46);
@@ -96,6 +100,7 @@ QTreeView::item:has-children{
     color:white;
 }
 
+
 QTextEdit{
     background-color: rgb(46,46,46);
     color: #F1F6FE;
@@ -104,9 +109,12 @@ QTextEdit{
     padding: 0px 10px 0px 6px;
 }
 
+
 QTabWidget::pane{
     border: 0px solid #C2C7CB;
 }
+
+
 QTabBar::tab{
     background-color:rgb(46,46,46);
     color:rgb(98, 98, 98) ;
@@ -128,41 +136,69 @@ QTabBar::close-button {
     subcontrol-position: bottom right;
 }
 
+
 QScrollBar:vertical {
      border: 0px solid rgb(71,71,71);
      background: rgb(46,46,46);
      width: 10px;
      margin: 1px 0 1px 0;
- }
- QScrollBar::handle:vertical {
-    border: 0px solid rgb(71,71,71);
-    border-radius:5px;
-    background: rgb(38,38,38);
-    min-height:30px;
- }
- QScrollBar::add-line:vertical {
- border: 0px solid rgb(71,71,71);
-     background: rgb(46,46,46);
-     height: 15px;
-     subcontrol-position: bottom;
-     subcontrol-origin: margin;
- }
-
- QScrollBar::sub-line:vertical {
- border: 0px solid rgb(71,71,71);
-     background: rgb(46,46,46);
-     height: 15px;
-     subcontrol-position: top;
-     subcontrol-origin: margin;
- }
- QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+}
+QScrollBar:horizontal {
      border: 0px solid rgb(71,71,71);
-     width: 5px;
-     height: 5px;
-     background: white;
- }
+     background: rgb(46,46,46);
+     height: 10px;
+     margin: 0px 1px 0px 1px;
+}
+QScrollBar::handle:vertical {
+   border: 0px solid rgb(71,71,71);
+   border-radius:5px;
+   background: rgb(38,38,38);
+   min-height:30px;
+}
+QScrollBar::handle:horizontal {
+   border: 0px solid rgb(71,71,71);
+   border-radius:5px;
+   background: rgb(38,38,38);
+   min-width:30px;
+}
 
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+QScrollBar::add-line:vertical {
+    border: 0px solid rgb(71,71,71);
+    background: rgb(46,46,46);
+    height: 15px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-line:horizontal {
+border: 0px solid rgb(71,71,71);
+    background: rgb(46,46,46);
+    width: 15px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    border: 0px solid rgb(71,71,71);
+    background: rgb(46,46,46);
+    height: 15px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:horizontal {
+    border: 0px solid rgb(71,71,71);
+    background: rgb(46,46,46);
+    width: 15px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical,QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+    border: 0px solid rgb(71,71,71);
+    width: 5px;
+    height: 5px;
+    background: white;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
      background: rgb(46,46,46);
 }
 
