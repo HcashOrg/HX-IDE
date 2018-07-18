@@ -362,16 +362,6 @@ QLabel#title_Label{
     padding-left:10px;
 }
 
-
-QToolButton#clearBtn{
-    background-color:rgb(66,66,66);
-    border:1px solid gray;
-    border-radius:10px;
-    color:white;
-}
-QToolButton#clearBtn:pressed{
-    background-color:rgb(50,50,50);
-}
 QToolButton#closeBtn{
     background-image:url(:/pic/close2.png);
     background-repeat: no-repeat;
@@ -380,7 +370,11 @@ QToolButton#closeBtn{
     border:none;
 }
 
-QToolButton#okBtn{
+QToolButton#okBtn,QToolButton#cancelBtn,QToolButton#clearBtn,
+QToolButton#newAccount,QToolButton#importKey,
+QToolButton#toolButton_checkUpdate,QToolButton#toolButton_restart,QToolButton#toolButton_update,
+QToolButton#pathBtn
+{
     border:1px solid gray;
     border-radius:10px;
     color:white;
@@ -388,53 +382,21 @@ QToolButton#okBtn{
     height:20px;
     width:60px;
 }
-QToolButton#okBtn:disabled{
+QToolButton#okBtn:disabled,QToolButton#cancelBtn:disabled,QToolButton#clearBtn:disabled,
+QToolButton#newAccount:disabled,QToolButton#importKey:disabled,
+QToolButton#toolButton_checkUpdate:disabled,QToolButton#toolButton_restart:disabled,QToolButton#toolButton_update:disabled,
+QToolButton#pathBtn:disabled
+{
     color:gray;
 }
-QToolButton#okBtn:pressed{
-    background-color:rgb(50,50,50);
-}
-
-QToolButton#cancelBtn{
-    border:1px solid gray;
-    border-radius:10px;
-    color:white;
-    background-color:rgb(66,66,66);
-    height:20px;
-    width:60px;
-}
-QToolButton#cancelBtn:pressed{
-    background-color:rgb(50,50,50);
-}
-
-
-QToolButton#newAccount,QToolButton#importKey{
-    border:1px solid gray;
-    border-radius:10px;
-    color:white;
-    background-color:rgb(66,66,66);
-    height:20px;
-    width:60px;
-}
-
-QToolButton#newAccount:disabled,QToolButton#importKey:disabled{
-    color:gray;
-}
-
-QToolButton#newAccount:pressed,QToolButton#importKey:pressed{
+QToolButton#okBtn:pressed,QToolButton#cancelBtn:pressed,QToolButton#clearBtn:pressed,
+QToolButton#newAccount:pressed,QToolButton#importKey:pressed,
+QToolButton#toolButton_checkUpdate:pressed,QToolButton#toolButton_restart:pressed,QToolButton#toolButton_update:pressed,
+QToolButton#pathBtn:pressed
+{
     background-color:rgb(50,50,50);
 }
 
 QWidget#ContextWidget{
     background-color:black;
-}
-
-
-QToolButton#toolButton_checkUpdate,QToolButton#toolButton_restart,QToolButton#toolButton_update{
-    border:1px solid gray;
-    border-radius:10px;
-    color:white;
-    background-color:rgb(66,66,66);
-    height:20px;
-    width:60px;
 }

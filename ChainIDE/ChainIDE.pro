@@ -73,7 +73,11 @@ SOURCES += main.cpp\
     update/UpdateNetWork.cpp \
     update/UpdateProcess.cpp \
     update/UpdateProgressUtil.cpp \
-    popwidget/AboutWidget.cpp
+    popwidget/AboutWidget.cpp \
+    AES/aes.cpp \
+    AES/aesencryptor.cpp \
+    custom/KeyDataUtil.cpp \
+    custom/ImportEnterPWDDialogHX.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -135,7 +139,11 @@ HEADERS  += MainWindow.h \
     update/UpdateNetWork.h \
     update/UpdateProcess.h \
     update/UpdateProgressUtil.h \
-    popwidget/AboutWidget.h
+    popwidget/AboutWidget.h \
+    AES/aes.h \
+    AES/aesencryptor.h \
+    custom/KeyDataUtil.h \
+    custom/ImportEnterPWDDialogHX.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -168,7 +176,8 @@ FORMS    += MainWindow.ui \
     custom/TransferWidgetUB.ui \
     contractwidget/ContractWidgetUB.ui \
     contractwidget/FunctionWidgetUB.ui \
-    popwidget/AboutWidget.ui
+    popwidget/AboutWidget.ui \
+    custom/ImportEnterPWDDialogHX.ui
 
 RESOURCES += \
     chain.qrc

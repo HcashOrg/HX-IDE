@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
         <location filename="popwidget/ConfigWidget.cpp" line="50"/>
         <source>  Chinese</source>
         <oldsource>Chinese</oldsource>
-        <translation type="unfinished">Chinese</translation>
+        <translation type="unfinished">简体中文</translation>
     </message>
     <message>
         <location filename="popwidget/ConfigWidget.cpp" line="62"/>
@@ -769,9 +769,29 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">PrivateKey:</translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="23"/>
+        <location filename="custom/ImportDialogHX.ui" line="212"/>
+        <source>选择文件</source>
+        <translation type="unfinished">file</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogHX.cpp" line="26"/>
         <source>Beginning with letter,letters or numbers</source>
         <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogHX.cpp" line="74"/>
+        <source>Wrong file path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogHX.cpp" line="81"/>
+        <source>LNK Address:%1  Already Exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogHX.cpp" line="146"/>
+        <source>Choose your private key file.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -810,6 +830,34 @@ p, li { white-space: pre-wrap; }
         <location filename="custom/ImportDialogUB.cpp" line="23"/>
         <source>Beginning with letter,letters or numbers</source>
         <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEnterPwdDialogHX</name>
+    <message>
+        <location filename="custom/ImportEnterPWDDialogHX.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/ImportEnterPWDDialogHX.ui" line="83"/>
+        <source>确定</source>
+        <translation type="unfinished">Confirm</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportEnterPWDDialogHX.ui" line="110"/>
+        <source>取消</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportEnterPWDDialogHX.ui" line="129"/>
+        <source>私钥密码：</source>
+        <translation type="unfinished">PrivKey Passwaord:</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportEnterPWDDialogHX.ui" line="148"/>
+        <source>密码确认</source>
+        <translation type="unfinished">Password Confirm</translation>
     </message>
 </context>
 <context>

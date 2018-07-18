@@ -24,7 +24,16 @@ void ConvenientOp::ShowSyncCommonDialog(const QString &data)
 {
     QTimer::singleShot(1,[data](){
         CommonDialog dia(CommonDialog::OkOnly);
-        dia.setText(data);
+        QJsonParseError json_error;
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+        {
+            dia.setText(data);
+        }
+        else
+        {
+            dia.setText(parse_doucment.toJson());
+        }
         dia.exec();
     });
 }

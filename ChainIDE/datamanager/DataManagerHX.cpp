@@ -142,6 +142,7 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
         {
             //设置默认密码 11111111
             ChainIDE::getInstance()->postRPC("deal-set_password",IDEUtil::toJsonFormat("set_password",QJsonArray()<<"11111111"));
+            ChainIDE::getInstance()->postRPC("deal-unlocktestchain",IDEUtil::toJsonFormat("unlock",QJsonArray()<<"11111111"));
         }
         else if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST)
         {
@@ -195,7 +196,14 @@ bool DataManagerHX::parseAddresses(const QString &accountName,const QString &dat
     foreach (QJsonValue addr, jsonArr) {
         if(!addr.isObject()) continue;
         QJsonObject obj = addr.toObject();
-        _p->accountData->insertAsset(accountName,obj.value("asset_id").toString(),obj.value("amount").toDouble());
+        if(obj.value("amount").isDouble())
+        {
+            _p->accountData->insertAsset(accountName,obj.value("asset_id").toString(),obj.value("amount").toDouble());
+        }
+        else if(obj.value("amount").isString())
+        {
+            _p->accountData->insertAsset(accountName,obj.value("asset_id").toString(),obj.value("amount").toString().toDouble());
+        }
     }
     return true;
 

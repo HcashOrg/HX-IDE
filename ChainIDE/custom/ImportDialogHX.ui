@@ -122,13 +122,13 @@ color: rgb(255, 255, 255);</string>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>70</y>
-     <width>451</width>
-     <height>71</height>
+     <x>21</x>
+     <y>75</y>
+     <width>461</width>
+     <height>81</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="1,6">
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
@@ -196,10 +196,20 @@ color: rgb(255, 255, 255);</string>
        <string/>
       </property>
       <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
+       <enum>QLineEdit::Normal</enum>
       </property>
       <property name="readOnly">
        <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QToolButton" name="pathBtn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="text">
+       <string>选择文件</string>
       </property>
      </widget>
     </item>

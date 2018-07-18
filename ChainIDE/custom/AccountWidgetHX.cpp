@@ -136,6 +136,7 @@ void AccountWidgetHX::InitTree()
     ui->treeWidget->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->treeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
     ui->treeWidget->expandAll();
+    ui->treeWidget->hideColumn(2);
 }
 
 void AccountWidgetHX::InitContextMenu()

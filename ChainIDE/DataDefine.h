@@ -215,6 +215,7 @@ namespace AccountHX {
             }
             return nullptr;
         }
+
         //根据地址，获取账户信息
         AccountInfoPtr getAccountByAddr(const QString &addr)const{
             auto it = std::find_if(data.begin(),data.end(),[addr](const AccountInfoPtr &info){
