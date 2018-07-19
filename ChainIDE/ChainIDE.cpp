@@ -67,6 +67,7 @@ ChainIDE *ChainIDE::getInstance()
 ChainIDE::~ChainIDE()
 {
     delete _p;
+    _p = nullptr;
 }
 
 ChainIDE::ChainIDE(QObject *parent)
@@ -80,6 +81,7 @@ ChainIDE::ChainIDE(QObject *parent)
 }
 
 ChainIDE * ChainIDE::_instance = nullptr;
+ChainIDE::CGarbo ChainIDE::Garbo;
 
 void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
 {

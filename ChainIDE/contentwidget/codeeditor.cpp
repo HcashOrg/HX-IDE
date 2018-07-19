@@ -148,6 +148,5 @@ void codeeditor::deleteText()
 
 void codeeditor::selectAll()
 {
-    qDebug()<<"selectall";
-    RunJavaScript("editor.selectAll()");
+    RunJavaScript("selectAll()");
 }

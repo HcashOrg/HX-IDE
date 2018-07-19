@@ -19,7 +19,7 @@
    <string/>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -80,6 +80,7 @@
        </widget>
        <widget class="OutputWidget" name="outputWidget" native="true"/>
       </widget>
+      <widget class="DebugWidget" name="debugWidget" native="true"/>
      </widget>
     </item>
    </layout>
@@ -652,6 +653,12 @@
    <class>ContractWidgetUB</class>
    <extends>QWidget</extends>
    <header>contractwidget/contractwidgetub.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DebugWidget</class>
+   <extends>QWidget</extends>
+   <header>debugwidget/debugwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

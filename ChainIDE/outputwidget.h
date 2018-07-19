@@ -19,12 +19,11 @@ public:
 
 public slots:
 
-    void receiveCompileMessage(const QString &text,int chainType);
-    void receiveOutputMessage(const QString &text,int chainType);
+    void receiveCompileMessage(const QString &text);
+    void receiveOutputMessage(const QString &text);
 
 
     void retranslator();
-    void refreshStyle();
 private:
     Ui::OutputWidget *ui;
     class DataPrivate;

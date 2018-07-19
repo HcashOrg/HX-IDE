@@ -19,7 +19,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="spacing">
@@ -66,7 +66,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QStackedWidget" name="compileStack"/>
+        <widget class="QTextBrowser" name="compileText"/>
        </item>
       </layout>
      </widget>
@@ -91,7 +91,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QStackedWidget" name="outputStack"/>
+        <widget class="QTextBrowser" name="outputText"/>
        </item>
       </layout>
      </widget>

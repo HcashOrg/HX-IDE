@@ -33,9 +33,25 @@ private:
 public:
     static DataManagerHX *getInstance();
     ~DataManagerHX();
+public:
+    DataManagerHX(const DataManagerHX &)=delete;
+    void operator =(const DataManagerHX &) = delete;
 private:
     explicit DataManagerHX(QObject *parent = 0);
     static DataManagerHX *_instance;
+    class CGarbo // 它的唯一工作就是在析构函数中删除 的实例
+    {
+    public:
+        ~CGarbo()
+        {
+            if (_instance)
+            {
+                delete _instance;
+                _instance = nullptr;
+            }
+        }
+    };
+    static CGarbo Garbo; // 定义一个静态成员，在程序结束时，系统会调用它的析构函数
 private:
     class DataPrivate;
     DataPrivate *_p;

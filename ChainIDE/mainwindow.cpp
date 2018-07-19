@@ -45,6 +45,11 @@ public:
     {
 
     }
+    ~DataPrivate()
+    {
+        delete waitingForSync;
+        waitingForSync = nullptr;
+    }
 public:
     WaitingForSync* waitingForSync;
     bool updateNeeded;//是否需要更新文件---启动copy
@@ -62,13 +67,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete _p;
-    delete ChainIDE::getInstance();
+    _p = nullptr;
     delete ui;
 }
 
 void MainWindow::InitWidget()
 {
-
     //设置界面背景色
     refreshStyle();
     //标题
@@ -131,12 +135,13 @@ void MainWindow::startWidget()
     HideAction();
 
     //设置界面比例
-    ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.9*ui->centralWidget->width());
+    ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.7*ui->centralWidget->width()<<0.2*ui->centralWidget->width());
     ui->splitter_ver->setSizes(QList<int>()<<0.67*ui->centralWidget->height()<<0.33*ui->centralWidget->height());
+    ui->debugWidget->setVisible(false);
 
     //链接编译槽
-    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,
-            std::bind(&OutputWidget::receiveCompileMessage,ui->outputWidget,std::placeholders::_1,ChainIDE::getInstance()->getCurrentChainType()));
+    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,ui->outputWidget,&OutputWidget::receiveCompileMessage);
+
     connect(ui->fileWidget,&FileWidget::fileClicked,ui->contentWidget,&ContextWidget::showFile);
     connect(ui->fileWidget,&FileWidget::compileFile,this,&MainWindow::on_compileAction_triggered);
     connect(ui->fileWidget,&FileWidget::deleteFile,ui->contentWidget,&ContextWidget::CheckDeleteFile);
@@ -171,8 +176,6 @@ void MainWindow::refreshStyle()
 {
     //初始化样式表
     ChainIDE::getInstance()->refreshStyleSheet();
-
-    ui->outputWidget->refreshStyle();
 }
 
 void MainWindow::refreshTranslator()
@@ -477,7 +480,7 @@ void MainWindow::on_changeChainAction_triggered()
         {
             if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
             {
-                DataManagerHX::getInstance()->unlockWallet("11111111");
+                DataManagerHX::getInstance()->dealNewState();//处理最新情况
             }
         }
         else
@@ -517,7 +520,7 @@ void MainWindow::on_compileAction_triggered()
 
 void MainWindow::on_debugAction_triggered()
 {
-
+    ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
 }
 
 void MainWindow::on_stopAction_triggered()

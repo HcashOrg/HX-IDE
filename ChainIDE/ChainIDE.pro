@@ -77,7 +77,8 @@ SOURCES += main.cpp\
     AES/aes.cpp \
     AES/aesencryptor.cpp \
     custom/KeyDataUtil.cpp \
-    custom/ImportEnterPWDDialogHX.cpp
+    custom/ImportEnterPWDDialogHX.cpp \
+    debugwidget/DebugWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -143,7 +144,8 @@ HEADERS  += MainWindow.h \
     AES/aes.h \
     AES/aesencryptor.h \
     custom/KeyDataUtil.h \
-    custom/ImportEnterPWDDialogHX.h
+    custom/ImportEnterPWDDialogHX.h \
+    debugwidget/DebugWidget.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -177,7 +179,8 @@ FORMS    += MainWindow.ui \
     contractwidget/ContractWidgetUB.ui \
     contractwidget/FunctionWidgetUB.ui \
     popwidget/AboutWidget.ui \
-    custom/ImportEnterPWDDialogHX.ui
+    custom/ImportEnterPWDDialogHX.ui \
+    debugwidget/DebugWidget.ui
 
 RESOURCES += \
     chain.qrc

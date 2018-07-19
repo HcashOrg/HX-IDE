@@ -151,6 +151,7 @@ void Editor::InitEditor()
     eventloop.exec();
 
     webView->installEventFilter(this);
+    webView->setContextMenuPolicy(Qt::NoContextMenu);
     ui->layout->addWidget(webView);
     _p->webView = webView;
 

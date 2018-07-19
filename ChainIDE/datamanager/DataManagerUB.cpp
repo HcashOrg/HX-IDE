@@ -42,10 +42,12 @@ DataManagerUB::DataManagerUB(QObject *parent)
 
 }
 DataManagerUB * DataManagerUB::_instance = nullptr;
+DataManagerUB::CGarbo DataManagerUB::Garbo;
 
 DataManagerUB::~DataManagerUB()
 {
     delete _p;
+    _p = nullptr;
 }
 
 void DataManagerUB::queryAccount()
