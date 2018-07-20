@@ -17,6 +17,7 @@
 static const QString UPDATE_DOC_NAME = "ide_upgrade.xml";
 static const QString UPDATE_DIR_NAME = "updatetemp";
 static const QString COPY_DIR_NAME = "copy";
+static const QString UPDATE_SERVER_URL = "http://192.168.1.161/IDEupdate/";
 
 class UpdateProcess::DataPrivate
 {
@@ -24,13 +25,12 @@ public:
     DataPrivate()
         :updateNetwork(new UpdateNetWork())
         ,networkManager(new QNetworkAccessManager())
-        ,serverUrl("http://192.168.1.161/IDEupdate/")
+        ,serverUrl(UPDATE_SERVER_URL)
         ,downloadPath(QCoreApplication::applicationDirPath() + QDir::separator() + UPDATE_DIR_NAME)
         ,localVersionData(std::make_shared<VersionInfo>())
         ,serverVersionData(std::make_shared<VersionInfo>())
         ,isWrongHappened(false)
     {
-        qDebug()<<downloadPath;
     }
     ~DataPrivate()
     {
@@ -84,7 +84,6 @@ void UpdateProcess::checkUpdate()
     UpdateProgressUtil::deleteDir(_p->downloadPath);
 
     //本地版本文件解析
-    qDebug()<<"解析本地文件``"<<QCoreApplication::applicationDirPath() + QDir::separator() + UPDATE_DOC_NAME;
     UpdateProgressUtil::ParseXmlPath(QCoreApplication::applicationDirPath() + QDir::separator() + UPDATE_DOC_NAME,
                                      _p->localVersionData);
 
@@ -96,7 +95,6 @@ void UpdateProcess::startDownload()
 {    //开始下载
     //链接最终下载完毕信号
     connect(_p->updateNetwork,&UpdateNetWork::TaskEmpty,this,&UpdateProcess::DownloadEmptySlot);
-    qDebug()<<_p->updateList.size();
     _p->updateNetwork->DownLoadFile(_p->updateList);
 }
 
@@ -124,7 +122,6 @@ void UpdateProcess::DownLoadVersionConfigFinsihed()
     UpdateProgressUtil::ExtractUpdateData(_p->localVersionData,_p->serverVersionData,
                                           _p->downloadPath+QDir::separator()+COPY_DIR_NAME,_p->downloadPath,
                                           _p->updateList);
-    qDebug()<<"download size---"<<_p->updateList.size();
     //发送版本信息
     emit NewstVersionSignal(_p->updateList.empty()?"":_p->serverVersionData->version);
 }
@@ -153,7 +150,6 @@ void UpdateProcess::GetLatestVersionInfo()
     DownLoadData up;
     up.fileName = UPDATE_DOC_NAME;
     up.url = _p->serverUrl + up.fileName;//"http://192.168.1.161/down/blocklink_wallet_upgrade.xml";//测试用，本地文件
-    qDebug()<<up.url;
     up.filePath = _p->downloadPath + QDir::separator() + up.fileName;
     connect(_p->updateNetwork,&UpdateNetWork::DownLoadFinish,this,&UpdateProcess::DownLoadVersionConfigFinsihed);
 
