@@ -7,7 +7,6 @@
 #include <QDir>
 #include <QPainter>
 #include <QMouseEvent>
-#include <QDesktopWidget>
 #include <QCoreApplication>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>

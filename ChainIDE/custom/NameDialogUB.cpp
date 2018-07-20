@@ -1,13 +1,11 @@
 ﻿#include "NameDialogUB.h"
 #include "ui_NameDialogUB.h"
 
-#include <QMovie>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QDesktopWidget>
+#include <QRegExpValidator>
 
 #include "ChainIDE.h"
 #include "datamanager/DataManagerUB.h"
+#include "ConvenientOp.h"
 
 NameDialogUB::NameDialogUB(QWidget *parent) :
     MoveableDialog(parent),
@@ -16,7 +14,6 @@ NameDialogUB::NameDialogUB(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowFlags(Qt::FramelessWindowHint);
-    move( (QApplication::desktop()->width() - this->width())/2 , (QApplication::desktop()->height() - this->height())/2);
 
     yesOrNO = false;
 

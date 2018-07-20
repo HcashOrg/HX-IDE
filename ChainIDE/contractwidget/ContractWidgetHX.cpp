@@ -23,7 +23,10 @@ ContractWidgetHX::~ContractWidgetHX()
 
 void ContractWidgetHX::RefreshTree()
 {
-    DataManagerHX::getInstance()->queryAccount();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        DataManagerHX::getInstance()->queryAccount();
+    }
 }
 
 void ContractWidgetHX::ContractClicked(QTreeWidgetItem *item, QTreeWidgetItem *itempre)
@@ -41,10 +44,11 @@ void ContractWidgetHX::InitWidget()
 
     connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidgetHX::ContractClicked);
 
-    connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,DataManagerHX::getInstance(),&DataManagerHX::queryContract);
-    connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&ContractWidgetHX::InitTree);
-
-   // RefreshTree();
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,DataManagerHX::getInstance(),&DataManagerHX::queryContract);
+        connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&ContractWidgetHX::InitTree);
+    }
 }
 
 void ContractWidgetHX::InitTree()

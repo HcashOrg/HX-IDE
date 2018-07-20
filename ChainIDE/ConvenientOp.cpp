@@ -10,6 +10,8 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QGuiApplication>
+#include <QScreen>
 
 #include "popwidget/commondialog.h"
 #include "IDEUtil.h"
@@ -36,6 +38,12 @@ void ConvenientOp::ShowSyncCommonDialog(const QString &data)
         }
         dia.exec();
     });
+}
+
+void ConvenientOp::MoveWidgetCenter(QWidget *widget)
+{
+    if(!widget) return;
+    widget->move((QGuiApplication::primaryScreen()->size().width() - widget->width())/2,(QGuiApplication::primaryScreen()->size().height() - widget->height())/2);
 }
 
 bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::AddressContractDataPtr &results)

@@ -1,10 +1,10 @@
 ﻿#include "NameDialogHX.h"
 #include "ui_NameDialogHX.h"
 
-#include <QDesktopWidget>
-
+#include <QRegExpValidator>
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
+#include "ConvenientOp.h"
 
 NameDialogHX::NameDialogHX(QWidget *parent) :
     MoveableDialog(parent),
@@ -13,7 +13,6 @@ NameDialogHX::NameDialogHX(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowFlags(Qt::FramelessWindowHint);
-    move( (QApplication::desktop()->width() - this->width())/2 , (QApplication::desktop()->height() - this->height())/2);
 
     yesOrNO = false;
 

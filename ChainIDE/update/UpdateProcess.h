@@ -8,6 +8,7 @@ class UpdateProcess : public QObject
     Q_OBJECT
 public:
     explicit UpdateProcess(QObject *parent = 0);
+    ~UpdateProcess();
 signals:
     void NewstVersionSignal(const QString &version);//没有更新则为空
     void updateFinish();

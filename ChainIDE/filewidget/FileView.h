@@ -17,7 +17,6 @@ signals:
     void importContract();
     void newFile(const QString &type,const QString &defalutPath = "");
 
-
 public slots:
     void selectFile(const QString &filePath);
 

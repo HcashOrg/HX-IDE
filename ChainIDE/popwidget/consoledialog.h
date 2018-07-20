@@ -16,8 +16,6 @@ public:
     explicit ConsoleDialog(QWidget *parent = 0);
     ~ConsoleDialog();
 
-    void pop();
-
 private slots:
     void on_closeBtn_clicked();
 

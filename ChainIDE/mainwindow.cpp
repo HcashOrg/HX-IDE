@@ -47,8 +47,11 @@ public:
     }
     ~DataPrivate()
     {
-        delete waitingForSync;
-        waitingForSync = nullptr;
+        if(waitingForSync)
+        {
+            delete waitingForSync;
+            waitingForSync = nullptr;
+        }
     }
 public:
     WaitingForSync* waitingForSync;
@@ -192,6 +195,7 @@ void MainWindow::refreshTranslator()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug()<<"close mainwindow";
     hide();
     if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
     {
@@ -218,6 +222,7 @@ void MainWindow::exeStartedSlots()
         if(ChainIDE::getInstance()->testManager()->exeRunning())
         {
             test = true;
+            disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
         }
     }
     else
@@ -232,6 +237,7 @@ void MainWindow::exeStartedSlots()
         if(ChainIDE::getInstance()->formalManager()->exeRunning())
         {
           formal = true;
+          disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
         }
     }
     else
@@ -241,8 +247,6 @@ void MainWindow::exeStartedSlots()
 
     if(!formal) return;
 
-    disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-    disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
 
     //初始化数据管理
     if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
@@ -267,7 +271,6 @@ void MainWindow::showWaitingForSyncWidget()
 {
     _p->waitingForSync = new WaitingForSync;
     _p->waitingForSync->setWindowTitle( QString::fromLocal8Bit("IDE"));
-    _p->waitingForSync->setAttribute(Qt::WA_DeleteOnClose);
 
     _p->waitingForSync->show();
 }

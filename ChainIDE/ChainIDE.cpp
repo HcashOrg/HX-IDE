@@ -34,10 +34,26 @@ public:
     }
     ~DataPrivate()
     {
-        delete configFile;
-        delete testManager;
-        delete formalManager;
-        delete compileManager;
+        if(configFile)
+        {
+            delete configFile;
+            configFile = nullptr;
+        }
+        if(testManager)
+        {
+            delete testManager;
+            testManager = nullptr;
+        }
+        if(formalManager)
+        {
+            delete formalManager;
+            formalManager = nullptr;
+        }
+        if(compileManager)
+        {
+            delete compileManager;
+            compileManager = nullptr;
+        }
     }
 
 public:
@@ -66,6 +82,7 @@ ChainIDE *ChainIDE::getInstance()
 
 ChainIDE::~ChainIDE()
 {
+    qDebug()<<"delete chainid";
     delete _p;
     _p = nullptr;
 }
@@ -199,32 +216,6 @@ BackStageBase *ChainIDE::formalManager() const
     return _p->formalManager;
 }
 
-QProcess *ChainIDE::getProcess(int type)const
-{
-    QProcess* p = NULL;
-    if(type == 0)
-    {
-        if( getCurrentChainType() == DataDefine::TEST)
-        {
-            p = _p->testManager->getProcess();
-        }
-        else if( getCurrentChainType() == DataDefine::FORMAL)
-        {
-            p = _p->formalManager->getProcess();
-        }
-    }
-    else if(type == 1)
-    {
-        p = _p->testManager->getProcess();
-    }
-    else if( type == 2)
-    {
-        p = _p->formalManager->getProcess();
-    }
-
-    return p;
-}
-
 CompileManager *ChainIDE::getCompileManager() const
 {
     return _p->compileManager;
@@ -333,20 +324,37 @@ void ChainIDE::InitExeManager()
 {
     if(getChainClass() == DataDefine::HX)
     {
-        _p->testManager = new LinkBackStage(1);
-        _p->formalManager = new LinkBackStage(2);
+        if(getStartChainTypes() & DataDefine::TEST)
+        {
+            _p->testManager = new LinkBackStage(1);
+        }
+        if(getStartChainTypes() & DataDefine::FORMAL)
+        {
+            _p->formalManager = new LinkBackStage(2);
+        }
     }
     else if(getChainClass() == DataDefine::UB)
     {
-        _p->testManager = new UbtcBackStage(1);
-        _p->formalManager = new UbtcBackStage(2);
+        if(getStartChainTypes() & DataDefine::TEST)
+        {
+            _p->testManager = new UbtcBackStage(1);
+        }
+        if(getStartChainTypes() & DataDefine::FORMAL)
+        {
+            _p->formalManager = new UbtcBackStage(2);
+        }
     }
 
-    connect(this,&ChainIDE::rpcPosted,_p->testManager,&BackStageBase::rpcPostedSlot);
-    connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
-
-    connect(_p->testManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
-    connect(_p->formalManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
+    if(_p->testManager)
+    {
+        connect(this,&ChainIDE::rpcPosted,_p->testManager,&BackStageBase::rpcPostedSlot);
+        connect(_p->testManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
+    }
+    if(_p->formalManager)
+    {
+        connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
+        connect(_p->formalManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
+    }
 }
 
 void ChainIDE::getSystemEnvironmentPath()

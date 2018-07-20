@@ -4,8 +4,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDesktopWidget>
 #include <QFileDialog>
+#include <QRegExpValidator>
 
 #include "ChainIDE.h"
 #include "ConvenientOp.h"
@@ -21,7 +21,6 @@ ImportDialogHX::ImportDialogHX(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowFlags(Qt::FramelessWindowHint);
-    move( (QApplication::desktop()->width() - this->width())/2 , (QApplication::desktop()->height() - this->height())/2);
 
     ui->name->setPlaceholderText( tr("Beginning with letter,letters or numbers"));
     ui->name->setAttribute(Qt::WA_InputMethodEnabled, false);

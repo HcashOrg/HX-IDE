@@ -2,7 +2,6 @@
 #include "ui_consoledialog.h"
 
 #include <QKeyEvent>
-#include <QDesktopWidget>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -19,7 +18,6 @@ ConsoleDialog::ConsoleDialog(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowFlags(Qt::FramelessWindowHint | windowFlags());
-
     ui->consoleLineEdit->installEventFilter(this);
 
     ui->consoleLineEdit->setFocus();
@@ -30,12 +28,6 @@ ConsoleDialog::ConsoleDialog(QWidget *parent) :
 ConsoleDialog::~ConsoleDialog()
 {    
     delete ui;    
-}
-
-void ConsoleDialog::pop()
-{
-    move( (QApplication::desktop()->width() - this->width())/2 , (QApplication::desktop()->height() - this->height())/2);
-    exec();
 }
 
 bool ConsoleDialog::eventFilter(QObject *watched, QEvent *e)

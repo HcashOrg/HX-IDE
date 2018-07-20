@@ -34,12 +34,12 @@ public:
     }
     ~DataPrivate()
     {
+        delete dataRequire;
+        dataRequire = nullptr;
         delete nodeProc;
         nodeProc = nullptr;
         delete clientProc;
         clientProc = nullptr;
-        delete dataRequire;
-        dataRequire = nullptr;
     }
 public:
     int chaintype;
@@ -102,7 +102,6 @@ void LinkBackStage::ReadyClose()
         }
         else if(_rpcId == "id-witness_node_stop")
         {
-            qDebug()<<"stop hx "<<_p->chaintype;
             this->_p->clientProc->close();
             this->_p->nodeProc->close();
             if(loop && loop->isRunning())
@@ -114,7 +113,6 @@ void LinkBackStage::ReadyClose()
     rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
 
     loop->exec();
-
     //IDEUtil::msecSleep(5000);
 
 }

@@ -24,6 +24,8 @@ websocketRequire::websocketRequire(const QString &ip,const QString & connectPort
 
 websocketRequire::~websocketRequire()
 {
+    disconnect(_p->m_webSocket,&QWebSocket::textFrameReceived,this,&websocketRequire::onTextFrameReceived);
+    disconnect(_p->m_webSocket,&QWebSocket::stateChanged,this,&websocketRequire::onStateChanged);
     delete _p;
 }
 
@@ -65,7 +67,7 @@ void websocketRequire::onTextFrameReceived(QString _message, bool _isLastFrame)
 
 void websocketRequire::onStateChanged(QAbstractSocket::SocketState _state)
 {
-    qDebug() << "websocket onStateChanged: "  <<_state<< _p->m_webSocket->errorString();
+    //qDebug() << "websocket onStateChanged: "  <<_state<< _p->m_webSocket->errorString();
 
     if( _state == QAbstractSocket::UnconnectedState)
     {

@@ -190,8 +190,6 @@ void ContextWidget::saveAll()
 
 void ContextWidget::onTextChanged()
 {
-    qDebug() << "ContentWidget::onTextChanged" ;//<< isUndoAvailable();
-
     Editor *w = getCurrentEditor();
     if(!w) return;
     w->setSaved(false);

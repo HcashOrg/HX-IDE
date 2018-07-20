@@ -46,6 +46,7 @@ DataManagerUB::CGarbo DataManagerUB::Garbo;
 
 DataManagerUB::~DataManagerUB()
 {
+    qDebug()<<"delete DataManagerUB";
     delete _p;
     _p = nullptr;
 }

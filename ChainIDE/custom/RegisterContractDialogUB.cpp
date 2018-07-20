@@ -2,12 +2,12 @@
 #include "ui_RegisterContractDialogUB.h"
 
 #include <QDebug>
+#include <QHeaderView>
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDir>
 #include <QPainter>
 #include <QMouseEvent>
-#include <QDesktopWidget>
 #include <QCoreApplication>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>

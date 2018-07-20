@@ -38,7 +38,6 @@ public:
 //后台
     BackStageBase *testManager()const;
     BackStageBase *formalManager()const;
-    QProcess *getProcess(int type = 0)const;//0当前 1测试  2正式
 //编译
     CompileManager *getCompileManager()const;
 public:

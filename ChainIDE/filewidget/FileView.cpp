@@ -118,7 +118,7 @@ void FileView::InitWidget()
     setSelectionBehavior(QAbstractItemView::SelectRows);
     header()->setVisible(false);
 
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     for(int i = 1;i < _p->fileModel->columnCount();++i)
     {
@@ -128,7 +128,6 @@ void FileView::InitWidget()
     QTimer::singleShot(100,this,&QTreeView::expandAll);
 
     connect(this,&QTreeView::clicked,this,&FileView::IndexClicked);
-
 }
 
 void FileView::contextMenuEvent(QContextMenuEvent *e)

@@ -2,6 +2,7 @@
 #define CONVENIENTOP_H
 
 #include <QObject>
+#include <QWidget>
 
 #include "DataDefine.h"
 
@@ -11,7 +12,11 @@ class ConvenientOp : public QObject
 public:
     explicit ConvenientOp(QObject *parent = 0);
 
+    //显示提示框
     static void ShowSyncCommonDialog(const QString &data);
+
+    //窗口居中
+    static void MoveWidgetCenter(QWidget *widget);
 
     //合约方便操作
     static bool WriteContractToFile(const QString &filePath, const DataDefine::AddressContractDataPtr &data);

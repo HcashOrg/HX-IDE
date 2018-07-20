@@ -1,6 +1,7 @@
 #include "CallContractWidgetUB.h"
 #include "ui_CallContractWidgetUB.h"
 
+#include <QHeaderView>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QCoreApplication>

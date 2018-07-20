@@ -17,8 +17,11 @@ public:
     }
     ~DataPrivate()
     {
-        delete networkAccessManager;
-        networkAccessManager = nullptr;
+        if(networkAccessManager)
+        {
+            delete networkAccessManager;
+            networkAccessManager = nullptr;
+        }
     }
 
 public:
@@ -35,7 +38,8 @@ httpRequire::httpRequire(const QString &ip,const QString & connectPort,QObject *
 
 httpRequire::~httpRequire()
 {
-
+    delete _p;
+    _p = nullptr;
 }
 
 void httpRequire::postData(const QString &data)

@@ -13,6 +13,7 @@ ContractWidgetUB::ContractWidgetUB(QWidget *parent) :
     ui(new Ui::ContractWidgetUB)
 {
     ui->setupUi(this);
+
     InitWidget();
 }
 
@@ -56,9 +57,11 @@ void ContractWidgetUB::InitWidget()
     ui->treeWidget->header()->setVisible(false);
     ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
 
-    connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidgetUB::ContractClicked);
 
-
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
+        connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidgetUB::ContractClicked);
+    }
 }
 
 void ContractWidgetUB::retranslator()

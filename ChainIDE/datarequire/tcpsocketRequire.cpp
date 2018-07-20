@@ -16,7 +16,11 @@ public:
     }
     ~DataPrivate()
     {
-        delete socket;
+        if(socket)
+        {
+            delete socket;
+            socket = nullptr;
+        }
     }
 
 public:
@@ -33,6 +37,7 @@ tcpsocketRequire::tcpsocketRequire(const QString &ip,const QString & connectPort
 tcpsocketRequire::~tcpsocketRequire()
 {
     delete _p;
+    _p = nullptr;
 }
 
 void tcpsocketRequire::postData(const QString &data)

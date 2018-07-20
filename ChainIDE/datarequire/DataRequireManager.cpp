@@ -25,8 +25,16 @@ public:
     }
     ~DataPrivate()
     {
-        delete requireTimer;
-        delete requireBase;
+        if(requireTimer)
+        {
+            delete requireTimer;
+            requireTimer = nullptr;
+        }
+        if(requireBase)
+        {
+            delete requireBase;
+            requireBase = nullptr;
+        }
     }
 
 public:
@@ -55,6 +63,7 @@ DataRequireManager::DataRequireManager(const QString &ip,const QString & connect
 DataRequireManager::~DataRequireManager()
 {
     delete _p;
+    _p = nullptr;
 }
 
 void DataRequireManager::requirePosted(const QString &_rpcId, const QString & _rpcCmd)
