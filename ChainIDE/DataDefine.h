@@ -45,8 +45,8 @@ namespace DataDefine
     //后台程序路径
     static const QString UBCD_NODE_EXE = "backstage/ubcd.exe";
     static const QString UBCD_CLIENT_EXE = "backstage/ubc-cli.exe";
-    static const QString LINK_NODE_EXE = "backstage/lnk_node.exe";
-    static const QString LINK_CLIENT_EXE = "backstage/lnk_client.exe";
+    static const QString LINK_NODE_EXE = "backstage/hx_node.exe";
+    static const QString LINK_CLIENT_EXE = "backstage/hx_client.exe";
 
     //合约存放路径
     static const QString CONTRACT_DIR = "contracts";

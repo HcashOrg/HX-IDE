@@ -75,9 +75,9 @@ void ImportDialogHX::on_okBtn_clicked()
     }
 
     //验证该地址是否已经存在
-    if(DataManagerHX::getInstance()->getAccount()->getAccountByAddr(data->LNKAddr))
+    if(DataManagerHX::getInstance()->getAccount()->getAccountByAddr(data->HXAddr))
     {
-        ConvenientOp::ShowSyncCommonDialog( tr("LNK Address:%1  Already Exists!").arg(data->LNKAddr));
+        ConvenientOp::ShowSyncCommonDialog( tr("HX Address:%1  Already Exists!").arg(data->HXAddr));
         close();
         return;
     }
@@ -85,9 +85,9 @@ void ImportDialogHX::on_okBtn_clicked()
     //开始导入私钥
     for(auto it = data->info_key.begin();it != data->info_key.end();++it)
     {
-        if((*it).first == "LNK")
+        if((*it).first == "HX")
         {
-            //导入lnk私钥
+            //导入hx私钥
             ChainIDE::getInstance()->postRPC( "import-import_key",
                                              IDEUtil::toJsonFormat( "import_key", QJsonArray() << ui->name->text() << (*it).second));
         }

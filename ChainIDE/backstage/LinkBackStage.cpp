@@ -27,7 +27,7 @@ public:
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testlink" : "/formallink";
+        dataPath = 1 == type ? "/testhx" : "/formalhx";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
         qDebug()<<"connectto"<<clientPort<<nodePort;
@@ -72,7 +72,7 @@ void LinkBackStage::startExe()
     strList << "--data-dir=" + ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/")+_p->dataPath
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->nodePort);
 
-    qDebug() << "start lnk_node.exe " << strList;
+    qDebug() << "start hx_node.exe " << strList;
     _p->nodeProc->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LINK_NODE_EXE,strList);
 
 }
@@ -121,18 +121,18 @@ void LinkBackStage::onNodeExeStateChanged()
 {
     if(_p->nodeProc->state() == QProcess::Starting)
     {
-        qDebug() << QString("%1 is starting").arg("lnk_node.exe");
+        qDebug() << QString("%1 is starting").arg("hx_node.exe");
     }
     else if(_p->nodeProc->state() == QProcess::Running)
     {
-        qDebug() << QString("%1 is running").arg("lnk_node.exe");
+        qDebug() << QString("%1 is running").arg("hx_node.exe");
         connect(&_p->timerForStartExe,&QTimer::timeout,this,&LinkBackStage::checkNodeExeIsReady);
         _p->timerForStartExe.start(1000);
     }
     else if(_p->nodeProc->state() == QProcess::NotRunning)
     {
         CommonDialog commonDialog(CommonDialog::OkOnly);
-        commonDialog.setText(tr("Fail to launch %1 !").arg("lnk_node.exe"));
+        commonDialog.setText(tr("Fail to launch %1 !").arg("hx_node.exe"));
         commonDialog.pop();
     }
 }
@@ -164,11 +164,11 @@ void LinkBackStage::onClientExeStateChanged()
 {
     if(_p->clientProc->state() == QProcess::Starting)
     {
-        qDebug() << QString("%1 is starting").arg("lnk_client.exe");
+        qDebug() << QString("%1 is starting").arg("hx_client.exe");
     }
     else if(_p->clientProc->state() == QProcess::Running)
     {
-        qDebug() << QString("%1 is running").arg("lnk_client.exe");
+        qDebug() << QString("%1 is running").arg("hx_client.exe");
 
         qDebug()<<QString("start socket connected")<<_p->chaintype;
         initSocketManager();
@@ -177,7 +177,7 @@ void LinkBackStage::onClientExeStateChanged()
     {
         qDebug() << "client not running" + _p->clientProc->errorString();
         CommonDialog commonDialog(CommonDialog::OkOnly);
-        commonDialog.setText(tr("Fail to launch %1 !").arg("lnk_client.exe"));
+        commonDialog.setText(tr("Fail to launch %1 !").arg("hx_client.exe"));
         commonDialog.pop();
     }
 }
