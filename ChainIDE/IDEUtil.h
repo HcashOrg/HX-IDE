@@ -1,20 +1,22 @@
 #ifndef IDEUTIL_H
 #define IDEUTIL_H
 
+#include <qlogging.h>
 #include <QString>
 #include <QStringList>
 #include <QJsonArray>
 #include <QJsonObject>
+
 class IDEUtil
 {
 public:
-    static QString toJsonFormat(QString instruction,const QJsonArray &parameters);
+    static QString toJsonFormat(const QString & instruction,const QJsonArray &parameters);
     static QString toHttpJsonFormat(const QString &instruction,const QVariantMap &parameters);
 
     //根据模板填充文件，如果文件不存在就创建
     static void TemplateFile(const QString &filePath);
-    static void GetAllFileFolder(QString dirPath, QStringList &folder);
-    static void GetAllFile(QString dirPath,QStringList &files,const QStringList & limit = QStringList());
+    static void GetAllFileFolder(const QString & dirPath, QStringList &folder);
+    static void GetAllFile(const QString & dirPath,QStringList &files,const QStringList & limit = QStringList());
 
     static bool isFileExist(const QString &filePath,const QString &dirPath);
     static  bool deleteDir(const QString &dirName);
@@ -26,6 +28,9 @@ public:
     static QString createDir(const QString &dirpath);
 
     static void msecSleep(int msec);
+
+    //qDebug导出
+    static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 private:
     IDEUtil();
 };

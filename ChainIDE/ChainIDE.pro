@@ -78,7 +78,8 @@ SOURCES += main.cpp\
     AES/aesencryptor.cpp \
     custom/KeyDataUtil.cpp \
     custom/ImportEnterPWDDialogHX.cpp \
-    debugwidget/DebugWidget.cpp
+    debugwidget/DebugWidget.cpp \
+    LocalPeer.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -145,7 +146,8 @@ HEADERS  += MainWindow.h \
     AES/aesencryptor.h \
     custom/KeyDataUtil.h \
     custom/ImportEnterPWDDialogHX.h \
-    debugwidget/DebugWidget.h
+    debugwidget/DebugWidget.h \
+    LocalPeer.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

@@ -367,5 +367,5 @@ void ChainIDE::getSystemEnvironmentPath()
 #elif
     _p->appDataPath = env.valude("HOME") + idePath;
 #endif
-    qDebug() << "appDataPath:" << _p->appDataPath;
+    //qDebug() << "appDataPath:" << _p->appDataPath;
 }

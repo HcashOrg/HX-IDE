@@ -1,13 +1,20 @@
 #include "IDEUtil.h"
 
+#include <QString>
+#include <QStringList>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
 #include <QTime>
+#include <QDateTime>
+#include <QFile>
+#include <QMutex>
 
-QString IDEUtil::toJsonFormat(QString instruction, const QJsonArray & parameters)
+QString IDEUtil::toJsonFormat(const QString &instruction, const QJsonArray & parameters)
 {
     QJsonObject object;
     object.insert("id", 32800);
@@ -62,7 +69,7 @@ void IDEUtil::TemplateFile(const QString &filePath)
 }
 
 
-void IDEUtil::GetAllFileFolder(QString dirPath, QStringList &folder)
+void IDEUtil::GetAllFileFolder(const QString & dirPath, QStringList &folder)
 {
 
     QDir dir(dirPath);
@@ -85,7 +92,7 @@ void IDEUtil::GetAllFileFolder(QString dirPath, QStringList &folder)
 
 }
 
-void IDEUtil::GetAllFile(QString dirPath, QStringList &files,const QStringList & limit)
+void IDEUtil::GetAllFile(const QString & dirPath, QStringList &files,const QStringList & limit)
 {
     QDir dir(dirPath);
     dir.setFilter(QDir::Dirs|QDir::Files);
@@ -200,6 +207,49 @@ void IDEUtil::msecSleep(int msec)
     do{
          now=QTime::currentTime();
        }while (n.msecsTo(now)<=msec);
+}
+
+void IDEUtil::myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    // 加锁
+    static QMutex mutex;
+    mutex.lock();
+
+    QByteArray localMsg = msg.toLocal8Bit();
+
+    QString strMsg("");
+    switch(type)
+    {
+    case QtDebugMsg:
+        strMsg = QString("Debug:");
+        break;
+    case QtWarningMsg:
+        strMsg = QString("Warning:");
+        break;
+    case QtCriticalMsg:
+        strMsg = QString("Critical:");
+        break;
+    case QtFatalMsg:
+        strMsg = QString("Fatal:");
+        break;
+    }
+
+    // 设置输出信息格式
+    QString strDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd");
+    QString strMessage = QString("DateTime:%1 Message:%2").arg(strDateTime).arg(localMsg.constData());
+
+    // 输出信息至文件中（读写、追加形式）
+    QFileInfo info("log.txt");
+    if(info.size() > 1024*1024*50) QFile::remove("log.txt");
+    QFile file("log.txt");
+    file.open(QIODevice::ReadWrite | QIODevice::Append);
+    QTextStream stream(&file);
+    stream << strMessage << "\r\n";
+    file.flush();
+    file.close();
+
+    // 解锁
+    mutex.unlock();
 }
 
 IDEUtil::IDEUtil()

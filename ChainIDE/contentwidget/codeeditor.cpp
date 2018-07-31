@@ -20,7 +20,6 @@ codeeditor::codeeditor(const QString &path, DataDefine::ThemeStyle theme,QWidget
 {
     ui->setupUi(this);
     InitEditor();
-
     setMode(SUFFIX_MAP.at(QFileInfo(path).suffix()));
     if(QFileInfo(path).suffix() == DataDefine::CONTRACT_SUFFIX)
     {
