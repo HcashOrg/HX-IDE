@@ -238,6 +238,7 @@
    <addaction name="separator"/>
    <addaction name="helpAction"/>
   </widget>
+  <widget class="StatusBar" name="statusBar"/>
   <action name="newContractAction_glua">
    <property name="icon">
     <iconset resource="chain.qrc">
@@ -660,6 +661,11 @@
    <extends>QWidget</extends>
    <header>debugwidget/debugwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StatusBar</class>
+   <extends>QStatusBar</extends>
+   <header>statusbar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

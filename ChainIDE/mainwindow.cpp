@@ -5,6 +5,7 @@
 #include <QSplitter>
 #include <QCoreApplication>
 #include <QMessageBox>
+#include <QTabBar>
 
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
@@ -160,6 +161,8 @@ void MainWindow::startWidget()
     //已注册合约
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabWidget_currentChanged);
 
+    //状态栏开始更新
+    ui->statusBar->startStatus();
 }
 
 void MainWindow::refreshTitle()
@@ -375,6 +378,9 @@ void MainWindow::tabWidget_currentChanged(int index)
 
 void MainWindow::HideAction()
 {
+    //隐藏左右控制按钮
+    ui->tabWidget->tabBar()->setUsesScrollButtons(false);
+
     //隐藏不需要的按钮
     ui->savaAsAction->setVisible(false);
     ui->enterSandboxAction->setVisible(false);

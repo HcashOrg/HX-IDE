@@ -22,7 +22,7 @@ class ChainIDE::DataPrivate
 public:
     DataPrivate()
         :configFile(new QSettings( QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat))
-        ,chainType(DataDefine::TEST)
+        ,chainType(DataDefine::NONE)
         ,startChainTypes(DataDefine::TEST | DataDefine::FORMAL)
         ,chainClass(DataDefine::HX)
         ,themeStyle(DataDefine::Black_Theme)

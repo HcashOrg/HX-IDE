@@ -2,6 +2,14 @@ QMainWindow{
     background-color:rgb(31,31,31);
 }
 
+QStatusBar{
+    background-color:transparent;
+    color:white;
+}
+QStatusBar:item{
+    border:none;
+}
+
 QSplitter::handle {
     background-color: rgb(31,31,31);
 }

@@ -79,7 +79,8 @@ SOURCES += main.cpp\
     custom/KeyDataUtil.cpp \
     custom/ImportEnterPWDDialogHX.cpp \
     debugwidget/DebugWidget.cpp \
-    LocalPeer.cpp
+    LocalPeer.cpp \
+    StatusBar.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -147,7 +148,8 @@ HEADERS  += MainWindow.h \
     custom/KeyDataUtil.h \
     custom/ImportEnterPWDDialogHX.h \
     debugwidget/DebugWidget.h \
-    LocalPeer.h
+    LocalPeer.h \
+    StatusBar.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

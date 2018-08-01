@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDebug>
+#include <QTabBar>
 
 #include "aceeditor.h"
 #include "codeeditor.h"
@@ -348,6 +349,9 @@ void ContextWidget::InitWidget()
 {
     //ui->tabWidget->setStyleSheet("background-color:black;");
     ui->tabWidget->setTabsClosable(true);
+    //隐藏左右控制按钮
+    ui->tabWidget->tabBar()->setUsesScrollButtons(false);
+
     connect(ui->tabWidget,&QTabWidget::tabCloseRequested,this,&ContextWidget::tabCloseRquest);
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&ContextWidget::currentTabChanged);
     connect((QObject *)bridge::instance(), SIGNAL(textChanged()), this, SLOT(onTextChanged()), Qt::QueuedConnection);
