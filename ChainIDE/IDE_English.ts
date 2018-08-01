@@ -914,7 +914,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="custom/ImportDialogHX.cpp" line="80"/>
-        <source>LNK Address:%1  Already Exists!</source>
+        <source>HX Address:%1  Already Exists!</source>
+        <oldsource>LNK Address:%1  Already Exists!</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1237,7 +1238,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="468"/>
-        <location filename="MainWindow.cpp" line="601"/>
+        <location filename="MainWindow.cpp" line="619"/>
         <source>切换到正式链</source>
         <translation type="unfinished">ChangeToFormalChain</translation>
     </message>
@@ -1348,27 +1349,61 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="173"/>
         <source>测试链IDE</source>
-        <translation type="unfinished">testchain-IDE</translation>
+        <translation type="obsolete">testchain-IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="173"/>
         <source>正式链IDE</source>
-        <translation type="unfinished">formalchain-IDE</translation>
+        <translation type="obsolete">formalchain-IDE</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="481"/>
+        <source>IDE-UB测试链</source>
+        <translation type="obsolete">IDE-UB TEST CHAIN</translation>
+    </message>
+    <message>
+        <source>IDE-HX测试链</source>
+        <translation type="obsolete">IDE-HX TEST CHAIN</translation>
+    </message>
+    <message>
+        <source>IDE-UB正式链</source>
+        <translation type="obsolete">IDE-UB FORMAL CHAIN</translation>
+    </message>
+    <message>
+        <source>IDE-HX正式链</source>
+        <translation type="obsolete">IDE-HX FORMAL CHAIN</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="175"/>
+        <source>IDE-UB TEST CHAIN</source>
+        <translation type="unfinished">IDE-UB TEST CHAIN</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="179"/>
+        <source>IDE-HX TEST CHAIN</source>
+        <translation type="unfinished">IDE-HX TEST CHAIN</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="186"/>
+        <source>IDE-UB FORMAL CHAIN</source>
+        <translation type="unfinished">IDE-UB FORMAL CHAIN</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="190"/>
+        <source>IDE-HX FORMAL CHAIN</source>
+        <translation type="unfinished">IDE-HX FORMAL CHAIN</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="499"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">Sure to switch to formal chain?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="508"/>
+        <location filename="MainWindow.cpp" line="526"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">File modified,do you want to save?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="601"/>
+        <location filename="MainWindow.cpp" line="619"/>
         <source>切换到测试链</source>
         <translation type="unfinished">ChangeToTestChain</translation>
     </message>

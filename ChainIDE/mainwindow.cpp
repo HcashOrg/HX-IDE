@@ -168,9 +168,27 @@ void MainWindow::refreshTitle()
     {
         setWindowTitle(tr("IDE"));
     }
-    else
+    else if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST)
     {
-        setWindowTitle(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST ? tr("测试链IDE"):tr("正式链IDE"));
+        if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+        {
+            setWindowTitle(tr("IDE-UB TEST CHAIN"));
+        }
+        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+        {
+            setWindowTitle(tr("IDE-HX TEST CHAIN"));
+        }
+    }
+    else if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::FORMAL)
+    {
+        if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+        {
+            setWindowTitle(tr("IDE-UB FORMAL CHAIN"));
+        }
+        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+        {
+            setWindowTitle(tr("IDE-HX FORMAL CHAIN"));
+        }
     }
 
 }
