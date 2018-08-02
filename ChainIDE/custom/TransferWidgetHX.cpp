@@ -54,6 +54,7 @@ void TransferWidgetHX::comboBoxAssetChangeSlot()
     if(DataDefine::AccountHX::AssetInfoPtr asset = ui->comboBox_asset->currentData().value<DataDefine::AccountHX::AssetInfoPtr>()){
         double number = asset->GetBalance()/pow(10,asset->GetPrecision());
         ui->label_balance->setText(QString::number(number,'f',asset->GetPrecision()));
+        ui->doubleSpinBox->setDecimals(asset->GetPrecision());
         ui->doubleSpinBox->setRange(0,number);
     }
     else{
@@ -80,7 +81,6 @@ void TransferWidgetHX::InitWidget()
     ui->doubleSpinBox->setMaximum(1e18);
 
     connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,this,&TransferWidgetHX::InitComboBox);
-    DataManagerHX::getInstance()->queryAccount();
 
     connect(ui->closeBtn,&QToolButton::clicked,this,&QWidget::close);
     connect(ui->cancelBtn,&QToolButton::clicked,this,&QWidget::close);
@@ -88,7 +88,8 @@ void TransferWidgetHX::InitWidget()
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&TransferWidgetHX::jsonDataUpdated);
     connect(ui->comboBox_account,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&TransferWidgetHX::comboBoxAccountChangeSlot);
     connect(ui->comboBox_asset,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&TransferWidgetHX::comboBoxAssetChangeSlot);
-
+    //初始化
+    DataManagerHX::getInstance()->queryAccount();
 }
 
 void TransferWidgetHX::InitComboBox()

@@ -34,6 +34,8 @@ public:
     }
     ~DataPrivate()
     {
+        clientProc->close();
+        nodeProc->close();
         delete dataRequire;
         dataRequire = nullptr;
         delete nodeProc;
@@ -79,7 +81,7 @@ void LinkBackStage::startExe()
 
 bool LinkBackStage::exeRunning()
 {
-    return _p->clientProc->state() == QProcess::Running && _p->nodeProc->state() == QProcess::Running;
+    return _p->clientProc->state() == QProcess::Running && _p->nodeProc->state() == QProcess::Running && _p->dataRequire->isConnected();
 }
 
 QProcess *LinkBackStage::getProcess() const
@@ -89,32 +91,37 @@ QProcess *LinkBackStage::getProcess() const
 
 void LinkBackStage::ReadyClose()
 {
-    disconnect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
-    disconnect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
-    //先lock
+    if(_p->clientProc->state() == QProcess::Running)
+    {
+        disconnect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
+        disconnect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
+        //先lock
 
-    QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
+        QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
 
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,[&loop,this](const QString &_rpcId,const QString &message){
-        if(_rpcId == "id-lock-onCloseIDE")
-        {
-            rpcPostedSlot( "id-witness_node_stop",IDEUtil::toJsonFormat( "witness_node_stop", QJsonArray()));
-        }
-        else if(_rpcId == "id-witness_node_stop")
-        {
-            this->_p->clientProc->close();
-            this->_p->nodeProc->close();
-            if(loop && loop->isRunning())
+        connect(_p->dataRequire,&DataRequireManager::requireResponse,[&loop,this](const QString &_rpcId,const QString &message){
+            if(_rpcId == "id-lock-onCloseIDE")
             {
-                loop->quit();
+                rpcPostedSlot( "id-witness_node_stop",IDEUtil::toJsonFormat( "witness_node_stop", QJsonArray()));
             }
-        }
-    });
-    rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
+            else if(_rpcId == "id-witness_node_stop")
+            {
+                if(loop && loop->isRunning())
+                {
+                    _p->clientProc->waitForFinished();
+                    _p->nodeProc->waitForFinished();
+                    qDebug()<<"close hx "<<_p->chaintype<<" finish";
+                    loop->quit();
+                }
+            }
+        });
+        qDebug()<<"close hx "<<_p->chaintype;
+        rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
 
-    loop->exec();
-    //IDEUtil::msecSleep(5000);
-
+        loop->exec();
+        //IDEUtil::msecSleep(5000);
+    }
+    emit exeClosed();
 }
 
 void LinkBackStage::onNodeExeStateChanged()
@@ -127,7 +134,7 @@ void LinkBackStage::onNodeExeStateChanged()
     {
         qDebug() << QString("%1 is running").arg("hx_node.exe");
         connect(&_p->timerForStartExe,&QTimer::timeout,this,&LinkBackStage::checkNodeExeIsReady);
-        _p->timerForStartExe.start(1000);
+        _p->timerForStartExe.start(100);
     }
     else if(_p->nodeProc->state() == QProcess::NotRunning)
     {
@@ -140,11 +147,14 @@ void LinkBackStage::onNodeExeStateChanged()
 void LinkBackStage::checkNodeExeIsReady()
 {
     QString str = _p->nodeProc->readAllStandardError();
-    qDebug() << "node exe standardError: " << str ;
+    if(!str.isEmpty())
+    {
+        qDebug() << "node exe standardError: " << str ;
+    }
     if(str.contains("Chain ID is"))
     {
         _p->timerForStartExe.stop();
-        QTimer::singleShot(1000,this,&LinkBackStage::delayedLaunchClient);
+        QTimer::singleShot(100,this,&LinkBackStage::delayedLaunchClient);
     }
 }
 

@@ -18,6 +18,9 @@ public:
     void requireClear();
     //设置额外信息---主要给http使用，有点多余，但没办法
     void setAdditional(const QByteArray &headerName, const QByteArray &value);
+
+    //判断是否连接
+    bool isConnected()const;
 signals:
     void requireResponse(const QString &_rpcId,const QString &message);//回到远程回复
     void connectFinish();

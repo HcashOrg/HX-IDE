@@ -12,6 +12,7 @@ public:
 public:
     virtual void postData(const QString &data) = 0;
     virtual void startConnect() = 0;
+    virtual bool isConnected()const = 0;
 signals:
     void receiveData(const QString &);
     void connectFinish();

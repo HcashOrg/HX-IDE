@@ -14,9 +14,9 @@ public:
 public:
     virtual void postData(const QString &data) ;
     virtual void startConnect() ;
+    virtual bool isConnected()const ;
 private:
     void Init();
-    bool isConnected();
 private:
     class DataPrivate;
     DataPrivate *_p;

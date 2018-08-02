@@ -79,6 +79,13 @@ void ConsoleDialog::on_closeBtn_clicked()
 
 void ConsoleDialog::on_consoleLineEdit_returnPressed()
 {
+    if((ui->consoleLineEdit->text().startsWith("stop") && (ChainIDE::getInstance()->getChainClass() == DataDefine::UB))||
+        ((ui->consoleLineEdit->text().startsWith("witness_node_stop")||ui->consoleLineEdit->text().startsWith("lock")) && (ChainIDE::getInstance()->getChainClass() == DataDefine::HX)))
+    {
+        ui->consoleBrowser->append(QStringLiteral("operate is forbidden!\n"));
+        ui->consoleLineEdit->clear();
+        return;
+    }
     if( !ui->consoleLineEdit->text().simplified().isEmpty())
     {
         cmdVector.removeAll(ui->consoleLineEdit->text());

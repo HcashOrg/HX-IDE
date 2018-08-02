@@ -56,6 +56,7 @@ void InterfaceWidget::InitData()
 {
     ui->treeWidget_event->clear();
     ui->treeWidget_function->clear();
+    if(_p->currentFilePath.isEmpty()) return;
     //寻找对应的.meta.json，，glua文件寻找自身名字的.meta.json文件，，java文件寻找自身所在目录的.meta.json文件
     QFileInfo file(_p->currentFilePath);
     QString filePath;
@@ -73,10 +74,11 @@ void InterfaceWidget::InitData()
        _p->currentFilePath.endsWith("."+DataDefine::KOTLIN_SUFFIX)
        )
     {
-        //filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + ".meta.json";
-
         filePath = ConvenientOp::GetMetaJsonFile(_p->currentFilePath);
-        //qDebug()<<filePath;
+    }
+    else if(_p->currentFilePath.endsWith("."+DataDefine::CONTRACT_SUFFIX))
+    {
+        filePath = file.absoluteDir().absolutePath()+QDir::separator()+file.dir().dirName() + "."+DataDefine::META_SUFFIX;
     }
 
     if(readApiFromPath(filePath,_p->data))

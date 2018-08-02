@@ -1,4 +1,4 @@
-﻿#include "ImportDialogUB.h"
+#include "ImportDialogUB.h"
 #include "ui_ImportDialogUB.h"
 
 #include <QJsonDocument>
@@ -24,9 +24,11 @@ ImportDialogUB::ImportDialogUB(QWidget *parent) :
 
     QRegExp regx("[a-z][a-z0-9]+$");
     QValidator *validator = new QRegExpValidator(regx, this);
-
-    ui->privatekey->setValidator( validator );
     ui->name->setValidator( validator );
+
+    QRegExp regxpass("[a-zA-Z0-9]+$");
+    QValidator *validator1 = new QRegExpValidator(regxpass, this);
+    ui->privatekey->setValidator( validator1 );
 
     ui->name->setFocus();
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&ImportDialogUB::jsonDataUpdated);
@@ -42,7 +44,7 @@ void ImportDialogUB::on_okBtn_clicked()
 {
 
     ChainIDE::getInstance()->postRPC( "import-import_key",
-                                     IDEUtil::toJsonFormat( "importprivkey", QJsonArray() << ui->privatekey->text()));
+                                     IDEUtil::toJsonFormat( "importprivkey", QJsonArray() << ui->privatekey->text()<<ui->name->text()));
 
 }
 

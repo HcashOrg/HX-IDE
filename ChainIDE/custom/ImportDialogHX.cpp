@@ -1,4 +1,4 @@
-﻿#include "ImportDialogHX.h"
+#include "ImportDialogHX.h"
 #include "ui_ImportDialogHX.h"
 
 #include <QJsonDocument>
@@ -126,6 +126,7 @@ void ImportDialogHX::jsonDataUpdated(const QString &id, const QString &data)
         else
         {
             ConvenientOp::ShowSyncCommonDialog(data);
+            close();
         }
     }
     else if("import-finish_import_key" == id)

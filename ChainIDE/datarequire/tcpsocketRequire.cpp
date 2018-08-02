@@ -85,7 +85,7 @@ void tcpsocketRequire::startConnect()
     emit connectFinish();
 }
 
-bool tcpsocketRequire::isConnected()
+bool tcpsocketRequire::isConnected()const
 {
     return _p->socket->state() == QAbstractSocket::ConnectedState;
 }

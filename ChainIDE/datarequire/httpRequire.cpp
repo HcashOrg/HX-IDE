@@ -54,6 +54,11 @@ void httpRequire::startConnect()
     emit connectFinish();
 }
 
+bool httpRequire::isConnected()const
+{
+    return true;
+}
+
 void httpRequire::setRawHeader(const QByteArray &headerName, const QByteArray &value)
 {
     //_p->httpRequest.setRawHeader("Authorization","Basic YTpi");

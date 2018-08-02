@@ -16,7 +16,9 @@ public:
     explicit OutputWidget(QWidget *parent = 0);
     ~OutputWidget();
 
-
+public:
+    void clearCompileMessage();
+    void clearOutputMessage();
 public slots:
 
     void receiveCompileMessage(const QString &text);

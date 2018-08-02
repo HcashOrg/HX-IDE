@@ -25,7 +25,13 @@ CommonDialog::CommonDialog(commonDialogType _type, QWidget *parent) :
     {
         ui->okBtn->setText(tr("Yes"));
         ui->cancelBtn->setText(tr("No"));
-    }    
+    }
+    else if(NONE == _type)
+    {
+        ui->closeBtn->hide();
+        ui->cancelBtn->hide();
+        ui->okBtn->hide();
+    }
 }
 
 CommonDialog::~CommonDialog()

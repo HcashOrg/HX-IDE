@@ -82,7 +82,7 @@ ChainIDE *ChainIDE::getInstance()
 
 ChainIDE::~ChainIDE()
 {
-    qDebug()<<"delete chainid";
+    qDebug()<<"delete chainide";
     delete _p;
     _p = nullptr;
 }

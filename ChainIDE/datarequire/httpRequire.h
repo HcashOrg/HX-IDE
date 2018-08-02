@@ -13,6 +13,7 @@ public:
 public:
     virtual void postData(const QString &data) ;
     virtual void startConnect() ;
+    virtual bool isConnected()const ;
     void setRawHeader(const QByteArray &headerName, const QByteArray &value);
 private slots:
     void requestFinished(QNetworkReply*);

@@ -1,7 +1,6 @@
 #include "FileView.h"
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QTimer>
 #include <QHeaderView>
 #include <QFileDialog>
@@ -45,6 +44,7 @@ FileView::~FileView()
 
 void FileView::selectFile(const QString &filePath)
 {
+    if(filePath.isEmpty()) return;
     QModelIndex index = _p->fileModel->index(filePath);
     if(!index.isValid()) return;
     setCurrentIndex(index);

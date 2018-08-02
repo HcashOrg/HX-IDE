@@ -104,6 +104,15 @@ void DataRequireManager::setAdditional(const QByteArray &headerName, const QByte
     _p->values = value;
 }
 
+bool DataRequireManager::isConnected() const
+{
+    if(_p->requireBase)
+    {
+        return _p->requireBase->isConnected();
+    }
+    return false;
+}
+
 void DataRequireManager::startManager(ConnectType connecttype)
 {
     if(connecttype == WEBSOCKET)
@@ -140,6 +149,10 @@ void DataRequireManager::processRequire()
         if(_p->loopNumber >= MAXLOOPNUMBER)
         {
             //请求超时，清楚该请求，继续下一个
+            if(!_p->pendingRpcs.empty())
+            {
+                qDebug()<<"require outtime "<<_p->pendingRpcs.front();
+            }
             _p->loopNumber = 0;
             _p->pendingRpcs.removeFirst();
             _p->isBusy = false;

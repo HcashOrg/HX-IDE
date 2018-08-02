@@ -10,13 +10,14 @@
 
 #include "DataDefine.h"
 #include "ChainIDE.h"
+#include "IDEUtil.h"
 #include "popwidget/commondialog.h"
 
 
 #include "datarequire/DataRequireManager.h"
 
-static const int NODE_RPC_PORT = 5555;//node端口  test    formal = test+10
-static const int CLIENT_RPC_PORT = 5556;//client端口  test    formal = test+10
+static const int NODE_RPC_PORT = 55555;//node端口  test    formal = test+10
+static const int CLIENT_RPC_PORT = 55556;//client端口  test    formal = test+10
 
 static const QString RPC_USER = "a";
 static const QString RPC_PASSWORD = "b";
@@ -37,6 +38,9 @@ public:
     }
     ~DataPrivate()
     {
+        qDebug()<<"delete ubtcstage";
+        clientProc->close();
+        nodeProc->close();
         delete clientProc;
         clientProc = nullptr;
         delete nodeProc;
@@ -99,7 +103,7 @@ void UbtcBackStage::startExe()
 
 bool UbtcBackStage::exeRunning()
 {
-    return _p->nodeProc->state() == QProcess::Running;
+    return _p->nodeProc->state() == QProcess::Running && _p->dataRequire->isConnected();
 }
 
 QProcess *UbtcBackStage::getProcess() const
@@ -110,15 +114,28 @@ QProcess *UbtcBackStage::getProcess() const
 void UbtcBackStage::ReadyClose()
 {
     disconnect(_p->nodeProc,&QProcess::stateChanged,this,&UbtcBackStage::onNodeExeStateChanged);
-    QStringList strList;
-    strList << "-rpcport="+QString::number(_p->clientPort)
-            << "-rpcuser="+RPC_USER<<"-rpcpassword="+RPC_PASSWORD<<"stop";
-    _p->clientProc->execute(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::UBCD_CLIENT_EXE,strList);
+    if(_p->nodeProc->state() == QProcess::Running)
+    {
+        QSharedPointer<QEventLoop> loop = QSharedPointer<QEventLoop>(new QEventLoop());
 
-    _p->clientProc->waitForFinished(30000);
-    qDebug()<<"stop ubtc"<<_p->chaintype;
-    _p->clientProc->close();
-    _p->nodeProc->close();
+        disconnect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
+        connect(_p->dataRequire,&DataRequireManager::requireResponse,[&loop,this](const QString &_rpcId,const QString &message){
+            if(_rpcId == "id-stop-onCloseIDE")
+            {
+                if(loop && loop->isRunning())
+                {
+                    _p->nodeProc->waitForFinished();
+                    qDebug()<<"close ub "<<_p->chaintype<<" finish";
+                    loop->quit();
+                }
+            }
+        });
+        qDebug()<<"close ub "<<_p->chaintype;
+        _p->dataRequire->requirePosted("id-stop-onCloseIDE",IDEUtil::toJsonFormat( "stop", QJsonArray()));
+
+        loop->exec();
+    }
+    emit exeClosed();
 }
 
 void UbtcBackStage::rpcPostedSlot(const QString &cmd, const QString & param)

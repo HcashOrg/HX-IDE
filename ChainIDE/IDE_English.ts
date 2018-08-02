@@ -324,12 +324,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/CallContractWidgetHX.ui" line="142"/>
         <source>基本费用：</source>
-        <translation type="unfinished">InitFee:</translation>
+        <translation type="unfinished">GasPrice:</translation>
     </message>
     <message>
         <location filename="custom/CallContractWidgetHX.ui" line="155"/>
         <source>调用步数：</source>
-        <translation type="unfinished">Step:</translation>
+        <translation type="unfinished">GasLimit:</translation>
     </message>
 </context>
 <context>
@@ -377,12 +377,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/CallContractWidgetUB.ui" line="142"/>
         <source>调用步数：</source>
-        <translation type="unfinished">Step:</translation>
+        <translation type="unfinished">GasLimit:</translation>
     </message>
     <message>
         <location filename="custom/CallContractWidgetUB.ui" line="155"/>
         <source>基本费用：</source>
-        <translation type="unfinished">InitFee:</translation>
+        <translation type="unfinished">GasPrice:</translation>
     </message>
     <message>
         <location filename="custom/CallContractWidgetUB.ui" line="168"/>
@@ -1260,7 +1260,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="MainWindow.ui" line="503"/>
         <source>控制台</source>
-        <translation type="unfinished">Comsole</translation>
+        <translation type="unfinished">Console</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="506"/>
@@ -1731,12 +1731,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/RegisterContractDialogHX.ui" line="150"/>
         <source>调用步数：</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GasLimit:</translation>
     </message>
     <message>
         <location filename="custom/RegisterContractDialogHX.ui" line="163"/>
         <source>基本费用：</source>
-        <translation type="unfinished">InitFee:</translation>
+        <translation type="unfinished">GasPrice:</translation>
     </message>
 </context>
 <context>
@@ -1774,12 +1774,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/RegisterContractDialogUB.ui" line="150"/>
         <source>调用步数：</source>
-        <translation type="unfinished">Step:</translation>
+        <translation type="unfinished">GasLimit:</translation>
     </message>
     <message>
         <location filename="custom/RegisterContractDialogUB.ui" line="163"/>
         <source>基本费用：</source>
-        <translation type="unfinished">InitFee:</translation>
+        <translation type="unfinished">GasPrice:</translation>
     </message>
     <message>
         <location filename="custom/RegisterContractDialogUB.ui" line="176"/>

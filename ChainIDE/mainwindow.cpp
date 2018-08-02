@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <QTimer>
+#include <QThread>
 #include <QSettings>
 #include <QSplitter>
 #include <QCoreApplication>
@@ -70,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    qDebug()<<"delete mainwindow";
     delete _p;
     _p = nullptr;
     delete ui;
@@ -116,19 +119,17 @@ void MainWindow::startChain()
 
     showWaitingForSyncWidget();
 
-    //启动client ， node
-    connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-    connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-    QTimer::singleShot(10,[](){
-        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-        {
-            ChainIDE::getInstance()->testManager()->startExe();
-        }
-        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-        {
-            ChainIDE::getInstance()->formalManager()->startExe();
-        }
-    });
+    //启动后台
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+    {
+        connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+        ChainIDE::getInstance()->testManager()->startExe();
+    }
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+    {
+        connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
+        ChainIDE::getInstance()->formalManager()->startExe();
+    }
 }
 
 void MainWindow::startWidget()
@@ -150,17 +151,15 @@ void MainWindow::startWidget()
     connect(ui->fileWidget,&FileWidget::compileFile,this,&MainWindow::on_compileAction_triggered);
     connect(ui->fileWidget,&FileWidget::deleteFile,ui->contentWidget,&ContextWidget::CheckDeleteFile);
     connect(ui->fileWidget,&FileWidget::newFile,this,&MainWindow::NewFile);
-
+    connect(ui->fileWidget,&FileWidget::fileClicked,this,&MainWindow::ModifyActionState);
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
-    connect(ui->fileWidget,&FileWidget::fileClicked,this,&MainWindow::ModifyActionState);
-
-    ModifyActionState();
 
     //已注册合约
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabWidget_currentChanged);
 
+    ModifyActionState();
     //状态栏开始更新
     ui->statusBar->startStatus();
 }
@@ -216,16 +215,39 @@ void MainWindow::refreshTranslator()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    qDebug()<<"close mainwindow";
     hide();
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-    {
-        ChainIDE::getInstance()->testManager()->ReadyClose();
-    }
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-    {
-        ChainIDE::getInstance()->formalManager()->ReadyClose();
-    }
+
+    CommonDialog dia(CommonDialog::NONE);
+    dia.setText(tr("请耐心等待程序自动关闭，不要关闭本窗口!"));
+    DataDefine::ChainTypes types = ChainIDE::getInstance()->getStartChainTypes();
+
+    QTimer::singleShot(10,[&types,&dia](){
+        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+        {
+            connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
+                if(0 == (types &= ~DataDefine::TEST))
+                {
+                    dia.close();
+                }
+            });
+            ChainIDE::getInstance()->testManager()->ReadyClose();
+        }
+    });
+
+    QTimer::singleShot(10,[&types,&dia](){
+        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+        {
+            connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
+                if(0 == (types &= ~DataDefine::FORMAL))
+                {
+                    dia.close();
+                }
+            });
+            ChainIDE::getInstance()->formalManager()->ReadyClose();
+        }
+    });
+    dia.exec();
+
     if(_p->updateNeeded)
     {//开启copy，
         QProcess *copproc = new QProcess();
@@ -540,7 +562,8 @@ void MainWindow::on_compileAction_triggered()
         }
     }
 
-
+//  清空编译输出窗口
+    ui->outputWidget->clearCompileMessage();
     ChainIDE::getInstance()->getCompileManager()->startCompile(ui->fileWidget->getCurrentFile());//当前打开的文件
 
 }

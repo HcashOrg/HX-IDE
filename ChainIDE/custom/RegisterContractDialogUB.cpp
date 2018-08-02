@@ -15,7 +15,6 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QStyledItemDelegate>
-#include <QTimer>
 
 #include "ChainIDE.h"
 #include "IDEUtil.h"

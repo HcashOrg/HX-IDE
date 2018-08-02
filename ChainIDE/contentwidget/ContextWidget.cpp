@@ -142,7 +142,6 @@ void ContextWidget::showFile(QString path)
     //如果没找到，新建一个
     Editor* w = new /*AceEditor*/codeeditor(path,ChainIDE::getInstance()->getCurrentTheme() );
 
-
     ui->tabWidget->addTab(w,QIcon(":/pic/saved.png"),QFileInfo(path).fileName());
 
     ui->tabWidget->setCurrentWidget(w);
@@ -157,12 +156,9 @@ bool ContextWidget::closeFile(QString path)
 
 bool ContextWidget::closeAll()
 {
-    for(int i = 0;i < ui->tabWidget->count();++i)
+    for(int i = ui->tabWidget->count()-1;i >= 0;--i)
     {
-        if(!closeFile(i))
-        {
-            return false;
-        }
+        closeFile(i);
     }
     return true;
 }
@@ -222,8 +218,11 @@ void ContextWidget::CheckDeleteFile()
 
 void ContextWidget::currentTabChanged(int i)
 {
-    emit fileSelected(getPathFromNumber(i));
-    contextUpdate();
+    if(ui->tabWidget->count() >= 0 && i >= 0)
+    {
+        emit fileSelected(getPathFromNumber(i));
+        contextUpdate();
+    }
 }
 
 void ContextWidget::tabCloseRquest(int i)

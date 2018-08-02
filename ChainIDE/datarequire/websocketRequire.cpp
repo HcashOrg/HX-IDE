@@ -45,7 +45,7 @@ void websocketRequire::startConnect()
     _p->m_webSocket->open( QUrl(QString("ws://%1:%2").arg(getConnectIP()).arg(getConnectPort())) );
 }
 
-bool websocketRequire::isConnected()
+bool websocketRequire::isConnected()const
 {
     return _p->m_webSocket->state() == QAbstractSocket::ConnectedState;
 }

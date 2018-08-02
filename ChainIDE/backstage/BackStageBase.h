@@ -17,6 +17,7 @@ public:
     virtual void ReadyClose() = 0;
 signals:
     void exeStarted();
+    void exeClosed();
     void rpcReceived(const QString &,const QString &);
 public slots:
     virtual void rpcPostedSlot(const QString &,const QString &) = 0;

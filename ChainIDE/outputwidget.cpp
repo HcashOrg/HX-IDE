@@ -35,6 +35,16 @@ OutputWidget::~OutputWidget()
     delete ui;
 }
 
+void OutputWidget::clearCompileMessage()
+{
+    ui->compileText->clear();
+}
+
+void OutputWidget::clearOutputMessage()
+{
+    ui->outputText->clear();
+}
+
 void OutputWidget::receiveCompileMessage(const QString &text)
 {
     ui->tabWidget->setCurrentIndex(0);
