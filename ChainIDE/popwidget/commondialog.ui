@@ -29,9 +29,9 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>10</y>
-     <width>38</width>
+     <x>467</x>
+     <y>7</y>
+     <width>31</width>
      <height>21</height>
     </rect>
    </property>
@@ -52,7 +52,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -150,12 +150,9 @@
     </item>
    </layout>
   </widget>
-  <zorder>cancelBtn</zorder>
-  <zorder>okBtn</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>title_Label</zorder>
   <zorder>textBrowser</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>horizontalSpacer_2</zorder>
   <zorder>closeBtn</zorder>
  </widget>
  <resources/>

@@ -174,8 +174,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>637</x>
-     <y>9</y>
+     <x>639</x>
+     <y>7</y>
      <width>31</width>
      <height>21</height>
     </rect>

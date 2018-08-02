@@ -49,7 +49,7 @@
   <widget class="QLabel" name="addressNameTipLabel1">
    <property name="geometry">
     <rect>
-     <x>103</x>
+     <x>118</x>
      <y>152</y>
      <width>16</width>
      <height>16</height>
@@ -81,7 +81,7 @@
   <widget class="QLabel" name="addressNameTipLabel2">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>148</x>
      <y>150</y>
      <width>200</width>
      <height>20</height>
@@ -137,8 +137,8 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>471</x>
-     <y>9</y>
+     <x>474</x>
+     <y>7</y>
      <width>21</width>
      <height>21</height>
     </rect>

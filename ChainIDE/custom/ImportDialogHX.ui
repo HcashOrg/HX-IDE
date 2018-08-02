@@ -24,8 +24,8 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>467</x>
-     <y>11</y>
+     <x>472</x>
+     <y>8</y>
      <width>21</width>
      <height>21</height>
     </rect>

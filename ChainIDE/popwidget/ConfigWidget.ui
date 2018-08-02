@@ -29,8 +29,8 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>10</y>
+     <x>454</x>
+     <y>7</y>
      <width>31</width>
      <height>20</height>
     </rect>
@@ -74,7 +74,7 @@
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>

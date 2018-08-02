@@ -219,8 +219,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     CommonDialog dia(CommonDialog::NONE);
     dia.setText(tr("请耐心等待程序自动关闭，不要关闭本窗口!"));
-    DataDefine::ChainTypes types = ChainIDE::getInstance()->getStartChainTypes();
 
+    DataDefine::ChainTypes types = ChainIDE::getInstance()->getStartChainTypes();
     QTimer::singleShot(10,[&types,&dia](){
         if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
         {
