@@ -57,9 +57,9 @@ bool FunctionWidgetUB::parseContractInfo(const QString &addr, const QString &dat
 
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject() || parse_doucment.object().value("result").isNull())
     {
-         qDebug()<<json_error.errorString();
+         qDebug()<<"query contract "<<addr<<":"<<json_error.errorString();
          std::lock_guard<std::mutex> guard(datamutex);
          ConvenientOp::DeleteContract(addr);
          return false;

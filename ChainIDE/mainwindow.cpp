@@ -221,9 +221,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
     dia.setText(tr("请耐心等待程序自动关闭，不要关闭本窗口!"));
 
     DataDefine::ChainTypes types = ChainIDE::getInstance()->getStartChainTypes();
-    QTimer::singleShot(10,[&types,&dia](){
-        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-        {
+
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+    {
+        QTimer::singleShot(10,[&types,&dia](){
             connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
                 if(0 == (types &= ~DataDefine::TEST))
                 {
@@ -231,12 +232,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
                 }
             });
             ChainIDE::getInstance()->testManager()->ReadyClose();
-        }
-    });
+        });
+    }
 
-    QTimer::singleShot(10,[&types,&dia](){
-        if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-        {
+    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
+    {
+        QTimer::singleShot(10,[&types,&dia](){
             connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
                 if(0 == (types &= ~DataDefine::FORMAL))
                 {
@@ -244,9 +245,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
                 }
             });
             ChainIDE::getInstance()->formalManager()->ReadyClose();
-        }
-    });
-    dia.exec();
+
+        });
+    }
+    if(ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE)
+    {
+        dia.exec();
+    }
 
     if(_p->updateNeeded)
     {//开启copy，

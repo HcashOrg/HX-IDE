@@ -34,7 +34,7 @@ QString IDEUtil::toHttpJsonFormat(const QString &instruction, const QVariantMap 
     return QJsonDocument(object).toJson();
 }
 
-void IDEUtil::TemplateFile(const QString &filePath)
+void IDEUtil::TemplateFile(const QString &filePath,const QString &sourceName)
 {
     QFileInfo testfile(filePath);
     if(!testfile.exists())
@@ -44,7 +44,7 @@ void IDEUtil::TemplateFile(const QString &filePath)
     }
     //不存在就创建模板
     //根据文件类型，判定模板种类
-    QFile templete(QString(":/template/initTemplate.%1").arg(QFileInfo(filePath).suffix()));
+    QFile templete(QString(":/template/%1.%2").arg(sourceName).arg(QFileInfo(filePath).suffix()));
 
     if( templete.open(QIODevice::ReadOnly | QIODevice::Text))
     {

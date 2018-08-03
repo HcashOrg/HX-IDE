@@ -1238,7 +1238,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="469"/>
-        <location filename="MainWindow.cpp" line="648"/>
+        <location filename="MainWindow.cpp" line="653"/>
         <source>切换到正式链</source>
         <translation type="unfinished">ChangeToFormalChain</translation>
     </message>
@@ -1398,17 +1398,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Please wait for auto-close, don&apos;t close this window!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="527"/>
+        <location filename="MainWindow.cpp" line="532"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">Sure to switch to formal chain?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="554"/>
+        <location filename="MainWindow.cpp" line="559"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">File modified,do you want to save?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="648"/>
+        <location filename="MainWindow.cpp" line="653"/>
         <source>切换到测试链</source>
         <translation type="unfinished">ChangeToTestChain</translation>
     </message>
@@ -1557,19 +1557,24 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">New File</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="103"/>
+        <location filename="popwidget/NewFileDialog.ui" line="84"/>
         <source>文件名：</source>
         <translation type="unfinished">File:</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="113"/>
+        <location filename="popwidget/NewFileDialog.ui" line="94"/>
         <source>文件夹：</source>
         <translation type="unfinished">Folder:</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="84"/>
+        <location filename="popwidget/NewFileDialog.ui" line="107"/>
         <source>tip</source>
         <translation type="unfinished">tip</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.ui" line="117"/>
+        <source>模板：</source>
+        <translation type="unfinished">Template:</translation>
     </message>
     <message>
         <location filename="popwidget/NewFileDialog.ui" line="55"/>
@@ -1582,12 +1587,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="140"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="125"/>
+        <source>default</source>
+        <translation type="unfinished">DefaultTemplate</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="126"/>
+        <source>publishCoin</source>
+        <translation type="unfinished">PublishCoin</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="127"/>
+        <source>none</source>
+        <translation type="unfinished">EmptyTemplate</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="145"/>
         <source>invalid filename!</source>
         <translation type="unfinished">invalid filename!</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="146"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="151"/>
         <source>already exist!</source>
         <translation type="unfinished">already exist!</translation>
     </message>

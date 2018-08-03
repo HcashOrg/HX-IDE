@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QToolButton>
 #include <QDebug>
+#include <QTabBar>
 
 #include "IDEUtil.h"
 #include "ConvenientOp.h"
@@ -100,6 +101,9 @@ void InterfaceWidget::InitData()
 
 void InterfaceWidget::InitWidget()
 {
+    //隐藏左右控制按钮
+    ui->tabWidget->tabBar()->setUsesScrollButtons(false);
+
     ui->treeWidget_event->header()->setVisible(false);
     ui->treeWidget_function->header()->setVisible(false);
     ui->title_Label->setVisible(false);

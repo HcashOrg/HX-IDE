@@ -13,8 +13,10 @@ public:
     static QString toJsonFormat(const QString & instruction,const QJsonArray &parameters);
     static QString toHttpJsonFormat(const QString &instruction,const QVariantMap &parameters);
 
-    //根据模板填充文件，如果文件不存在就创建
-    static void TemplateFile(const QString &filePath);
+    //根据模板填充文件，如果文件不存在就创建，模板从资源文件中获取
+    static void TemplateFile(const QString &filePath,const QString &sourceName = "initTemplate");
+
+    //获取文件、文件夹方法
     static void GetAllFileFolder(const QString & dirPath, QStringList &folder);
     static void GetAllFile(const QString & dirPath,QStringList &files,const QStringList & limit = QStringList());
 

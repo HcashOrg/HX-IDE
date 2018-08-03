@@ -65,7 +65,7 @@ void NewFileDialog::comboBoxTextChanged(const QString &text)
 
 void NewFileDialog::ConfirmSlot()
 {
-    bool isValid = false;
+     bool isValid = false;
      foreach(QString var,_p->types)
      {
          if(ui->lineEdit->text().endsWith(var))
@@ -93,8 +93,8 @@ void NewFileDialog::ConfirmSlot()
          _p->newFilePath = dirPath + "/" + ui->lineEdit->text();
      }
 
-
-     IDEUtil::TemplateFile(_p->newFilePath);
+     //模板化文件
+     IDEUtil::TemplateFile(_p->newFilePath,ui->comboBox_template->currentData().toString());
      close();
 }
 
@@ -110,6 +110,7 @@ void NewFileDialog::InitWidget()
 
     ui->okBtn->setEnabled(false);
     ui->label_tip->setVisible(false);
+    //设置文件夹
     ui->comboBox->addItems(_p->dirList);
     ui->comboBox->setEditable(true);
     if(ui->comboBox->count() > 0)
@@ -120,6 +121,10 @@ void NewFileDialog::InitWidget()
             ui->comboBox->setCurrentText(_p->defaultPath);
         }
     }
+    //设置模板组合
+    ui->comboBox_template->addItem(tr("default"),QVariant::fromValue<QString>("initTemplate"));
+    ui->comboBox_template->addItem(tr("publishCoin"),QVariant::fromValue<QString>("publishCoin"));
+    ui->comboBox_template->addItem(tr("none"),QVariant::fromValue<QString>("none"));
 
 
     connect(ui->lineEdit,&QLineEdit::textChanged,this,&NewFileDialog::TextChanged);

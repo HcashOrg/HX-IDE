@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>186</height>
+    <width>600</width>
+    <height>246</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>550</width>
+     <width>600</width>
      <height>40</height>
     </rect>
    </property>
@@ -29,8 +29,8 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>522</x>
-     <y>6</y>
+     <x>570</x>
+     <y>3</y>
      <width>24</width>
      <height>23</height>
     </rect>
@@ -45,8 +45,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>140</y>
+     <x>230</x>
+     <y>200</y>
      <width>60</width>
      <height>30</height>
     </rect>
@@ -58,8 +58,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>140</y>
+     <x>300</x>
+     <y>200</y>
      <width>60</width>
      <height>30</height>
     </rect>
@@ -68,32 +68,13 @@
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_tip">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>112</y>
-     <width>311</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>tip</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>11</x>
-     <y>56</y>
-     <width>521</width>
-     <height>52</height>
+     <x>10</x>
+     <y>57</y>
+     <width>581</width>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -116,6 +97,29 @@
     </item>
     <item row="1" column="1">
      <widget class="QComboBox" name="comboBox"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="label_tip">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 0, 0);</string>
+      </property>
+      <property name="text">
+       <string>tip</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>模板：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QComboBox" name="comboBox_template"/>
     </item>
    </layout>
   </widget>

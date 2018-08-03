@@ -1210,7 +1210,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="469"/>
-        <location filename="MainWindow.cpp" line="648"/>
+        <location filename="MainWindow.cpp" line="653"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1370,17 +1370,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">请耐心等待程序自动关闭，不要关闭本窗口!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="527"/>
+        <location filename="MainWindow.cpp" line="532"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="554"/>
+        <location filename="MainWindow.cpp" line="559"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="648"/>
+        <location filename="MainWindow.cpp" line="653"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
@@ -1529,19 +1529,24 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">新建文件</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="103"/>
+        <location filename="popwidget/NewFileDialog.ui" line="84"/>
         <source>文件名：</source>
         <translation type="unfinished">文件名：</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="113"/>
+        <location filename="popwidget/NewFileDialog.ui" line="94"/>
         <source>文件夹：</source>
         <translation type="unfinished">文件夹：</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="84"/>
+        <location filename="popwidget/NewFileDialog.ui" line="107"/>
         <source>tip</source>
         <translation type="unfinished">提示</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.ui" line="117"/>
+        <source>模板：</source>
+        <translation type="unfinished">模板：</translation>
     </message>
     <message>
         <location filename="popwidget/NewFileDialog.ui" line="55"/>
@@ -1554,12 +1559,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="140"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="125"/>
+        <source>default</source>
+        <translation type="unfinished">示例模板</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="126"/>
+        <source>publishCoin</source>
+        <translation type="unfinished">发币模板</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="127"/>
+        <source>none</source>
+        <translation type="unfinished">不使用模板</translation>
+    </message>
+    <message>
+        <location filename="popwidget/NewFileDialog.cpp" line="145"/>
         <source>invalid filename!</source>
         <translation type="unfinished">文件名非法！</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="146"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="151"/>
         <source>already exist!</source>
         <translation type="unfinished">文件已存在！</translation>
     </message>
