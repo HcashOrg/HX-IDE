@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>3</y>
+     <y>7</y>
      <width>24</width>
      <height>23</height>
     </rect>
@@ -51,6 +51,9 @@
      <height>30</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="text">
     <string>确定</string>
    </property>
@@ -64,24 +67,30 @@
      <height>30</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="text">
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>57</y>
-     <width>581</width>
+     <width>571</width>
      <height>121</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="1,5">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>文件名：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
@@ -92,6 +101,9 @@
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>文件夹：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
@@ -115,6 +127,9 @@
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>模板：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>378</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,10 +29,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>575</x>
-     <y>6</y>
-     <width>21</width>
-     <height>21</height>
+     <x>570</x>
+     <y>7</y>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">
@@ -45,8 +45,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>340</y>
+     <x>240</x>
+     <y>320</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>340</y>
+     <x>310</x>
+     <y>320</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -77,13 +77,13 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>60</y>
-     <width>531</width>
+     <x>0</x>
+     <y>50</y>
+     <width>581</width>
      <height>261</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="1,5">
     <item row="0" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">

@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>100</y>
+     <y>90</y>
      <width>600</width>
-     <height>301</height>
+     <height>311</height>
     </rect>
    </property>
    <property name="cursor" stdset="0">
@@ -47,7 +47,7 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>54</x>
+     <x>50</x>
      <y>62</y>
      <width>311</width>
      <height>22</height>
@@ -57,7 +57,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>16</x>
      <y>66</y>
      <width>36</width>
      <height>16</height>
@@ -70,7 +70,7 @@
   <widget class="QToolButton" name="importKey">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>532</x>
      <y>60</y>
      <width>60</width>
      <height>24</height>
@@ -86,7 +86,7 @@
   <widget class="QToolButton" name="newAccount">
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>460</x>
      <y>60</y>
      <width>60</width>
      <height>24</height>
@@ -102,10 +102,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>572</x>
-     <y>8</y>
-     <width>21</width>
-     <height>21</height>
+     <x>570</x>
+     <y>7</y>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">

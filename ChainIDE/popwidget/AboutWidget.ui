@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>410</height>
+    <width>600</width>
+    <height>357</height>
    </rect>
   </property>
   <property name="font">
@@ -23,7 +23,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>675</width>
+     <width>600</width>
      <height>40</height>
     </rect>
    </property>
@@ -49,8 +49,8 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
-     <width>630</width>
+     <y>60</y>
+     <width>571</width>
      <height>201</height>
     </rect>
    </property>
@@ -70,8 +70,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_updatetip">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>308</y>
+     <x>150</x>
+     <y>270</y>
      <width>300</width>
      <height>21</height>
     </rect>
@@ -98,8 +98,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_version">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>368</y>
+     <x>150</x>
+     <y>330</y>
      <width>300</width>
      <height>20</height>
     </rect>
@@ -126,8 +126,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QToolButton" name="toolButton_update">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>338</y>
+     <x>250</x>
+     <y>300</y>
      <width>96</width>
      <height>30</height>
     </rect>
@@ -142,8 +142,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QToolButton" name="toolButton_checkUpdate">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>338</y>
+     <x>250</x>
+     <y>300</y>
      <width>96</width>
      <height>30</height>
     </rect>
@@ -158,8 +158,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QToolButton" name="toolButton_restart">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>338</y>
+     <x>250</x>
+     <y>300</y>
      <width>96</width>
      <height>30</height>
     </rect>
@@ -174,10 +174,10 @@ p, li { white-space: pre-wrap; }
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>639</x>
+     <x>570</x>
      <y>7</y>
-     <width>31</width>
-     <height>21</height>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">

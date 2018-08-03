@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>230</height>
+    <height>218</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,10 +29,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>463</x>
+     <x>470</x>
      <y>7</y>
-     <width>31</width>
-     <height>21</height>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">
@@ -45,8 +45,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>190</y>
+     <x>180</x>
+     <y>180</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>190</y>
+     <x>260</x>
+     <y>180</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -77,15 +77,18 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>19</x>
-     <y>53</y>
-     <width>461</width>
+     <x>9</x>
+     <y>48</y>
+     <width>471</width>
      <height>121</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="1,5">
     <item row="0" column="0">
      <widget class="QCheckBox" name="checkBox">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="text">
        <string>使用账户：</string>
       </property>

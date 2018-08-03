@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>253</height>
+    <height>176</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>100</y>
+     <y>70</y>
      <width>250</width>
      <height>30</height>
     </rect>
@@ -37,10 +37,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>477</x>
-     <y>9</y>
-     <width>16</width>
-     <height>16</height>
+     <x>470</x>
+     <y>7</y>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">
@@ -59,8 +59,8 @@
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>180</y>
+     <x>180</x>
+     <y>130</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -86,8 +86,8 @@
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>180</y>
+     <x>260</x>
+     <y>130</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -114,7 +114,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>100</y>
+     <y>70</y>
      <width>100</width>
      <height>30</height>
     </rect>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>273</height>
+    <height>195</height>
    </rect>
   </property>
   <property name="font">
@@ -24,10 +24,10 @@
   <widget class="QToolButton" name="closeBtn">
    <property name="geometry">
     <rect>
-     <x>472</x>
-     <y>8</y>
-     <width>21</width>
-     <height>21</height>
+     <x>470</x>
+     <y>7</y>
+     <width>24</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="font">
@@ -74,8 +74,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QToolButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>210</y>
+     <x>190</x>
+     <y>160</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -98,8 +98,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QToolButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>210</y>
+     <x>260</x>
+     <y>160</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -122,9 +122,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>21</x>
-     <y>75</y>
-     <width>461</width>
+     <x>11</x>
+     <y>60</y>
+     <width>471</width>
      <height>81</height>
     </rect>
    </property>
