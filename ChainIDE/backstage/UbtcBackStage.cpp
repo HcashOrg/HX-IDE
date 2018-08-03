@@ -9,7 +9,6 @@
 #include <memory>
 
 #include "DataDefine.h"
-#include "ChainIDE.h"
 #include "IDEUtil.h"
 #include "popwidget/commondialog.h"
 
@@ -25,16 +24,17 @@ static const QString RPC_PASSWORD = "b";
 class UbtcBackStage::DataPrivate
 {
 public:
-    DataPrivate(int type)
+    DataPrivate(int type,const QString &appDataPath)
         :nodeProc(new QProcess)
         ,clientProc(new QProcess)
         ,chaintype(type)
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testub" : "/formalub";//teUbctPastth
-        dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
 
+        dataPath = appDataPath + (1 == type ? "/testub" : "/formalub");
+
+        dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
     ~DataPrivate()
     {
@@ -60,9 +60,9 @@ public:
     DataRequireManager *dataRequire;
 };
 
-UbtcBackStage::UbtcBackStage(int type,QObject *parent)
+UbtcBackStage::UbtcBackStage(int type,const QString &appDataPath,QObject *parent)
     : BackStageBase(parent)
-    ,_p(new DataPrivate(type))
+    ,_p(new DataPrivate(type,appDataPath))
 {
 }
 
@@ -76,7 +76,7 @@ void UbtcBackStage::startExe()
     connect(_p->nodeProc,&QProcess::stateChanged,this,&UbtcBackStage::onNodeExeStateChanged);
 
     //先确保目录存在
-    QString dataPath = ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/")+_p->dataPath;
+    QString dataPath = _p->dataPath;
     QDir dir(dataPath);
     if(!dir.exists())
     {

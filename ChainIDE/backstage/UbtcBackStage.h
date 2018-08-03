@@ -7,7 +7,7 @@ class UbtcBackStage : public BackStageBase
 {
     Q_OBJECT
 public:
-    explicit UbtcBackStage(int type = 1,QObject *parent = 0);//链类型1==测试 2==正式
+    explicit UbtcBackStage(int type = 1,const QString &appDataPath = "",QObject *parent = 0);//链类型1==测试 2==正式
     ~UbtcBackStage();
 
 public:

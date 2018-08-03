@@ -326,22 +326,22 @@ void ChainIDE::InitExeManager()
     {
         if(getStartChainTypes() & DataDefine::TEST)
         {
-            _p->testManager = new LinkBackStage(1);
+            _p->testManager = new LinkBackStage(1,getConfigAppDataPath());
         }
         if(getStartChainTypes() & DataDefine::FORMAL)
         {
-            _p->formalManager = new LinkBackStage(2);
+            _p->formalManager = new LinkBackStage(2,getConfigAppDataPath());
         }
     }
     else if(getChainClass() == DataDefine::UB)
     {
         if(getStartChainTypes() & DataDefine::TEST)
         {
-            _p->testManager = new UbtcBackStage(1);
+            _p->testManager = new UbtcBackStage(1,getConfigAppDataPath());
         }
         if(getStartChainTypes() & DataDefine::FORMAL)
         {
-            _p->formalManager = new UbtcBackStage(2);
+            _p->formalManager = new UbtcBackStage(2,getConfigAppDataPath());
         }
     }
 

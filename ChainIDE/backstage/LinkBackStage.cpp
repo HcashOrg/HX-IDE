@@ -8,7 +8,6 @@
 #include <QDir>
 
 #include "DataDefine.h"
-#include "ChainIDE.h"
 #include "IDEUtil.h"
 #include "popwidget/commondialog.h"
 
@@ -20,20 +19,21 @@ static const int CLIENT_RPC_PORT = 60321;//client端口  test    formal = test+1
 class LinkBackStage::DataPrivate
 {
 public:
-    DataPrivate(int type)
+    DataPrivate(int type,const QString &appDataPath)
         :nodeProc(new QProcess)
         ,clientProc(new QProcess)
         ,chaintype(type)
     {
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
-        dataPath = 1 == type ? "/testhx" : "/formalhx";
+
+        dataPath = appDataPath + (1 == type ? "/testhx" : "/formalhx");
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
-        qDebug()<<"connectto"<<clientPort<<nodePort;
     }
     ~DataPrivate()
     {
+        qDebug()<<"delete hxstage";
         clientProc->close();
         nodeProc->close();
         delete dataRequire;
@@ -54,9 +54,9 @@ public:
     DataRequireManager *dataRequire;
 };
 
-LinkBackStage::LinkBackStage(int type,QObject *parent)
+LinkBackStage::LinkBackStage(int type,const QString &appDataPath,QObject *parent)
         : BackStageBase(parent)
-        ,_p(new DataPrivate(type))
+        ,_p(new DataPrivate(type,appDataPath))
 {
 
 }
@@ -71,7 +71,7 @@ void LinkBackStage::startExe()
     connect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
 
     QStringList strList;
-    strList << "--data-dir=" + ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/")+_p->dataPath
+    strList << "--data-dir=" +_p->dataPath
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->nodePort);
 
     qDebug() << "start hx_node.exe " << strList;
@@ -163,7 +163,7 @@ void LinkBackStage::delayedLaunchClient()
     connect(_p->clientProc,&QProcess::stateChanged,this,&LinkBackStage::onClientExeStateChanged);
 
     QStringList strList;
-    strList << "--wallet-file=" + ChainIDE::getInstance()->getConfigAppDataPath().replace("\\","/") +_p->dataPath+ "/wallet.json"
+    strList << "--wallet-file=" + _p->dataPath + "/wallet.json"
             << QString("--server-rpc-endpoint=ws://127.0.0.1:%1").arg(_p->nodePort)
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->clientPort);
 
