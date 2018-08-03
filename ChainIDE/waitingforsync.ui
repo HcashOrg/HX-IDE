@@ -6,31 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
-    <height>580</height>
+    <width>600</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="gifLabel">
-   <property name="geometry">
-    <rect>
-     <x>460</x>
-     <y>340</y>
-     <width>39</width>
-     <height>39</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="loadingLabel">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>400</y>
+     <x>140</x>
+     <y>140</y>
      <width>240</width>
      <height>31</height>
     </rect>
@@ -38,20 +25,36 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>-1</pointsize>
+     <pointsize>15</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);font: 16px &quot;微软雅黑&quot;;</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Loading...</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="title_Label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>数据加载</string>
    </property>
   </widget>
  </widget>

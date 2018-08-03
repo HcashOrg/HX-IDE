@@ -4,7 +4,7 @@
 #include <QPainter>
 #include "update/UpdateProcess.h"
 
-static const QString IDE_VERSION = "1.0.2";
+static const QString IDE_VERSION = "1.0.3";
 
 class AboutWidget::DataPrivate
 {

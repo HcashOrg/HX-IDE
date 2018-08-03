@@ -11,7 +11,7 @@ public:
     explicit BackStageBase(QObject *parent = 0);
     virtual ~BackStageBase();
 public:
-    virtual void startExe() = 0;
+    virtual void startExe(const QString &appDataPath = "") = 0;
     virtual bool exeRunning() = 0;
     virtual QProcess *getProcess()const = 0;
     virtual void ReadyClose() = 0;

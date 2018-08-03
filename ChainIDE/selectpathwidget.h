@@ -4,11 +4,12 @@
 #include <QWidget>
 #include <QtNetwork>
 
+#include "popwidget/MoveableDialog.h"
 namespace Ui {
 class SelectPathWidget;
 }
 
-class SelectPathWidget : public QWidget
+class SelectPathWidget : public MoveableDialog
 {
     Q_OBJECT
 
@@ -17,16 +18,14 @@ public:
     ~SelectPathWidget();
 
 private slots:
-    void on_selectPathBtn_clicked();
+    void on_pathBtn_clicked();
 
     void on_okBtn_clicked();
 
+    void on_closeBtn_clicked();
 signals:
     void enter();
-    void minimum();
-    void closeIDE();
-    void showShadowWidget();
-    void hideShadowWidget();
+    void cancel();
 
 private:
     Ui::SelectPathWidget *ui;

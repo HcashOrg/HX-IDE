@@ -19,7 +19,7 @@ static const int CLIENT_RPC_PORT = 60321;//client端口  test    formal = test+1
 class LinkBackStage::DataPrivate
 {
 public:
-    DataPrivate(int type,const QString &appDataPath)
+    DataPrivate(int type)
         :nodeProc(new QProcess)
         ,clientProc(new QProcess)
         ,chaintype(type)
@@ -27,7 +27,7 @@ public:
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
 
-        dataPath = appDataPath + (1 == type ? "/testhx" : "/formalhx");
+        dataPath = 1 == type ? "/testhx" : "/formalhx";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
@@ -54,9 +54,9 @@ public:
     DataRequireManager *dataRequire;
 };
 
-LinkBackStage::LinkBackStage(int type,const QString &appDataPath,QObject *parent)
+LinkBackStage::LinkBackStage(int type,QObject *parent)
         : BackStageBase(parent)
-        ,_p(new DataPrivate(type,appDataPath))
+        ,_p(new DataPrivate(type))
 {
 
 }
@@ -66,10 +66,14 @@ LinkBackStage::~LinkBackStage()
     delete _p;
 }
 
-void LinkBackStage::startExe()
+void LinkBackStage::startExe(const QString &appDataPath)
 {
-    connect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
+    //设置数据存储路径
+    QString str = appDataPath;
+    str.replace("\\","/");
+    _p->dataPath =str + _p->dataPath;
 
+    connect(_p->nodeProc,&QProcess::stateChanged,this,&LinkBackStage::onNodeExeStateChanged);
     QStringList strList;
     strList << "--data-dir=" +_p->dataPath
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->nodePort);

@@ -2,6 +2,7 @@
 #define WAITINGFORSYNC_H
 
 #include <QWidget>
+#include <popwidget/MoveableDialog.h>
 
 namespace Ui {
 class WaitingForSync;
@@ -9,7 +10,7 @@ class WaitingForSync;
 
 class QNetworkReply;
 
-class WaitingForSync : public QWidget
+class WaitingForSync : public MoveableDialog
 {
     Q_OBJECT
 

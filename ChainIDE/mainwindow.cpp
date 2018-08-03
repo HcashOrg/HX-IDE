@@ -43,21 +43,15 @@ class MainWindow::DataPrivate
 {
 public:
     DataPrivate()
-        :waitingForSync(nullptr)
-        ,updateNeeded(false)
+        :updateNeeded(false)
     {
 
     }
     ~DataPrivate()
     {
-        if(waitingForSync)
-        {
-            delete waitingForSync;
-            waitingForSync = nullptr;
-        }
+
     }
 public:
-    WaitingForSync* waitingForSync;
     bool updateNeeded;//是否需要更新文件---启动copy
 };
 
@@ -100,10 +94,11 @@ void MainWindow::InitWidget()
 
 void MainWindow::showSelectPathWidget()
 {
-    SelectPathWidget* selectPathWidget = new SelectPathWidget;
+    SelectPathWidget* selectPathWidget = new SelectPathWidget();
     selectPathWidget->setWindowTitle( QString::fromLocal8Bit("IDE"));
     selectPathWidget->setAttribute(Qt::WA_DeleteOnClose);
     connect( selectPathWidget,&SelectPathWidget::enter,this,&MainWindow::startChain);
+    connect( selectPathWidget,&SelectPathWidget::cancel,this,&MainWindow::close);
 
     selectPathWidget->show();
 }
@@ -116,31 +111,24 @@ void MainWindow::startChain()
         startWidget();
         return;
     }
-
+    //显示等待窗口
     showWaitingForSyncWidget();
 
     //启动后台
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-    {
-        connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-        ChainIDE::getInstance()->testManager()->startExe();
-    }
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-    {
-        connect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-        ChainIDE::getInstance()->formalManager()->startExe();
-    }
+    connect(ChainIDE::getInstance(),&ChainIDE::startExeFinish,this,&MainWindow::exeStartedSlots);
+    ChainIDE::getInstance()->startExe();
 }
 
 void MainWindow::startWidget()
 {
+    //最大化
     showMaximized();
 
     //隐藏部分不需要的按钮
     HideAction();
 
     //设置界面比例
-    ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.7*ui->centralWidget->width()<<0.2*ui->centralWidget->width());
+    ui->splitter_hori->setSizes(QList<int>()<<0.1*ui->centralWidget->width()<<0.9*ui->centralWidget->width()<<0.2*ui->centralWidget->width());
     ui->splitter_ver->setSizes(QList<int>()<<0.67*ui->centralWidget->height()<<0.33*ui->centralWidget->height());
     ui->debugWidget->setVisible(false);
 
@@ -263,39 +251,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::exeStartedSlots()
 {
-    bool test = false;
-    bool formal = false;
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-    {
-        if(ChainIDE::getInstance()->testManager()->exeRunning())
-        {
-            test = true;
-            disconnect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-        }
-    }
-    else
-    {
-        test = true;
-    }
-
-    if(!test) return;
-
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-    {
-        if(ChainIDE::getInstance()->formalManager()->exeRunning())
-        {
-          formal = true;
-          disconnect(ChainIDE::getInstance()->formalManager(),&BackStageBase::exeStarted,this,&MainWindow::exeStartedSlots);
-        }
-    }
-    else
-    {
-        formal = true;
-    }
-
-    if(!formal) return;
-
-
     //初始化数据管理
     if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
     {
@@ -308,19 +263,19 @@ void MainWindow::exeStartedSlots()
     }
 
     //关闭等待窗
-    if(_p->waitingForSync)
-    {
-        _p->waitingForSync->close();
-    }
+    emit initFinish();
+    //启动主窗口
     startWidget();
 }
 
 void MainWindow::showWaitingForSyncWidget()
 {
-    _p->waitingForSync = new WaitingForSync;
-    _p->waitingForSync->setWindowTitle( QString::fromLocal8Bit("IDE"));
+    WaitingForSync *waitingForSync = new WaitingForSync();
+    waitingForSync->setAttribute(Qt::WA_DeleteOnClose);
+    connect(this,&MainWindow::initFinish,waitingForSync,&WaitingForSync::close);
+    waitingForSync->setWindowTitle( QString::fromLocal8Bit("IDE"));
 
-    _p->waitingForSync->show();
+    waitingForSync->show();
 }
 
 void MainWindow::on_newContractAction_glua_triggered()

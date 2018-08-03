@@ -24,7 +24,7 @@ static const QString RPC_PASSWORD = "b";
 class UbtcBackStage::DataPrivate
 {
 public:
-    DataPrivate(int type,const QString &appDataPath)
+    DataPrivate(int type)
         :nodeProc(new QProcess)
         ,clientProc(new QProcess)
         ,chaintype(type)
@@ -32,7 +32,7 @@ public:
         nodePort = NODE_RPC_PORT + 10*(type-1);
         clientPort = CLIENT_RPC_PORT + 10*(type-1);
 
-        dataPath = appDataPath + (1 == type ? "/testub" : "/formalub");
+        dataPath = 1 == type ? "/testub" : "/formalub";
 
         dataRequire = new DataRequireManager("127.0.0.1",QString::number(clientPort));
     }
@@ -60,9 +60,9 @@ public:
     DataRequireManager *dataRequire;
 };
 
-UbtcBackStage::UbtcBackStage(int type,const QString &appDataPath,QObject *parent)
+UbtcBackStage::UbtcBackStage(int type,QObject *parent)
     : BackStageBase(parent)
-    ,_p(new DataPrivate(type,appDataPath))
+    ,_p(new DataPrivate(type))
 {
 }
 
@@ -71,8 +71,13 @@ UbtcBackStage::~UbtcBackStage()
     delete _p;
 }
 
-void UbtcBackStage::startExe()
+void UbtcBackStage::startExe(const QString &appDataPath )
 {
+    //设置数据存储路径
+    QString str = appDataPath;
+    str.replace("\\","/");
+    _p->dataPath =str + _p->dataPath;
+
     connect(_p->nodeProc,&QProcess::stateChanged,this,&UbtcBackStage::onNodeExeStateChanged);
 
     //先确保目录存在

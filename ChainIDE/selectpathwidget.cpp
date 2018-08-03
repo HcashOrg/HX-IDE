@@ -12,18 +12,17 @@
 #include "ChainIDE.h"
 
 SelectPathWidget::SelectPathWidget(QWidget *parent) :
-    QWidget(parent),
+    MoveableDialog(parent),
     ui(new Ui::SelectPathWidget)
 {
     ui->setupUi(this);
 
-    setWindowFlags(  this->windowFlags() & ~Qt::WindowMaximizeButtonHint);
-    setFixedSize(960,580);
+    setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
 
-    setAutoFillBackground(true);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic/bg.png")));
-    setPalette(palette);
+//    setAutoFillBackground(true);
+//    QPalette palette;
+//    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic/bg.png")));
+//    setPalette(palette);
 
     ui->pathLineEdit->setText(ChainIDE::getInstance()->getEnvAppDataPath());
 }
@@ -33,7 +32,7 @@ SelectPathWidget::~SelectPathWidget()
     delete ui;
 }
 
-void SelectPathWidget::on_selectPathBtn_clicked()
+void SelectPathWidget::on_pathBtn_clicked()
 {
     QString file = QFileDialog::getExistingDirectory(this,tr( "Select the path to store the blockchain"));
     if( !file.isEmpty())
@@ -49,6 +48,12 @@ void SelectPathWidget::on_okBtn_clicked()
     ChainIDE::getInstance()->setConfigAppDataPath(ui->pathLineEdit->text());
 
     emit enter();
+    close();
+}
+
+void SelectPathWidget::on_closeBtn_clicked()
+{
+    emit cancel();
     close();
 }
 

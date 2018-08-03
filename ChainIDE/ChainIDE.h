@@ -43,6 +43,9 @@ public:
 public:
     void refreshStyleSheet();//刷新样式表
     void refreshTranslator();//刷新翻译
+    void startExe();//启动后台参数
+private slots:
+    void exeStartedSlots();
 private:
     void getSystemEnvironmentPath();//系统环境变量寻找
     void InitConfig();//初始化配置
@@ -51,6 +54,7 @@ signals:
     void jsonDataUpdated(const QString &id,const QString &data);//接收到返回
     void rpcPosted(const QString & rpcId, const QString & rpcCmd);//测试链发出请求
     void rpcPostedFormal(const QString & rpcId, const QString & rpcCmd);//正式链发出请求
+    void startExeFinish();
 public:
     static ChainIDE *getInstance();
     ~ChainIDE();

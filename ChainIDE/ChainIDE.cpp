@@ -248,6 +248,65 @@ void ChainIDE::refreshTranslator()
     QApplication::installTranslator(translator);
 }
 
+void ChainIDE::startExe()
+{
+    //不启动
+    if(getStartChainTypes() == DataDefine::NONE)
+    {
+        emit startExeFinish();
+        return ;
+    }
+
+    //启动后台
+    if(getStartChainTypes() & DataDefine::TEST)
+    {
+        connect(testManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
+        testManager()->startExe(getConfigAppDataPath());
+    }
+    if(getStartChainTypes() & DataDefine::FORMAL)
+    {
+        connect(formalManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
+        formalManager()->startExe(getConfigAppDataPath());
+    }
+}
+
+void ChainIDE::exeStartedSlots()
+{
+    bool test = false;
+    bool formal = false;
+    if(getStartChainTypes() & DataDefine::TEST)
+    {
+        if(testManager()->exeRunning())
+        {
+            test = true;
+            disconnect(testManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
+        }
+    }
+    else
+    {
+        test = true;
+    }
+
+    if(!test) return;
+
+    if(getStartChainTypes() & DataDefine::FORMAL)
+    {
+        if(formalManager()->exeRunning())
+        {
+          formal = true;
+          disconnect(formalManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
+        }
+    }
+    else
+    {
+        formal = true;
+    }
+
+    if(!formal) return;
+
+    emit startExeFinish();
+}
+
 void ChainIDE::InitConfig()
 {
     if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
@@ -326,22 +385,22 @@ void ChainIDE::InitExeManager()
     {
         if(getStartChainTypes() & DataDefine::TEST)
         {
-            _p->testManager = new LinkBackStage(1,getConfigAppDataPath());
+            _p->testManager = new LinkBackStage(1);
         }
         if(getStartChainTypes() & DataDefine::FORMAL)
         {
-            _p->formalManager = new LinkBackStage(2,getConfigAppDataPath());
+            _p->formalManager = new LinkBackStage(2);
         }
     }
     else if(getChainClass() == DataDefine::UB)
     {
         if(getStartChainTypes() & DataDefine::TEST)
         {
-            _p->testManager = new UbtcBackStage(1,getConfigAppDataPath());
+            _p->testManager = new UbtcBackStage(1);
         }
         if(getStartChainTypes() & DataDefine::FORMAL)
         {
-            _p->formalManager = new UbtcBackStage(2,getConfigAppDataPath());
+            _p->formalManager = new UbtcBackStage(2);
         }
     }
 

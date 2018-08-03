@@ -992,8 +992,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LinkBackStage</name>
     <message>
-        <location filename="backstage/LinkBackStage.cpp" line="142"/>
-        <location filename="backstage/LinkBackStage.cpp" line="190"/>
+        <location filename="backstage/LinkBackStage.cpp" line="144"/>
+        <location filename="backstage/LinkBackStage.cpp" line="192"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
@@ -1210,7 +1210,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="469"/>
-        <location filename="MainWindow.cpp" line="653"/>
+        <location filename="MainWindow.cpp" line="608"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1316,7 +1316,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="171"/>
+        <location filename="MainWindow.cpp" line="159"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1345,42 +1345,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="177"/>
+        <location filename="MainWindow.cpp" line="165"/>
         <source>IDE-UB TEST CHAIN</source>
         <translation type="unfinished">IDE-UB测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="181"/>
+        <location filename="MainWindow.cpp" line="169"/>
         <source>IDE-HX TEST CHAIN</source>
         <translation type="unfinished">IDE-HX测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="188"/>
+        <location filename="MainWindow.cpp" line="176"/>
         <source>IDE-UB FORMAL CHAIN</source>
         <translation type="unfinished">IDE-UB正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="192"/>
+        <location filename="MainWindow.cpp" line="180"/>
         <source>IDE-HX FORMAL CHAIN</source>
         <translation type="unfinished">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="221"/>
+        <location filename="MainWindow.cpp" line="209"/>
         <source>请耐心等待程序自动关闭，不要关闭本窗口!</source>
         <translation type="unfinished">请耐心等待程序自动关闭，不要关闭本窗口!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="532"/>
+        <location filename="MainWindow.cpp" line="487"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="559"/>
+        <location filename="MainWindow.cpp" line="514"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="653"/>
+        <location filename="MainWindow.cpp" line="608"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
@@ -1529,32 +1529,32 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">新建文件</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="84"/>
+        <location filename="popwidget/NewFileDialog.ui" line="90"/>
         <source>文件名：</source>
         <translation type="unfinished">文件名：</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="94"/>
+        <location filename="popwidget/NewFileDialog.ui" line="103"/>
         <source>文件夹：</source>
         <translation type="unfinished">文件夹：</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="107"/>
+        <location filename="popwidget/NewFileDialog.ui" line="119"/>
         <source>tip</source>
         <translation type="unfinished">提示</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="117"/>
+        <location filename="popwidget/NewFileDialog.ui" line="129"/>
         <source>模板：</source>
         <translation type="unfinished">模板：</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="55"/>
+        <location filename="popwidget/NewFileDialog.ui" line="58"/>
         <source>确定</source>
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.ui" line="68"/>
+        <location filename="popwidget/NewFileDialog.ui" line="74"/>
         <source>取消</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1796,22 +1796,31 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">选择路径</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.ui" line="52"/>
+        <location filename="selectpathwidget.ui" line="45"/>
         <source>选择路径</source>
         <translation type="unfinished">选择路径</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.ui" line="106"/>
+        <location filename="selectpathwidget.ui" line="97"/>
         <source>存储路径:</source>
         <translation type="unfinished">存储路径：</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.ui" line="141"/>
-        <source>下一步</source>
-        <translation type="unfinished">下一步</translation>
+        <location filename="selectpathwidget.ui" line="124"/>
+        <source>确定</source>
+        <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.cpp" line="38"/>
+        <location filename="selectpathwidget.ui" line="140"/>
+        <source>设置</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <source>下一步</source>
+        <translation type="obsolete">下一步</translation>
+    </message>
+    <message>
+        <location filename="selectpathwidget.cpp" line="37"/>
         <source>Select the path to store the blockchain</source>
         <translation type="unfinished">选择数据存放路径</translation>
     </message>
@@ -1928,27 +1937,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="custom/TransferWidgetUB.ui" line="90"/>
+        <location filename="custom/TransferWidgetUB.ui" line="93"/>
         <source>使用账户：</source>
         <translation type="unfinished">使用账户：</translation>
     </message>
     <message>
-        <location filename="custom/TransferWidgetUB.ui" line="107"/>
+        <location filename="custom/TransferWidgetUB.ui" line="110"/>
         <source>账户余额：</source>
         <translation type="unfinished">账户余额：</translation>
     </message>
     <message>
-        <location filename="custom/TransferWidgetUB.ui" line="117"/>
+        <location filename="custom/TransferWidgetUB.ui" line="120"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/TransferWidgetUB.ui" line="124"/>
+        <location filename="custom/TransferWidgetUB.ui" line="127"/>
         <source>发往地址：</source>
         <translation type="unfinished">发往地址：</translation>
     </message>
     <message>
-        <location filename="custom/TransferWidgetUB.ui" line="144"/>
+        <location filename="custom/TransferWidgetUB.ui" line="147"/>
         <source>转账金额：</source>
         <translation type="unfinished">转账金额：</translation>
     </message>
@@ -1956,7 +1965,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>UbtcBackStage</name>
     <message>
-        <location filename="backstage/UbtcBackStage.cpp" line="163"/>
+        <location filename="backstage/UbtcBackStage.cpp" line="165"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
@@ -1969,9 +1978,14 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">等待</translation>
     </message>
     <message>
-        <location filename="waitingforsync.ui" line="51"/>
+        <location filename="waitingforsync.ui" line="38"/>
         <source>Loading...</source>
         <translation type="unfinished">加载中。。。</translation>
+    </message>
+    <message>
+        <location filename="waitingforsync.ui" line="57"/>
+        <source>数据加载</source>
+        <translation type="unfinished">数据加载</translation>
     </message>
 </context>
 <context>

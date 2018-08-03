@@ -126,6 +126,8 @@ private:
     DataPrivate *_p;
 protected:
     void closeEvent(QCloseEvent *event);
+signals:
+    void initFinish();
 };
 
 #endif // MAINWINDOW_H
