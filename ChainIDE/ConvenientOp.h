@@ -34,6 +34,9 @@ public:
     //导入合约源码
     static bool ImportContractFile(const QString &parentDir);
 
+    //导出合约字节码
+    static bool ExportContractFile(const QString &gpcFilePath);
+
 
 };
 

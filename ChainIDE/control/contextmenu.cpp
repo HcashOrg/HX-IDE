@@ -1,4 +1,4 @@
-﻿#include "contextmenu.h"
+#include "contextmenu.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -57,23 +57,29 @@ void ContextMenu::createActions()
         this->addAction(pasteAction);
 
     }
-    if(type & ContextMenu::Delete)
-    {
-        QAction* deleteAction = new QAction(tr("Delete"),this);
-        connect(deleteAction,SIGNAL(triggered()),this,SIGNAL(deleteTriggered()));
-        this->addAction(deleteAction);
-    }
     if(type & ContextMenu::Import)
     {
         QAction* importAction = new QAction(tr("Import Contract"),this);
         connect(importAction,SIGNAL(triggered()),this,SIGNAL(importTriggered()));
         this->addAction(importAction);
     }
+    if(type & ContextMenu::Export)
+    {
+        QAction* exportAction = new QAction(tr("Export Contract"),this);
+        connect(exportAction,SIGNAL(triggered()),this,SIGNAL(exportTriggered()));
+        this->addAction(exportAction);
+    }
     if(type & ContextMenu::Compile)
     {
         QAction* importAction = new QAction(tr("Compile"),this);
         connect(importAction,SIGNAL(triggered()),this,SIGNAL(compileTriggered()));
         this->addAction(importAction);
+    }
+    if(type & ContextMenu::Delete)
+    {
+        QAction* deleteAction = new QAction(tr("Delete"),this);
+        connect(deleteAction,SIGNAL(triggered()),this,SIGNAL(deleteTriggered()));
+        this->addAction(deleteAction);
     }
 }
 

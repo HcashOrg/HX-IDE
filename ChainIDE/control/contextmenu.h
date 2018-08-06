@@ -13,7 +13,8 @@ public:
                    Paste = 1 << 2,
                    Import = 1 << 3,
                    Compile = 1 << 4,
-                   NewFile = 1 << 5
+                   NewFile = 1 << 5,
+                   Export = 1 << 6
                  };
     typedef int MenuTypes;
 
@@ -26,6 +27,7 @@ signals:
     void pasteTriggered();
     void deleteTriggered();
     void importTriggered();
+    void exportTriggered();
     void compileTriggered();
 private:
     MenuTypes type;

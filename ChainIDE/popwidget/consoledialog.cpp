@@ -93,9 +93,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
         cmdIndex = cmdVector.size();
     }
 
-    QString str = ui->consoleLineEdit->text();
-    str = str.simplified();
-    QStringList paramaters = str.split(' ');
+    QStringList paramaters = ui->consoleLineEdit->text().simplified().split(' ');
     QString command = paramaters.at(0);
     paramaters.removeFirst();
 
@@ -113,7 +111,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
         }
     }
 
-    ChainIDE::getInstance()->postRPC( "console-" + str, IDEUtil::toJsonFormat( command, array )/*str*/);
+    ChainIDE::getInstance()->postRPC( "console-" + ui->consoleLineEdit->text().simplified(), IDEUtil::toJsonFormat( command, array )/*str*/);
 
     ui->consoleLineEdit->clear();
 

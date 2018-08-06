@@ -78,6 +78,13 @@ void FileView::importContractSlots()
     ConvenientOp::ImportContractFile(dirpath);
 }
 
+void FileView::exportContractSlots()
+{
+    QString dirpath = _p->fileModel->filePath(this->currentIndex());
+
+    ConvenientOp::ExportContractFile(dirpath);
+}
+
 void FileView::newFileSlots()
 {
     QStringList suffixs = ConvenientOp::GetContractSuffixByDir(getCurrentFilePath());
@@ -152,9 +159,9 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
             {
                 menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Compile,this);
             }
-            else
+            else if(info.suffix() == DataDefine::CONTRACT_SUFFIX)
             {
-                menu = new ContextMenu(ContextMenu::Delete ,this);
+                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Export,this);
             }
         }
         else if(info.isDir())
@@ -171,6 +178,7 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
         connect(menu,&ContextMenu::deleteTriggered,this,&FileView::deleteFileSlots);
 
         connect(menu,&ContextMenu::importTriggered,this,&FileView::importContractSlots);
+        connect(menu,&ContextMenu::exportTriggered,this,&FileView::exportContractSlots);
         connect(menu,&ContextMenu::newFileTriggered,this,&FileView::newFileSlots);
         menu->exec(QCursor::pos());
     }

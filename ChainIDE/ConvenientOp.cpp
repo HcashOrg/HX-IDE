@@ -255,3 +255,21 @@ bool ConvenientOp::ImportContractFile(const QString &parentDir)
     }
     return true;
 }
+
+bool ConvenientOp::ExportContractFile(const QString &gpcFilePath)
+{
+    QString filepath = QFileDialog::getSaveFileName(nullptr, tr("save gpc file."),QFileInfo(gpcFilePath).fileName(),"*."+DataDefine::CONTRACT_SUFFIX);
+    //开始复制
+    //正式导入文件
+    if(QFileInfo(filepath).exists())
+    {
+        QFile::remove(filepath);
+        QFile::copy(gpcFilePath, filepath);
+    }
+    else
+    {
+        QFile::copy(gpcFilePath, filepath);
+    }
+
+    return true;
+}

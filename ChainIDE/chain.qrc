@@ -87,13 +87,10 @@
         <file>pic/configure_enable.png</file>
         <file>pic/exitSandbox_disable.png</file>
         <file>pic/exitSandbox_enable.png</file>
-        <file>template/publishCoin.cs</file>
-        <file>template/publishCoin.java</file>
-        <file>template/publishCoin.kt</file>
-        <file>template/publishCoin.uvlua</file>
         <file>template/none.cs</file>
         <file>template/none.java</file>
         <file>template/none.kt</file>
         <file>template/none.uvlua</file>
+        <file>template/newtoken.uvlua</file>
     </qresource>
 </RCC>

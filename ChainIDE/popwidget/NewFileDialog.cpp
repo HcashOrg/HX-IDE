@@ -123,7 +123,10 @@ void NewFileDialog::InitWidget()
     }
     //设置模板组合
     ui->comboBox_template->addItem(tr("default"),QVariant::fromValue<QString>("initTemplate"));
-    ui->comboBox_template->addItem(tr("publishCoin"),QVariant::fromValue<QString>("publishCoin"));
+    if(_p->types.contains("."+DataDefine::GLUA_SUFFIX))
+    {
+        ui->comboBox_template->addItem(tr("publishCoin"),QVariant::fromValue<QString>("newtoken"));
+    }
     ui->comboBox_template->addItem(tr("none"),QVariant::fromValue<QString>("none"));
 
 

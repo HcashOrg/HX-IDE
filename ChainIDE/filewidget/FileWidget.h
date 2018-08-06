@@ -23,6 +23,7 @@ signals:
     void compileFile();
     void deleteFile();
     void importContract();
+    void exportContract();
     void newFile(const QString &suffixType,const QString &defalutPath = "");
 public slots:
     void SelectFile(const QString &filePath);

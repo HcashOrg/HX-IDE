@@ -42,6 +42,7 @@ void FileWidget::InitWidget()
     connect(ui->fileTree,&FileView::compileFile,this,&FileWidget::compileFile);
     connect(ui->fileTree,&FileView::deleteFile,this,&FileWidget::deleteFile);
     connect(ui->fileTree,&FileView::importContract,this,&FileWidget::importContract);
+    connect(ui->fileTree,&FileView::exportContract,this,&FileWidget::exportContract);
     connect(ui->fileTree,&FileView::newFile,this,&FileWidget::newFile);
 
 }

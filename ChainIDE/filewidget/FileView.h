@@ -15,6 +15,7 @@ signals:
     void compileFile();
     void deleteFile();
     void importContract();
+    void exportContract();
     void newFile(const QString &type,const QString &defalutPath = "");
 
 public slots:
@@ -22,6 +23,7 @@ public slots:
 
     void deleteFileSlots();
     void importContractSlots();
+    void exportContractSlots();
     void newFileSlots();
     void retranslator();
 private slots:

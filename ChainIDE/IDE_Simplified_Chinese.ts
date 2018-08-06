@@ -565,12 +565,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="control/contextmenu.cpp" line="62"/>
+        <location filename="control/contextmenu.cpp" line="68"/>
+        <source>Export Contract</source>
+        <translation type="unfinished">导出gpc文件</translation>
+    </message>
+    <message>
+        <location filename="control/contextmenu.cpp" line="80"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="control/contextmenu.cpp" line="68"/>
+        <location filename="control/contextmenu.cpp" line="62"/>
         <source>Import Contract</source>
         <translation type="unfinished">导入合约</translation>
     </message>
@@ -620,6 +625,11 @@ p, li { white-space: pre-wrap; }
         <location filename="ConvenientOp.cpp" line="242"/>
         <source>already exists,yes to override!</source>
         <translation type="unfinished">文件已存在，选择[是]进行覆盖！</translation>
+    </message>
+    <message>
+        <location filename="ConvenientOp.cpp" line="261"/>
+        <source>save gpc file.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -992,8 +1002,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LinkBackStage</name>
     <message>
-        <location filename="backstage/LinkBackStage.cpp" line="144"/>
-        <location filename="backstage/LinkBackStage.cpp" line="192"/>
+        <location filename="backstage/LinkBackStage.cpp" line="146"/>
+        <location filename="backstage/LinkBackStage.cpp" line="194"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
@@ -1564,22 +1574,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">示例模板</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="126"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="128"/>
         <source>publishCoin</source>
-        <translation type="unfinished">发币模板</translation>
+        <translation type="unfinished">发行资产模板</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="127"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="130"/>
         <source>none</source>
         <translation type="unfinished">不使用模板</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="145"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="148"/>
         <source>invalid filename!</source>
         <translation type="unfinished">文件名非法！</translation>
     </message>
     <message>
-        <location filename="popwidget/NewFileDialog.cpp" line="151"/>
+        <location filename="popwidget/NewFileDialog.cpp" line="154"/>
         <source>already exist!</source>
         <translation type="unfinished">文件已存在！</translation>
     </message>
@@ -1965,7 +1975,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>UbtcBackStage</name>
     <message>
-        <location filename="backstage/UbtcBackStage.cpp" line="165"/>
+        <location filename="backstage/UbtcBackStage.cpp" line="168"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
