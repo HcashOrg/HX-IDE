@@ -244,7 +244,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(_p->updateNeeded)
     {//开启copy，
         QProcess *copproc = new QProcess();
-        copproc->start(QCoreApplication::applicationDirPath()+"/Copy.exe");
+        QString updateExe = QCoreApplication::applicationDirPath()+"/Copy.exe";
+        QString package = "update.zip";
+        QString mainName = QCoreApplication::applicationName();
+        QString unpackName = "update";
+        copproc->start(updateExe,QStringList()<<package<<mainName<<unpackName);
     }
     QWidget::closeEvent(event);
 }

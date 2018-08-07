@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
-    <height>570</height>
+    <width>600</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QToolButton" name="toolButton_restart">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>370</y>
+     <x>200</x>
+     <y>230</y>
      <width>71</width>
-     <height>31</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="cursor">
@@ -32,10 +32,10 @@
   <widget class="QToolButton" name="toolButton_close">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>370</y>
+     <x>330</x>
+     <y>230</y>
      <width>71</width>
-     <height>31</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="cursor">
@@ -48,9 +48,9 @@
   <widget class="QLabel" name="update">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>190</y>
-     <width>581</width>
+     <x>0</x>
+     <y>90</y>
+     <width>600</width>
      <height>71</height>
     </rect>
    </property>
@@ -59,6 +59,22 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="title_Label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>更新</string>
    </property>
   </widget>
  </widget>

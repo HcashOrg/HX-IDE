@@ -12,11 +12,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     DataUtil.cpp \
-    UpdateWidget.cpp
+    UpdateWidget.cpp \
+    MoveableDialog.cpp
 
 HEADERS += \
     DataUtil.h \
-    UpdateWidget.h
+    UpdateWidget.h \
+    MoveableDialog.h
 
 FORMS += \
     UpdateWidget.ui
@@ -28,6 +30,8 @@ RESOURCES += \
     resource.qrc
 
 INCLUDEPATH += $$PWD/quazip/quazip
+
+TRANSLATIONS +=   Chinese.ts  English.ts
 
 
 win32{

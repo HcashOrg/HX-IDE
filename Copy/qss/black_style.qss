@@ -1,0 +1,36 @@
+QDialog{
+    background-color:rgb(50,50,50);
+}
+
+QLabel{
+    color:white;
+}
+QLabel:disable{
+    color:gray;
+}
+
+/*具体按钮的定制*/
+QLabel#title_Label{
+    color:white;
+    font:65 18px \"Microsoft YaHei UI\";
+    background-color:rgb(70,70,70);
+    padding-left:10px;
+}
+
+QToolButton#toolButton_restart,QToolButton#toolButton_close
+{
+    border:1px solid gray;
+    border-radius:10px;
+    color:white;
+    background-color:rgb(66,66,66);
+    height:20px;
+    width:60px;
+}
+QToolButton#toolButton_restart:disabled,QToolButton#toolButton_close:disabled
+{
+    color:gray;
+}
+QToolButton#toolButton_restart:pressed,QToolButton#toolButton_close:pressed
+{
+    background-color:rgb(50,50,50);
+}

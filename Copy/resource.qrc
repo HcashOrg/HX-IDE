@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>resource/bg.png</file>
+        <file>qss/black_style.qss</file>
+        <file>qss/white_style.qss</file>
+        <file>Chinese.qm</file>
+        <file>English.qm</file>
     </qresource>
 </RCC>

@@ -244,7 +244,6 @@ void ChainIDE::refreshTranslator()
 {
     QTranslator*  translator = new QTranslator();
     translator->load(getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm");
-    QString a = getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm";
     QApplication::installTranslator(translator);
 }
 

@@ -6,27 +6,35 @@
 #include <QString>
 #include <QProcess>
 #include <QDebug>
+#include <QSettings>
+#include <QTranslator>
 
 #include "DataUtil.h"
 
-static const QString OKBTN_STYLE =
-        "QToolButton{\
-            border:1px solid gray;\
-            border-radius:10px;\
-            color:white;\
-            background-color:rgb(66,66,66);\
-            height:30px;\
-            width:80px;\
-        }" ;
-
 static const QString TEMP_FOLDER_NAME = "updatetemp";
-static const QString PACKAGE_UN = "ide";
-static const QString PACKAGE_NAME = "ide.zip";
-static const QString MAINEXE_NAME = "ChainIDE.exe";
 
-UpdateWidget::UpdateWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::UpdateWidget)
+class UpdateWidget::DataPrivate
+{
+public:
+    DataPrivate(const QString &package,const QString &mainname,const QString &unpackagename)
+        :tempDir(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME)
+        ,packagePath(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME +QDir::separator()+ package)
+        ,mainExePath(QCoreApplication::applicationDirPath()+QDir::separator()+mainname)
+        ,unpackageName(unpackagename)
+    {
+
+    }
+public:
+    QString tempDir;
+    QString packagePath;
+    QString unpackageName;
+    QString mainExePath;
+};
+
+UpdateWidget::UpdateWidget(const QString &packageName,const QString &mainName,const QString &unpackageName,QWidget *parent) :
+    MoveableDialog(parent),
+    ui(new Ui::UpdateWidget),
+    _p(new DataPrivate(packageName,mainName,unpackageName))
 {
     ui->setupUi(this);
     InitWidget();
@@ -39,21 +47,21 @@ UpdateWidget::~UpdateWidget()
 
 void UpdateWidget::startMove()
 {
-    //解压文件
-    QString tempdir = QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME;
-    QString compressPath = tempdir +QDir::separator()+ PACKAGE_NAME;
-    DataUtil::unCompress( compressPath,tempdir);
-    //复制文件到temp目录
-    DataUtil::copyDir(tempdir+QDir::separator()+PACKAGE_UN,QCoreApplication::applicationDirPath());
-    //删除压缩文件、解压目录
-    qDebug()<<compressPath;
-    QFile::remove(compressPath);
-    DataUtil::deleteDir(tempdir + QDir::separator() + PACKAGE_UN);
+    //解压文件到临时目录
+    DataUtil::unCompress( _p->packagePath,_p->tempDir);
 
-    //复制临时文件到主目录
-    DataUtil::copyDir(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME,QCoreApplication::applicationDirPath());
+    //复制解压后的文件到主目录
+    DataUtil::copyDir(_p->tempDir+QDir::separator()+ _p->unpackageName,QCoreApplication::applicationDirPath());
+
+    //删除压缩文件、解压目录
+    QFile::remove(_p->packagePath);
+    DataUtil::deleteDir(_p->tempDir + QDir::separator() + _p->unpackageName);
+
+    //复制其他临时文件到主目录
+    DataUtil::copyDir(_p->tempDir,QCoreApplication::applicationDirPath());
     //删除临时文件
-    DataUtil::deleteDir(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME);
+    DataUtil::deleteDir(_p->tempDir);
+
     //更新结束
     copyFinish();
 }
@@ -71,7 +79,7 @@ void UpdateWidget::restartWallet()
 {
     //启动外部复制程序
     QProcess *copproc = new QProcess();
-    copproc->start(MAINEXE_NAME);
+    copproc->start(_p->mainExePath);
     close();
 }
 
@@ -90,16 +98,26 @@ void UpdateWidget::InitWidget()
 
 void UpdateWidget::InitStyle()
 {
-    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    setAutoFillBackground(true);
-    QPalette palette;
-    palette.setBrush( QPalette::Window,
-                     QBrush(QPixmap(":/resource/bg.png").scaled(// 缩放背景图.
-                         this->size(),
-                         Qt::IgnoreAspectRatio,
-                         Qt::SmoothTransformation)));
-    setPalette(palette);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Widget);
+    QSettings configFile(QCoreApplication::applicationDirPath() + QDir::separator() + "config.ini", QSettings::IniFormat);
+    QString path ;
+    if(configFile.value("/settings/theme") == "white")
+    {
+        path = ":/qss/white_style.qss";
+    }
+    else
+    {
+        path = ":/qss/black_style.qss";
+    }
 
-    ui->toolButton_close->setStyleSheet(OKBTN_STYLE);
-    ui->toolButton_restart->setStyleSheet(OKBTN_STYLE);
+    QFile inputFile(path);
+    inputFile.open(QIODevice::ReadOnly);
+    QString css = inputFile.readAll();
+    inputFile.close();
+    this->setStyleSheet( css);
+
+    QTranslator*  translator = new QTranslator();
+    translator->load(configFile.value("/settings/language") == "SimChinese" ?  ":/Chinese.qm":":/English.qm" );
+    QApplication::installTranslator(translator);
+    ui->retranslateUi(this);
 }
