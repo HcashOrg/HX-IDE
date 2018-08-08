@@ -11,9 +11,9 @@ public:
     explicit websocketRequire(const QString &ip,const QString & connectPort,QObject *parent = 0);
     ~websocketRequire();
 public:
-    virtual void postData(const QString &data) ;
-    virtual void startConnect() ;
-    virtual bool isConnected()const;
+    virtual void postData(const QString &data) override final;
+    virtual void startConnect() override final;
+    virtual bool isConnected()const override final;
 
 private slots:
     void onTextFrameReceived(QString,bool);

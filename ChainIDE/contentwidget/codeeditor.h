@@ -17,29 +17,29 @@ public:
     ~codeeditor();
 
 public:
-    void checkState();
+    void checkState()override final;
 
-    void setText(QString text);
-    QString getText();
-    QString getSelectedText();
+    void setText(QString text)override final;
+    QString getText()override;
+    QString getSelectedText()override final;
 
     void setMode(QString mode);
     void initFinish();    // 将js中的inited 置为true  之后可以触发onTextChanged()
     void setTheme(bool black);//是=黑色主题  否=白色主题
 
-    void setEditable(bool bIs);
+    void setEditable(bool bIs)override final;
 
-    void TabBreakPoint();
-    void ClearBreakPoint();
+    void TabBreakPoint()override final;
+    void ClearBreakPoint()override final;
 
 public slots:
-    void undo();
-    void redo();
-    void cut();
-    void copy();
-    void paste();
-    void deleteText();
-    void selectAll();
+    void undo()override final;
+    void redo()override final;
+    void cut()override final;
+    void copy()override final;
+    void paste()override final;
+    void deleteText()override final;
+    void selectAll()override final;
 private:
     Ui::codeeditor *ui;
 };

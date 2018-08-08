@@ -12,7 +12,9 @@ class UpdateWidget : public MoveableDialog
     Q_OBJECT
 
 public:
-    explicit UpdateWidget(const QString &packageName = "update.zip",const QString &mainName = "ChainIDE.exe",const QString &unpackageName = "update",QWidget *parent = 0);
+    //压缩包名称、主程序名称、解压后的文件夹名称、临时文件夹名称
+    explicit UpdateWidget(const QString &packageName = "update.zip",const QString &mainName = "ChainIDE.exe",
+                          const QString &unpackageName = "update",const QString &tempName = "updatetemp",QWidget *parent = 0);
     ~UpdateWidget();
 private slots:
     void startMove();

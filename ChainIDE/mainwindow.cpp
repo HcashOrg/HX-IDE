@@ -244,11 +244,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(_p->updateNeeded)
     {//开启copy，
         QProcess *copproc = new QProcess();
-        QString updateExe = QCoreApplication::applicationDirPath()+"/Copy.exe";
+        QString updateExe = QCoreApplication::applicationDirPath()+"/Copy";
         QString package = "update.zip";
         QString mainName = QCoreApplication::applicationName();
-        QString unpackName = "update";
-        copproc->start(updateExe,QStringList()<<package<<mainName<<unpackName);
+        QString unpackName = "update";//解压后的文件夹名称
+        QString tempName = "updatetemp";//临时路径
+        copproc->startDetached(updateExe,QStringList()<<package<<mainName<<unpackName<<tempName);
     }
     QWidget::closeEvent(event);
 }

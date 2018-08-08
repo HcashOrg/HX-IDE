@@ -11,12 +11,12 @@ public:
     ~UbtcBackStage();
 
 public:
-    void startExe(const QString &appDataPath = "");
-    bool exeRunning();
-    QProcess *getProcess()const;
-    void ReadyClose();
+    void startExe(const QString &appDataPath = "")override final;
+    bool exeRunning()override final;
+    QProcess *getProcess()const override final;
+    void ReadyClose()override final;
 public slots:
-    void rpcPostedSlot(const QString &,const QString &);
+    void rpcPostedSlot(const QString &,const QString &)override final;
 private slots:
     void onNodeExeStateChanged();
 

@@ -11,30 +11,28 @@
 
 #include "DataUtil.h"
 
-static const QString TEMP_FOLDER_NAME = "updatetemp";
-
 class UpdateWidget::DataPrivate
 {
 public:
-    DataPrivate(const QString &package,const QString &mainname,const QString &unpackagename)
-        :tempDir(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME)
-        ,packagePath(QCoreApplication::applicationDirPath()+QDir::separator()+TEMP_FOLDER_NAME +QDir::separator()+ package)
+    DataPrivate(const QString &package,const QString &mainname,const QString &unpackagename,const QString &tempName)
+        :tempDir(QCoreApplication::applicationDirPath()+QDir::separator()+tempName)
+        ,packagePath(QCoreApplication::applicationDirPath()+QDir::separator()+tempName +QDir::separator()+ package)
         ,mainExePath(QCoreApplication::applicationDirPath()+QDir::separator()+mainname)
-        ,unpackageName(unpackagename)
+        ,unpackageDir(QCoreApplication::applicationDirPath()+QDir::separator()+tempName +QDir::separator()+ unpackagename)
     {
 
     }
 public:
     QString tempDir;
     QString packagePath;
-    QString unpackageName;
+    QString unpackageDir;
     QString mainExePath;
 };
 
-UpdateWidget::UpdateWidget(const QString &packageName,const QString &mainName,const QString &unpackageName,QWidget *parent) :
+UpdateWidget::UpdateWidget(const QString &packageName,const QString &mainName,const QString &unpackageName,const QString &tempName,QWidget *parent) :
     MoveableDialog(parent),
     ui(new Ui::UpdateWidget),
-    _p(new DataPrivate(packageName,mainName,unpackageName))
+    _p(new DataPrivate(packageName,mainName,unpackageName,tempName))
 {
     ui->setupUi(this);
     InitWidget();
@@ -42,6 +40,7 @@ UpdateWidget::UpdateWidget(const QString &packageName,const QString &mainName,co
 
 UpdateWidget::~UpdateWidget()
 {
+    delete _p;
     delete ui;
 }
 
@@ -51,11 +50,11 @@ void UpdateWidget::startMove()
     DataUtil::unCompress( _p->packagePath,_p->tempDir);
 
     //复制解压后的文件到主目录
-    DataUtil::copyDir(_p->tempDir+QDir::separator()+ _p->unpackageName,QCoreApplication::applicationDirPath());
+    DataUtil::copyDir(_p->unpackageDir,QCoreApplication::applicationDirPath());
 
     //删除压缩文件、解压目录
     QFile::remove(_p->packagePath);
-    DataUtil::deleteDir(_p->tempDir + QDir::separator() + _p->unpackageName);
+    DataUtil::deleteDir(_p->unpackageDir);
 
     //复制其他临时文件到主目录
     DataUtil::copyDir(_p->tempDir,QCoreApplication::applicationDirPath());
@@ -79,7 +78,7 @@ void UpdateWidget::restartWallet()
 {
     //启动外部复制程序
     QProcess *copproc = new QProcess();
-    copproc->start(_p->mainExePath);
+    copproc->startDetached(_p->mainExePath);
     close();
 }
 
@@ -90,7 +89,7 @@ void UpdateWidget::InitWidget()
     ui->toolButton_restart->setVisible(false);
 
     ui->update->setText(tr("updating,please wait!"));
-    QTimer::singleShot(500,this,&UpdateWidget::startMove);
+    QTimer::singleShot(1000,this,&UpdateWidget::startMove);
 
     connect(ui->toolButton_close,&QToolButton::clicked,this,&UpdateWidget::close);
     connect(ui->toolButton_restart,&QToolButton::clicked,this,&UpdateWidget::restartWallet);

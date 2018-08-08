@@ -108,40 +108,40 @@ bool DataUtil::copyDir(const QString &source, const QString &destination, bool o
 bool DataUtil::unCompress(const QString &in_file_path, const QString &out_file_path)
 {
     QuaZip archive(in_file_path);
-        if (!archive.open(QuaZip::mdUnzip))
-            return false;
+    if (!archive.open(QuaZip::mdUnzip))
+        return false;
 
-        QString path = out_file_path;
-        if (!path.endsWith("/") && !out_file_path.endsWith("\\"))
-            path += "/";
+    QString path = out_file_path;
+    if (!path.endsWith("/") && !out_file_path.endsWith("\\"))
+        path += "/";
 
-        QDir dir(out_file_path);
-        if (!dir.exists())
-            dir.mkpath(out_file_path);
+    QDir dir(out_file_path);
+    if (!dir.exists())
+        dir.mkpath(out_file_path);
 
-        for( bool f = archive.goToFirstFile(); f; f = archive.goToNextFile() )
+    for( bool f = archive.goToFirstFile(); f; f = archive.goToNextFile() )
+    {
+        QString filePath = archive.getCurrentFileName();
+        QuaZipFile zFile(archive.getZipName(), filePath);
+        zFile.open(QIODevice::ReadOnly );
+        QByteArray ba = zFile.readAll();
+        zFile.close();
+
+        if (filePath.endsWith("/"))
         {
-            QString filePath = archive.getCurrentFileName();
-            QuaZipFile zFile(archive.getZipName(), filePath);
-            zFile.open(QIODevice::ReadOnly );
-            QByteArray ba = zFile.readAll();
-            zFile.close();
-
-            if (filePath.endsWith("/"))
-            {
-                dir.mkpath(filePath);
-            }
-            else
-            {
-                QFile dstFile(path + filePath);
-                if (!dstFile.open(QIODevice::WriteOnly))
-                    return false;
-                dstFile.write(ba);
-                dstFile.close();
-            }
+            dir.mkpath(filePath);
         }
+        else
+        {
+            QFile dstFile(path + filePath);
+            if (!dstFile.open(QIODevice::WriteOnly))
+                return false;
+            dstFile.write(ba);
+            dstFile.close();
+        }
+    }
 
-        return true;
+    return true;
 }
 
 void DataUtil::myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)

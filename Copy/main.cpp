@@ -24,6 +24,12 @@ int main(int argc, char *argv[])
         wi.show();
         return a.exec();
     }
+    else if(5 == argc)
+    {
+        UpdateWidget wi(argv[1],argv[2],argv[3],argv[4]);
+        wi.show();
+        return a.exec();
+    }
     else
     {
         UpdateWidget wi;
