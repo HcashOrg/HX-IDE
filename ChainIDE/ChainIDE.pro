@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     selectpathwidget.cpp \
     waitingforsync.cpp \
     filewidget/FileWidget.cpp \
-    filewidget/FileModel.cpp \
     filewidget/FileView.cpp \
     outputwidget.cpp \
     contentwidget/aceeditor.cpp \
@@ -80,7 +79,8 @@ SOURCES += main.cpp\
     custom/ImportEnterPWDDialogHX.cpp \
     debugwidget/DebugWidget.cpp \
     LocalPeer.cpp \
-    StatusBar.cpp
+    StatusBar.cpp \
+    filewidget/FileProxyModel.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -93,7 +93,6 @@ HEADERS  += MainWindow.h \
     selectpathwidget.h \
     waitingforsync.h \
     filewidget/FileWidget.h \
-    filewidget/FileModel.h \
     filewidget/FileView.h \
     outputwidget.h \
     contentwidget/aceeditor.h \
@@ -149,7 +148,8 @@ HEADERS  += MainWindow.h \
     custom/ImportEnterPWDDialogHX.h \
     debugwidget/DebugWidget.h \
     LocalPeer.h \
-    StatusBar.h
+    StatusBar.h \
+    filewidget/FileProxyModel.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

@@ -2,6 +2,8 @@
 #define FILEVIEW_H
 
 #include <QTreeView>
+class QModelIndex;
+class QFileInfo;
 
 class FileView : public QTreeView
 {
@@ -33,6 +35,12 @@ public:
 
 private:
     void InitWidget();
+
+    QString getFilePathFromIndex(const QModelIndex &index)const;
+    QFileInfo getFileInfoFromIndex(const QModelIndex &index)const;
+    QModelIndex getFileIndexFromPath(const QString &filePath)const;
+    QModelIndex getProxyIndexFromPath(const QString &filePath)const;
+
 protected:
     void contextMenuEvent(QContextMenuEvent *);
 private:

@@ -5,29 +5,36 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFileSystemModel>
 
-#include "FileModel.h"
+#include "FileProxyModel.h"
 #include "DataDefine.h"
 #include "IDEUtil.h"
 #include "ConvenientOp.h"
 
 #include "control/contextmenu.h"
+
 class FileView::DataPrivate
 {
 public:
     DataPrivate()
-        :fileModel(new FileModel())
+        :fileModel(new QFileSystemModel())
+        ,proxy(new FileProxyModel())
     {
-
+        fileModel->setRootPath(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CONTRACT_DIR);
+        proxy->setSourceModel(fileModel);
     }
     ~DataPrivate()
     {
         delete fileModel;
         fileModel = nullptr;
+        delete proxy;
+        proxy = nullptr;
     }
 
 public:
-    FileModel *fileModel;
+    QFileSystemModel *fileModel;
+    FileProxyModel *proxy;
 };
 
 FileView::FileView(QWidget *parent)
@@ -45,14 +52,14 @@ FileView::~FileView()
 void FileView::selectFile(const QString &filePath)
 {
     if(filePath.isEmpty()) return;
-    QModelIndex index = _p->fileModel->index(filePath);
+    QModelIndex index = getProxyIndexFromPath(filePath);
     if(!index.isValid()) return;
     setCurrentIndex(index);
 }
 
 void FileView::deleteFileSlots()
 {
-    QString filePath = _p->fileModel->filePath(this->currentIndex());
+    QString filePath = getFilePathFromIndex(this->currentIndex());
     if(QFileInfo(filePath).isFile())
     {
         if(QFileInfo(filePath).suffix() == DataDefine::CONTRACT_SUFFIX)
@@ -73,14 +80,14 @@ void FileView::deleteFileSlots()
 
 void FileView::importContractSlots()
 {
-    QString dirpath = _p->fileModel->filePath(this->currentIndex());
+    QString dirpath = getFilePathFromIndex(this->currentIndex());
 
     ConvenientOp::ImportContractFile(dirpath);
 }
 
 void FileView::exportContractSlots()
 {
-    QString dirpath = _p->fileModel->filePath(this->currentIndex());
+    QString dirpath = getFilePathFromIndex(this->currentIndex());
 
     ConvenientOp::ExportContractFile(dirpath);
 }
@@ -98,43 +105,52 @@ void FileView::IndexClicked(const QModelIndex &index)
 {
     if(index.isValid())
     {
-        QFileInfo file(_p->fileModel->filePath(index));
+        QFileInfo file = getFileInfoFromIndex(index);
         if(file.isFile())
         {
-            emit fileClicked(_p->fileModel->filePath(index));
+            emit fileClicked(getFilePathFromIndex(index));
         }
     }
 }
 
 QString FileView::getCurrentFilePath() const
 {
-    return _p->fileModel->filePath(this->currentIndex());
+    return getFilePathFromIndex(this->currentIndex());
 }
 
 void FileView::InitWidget()
 {
-    setModel(_p->fileModel);
-    _p->fileModel->setNameFilterDisables(false);
-    _p->fileModel->setNameFilters(QStringList()<<"*."+DataDefine::GLUA_SUFFIX<<"*."+DataDefine::JAVA_SUFFIX
-                                               <<"*."+DataDefine::KOTLIN_SUFFIX<<"*."+DataDefine::CSHARP_SUFFIX
-                                               <<"*.gpc");
-    _p->fileModel->setRootPath("/");
-    setRootIndex(_p->fileModel->index(QCoreApplication::applicationDirPath()+QDir::separator()+"contracts"));
+    setModel(_p->proxy);
+
+    setRootIndex(_p->proxy->mapFromSource(_p->fileModel->index(_p->fileModel->rootPath())));
 
     setSelectionMode(QAbstractItemView::SingleSelection);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     header()->setVisible(false);
 
-    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    for(int i = 1;i < _p->fileModel->columnCount();++i)
-    {
-        hideColumn(i);
-    }
-
     QTimer::singleShot(100,this,&QTreeView::expandAll);
 
     connect(this,&QTreeView::clicked,this,&FileView::IndexClicked);
+}
+
+QString FileView::getFilePathFromIndex(const QModelIndex &index) const
+{
+    return _p->fileModel->filePath(_p->proxy->mapToSource(index));
+}
+
+QFileInfo FileView::getFileInfoFromIndex(const QModelIndex &index) const
+{
+    return _p->fileModel->fileInfo(_p->proxy->mapToSource(index));
+}
+
+QModelIndex FileView::getFileIndexFromPath(const QString &filePath) const
+{
+    return _p->fileModel->index(filePath);
+}
+
+QModelIndex FileView::getProxyIndexFromPath(const QString &filePath) const
+{
+    return _p->proxy->mapFromSource(_p->fileModel->index(filePath));
 }
 
 void FileView::contextMenuEvent(QContextMenuEvent *e)
@@ -150,12 +166,11 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
     }
     else
     {
-        QString path = _p->fileModel->filePath(ind);
-        QFileInfo info(path);
+        QFileInfo info = getFileInfoFromIndex(ind);
         if(info.isFile())
         {
             if(info.suffix() == DataDefine::GLUA_SUFFIX || info.suffix() == DataDefine::JAVA_SUFFIX ||
-                   info.suffix() == DataDefine::CSHARP_SUFFIX || info.suffix() == DataDefine::KOTLIN_SUFFIX)
+               info.suffix() == DataDefine::CSHARP_SUFFIX || info.suffix() == DataDefine::KOTLIN_SUFFIX)
             {
                 menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Compile,this);
             }
