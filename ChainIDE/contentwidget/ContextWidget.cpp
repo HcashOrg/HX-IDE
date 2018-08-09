@@ -344,7 +344,6 @@ void ContextWidget::contextUpdate()
 
 void ContextWidget::InitWidget()
 {
-    //ui->tabWidget->setStyleSheet("background-color:black;");
     ui->tabWidget->setTabsClosable(true);
     //隐藏左右控制按钮
     ui->tabWidget->tabBar()->setUsesScrollButtons(false);

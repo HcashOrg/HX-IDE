@@ -50,6 +50,7 @@ private:
     void getSystemEnvironmentPath();//系统环境变量寻找
     void InitConfig();//初始化配置
     void InitExeManager();//初始化后台
+    void InitContractDir();//初始化合约目录
 signals:
     void jsonDataUpdated(const QString &id,const QString &data);//接收到返回
     void rpcPosted(const QString & rpcId, const QString & rpcCmd);//测试链发出请求

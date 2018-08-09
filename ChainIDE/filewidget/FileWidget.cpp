@@ -1,6 +1,9 @@
 #include "FileWidget.h"
 #include "ui_FileWidget.h"
 
+#include "DataDefine.h"
+
+#include <QDir>
 FileWidget::FileWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FileWidget)
@@ -44,5 +47,4 @@ void FileWidget::InitWidget()
     connect(ui->fileTree,&FileView::importContract,this,&FileWidget::importContract);
     connect(ui->fileTree,&FileView::exportContract,this,&FileWidget::exportContract);
     connect(ui->fileTree,&FileView::newFile,this,&FileWidget::newFile);
-
 }

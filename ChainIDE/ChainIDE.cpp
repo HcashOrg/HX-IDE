@@ -95,6 +95,8 @@ ChainIDE::ChainIDE(QObject *parent)
     getSystemEnvironmentPath();
     InitConfig();
     InitExeManager();
+    //初始化合约目录，确保存在
+    InitContractDir();
 }
 
 ChainIDE * ChainIDE::_instance = nullptr;
@@ -412,6 +414,34 @@ void ChainIDE::InitExeManager()
     {
         connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
         connect(_p->formalManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
+    }
+}
+
+void ChainIDE::InitContractDir()
+{
+    //确保合约路径存在
+    QDir dir(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::CONTRACT_DIR);
+    if(!dir.exists())
+    {
+        dir.mkpath(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::CONTRACT_DIR);
+    }
+    dir.setFilter(QDir::Dirs);
+    QStringList list = dir.entryList();
+    if(!list.contains(dir.absolutePath() + QDir::separator() + DataDefine::KOTLIN_DIR))
+    {
+        dir.mkpath(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::KOTLIN_DIR);
+    }
+    if(!list.contains(dir.absolutePath() + QDir::separator() + DataDefine::CSHARP_DIR))
+    {
+        dir.mkpath(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::CSHARP_DIR);
+    }
+    if(!list.contains(dir.absolutePath() + QDir::separator() + DataDefine::JAVA_DIR))
+    {
+        dir.mkpath(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::JAVA_DIR);
+    }
+    if(!list.contains(dir.absolutePath() + QDir::separator() + DataDefine::GLUA_DIR))
+    {
+        dir.mkpath(QCoreApplication::applicationDirPath() + QDir::separator() + DataDefine::GLUA_DIR);
     }
 }
 
