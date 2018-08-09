@@ -24,6 +24,7 @@ RequireBase::RequireBase(const QString &hostip,const QString & connectPort,QObje
 RequireBase::~RequireBase()
 {
     delete _p;
+    _p = nullptr;
 }
 
 const QString & RequireBase::getConnectPort() const

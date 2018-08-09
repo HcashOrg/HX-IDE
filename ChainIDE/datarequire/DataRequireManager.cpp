@@ -62,6 +62,7 @@ DataRequireManager::DataRequireManager(const QString &ip,const QString & connect
 
 DataRequireManager::~DataRequireManager()
 {
+    qDebug()<<"delete datarequiremanager";
     delete _p;
     _p = nullptr;
 }
@@ -136,6 +137,7 @@ void DataRequireManager::startManager(ConnectType connecttype)
     connect(_p->requireBase,&RequireBase::receiveData,this,&DataRequireManager::receiveResponse);
     connect(_p->requireBase,&RequireBase::connectFinish,this,&DataRequireManager::connectFinish);
 
+    qDebug()<<"start connect datarequire "<<_p->connectIP<<_p->connectPort;
     _p->requireBase->startConnect();
     _p->requireTimer->start(30);
 }

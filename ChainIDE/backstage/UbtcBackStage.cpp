@@ -38,7 +38,6 @@ public:
     }
     ~DataPrivate()
     {
-        qDebug()<<"delete ubtcstage";
         clientProc->close();
         nodeProc->close();
         delete clientProc;
@@ -68,7 +67,9 @@ UbtcBackStage::UbtcBackStage(int type,QObject *parent)
 
 UbtcBackStage::~UbtcBackStage()
 {
+    qDebug()<<"delete ubtcstage "<<_p->chaintype;
     delete _p;
+    _p = nullptr;
 }
 
 void UbtcBackStage::startExe(const QString &appDataPath )
@@ -130,12 +131,11 @@ void UbtcBackStage::ReadyClose()
                 if(loop && loop->isRunning())
                 {
                     _p->nodeProc->waitForFinished();
-                    qDebug()<<"close ub "<<_p->chaintype<<" finish";
+                    qDebug()<<"close ubcd "<<_p->chaintype<<" finish";
                     loop->quit();
                 }
             }
         });
-        qDebug()<<"close ub "<<_p->chaintype;
         _p->dataRequire->requirePosted("id-stop-onCloseIDE",IDEUtil::toJsonFormat( "stop", QJsonArray()));
 
         loop->exec();
@@ -152,20 +152,20 @@ void UbtcBackStage::onNodeExeStateChanged()
 {
     if(_p->nodeProc->state() == QProcess::Starting)
     {
-        qDebug() << QString("%1 is starting").arg("ubcd.exe");
+        //qDebug() << QString("%1 is starting").arg("ubcd.exe");
     }
     else if(_p->nodeProc->state() == QProcess::Running)
     {
-        qDebug() << QString("%1 is running").arg("ubcd.exe");
+        qDebug() << QString("ubcd %1 is running").arg(_p->chaintype);
 
         initSocketManager();
         //emit exeStarted();
     }
     else if(_p->nodeProc->state() == QProcess::NotRunning)
     {
-        qDebug()<<_p->nodeProc->errorString();
+        qDebug()<<QString("ubcd %1 is notrunning :%2").arg(_p->chaintype).arg(_p->nodeProc->errorString());
         CommonDialog commonDialog(CommonDialog::OkOnly);
-        commonDialog.setText(tr("Fail to launch %1 !").arg("ubcd.exe"));
+        commonDialog.setText(tr("Fail to launch ubcd %1 !").arg(_p->chaintype));
         commonDialog.pop();
     }
 }

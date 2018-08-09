@@ -141,6 +141,7 @@ void UpdateProcess::DownloadEmptySlot()
 void UpdateProcess::DownloadWrongSlot(const QString &fileName)
 {
     _p->isWrongHappened = true;
+    qDebug()<<fileName<<"download error";
     emit updateWrong();
 }
 

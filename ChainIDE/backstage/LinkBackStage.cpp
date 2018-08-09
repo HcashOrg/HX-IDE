@@ -33,7 +33,6 @@ public:
     }
     ~DataPrivate()
     {
-        qDebug()<<"delete hxstage";
         clientProc->close();
         nodeProc->close();
         delete dataRequire;
@@ -63,6 +62,7 @@ LinkBackStage::LinkBackStage(int type,QObject *parent)
 
 LinkBackStage::~LinkBackStage()
 {
+    qDebug()<<"delete "<<_p->chaintype<<" hxstage";
     delete _p;
 }
 
@@ -78,7 +78,7 @@ void LinkBackStage::startExe(const QString &appDataPath)
     strList << "--data-dir=" +_p->dataPath
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->nodePort);
 
-    qDebug() << "start hx_node.exe " << strList;
+    qDebug() << "start hx_node " << strList;
     _p->nodeProc->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LINK_NODE_EXE,strList);
 
 }
@@ -114,12 +114,11 @@ void LinkBackStage::ReadyClose()
                 {
                     _p->clientProc->waitForFinished();
                     _p->nodeProc->waitForFinished();
-                    qDebug()<<"close hx "<<_p->chaintype<<" finish";
+                    qDebug()<<"close hxstage "<<_p->chaintype<<" finish";
                     loop->quit();
                 }
             }
         });
-        qDebug()<<"close hx "<<_p->chaintype;
         rpcPostedSlot("id-lock-onCloseIDE",IDEUtil::toJsonFormat( "lock", QJsonArray()));
 
         loop->exec();
@@ -132,18 +131,19 @@ void LinkBackStage::onNodeExeStateChanged()
 {
     if(_p->nodeProc->state() == QProcess::Starting)
     {
-        qDebug() << QString("%1 is starting").arg("hx_node.exe");
+        //qDebug() << QString("%1 is starting").arg("hx_node");
     }
     else if(_p->nodeProc->state() == QProcess::Running)
     {
-        qDebug() << QString("%1 is running").arg("hx_node.exe");
+        qDebug() << QString("hx_node %1 is running").arg(_p->chaintype);
         connect(&_p->timerForStartExe,&QTimer::timeout,this,&LinkBackStage::checkNodeExeIsReady);
         _p->timerForStartExe.start(100);
     }
     else if(_p->nodeProc->state() == QProcess::NotRunning)
     {
+        qDebug()<<QString("hx_node %1 is notrunning :%2").arg(_p->chaintype).arg(_p->nodeProc->errorString());
         CommonDialog commonDialog(CommonDialog::OkOnly);
-        commonDialog.setText(tr("Fail to launch %1 !").arg("hx_node.exe"));
+        commonDialog.setText(tr("Fail to launch hx_node !"));
         commonDialog.pop();
     }
 }
@@ -178,20 +178,19 @@ void LinkBackStage::onClientExeStateChanged()
 {
     if(_p->clientProc->state() == QProcess::Starting)
     {
-        qDebug() << QString("%1 is starting").arg("hx_client.exe");
+        //qDebug() << QString("%1 is starting").arg("hx_client.exe");
     }
     else if(_p->clientProc->state() == QProcess::Running)
     {
-        qDebug() << QString("%1 is running").arg("hx_client.exe");
+        qDebug() << QString("hx_client %1 is running").arg(_p->chaintype);
 
-        qDebug()<<QString("start socket connected")<<_p->chaintype;
         initSocketManager();
     }
     else if(_p->clientProc->state() == QProcess::NotRunning)
     {
-        qDebug() << "client not running" + _p->clientProc->errorString();
+        qDebug() << QString("hx_client %1 not running :%2").arg(_p->chaintype).arg(_p->clientProc->errorString());
         CommonDialog commonDialog(CommonDialog::OkOnly);
-        commonDialog.setText(tr("Fail to launch %1 !").arg("hx_client.exe"));
+        commonDialog.setText(tr("Fail to launch %1 !").arg("hx_client"));
         commonDialog.pop();
     }
 }

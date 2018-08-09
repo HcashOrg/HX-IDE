@@ -27,6 +27,7 @@ websocketRequire::~websocketRequire()
     disconnect(_p->m_webSocket,&QWebSocket::textFrameReceived,this,&websocketRequire::onTextFrameReceived);
     disconnect(_p->m_webSocket,&QWebSocket::stateChanged,this,&websocketRequire::onStateChanged);
     delete _p;
+    _p = nullptr;
 }
 
 void websocketRequire::postData(const QString &data)
@@ -76,7 +77,7 @@ void websocketRequire::onStateChanged(QAbstractSocket::SocketState _state)
     }
     else if(_state == QAbstractSocket::ConnectedState)
     {
-         qDebug() << "websocket connected " << getConnectPort();
+         qDebug() << "websocket connected " << getConnectIP()<<getConnectPort();
         emit connectFinish();
     }
 }
