@@ -203,17 +203,15 @@ void ContextWidget::gutterRightClickedSignal()
 void ContextWidget::CheckDeleteFile()
 {
     //获取所有当前打开的文件
-    for(int i = 0;i < ui->tabWidget->count();++i)
+    for(int i = ui->tabWidget->count() - 1;i >= 0;--i)
     {
         QString path = getPathFromNumber(i);
         if(!QFileInfo(path).exists())
         {
             ui->tabWidget->removeTab(i);
-            contextUpdate();
-            break;
         }
     }
-
+    contextUpdate();
 }
 
 void ContextWidget::currentTabChanged(int i)
