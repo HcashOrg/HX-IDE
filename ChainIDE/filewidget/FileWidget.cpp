@@ -3,7 +3,6 @@
 
 #include "DataDefine.h"
 
-#include <QDir>
 FileWidget::FileWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FileWidget)
