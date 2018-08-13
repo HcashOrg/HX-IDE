@@ -7,6 +7,7 @@ namespace Ui {
 class Editor;
 }
 class QWebEnginePage;
+//编辑器基类
 class Editor : public QWidget
 {
     Q_OBJECT
@@ -25,6 +26,8 @@ public:
 
     virtual void TabBreakPoint();
     virtual void ClearBreakPoint();
+    const std::vector<int> &getBreakPoints()const;
+    void setBeakPoint(int line,bool isAdd);
 
     bool isUndoAvailable();
     bool isRedoAvailable();
@@ -37,6 +40,7 @@ public:
 
     bool saveFile() ;
     const QString &getFilePath()const;
+
 protected:
     void setUndoAvaliable(bool);
     void setRedoAvaliable(bool);

@@ -214,6 +214,14 @@ void ContextWidget::CheckDeleteFile()
     contextUpdate();
 }
 
+void ContextWidget::markChangedSlots(int lineNumber, bool isAdd)
+{
+    if(Editor * editor = getCurrentEditor())
+    {
+        editor->setBeakPoint(lineNumber,isAdd);
+    }
+}
+
 void ContextWidget::currentTabChanged(int i)
 {
     if(ui->tabWidget->count() >= 0 && i >= 0)
@@ -352,5 +360,6 @@ void ContextWidget::InitWidget()
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&ContextWidget::currentTabChanged);
     connect((QObject *)bridge::instance(), SIGNAL(textChanged()), this, SLOT(onTextChanged()), Qt::QueuedConnection);
     connect((QObject *)bridge::instance(), SIGNAL(gutterRightClickedSignal()), this, SLOT(gutterRightClickedSignal()), Qt::QueuedConnection);
+    connect((QObject *)bridge::instance(), SIGNAL(markChanged(int,bool)), this, SLOT(markChangedSlots(int ,bool)), Qt::QueuedConnection);
 }
 

@@ -57,6 +57,8 @@ public slots:
     void gutterRightClickedSignal();
 
     void CheckDeleteFile();//文件被删除后使用，用于检查是否有被删除的文件正在被打开，是则关闭
+
+    void markChangedSlots(int lineNumber,bool isAdd);
 private slots:
     void currentTabChanged(int i);
     void tabCloseRquest(int i);

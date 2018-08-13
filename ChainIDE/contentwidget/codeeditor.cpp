@@ -105,6 +105,7 @@ void codeeditor::TabBreakPoint()
 void codeeditor::ClearBreakPoint()
 {
     RunJavaScript("ClearBreakpoint()");
+    Editor::ClearBreakPoint();
 }
 
 void codeeditor::undo()

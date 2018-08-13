@@ -1,8 +1,7 @@
 #include "Editor.h"
 #include "ui_Editor.h"
 
-
-#include "control/editorcontextmenu.h"
+#include <mutex>
 
 #include <QTimer>
 #include <QUrl>
@@ -19,6 +18,7 @@
 #include <QMimeData>
 
 #include "bridge.h"
+#include "control/editorcontextmenu.h"
 
 class Editor::DataPrivate
 {
@@ -38,6 +38,9 @@ public:
     bool isundoAvaliable;
     bool isredoAvaliable;
     QWebEngineView *webView;
+
+    std::vector<int> breakPoints;
+    std::mutex breakMutex;
 };
 
 Editor::Editor(const QString &path,const QString &htmlPath,QWidget *parent)
@@ -62,7 +65,8 @@ void Editor::TabBreakPoint()
 
 void Editor::ClearBreakPoint()
 {//todo
-
+    std::lock_guard<std::mutex> loc(_p->breakMutex);
+    _p->breakPoints.clear();
 }
 
 bool Editor::isUndoAvailable()
@@ -120,6 +124,34 @@ bool Editor::saveFile()
 const QString &Editor::getFilePath() const
 {
     return _p->filePath;
+}
+
+const std::vector<int> &Editor::getBreakPoints()const
+{
+    return _p->breakPoints;
+}
+
+void Editor::setBeakPoint(int line, bool isAdd)
+{
+    if(isAdd)
+    {
+        if(_p->breakPoints.end() == std::find(_p->breakPoints.begin(),_p->breakPoints.end(),line))
+        {
+            std::lock_guard<std::mutex> loc(_p->breakMutex);
+            _p->breakPoints.emplace_back(line);
+            std::stable_sort(_p->breakPoints.begin(),_p->breakPoints.end());
+        }
+    }
+    else
+    {
+        std::vector<int>::iterator it = std::find(_p->breakPoints.begin(),_p->breakPoints.end(),line);
+        if(it != _p->breakPoints.end())
+        {
+            std::lock_guard<std::mutex> loc(_p->breakMutex);
+            _p->breakPoints.erase(it);
+            std::stable_sort(_p->breakPoints.begin(),_p->breakPoints.end());
+        }
+    }
 }
 
 void Editor::setUndoAvaliable(bool is)
