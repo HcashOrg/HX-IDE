@@ -2,9 +2,7 @@
 #define GLUACOMPILE_H
 
 #include "BaseCompile.h"
-#include <QObject>
-#include <QProcess>
-
+//glua编译器
 class gluaCompile : public BaseCompile
 {
     Q_OBJECT

@@ -62,7 +62,7 @@ DataRequireManager::DataRequireManager(const QString &ip,const QString & connect
 
 DataRequireManager::~DataRequireManager()
 {
-    qDebug()<<"delete datarequiremanager";
+    qDebug()<<QString("delete datarequiremanager with ip:%1 port:%2").arg(_p->connectIP).arg(_p->connectPort);
     delete _p;
     _p = nullptr;
 }

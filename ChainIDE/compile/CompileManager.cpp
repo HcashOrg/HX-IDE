@@ -27,7 +27,9 @@ CompileManager::CompileManager(QObject *parent) : QObject(parent)
 
 CompileManager::~CompileManager()
 {
+    qDebug()<<"delete compileManager";
     delete _p;
+    _p = nullptr;
 }
 
 void CompileManager::startCompile(const QString &filePath)

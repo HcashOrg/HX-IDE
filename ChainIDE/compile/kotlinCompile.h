@@ -2,8 +2,7 @@
 #define KOTLINCOMPILE_H
 
 #include "BaseCompile.h"
-
-#include <QProcess>
+//kotlin编译器
 class kotlinCompile : public BaseCompile
 {
     Q_OBJECT

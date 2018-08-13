@@ -10,13 +10,12 @@
 #include <QTabBar>
 
 #include "ChainIDE.h"
-#include "datamanager/DataManagerHX.h"
-#include "datamanager/DataManagerUB.h"
+#include "compile/CompileManager.h"
+#include "backstage/BackStageManager.h"
+
 #include "selectpathwidget.h"
 #include "waitingforsync.h"
 #include "outputwidget.h"
-#include "compile/CompileManager.h"
-#include "backstage/BackStageBase.h"
 #include "filewidget/FileWidget.h"
 #include "contentwidget/ContextWidget.h"
 
@@ -25,6 +24,9 @@
 #include "popwidget/ConfigWidget.h"
 #include "popwidget/commondialog.h"
 #include "popwidget/AboutWidget.h"
+
+#include "datamanager/DataManagerHX.h"
+#include "datamanager/DataManagerUB.h"
 
 #include "custom/AccountWidgetHX.h"
 #include "custom/RegisterContractDialogHX.h"
@@ -115,8 +117,8 @@ void MainWindow::startChain()
     showWaitingForSyncWidget();
 
     //启动后台
-    connect(ChainIDE::getInstance(),&ChainIDE::startExeFinish,this,&MainWindow::exeStartedSlots);
-    ChainIDE::getInstance()->startExe();
+    connect(ChainIDE::getInstance()->getBackStageManager(),&BackStageManager::startBackStageFinish,this,&MainWindow::exeStartedSlots);
+    ChainIDE::getInstance()->getBackStageManager()->startBackStage();
 }
 
 void MainWindow::startWidget()
@@ -207,35 +209,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     CommonDialog dia(CommonDialog::NONE);
     dia.setText(tr("请耐心等待程序自动关闭，不要关闭本窗口!"));
+    connect(ChainIDE::getInstance()->getBackStageManager(),&BackStageManager::closeBackStageFinish,&dia,&CommonDialog::close);
+    ChainIDE::getInstance()->getBackStageManager()->closeBackStage();
 
-    DataDefine::ChainTypes types = ChainIDE::getInstance()->getStartChainTypes();
-
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
-    {
-        QTimer::singleShot(10,[&types,&dia](){
-            connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
-                if(0 == (types &= ~DataDefine::TEST))
-                {
-                    dia.close();
-                }
-            });
-            ChainIDE::getInstance()->testManager()->ReadyClose();
-        });
-    }
-
-    if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL)
-    {
-        QTimer::singleShot(10,[&types,&dia](){
-            connect(ChainIDE::getInstance()->testManager(),&BackStageBase::exeClosed,[&types,&dia](){
-                if(0 == (types &= ~DataDefine::FORMAL))
-                {
-                    dia.close();
-                }
-            });
-            ChainIDE::getInstance()->formalManager()->ReadyClose();
-
-        });
-    }
     if(ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE)
     {
         dia.exec();

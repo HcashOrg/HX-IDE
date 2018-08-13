@@ -4,10 +4,11 @@
 #include <QObject>
 #include "DataDefine.h"
 
-class BackStageBase;
+class BackStageManager;
 class CompileManager;
 class QProcess;
 
+//ide功能单例，工程中的配置、设置等全局功能通过本类提供，数据访问也通过本类中转（主要便于切换测试、正式链时数据访问通道修改）
 class ChainIDE : public QObject
 {
     Q_OBJECT
@@ -36,16 +37,12 @@ public:
     void setStartChainTypes(DataDefine::ChainTypes ty);
 
 //后台
-    BackStageBase *testManager()const;
-    BackStageBase *formalManager()const;
+    BackStageManager *const getBackStageManager()const;
 //编译
-    CompileManager *getCompileManager()const;
+    CompileManager *const getCompileManager()const;
 public:
     void refreshStyleSheet();//刷新样式表
     void refreshTranslator();//刷新翻译
-    void startExe();//启动后台参数
-private slots:
-    void exeStartedSlots();
 private:
     void getSystemEnvironmentPath();//系统环境变量寻找
     void InitConfig();//初始化配置
@@ -53,9 +50,6 @@ private:
     void InitContractDir();//初始化合约目录
 signals:
     void jsonDataUpdated(const QString &id,const QString &data);//接收到返回
-    void rpcPosted(const QString & rpcId, const QString & rpcCmd);//测试链发出请求
-    void rpcPostedFormal(const QString & rpcId, const QString & rpcCmd);//正式链发出请求
-    void startExeFinish();
 public:
     static ChainIDE *getInstance();
     ~ChainIDE();
@@ -65,7 +59,7 @@ public:
 private:
     explicit ChainIDE(QObject *parent = 0);
     static ChainIDE *_instance;
-    class CGarbo // 它的唯一工作就是在析构函数中删除 的实例
+    class CGarbo // 它的唯一工作就是在析构函数中删除实例（利用在程序退出时，全局变量会被析构的特性）
     {
     public:
         ~CGarbo()

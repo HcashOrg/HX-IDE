@@ -10,10 +10,8 @@
 #include <QApplication>
 #include <QTranslator>
 
-#include "backstage/BackStageBase.h"
-#include "backstage/LinkBackStage.h"
-#include "backstage/UbtcBackStage.h"
 #include "compile/CompileManager.h"
+#include "backstage/BackStageManager.h"
 
 static QMutex mutexForChainType;
 
@@ -26,8 +24,7 @@ public:
         ,startChainTypes(DataDefine::TEST | DataDefine::FORMAL)
         ,chainClass(DataDefine::HX)
         ,themeStyle(DataDefine::Black_Theme)
-        ,testManager(nullptr)
-        ,formalManager(nullptr)
+        ,backStageManager(nullptr)
         ,compileManager(new CompileManager())
     {
 
@@ -39,15 +36,10 @@ public:
             delete configFile;
             configFile = nullptr;
         }
-        if(testManager)
+        if(backStageManager)
         {
-            delete testManager;
-            testManager = nullptr;
-        }
-        if(formalManager)
-        {
-            delete formalManager;
-            formalManager = nullptr;
+            delete backStageManager;
+            backStageManager = nullptr;
         }
         if(compileManager)
         {
@@ -60,15 +52,13 @@ public:
     QSettings *configFile;//配置文件
     QString appDataPath;//系统环境变量的appdatapath
 
-    BackStageBase *testManager;
-    BackStageBase *formalManager;
-
     DataDefine::ChainType chainType;//链类型1==测试 2==正式
     DataDefine::BlockChainClass chainClass;//链类ub hx等
     DataDefine::ThemeStyle themeStyle;//主题
     DataDefine::ChainTypes startChainTypes;//配置文件的启动链类型
 
     CompileManager *compileManager;//编译器
+    BackStageManager *backStageManager;//后台
 };
 
 ChainIDE *ChainIDE::getInstance()
@@ -104,16 +94,9 @@ ChainIDE::CGarbo ChainIDE::Garbo;
 
 void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
 {
-    switch (getCurrentChainType())
+    if(_p->backStageManager)
     {
-    case DataDefine::TEST:
-        emit rpcPosted(_rpcId,_rpcCmd);
-        break;
-    case DataDefine::FORMAL:
-        emit rpcPostedFormal(_rpcId,_rpcCmd);
-        break;
-    default:
-        break;
+        _p->backStageManager->postRPC(_rpcId,_rpcCmd,getCurrentChainType());
     }
 }
 
@@ -208,17 +191,12 @@ void ChainIDE::setStartChainTypes(DataDefine::ChainTypes ty)
     }
 }
 
-BackStageBase *ChainIDE::testManager() const
+BackStageManager * const ChainIDE::getBackStageManager() const
 {
-    return _p->testManager;
+    return _p->backStageManager;
 }
 
-BackStageBase *ChainIDE::formalManager() const
-{
-    return _p->formalManager;
-}
-
-CompileManager *ChainIDE::getCompileManager() const
+CompileManager *const ChainIDE::getCompileManager() const
 {
     return _p->compileManager;
 }
@@ -247,65 +225,6 @@ void ChainIDE::refreshTranslator()
     QTranslator*  translator = new QTranslator();
     translator->load(getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm");
     QApplication::installTranslator(translator);
-}
-
-void ChainIDE::startExe()
-{
-    //不启动
-    if(getStartChainTypes() == DataDefine::NONE)
-    {
-        emit startExeFinish();
-        return ;
-    }
-
-    //启动后台
-    if(getStartChainTypes() & DataDefine::TEST)
-    {
-        connect(testManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
-        testManager()->startExe(getConfigAppDataPath());
-    }
-    if(getStartChainTypes() & DataDefine::FORMAL)
-    {
-        connect(formalManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
-        formalManager()->startExe(getConfigAppDataPath());
-    }
-}
-
-void ChainIDE::exeStartedSlots()
-{
-    bool test = false;
-    bool formal = false;
-    if(getStartChainTypes() & DataDefine::TEST)
-    {
-        if(testManager()->exeRunning())
-        {
-            test = true;
-            disconnect(testManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
-        }
-    }
-    else
-    {
-        test = true;
-    }
-
-    if(!test) return;
-
-    if(getStartChainTypes() & DataDefine::FORMAL)
-    {
-        if(formalManager()->exeRunning())
-        {
-          formal = true;
-          disconnect(formalManager(),&BackStageBase::exeStarted,this,&ChainIDE::exeStartedSlots);
-        }
-    }
-    else
-    {
-        formal = true;
-    }
-
-    if(!formal) return;
-
-    emit startExeFinish();
 }
 
 void ChainIDE::InitConfig()
@@ -382,39 +301,8 @@ void ChainIDE::InitConfig()
 
 void ChainIDE::InitExeManager()
 {
-    if(getChainClass() == DataDefine::HX)
-    {
-        if(getStartChainTypes() & DataDefine::TEST)
-        {
-            _p->testManager = new LinkBackStage(1);
-        }
-        if(getStartChainTypes() & DataDefine::FORMAL)
-        {
-            _p->formalManager = new LinkBackStage(2);
-        }
-    }
-    else if(getChainClass() == DataDefine::UB)
-    {
-        if(getStartChainTypes() & DataDefine::TEST)
-        {
-            _p->testManager = new UbtcBackStage(1);
-        }
-        if(getStartChainTypes() & DataDefine::FORMAL)
-        {
-            _p->formalManager = new UbtcBackStage(2);
-        }
-    }
-
-    if(_p->testManager)
-    {
-        connect(this,&ChainIDE::rpcPosted,_p->testManager,&BackStageBase::rpcPostedSlot);
-        connect(_p->testManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
-    }
-    if(_p->formalManager)
-    {
-        connect(this,&ChainIDE::rpcPostedFormal,_p->formalManager,&BackStageBase::rpcPostedSlot);
-        connect(_p->formalManager,&BackStageBase::rpcReceived,this,&ChainIDE::jsonDataUpdated);
-    }
+    _p->backStageManager = new BackStageManager(getChainClass(),getStartChainTypes(),getConfigAppDataPath());
+    connect(_p->backStageManager,&BackStageManager::jsonDataUpdated,this,&ChainIDE::jsonDataUpdated);
 }
 
 void ChainIDE::InitContractDir()

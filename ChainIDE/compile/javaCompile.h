@@ -2,8 +2,7 @@
 #define JAVACOMPILE_H
 
 #include "BaseCompile.h"
-
-#include <QProcess>
+//java编译器
 class javaCompile : public BaseCompile
 {
     Q_OBJECT

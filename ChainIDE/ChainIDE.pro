@@ -80,7 +80,8 @@ SOURCES += main.cpp\
     debugwidget/DebugWidget.cpp \
     LocalPeer.cpp \
     StatusBar.cpp \
-    filewidget/FileProxyModel.cpp
+    filewidget/FileProxyModel.cpp \
+    backstage/BackStageManager.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -149,7 +150,8 @@ HEADERS  += MainWindow.h \
     debugwidget/DebugWidget.h \
     LocalPeer.h \
     StatusBar.h \
-    filewidget/FileProxyModel.h
+    filewidget/FileProxyModel.h \
+    backstage/BackStageManager.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

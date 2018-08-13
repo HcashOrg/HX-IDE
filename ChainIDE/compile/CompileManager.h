@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QString>
-//编译器解决方案
+//编译器解决方案，外部调用编译器进行编译时，能且只能访问本类接口（对各类型编译器封装，隔离）
 class CompileManager : public QObject
 {
     Q_OBJECT

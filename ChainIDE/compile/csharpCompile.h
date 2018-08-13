@@ -2,7 +2,7 @@
 #define CSHARPCOMPILE_H
 
 #include "BaseCompile.h"
-
+//C#合约编译器
 class csharpCompile : public BaseCompile
 {
 public:
