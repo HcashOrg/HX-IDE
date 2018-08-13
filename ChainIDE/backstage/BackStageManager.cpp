@@ -54,7 +54,7 @@ BackStageManager::~BackStageManager()
     _p = nullptr;
 }
 
-void BackStageManager::postRPC(QString _rpcId, QString _rpcCmd, DataDefine::ChainType chainType)
+void BackStageManager::postRPC(const QString &_rpcId, const QString &_rpcCmd, DataDefine::ChainType chainType)
 {
     switch (chainType)
     {

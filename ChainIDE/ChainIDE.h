@@ -14,7 +14,7 @@ class ChainIDE : public QObject
     Q_OBJECT
 public:
 //数据发送
-    void postRPC(QString _rpcId, QString _rpcCmd);
+    void postRPC(const QString &_rpcId, const QString &_rpcCmd);
 //链类型
     DataDefine::ChainType getCurrentChainType()const;
     void setCurrentChainType(DataDefine::ChainType type);
@@ -57,7 +57,7 @@ public:
     ChainIDE(const ChainIDE &) = delete;
     void operator =(const ChainIDE &) = delete;
 private:
-    explicit ChainIDE(QObject *parent = 0);
+    explicit ChainIDE(QObject *parent = nullptr);
     static ChainIDE *_instance;
     class CGarbo // 它的唯一工作就是在析构函数中删除实例（利用在程序退出时，全局变量会被析构的特性）
     {

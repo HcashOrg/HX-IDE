@@ -18,7 +18,7 @@ signals:
     void closeBackStageFinish();//后台关闭完成
 public:
     //数据发送
-    void postRPC(QString _rpcId, QString _rpcCmd, DataDefine::ChainType chainType);
+    void postRPC(const QString &_rpcId, const QString &_rpcCmd, DataDefine::ChainType chainType);
     //启动后台
     void startBackStage();
     //关闭后台，需要时间，所以单独实现

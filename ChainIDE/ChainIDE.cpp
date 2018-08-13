@@ -1,6 +1,6 @@
 #include "ChainIDE.h"
 
-#include <QMutex>
+#include <mutex>
 #include <QMap>
 #include <QSettings>
 #include <QProcess>
@@ -13,8 +13,7 @@
 #include "compile/CompileManager.h"
 #include "backstage/BackStageManager.h"
 
-static QMutex mutexForChainType;
-
+static std::mutex dataMutex;
 class ChainIDE::DataPrivate
 {
 public:
@@ -63,9 +62,13 @@ public:
 
 ChainIDE *ChainIDE::getInstance()
 {
-    if(_instance == nullptr)
+    if(nullptr == _instance)
     {
-        _instance = new ChainIDE();
+        std::lock_guard<std::mutex> loc(dataMutex);
+        if(nullptr == _instance)
+        {
+            _instance = new ChainIDE();
+        }
     }
     return _instance;
 }
@@ -92,7 +95,7 @@ ChainIDE::ChainIDE(QObject *parent)
 ChainIDE * ChainIDE::_instance = nullptr;
 ChainIDE::CGarbo ChainIDE::Garbo;
 
-void ChainIDE::postRPC(QString _rpcId, QString _rpcCmd)
+void ChainIDE::postRPC(const QString &_rpcId, const QString &_rpcCmd)
 {
     if(_p->backStageManager)
     {
@@ -107,9 +110,7 @@ DataDefine::ChainType ChainIDE::getCurrentChainType() const
 
 void ChainIDE::setCurrentChainType(DataDefine::ChainType type)
 {
-    mutexForChainType.lock();
     _p->chainType = type;
-    mutexForChainType.unlock();
 }
 
 QString ChainIDE::getEnvAppDataPath() const
