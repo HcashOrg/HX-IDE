@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     LocalPeer loc;
     if(!loc.IsAlreadyRunning())
     {
-        //qInstallMessageHandler(IDEUtil::myMessageOutput);
+        qInstallMessageHandler(IDEUtil::myMessageOutput);
         ChainIDE::getInstance();
         MainWindow w;
         QObject::connect(&loc,&LocalPeer::newConnection,&w,&MainWindow::activateWindow);

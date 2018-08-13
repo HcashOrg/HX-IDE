@@ -1,10 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include <QTimer>
-#include <QThread>
-#include <QSettings>
-#include <QSplitter>
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QTabBar>
