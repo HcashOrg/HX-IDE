@@ -95,19 +95,26 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
 
     QStringList paramaters = ui->consoleLineEdit->text().simplified().split(' ');
     QString command = paramaters.at(0);
-    paramaters.removeFirst();
+    paramaters.removeFirst();    
 
     QJsonArray array;
-    foreach (QString param, paramaters)
+
+    if(!paramaters.empty())
     {
-        if(param.startsWith("[") && param.endsWith("]"))
-        {            
-            array = QJsonDocument::fromJson(param.toLatin1()).array();
-            break;
+        if(1 == paramaters.size() && paramaters.first().startsWith("[") && paramaters.first().endsWith("]"))
+        {
+            array = QJsonDocument::fromJson(paramaters.first().toLatin1()).array();
         }
         else
         {
-            array << param;
+            QString data = "[";
+            foreach (QString param, paramaters)
+            {
+                data.append(param).append(",");
+            }
+            data.remove(data.length()-1,1);
+            data.append("]");
+            array = QJsonDocument::fromJson(data.toLatin1()).array();
         }
     }
 
