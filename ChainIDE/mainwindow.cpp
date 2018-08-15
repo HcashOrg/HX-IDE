@@ -473,6 +473,7 @@ void MainWindow::on_changeChainAction_triggered()
         {
             ChainIDE::getInstance()->setCurrentChainType(DataDefine::TEST);
         }
+        //切换到正式链时，输入密码11111111
 //        PasswordVerifyWidgetHX password;
 //        if(!password.pop())
 //        {

@@ -37,9 +37,10 @@ bool FileProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
     }
     else if(fileInfo.isFile() )
     {
-        if(fileInfo.suffix() == DataDefine::GLUA_SUFFIX || fileInfo.suffix() == DataDefine::JAVA_SUFFIX ||
+        if(source_parent != fileModel->index(fileModel->rootPath()) &&
+           (fileInfo.suffix() == DataDefine::GLUA_SUFFIX || fileInfo.suffix() == DataDefine::JAVA_SUFFIX ||
            fileInfo.suffix() == DataDefine::KOTLIN_SUFFIX || fileInfo.suffix() == DataDefine::CSHARP_SUFFIX ||
-           fileInfo.suffix() == DataDefine::CONTRACT_SUFFIX)
+           fileInfo.suffix() == DataDefine::CONTRACT_SUFFIX))
         {
             return true;
         }
