@@ -3,7 +3,7 @@
 
 #include "RequireBase.h"
 #include <QAbstractSocket>
-
+//websocket请求，接收内容需要为完整json
 class websocketRequire : public RequireBase
 {
     Q_OBJECT

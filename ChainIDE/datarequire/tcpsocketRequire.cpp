@@ -44,7 +44,7 @@ void tcpsocketRequire::postData(const QString &data)
 {
     if(!isConnected())
     {
-        qDebug()<<"tcpsocket not connect to "<<getConnectPort();
+        qDebug()<<"tcpsocket not connect to "<<getConnectIP()<<":"<<getConnectPort();
         return;
     }
 
@@ -62,16 +62,14 @@ void tcpsocketRequire::postData(const QString &data)
         // 判断是否接收到一个完整的json  完整的就退出read循环
         QJsonParseError json_error;
         QJsonDocument::fromJson(receive.toLatin1(), &json_error);
-        if(json_error.error == QJsonParseError::NoError)
+        if(QJsonParseError::NoError == json_error.error)
         {
             break;
         }
 
     }while(1);
 
-    QString result = receive.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
-    result = result.left( result.size() - 1);
-    emit receiveData(result);
+    emit receiveData(receive);
 }
 
 void tcpsocketRequire::startConnect()
@@ -87,7 +85,7 @@ void tcpsocketRequire::startConnect()
 
 bool tcpsocketRequire::isConnected()const
 {
-    return _p->socket->state() == QAbstractSocket::ConnectedState;
+    return  QAbstractSocket::ConnectedState == _p->socket->state();
 }
 
 void tcpsocketRequire::Init()

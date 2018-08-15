@@ -67,11 +67,7 @@ void httpRequire::setRawHeader(const QByteArray &headerName, const QByteArray &v
 
 void httpRequire::requestFinished(QNetworkReply *reply)
 {
-    QString res = reply->readAll();
-    int index = res.indexOf(",\"error\":");
-    QString result = res.mid(0,index) + "}";
-    emit receiveData(result);
-
+    emit receiveData(reply->readAll());
     reply->deleteLater();
 }
 

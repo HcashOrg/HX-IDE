@@ -2,8 +2,7 @@
 #define DATAREQUIREMANAGER_H
 
 #include <QObject>
-//数据对外请求封装，任何对外的数据请求都通过本类，，
-//有变动的仅为requirebase链接类，，例如使用websocketrequire类链接、或者使用其他链接方式
+//数据对外请求封装，任何对外的数据请求都通过本类，底层封装()
 class DataRequireManager : public QObject
 {
     Q_OBJECT

@@ -197,7 +197,7 @@ void LinkBackStage::onClientExeStateChanged()
 
 void LinkBackStage::initSocketManager()
 {
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&LinkBackStage::rpcReceivedSlot);
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
 
     _p->dataRequire->startManager(DataRequireManager::WEBSOCKET);
@@ -206,4 +206,13 @@ void LinkBackStage::initSocketManager()
 void LinkBackStage::rpcPostedSlot(const QString & id, const QString & cmd)
 {
     _p->dataRequire->requirePosted(id,cmd);
+}
+
+void LinkBackStage::rpcReceivedSlot(const QString &id, const QString &message)
+{
+    QString result = message.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
+    result = result.left( result.size() - 1);
+    result.prepend("{");
+    result.append("}");
+    emit rpcReceived(id,result);
 }

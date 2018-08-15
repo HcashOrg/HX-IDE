@@ -21,6 +21,8 @@ signals:
     void rpcReceived(const QString &,const QString &);
 public slots:
     virtual void rpcPostedSlot(const QString &,const QString &) = 0;
+protected slots:
+    virtual void rpcReceivedSlot(const QString &id,const QString &message) = 0;
 };
 
 #endif // BACKSTAGEBASE_H

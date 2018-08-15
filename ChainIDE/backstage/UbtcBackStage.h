@@ -17,6 +17,8 @@ public:
     void ReadyClose()override final;
 public slots:
     void rpcPostedSlot(const QString &,const QString &)override final;
+protected slots:
+    virtual void rpcReceivedSlot(const QString &id,const QString &message)override final;
 private slots:
     void onNodeExeStateChanged();
 

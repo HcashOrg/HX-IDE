@@ -148,6 +148,13 @@ void UbtcBackStage::rpcPostedSlot(const QString &cmd, const QString & param)
     _p->dataRequire->requirePosted(cmd,param);
 }
 
+void UbtcBackStage::rpcReceivedSlot(const QString &id, const QString &message)
+{
+    int index = message.indexOf(",\"error\":");
+    QString result = message.mid(0,index) + "}";
+    emit rpcReceived(id,result);
+}
+
 void UbtcBackStage::onNodeExeStateChanged()
 {
     if(_p->nodeProc->state() == QProcess::Starting)
@@ -172,7 +179,7 @@ void UbtcBackStage::onNodeExeStateChanged()
 
 void UbtcBackStage::initSocketManager()
 {
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&BackStageBase::rpcReceived);
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::rpcReceivedSlot);
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
 
     _p->dataRequire->setAdditional("Authorization","Basic YTpi");

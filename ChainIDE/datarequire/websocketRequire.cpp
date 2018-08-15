@@ -1,5 +1,6 @@
 #include "websocketRequire.h"
 
+#include <mutex>
 #include <QWebSocket>
 class websocketRequire::DataPrivate
 {
@@ -12,6 +13,7 @@ public:
 public:
     QWebSocket *m_webSocket;
     QString m_buff;
+    std::mutex buffMutex;
 };
 
 
@@ -37,7 +39,10 @@ void websocketRequire::postData(const QString &data)
         qDebug()<<"websocket not connect to "<<getConnectPort();
         return;
     }
-    _p->m_buff.clear();
+    {
+        std::lock_guard<std::mutex> loc(_p->buffMutex);
+        _p->m_buff.clear();
+    }
     _p->m_webSocket->sendTextMessage(data);
 }
 
@@ -53,15 +58,15 @@ bool websocketRequire::isConnected()const
 
 void websocketRequire::onTextFrameReceived(QString _message, bool _isLastFrame)
 {
-    _p->m_buff += _message;
+    {
+        std::lock_guard<std::mutex> loc(_p->buffMutex);
+        _p->m_buff += _message;
+    }
 
     if(_isLastFrame)
     {
-        QString result = _p->m_buff.mid( QString("{\"id\":32800,\"jsonrpc\":\"2.0\",").size());
-        result = result.left( result.size() - 1);
-        result.prepend("{");
-        result.append("}");
-        emit receiveData(result);
+        emit receiveData(_p->m_buff);
+        std::lock_guard<std::mutex> loc(_p->buffMutex);
         _p->m_buff.clear();
     }
 }

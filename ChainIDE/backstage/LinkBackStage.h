@@ -21,6 +21,8 @@ private slots:
     void onClientExeStateChanged();
 public slots:
     void rpcPostedSlot(const QString &,const QString &)override final;
+protected slots:
+    virtual void rpcReceivedSlot(const QString &id,const QString &message)override final;
 private:
     void initSocketManager();
 private:
