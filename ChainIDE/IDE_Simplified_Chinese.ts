@@ -575,6 +575,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">删除</translation>
     </message>
     <message>
+        <location filename="control/contextmenu.cpp" line="86"/>
+        <source>Show In Explorer</source>
+        <translation type="unfinished">在Explorer中显示</translation>
+    </message>
+    <message>
         <location filename="control/contextmenu.cpp" line="62"/>
         <source>Import Contract</source>
         <translation type="unfinished">导入合约</translation>
@@ -767,6 +772,44 @@ p, li { white-space: pre-wrap; }
         <location filename="contentwidget/Editor.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditorContextMenu</name>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="14"/>
+        <source>撤销</source>
+        <translation type="unfinished">撤销</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="19"/>
+        <source>恢复</source>
+        <translation type="unfinished">恢复</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="26"/>
+        <source>剪切</source>
+        <translation type="unfinished">剪切</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="31"/>
+        <source>复制</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="36"/>
+        <source>粘贴</source>
+        <translation type="unfinished">粘贴</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="41"/>
+        <source>删除</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <location filename="control/editorcontextmenu.cpp" line="48"/>
+        <source>选择全部</source>
+        <translation type="unfinished">选择全部</translation>
     </message>
 </context>
 <context>
@@ -1002,8 +1045,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LinkBackStage</name>
     <message>
-        <location filename="backstage/LinkBackStage.cpp" line="146"/>
-        <location filename="backstage/LinkBackStage.cpp" line="194"/>
+        <location filename="backstage/LinkBackStage.cpp" line="193"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
@@ -1220,7 +1262,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="469"/>
-        <location filename="MainWindow.cpp" line="608"/>
+        <location filename="MainWindow.cpp" line="585"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1326,7 +1368,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="159"/>
+        <location filename="MainWindow.cpp" line="157"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1355,42 +1397,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="165"/>
+        <location filename="MainWindow.cpp" line="163"/>
         <source>IDE-UB TEST CHAIN</source>
         <translation type="unfinished">IDE-UB测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="169"/>
+        <location filename="MainWindow.cpp" line="167"/>
         <source>IDE-HX TEST CHAIN</source>
         <translation type="unfinished">IDE-HX测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="176"/>
+        <location filename="MainWindow.cpp" line="174"/>
         <source>IDE-UB FORMAL CHAIN</source>
         <translation type="unfinished">IDE-UB正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="180"/>
+        <location filename="MainWindow.cpp" line="178"/>
         <source>IDE-HX FORMAL CHAIN</source>
         <translation type="unfinished">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="209"/>
+        <location filename="MainWindow.cpp" line="207"/>
         <source>请耐心等待程序自动关闭，不要关闭本窗口!</source>
         <translation type="unfinished">请耐心等待程序自动关闭，不要关闭本窗口!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="487"/>
+        <location filename="MainWindow.cpp" line="464"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="514"/>
+        <location filename="MainWindow.cpp" line="491"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="608"/>
+        <location filename="MainWindow.cpp" line="585"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
@@ -1975,9 +2017,13 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>UbtcBackStage</name>
     <message>
-        <location filename="backstage/UbtcBackStage.cpp" line="168"/>
         <source>Fail to launch %1 !</source>
-        <translation type="unfinished">加载%1失败！</translation>
+        <translation type="obsolete">加载%1失败！</translation>
+    </message>
+    <message>
+        <location filename="backstage/UbtcBackStage.cpp" line="175"/>
+        <source>Fail to launch ubcd %1 !</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

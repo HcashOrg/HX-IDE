@@ -101,6 +101,13 @@ void FileView::newFileSlots()
     }
 }
 
+void FileView::showInExplorerSlots()
+{
+    QString dirpath = getFilePathFromIndex(this->currentIndex());
+
+    IDEUtil::showInExplorer(dirpath);
+}
+
 void FileView::IndexClicked(const QModelIndex &index)
 {
     if(index.isValid())
@@ -172,11 +179,11 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
             if(info.suffix() == DataDefine::GLUA_SUFFIX || info.suffix() == DataDefine::JAVA_SUFFIX ||
                info.suffix() == DataDefine::CSHARP_SUFFIX || info.suffix() == DataDefine::KOTLIN_SUFFIX)
             {
-                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Compile,this);
+                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Compile | ContextMenu::Show,this);
             }
             else if(info.suffix() == DataDefine::CONTRACT_SUFFIX)
             {
-                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Export,this);
+                menu = new ContextMenu(ContextMenu::Delete | ContextMenu::Export | ContextMenu::Show,this);
             }
         }
         else if(info.isDir())
@@ -195,6 +202,7 @@ void FileView::contextMenuEvent(QContextMenuEvent *e)
         connect(menu,&ContextMenu::importTriggered,this,&FileView::importContractSlots);
         connect(menu,&ContextMenu::exportTriggered,this,&FileView::exportContractSlots);
         connect(menu,&ContextMenu::newFileTriggered,this,&FileView::newFileSlots);
+        connect(menu,&ContextMenu::showInExplorer,this,&FileView::showInExplorerSlots);
         menu->exec(QCursor::pos());
     }
 

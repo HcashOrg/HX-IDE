@@ -33,6 +33,9 @@ public:
 
     //qDebug导出
     static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+
+    //在文件夹中选中文件
+    static void showInExplorer(const QString &filePath);
 private:
     IDEUtil();
 };

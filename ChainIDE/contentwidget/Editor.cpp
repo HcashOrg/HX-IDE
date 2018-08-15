@@ -254,13 +254,13 @@ bool Editor::eventFilter(QObject *watched, QEvent *e)
                                              mimeData->hasText(),!selectedText.isEmpty());
             }
 
-            connect(menu,SIGNAL(undoTriggered()),this,SLOT(undo()));
-            connect(menu,SIGNAL(redoTriggered()),this,SLOT(redo()));
-            connect(menu,SIGNAL(cutTriggered()),this,SLOT(cut()));
-            connect(menu,SIGNAL(copyTriggered()),this,SLOT(copy()));
-            connect(menu,SIGNAL(pasteTriggered()),this,SLOT(paste()));
-            connect(menu,SIGNAL(deleteTriggered()),this,SLOT(deleteText()));
-            connect(menu,SIGNAL(selectAllTriggered()),this,SLOT(selectAll()));
+            connect(menu,&EditorContextMenu::undoTriggered,this,&Editor::undo);
+            connect(menu,&EditorContextMenu::redoTriggered,this,&Editor::redo);
+            connect(menu,&EditorContextMenu::cutTriggered,this,&Editor::cut);
+            connect(menu,&EditorContextMenu::copyTriggered,this,&Editor::copy);
+            connect(menu,&EditorContextMenu::pasteTriggered,this,&Editor::paste);
+            connect(menu,&EditorContextMenu::deleteTriggered,this,&Editor::deleteText);
+            connect(menu,&EditorContextMenu::selectAllTriggered,this,&Editor::selectAll);
 
             menu->exec(QCursor::pos());
             delete menu;

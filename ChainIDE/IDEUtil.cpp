@@ -13,6 +13,9 @@
 #include <QDateTime>
 #include <QFile>
 #include <QMutex>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QProcess>
 
 QString IDEUtil::toJsonFormat(const QString &instruction, const QJsonArray & parameters)
 {
@@ -250,6 +253,32 @@ void IDEUtil::myMessageOutput(QtMsgType type, const QMessageLogContext &context,
 
     // 解锁
     mutex.unlock();
+}
+
+void IDEUtil::showInExplorer(const QString &filePath)
+{
+    if(QFileInfo(filePath).isDir())
+    {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+        return;
+    }
+
+#ifdef _WIN32
+    QStringList args;
+    args << "/select," << QDir::toNativeSeparators(filePath);
+    QProcess::startDetached("explorer", args);
+#elif TARGET_OS_MAC
+    QStringList args;
+    args << "-e";
+    args << "tell application \"Finder\"";
+    args << "-e";
+    args << "activate";
+    args << "-e";
+    args << "select POSIX file \""+filePath+"\"";
+    args << "-e";
+    args << "end tell";
+    QProcess::startDetached("osascript", args);
+#endif
 }
 
 IDEUtil::IDEUtil()
