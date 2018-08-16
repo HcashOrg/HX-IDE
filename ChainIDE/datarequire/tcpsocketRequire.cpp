@@ -2,9 +2,6 @@
 
 #include <QHostAddress>
 #include <QTcpSocket>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonParseError>
 
 class tcpsocketRequire::DataPrivate
 {
@@ -18,6 +15,7 @@ public:
     {
         if(socket)
         {
+            socket->close();
             delete socket;
             socket = nullptr;
         }
