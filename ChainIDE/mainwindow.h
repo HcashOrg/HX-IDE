@@ -7,7 +7,7 @@
 namespace Ui {
 class MainWindow;
 }
-
+//程序主窗口，进行一些业务逻辑，功能性代码分到各个模块中执行
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

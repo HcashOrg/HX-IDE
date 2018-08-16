@@ -16,6 +16,7 @@ public:
 	}
 	~DataPrivate()
 	{
+        localServer->close();
 		delete localServer;
 		localServer = nullptr;
 	}
