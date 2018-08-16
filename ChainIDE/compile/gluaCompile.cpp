@@ -109,7 +109,7 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 
 void gluaCompile::onReadStandardOutput()
 {
-
+    emit CompileOutput(QString::fromLocal8Bit(getCompileProcess()->readAll()));
 }
 
 void gluaCompile::onReadStandardError()

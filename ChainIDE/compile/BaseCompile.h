@@ -17,9 +17,9 @@ public:
     virtual void startCompileFile(const QString &sourceFilePath) = 0;
 
 protected slots:
-    virtual void finishCompile(int exitcode,QProcess::ExitStatus exitStatus);
-    virtual void onReadStandardOutput();
-    virtual void onReadStandardError();
+    virtual void finishCompile(int exitcode,QProcess::ExitStatus exitStatus) = 0;
+    virtual void onReadStandardOutput() = 0;
+    virtual void onReadStandardError() = 0;
 protected:
     QProcess *getCompileProcess()const;
 private:

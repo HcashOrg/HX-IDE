@@ -33,21 +33,6 @@ BaseCompile::~BaseCompile()
     delete _p;
 }
 
-void BaseCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
-{
-
-}
-
-void BaseCompile::onReadStandardOutput()
-{
-    //emit CompileOutput(QString::fromLocal8Bit(_p->compileProcess->readAllStandardOutput()));
-}
-
-void BaseCompile::onReadStandardError()
-{
-    //emit CompileOutput(QString::fromLocal8Bit(_p->compileProcess->readAllStandardError()));
-}
-
 QProcess *BaseCompile::getCompileProcess() const
 {
     return _p->compileProcess;
