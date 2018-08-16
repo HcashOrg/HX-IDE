@@ -2,7 +2,7 @@
 #define DATAREQUIREMANAGER_H
 
 #include <QObject>
-//数据对外请求封装，任何对外的数据请求都通过本类，底层封装()
+//数据对外请求封装，任何对外的数据请求都通过本类，(底层封装，线程安全，请求阻塞==上次请求返回或者过期后才会进行下一次请求==过期时间1分钟)
 class DataRequireManager : public QObject
 {
     Q_OBJECT

@@ -4,7 +4,7 @@
 
 #include "RequireBase.h"
 #include <QAbstractSocket>
-//tcp请求，接收内容需要为完整的json
+//tcp请求
 class tcpsocketRequire : public RequireBase
 {
     Q_OBJECT

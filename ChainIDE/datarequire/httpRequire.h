@@ -3,7 +3,7 @@
 
 #include "RequireBase.h"
 #include <QNetworkReply>
-//http请求，接收内容最好为完整json
+//http请求
 class httpRequire : public RequireBase
 {
     Q_OBJECT
