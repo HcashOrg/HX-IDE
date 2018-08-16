@@ -1,7 +1,6 @@
 #include "ChainIDE.h"
 
 #include <mutex>
-#include <QMap>
 #include <QSettings>
 #include <QProcess>
 #include <QCoreApplication>
