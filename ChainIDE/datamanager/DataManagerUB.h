@@ -30,7 +30,9 @@ public:
     ~DataManagerUB();
 public:
     DataManagerUB(const DataManagerUB &)=delete;
-    void operator =(const DataManagerUB &) = delete;
+    DataManagerUB( DataManagerUB &&)=delete;
+    DataManagerUB& operator =(const DataManagerUB &) = delete;
+    DataManagerUB& operator =( DataManagerUB &&) = delete;
 private:
     explicit DataManagerUB(QObject *parent = 0);
     static DataManagerUB *_instance;

@@ -12,9 +12,11 @@ public:
     explicit tcpsocketRequire(const QString &ip,const QString & port,QObject *parent = 0);
     virtual ~tcpsocketRequire();
 public:
-    virtual void postData(const QString &data) override final;
-    virtual void startConnect() override final;
-    virtual bool isConnected()const override final;
+    void postData(const QString &data) override final;
+    void startConnect() override final;
+    bool isConnected()const override final;
+private slots:
+    void readyReadSlots();
 private:
     void Init();
 private:

@@ -22,7 +22,7 @@ private slots:
 public slots:
     void rpcPostedSlot(const QString &,const QString &)override final;
 protected slots:
-    virtual void rpcReceivedSlot(const QString &id,const QString &message)override final;
+    void rpcReceivedSlot(const QString &id,const QString &message)override final;
 private:
     void initSocketManager();
 private:

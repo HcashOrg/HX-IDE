@@ -10,11 +10,11 @@ public:
     explicit gluaCompile(QObject *parent = 0);
     virtual ~gluaCompile();
 public:
-    void startCompileFile(const QString &sourceFilePath);
+    void startCompileFile(const QString &sourceFilePath)override final;
 protected slots:
-    virtual void finishCompile(int exitcode,QProcess::ExitStatus exitStatus);
-    virtual void onReadStandardOutput();
-    virtual void onReadStandardError();
+    void finishCompile(int exitcode,QProcess::ExitStatus exitStatus)override final;
+    void onReadStandardOutput()override final;
+    void onReadStandardError()override final;
 private:
     void initConfig(const QString &sourceFilePath);
 private:

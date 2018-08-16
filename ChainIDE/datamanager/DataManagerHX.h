@@ -35,7 +35,9 @@ public:
     ~DataManagerHX();
 public:
     DataManagerHX(const DataManagerHX &)=delete;
-    void operator =(const DataManagerHX &) = delete;
+    DataManagerHX(DataManagerHX &&)=delete;
+    DataManagerHX& operator =(DataManagerHX &&) = delete;
+    DataManagerHX& operator =(const DataManagerHX &) = delete;
 private:
     explicit DataManagerHX(QObject *parent = 0);
     static DataManagerHX *_instance;

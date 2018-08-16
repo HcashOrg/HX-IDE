@@ -69,7 +69,7 @@ DataRequireManager::~DataRequireManager()
 
 void DataRequireManager::requirePosted(const QString &_rpcId, const QString & _rpcCmd)
 {
-    std::lock_guard<std::mutex> loc1(_p->dataMutex);
+    std::lock_guard<std::mutex> loc(_p->dataMutex);
     _p->pendingRpcs.append(_rpcId + SPLITFLAG + _rpcCmd);
 }
 
@@ -78,7 +78,7 @@ void DataRequireManager::receiveResponse(const QString &message)
     QString id = _p->pendingRpcs.empty()?"":_p->pendingRpcs.at(0).split(SPLITFLAG).at(0);
 
     {
-        std::lock_guard<std::mutex> loc2(_p->dataMutex);
+        std::lock_guard<std::mutex> loc(_p->dataMutex);
         _p->isBusy = false;
         _p->loopNumber = 0;
         if(!_p->pendingRpcs.empty())
@@ -86,10 +86,8 @@ void DataRequireManager::receiveResponse(const QString &message)
             _p->pendingRpcs.removeFirst();
         }
     }
-    if(!id.isEmpty())
-    {
-        emit requireResponse(id,message);
-    }
+
+    emit requireResponse(id,message);
 }
 
 void DataRequireManager::requireClear()

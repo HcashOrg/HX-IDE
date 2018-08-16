@@ -9,11 +9,11 @@ class websocketRequire : public RequireBase
     Q_OBJECT
 public:
     explicit websocketRequire(const QString &ip,const QString & connectPort,QObject *parent = 0);
-    ~websocketRequire();
+    virtual ~websocketRequire();
 public:
-    virtual void postData(const QString &data) override final;
-    virtual void startConnect() override final;
-    virtual bool isConnected()const override final;
+    void postData(const QString &data) override final;
+    void startConnect() override final;
+    bool isConnected()const override final;
 
 private slots:
     void onTextFrameReceived(QString,bool);

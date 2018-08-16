@@ -55,7 +55,9 @@ public:
     ~ChainIDE();
 public:
     ChainIDE(const ChainIDE &) = delete;
-    void operator =(const ChainIDE &) = delete;
+    ChainIDE(ChainIDE &&) = delete;
+    ChainIDE& operator =(const ChainIDE &) = delete;
+    ChainIDE& operator =(ChainIDE &&) = delete;
 private:
     explicit ChainIDE(QObject *parent = nullptr);
     static ChainIDE *_instance;

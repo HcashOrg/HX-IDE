@@ -9,11 +9,11 @@ public:
     explicit csharpCompile(QObject *parent = 0);
     ~csharpCompile();
 public:
-    void startCompileFile(const QString &sourceFilePath);
+    void startCompileFile(const QString &sourceFilePath)override final;
 protected slots:
-    virtual void finishCompile(int exitcode,QProcess::ExitStatus exitStatus);
-    virtual void onReadStandardOutput();
-    virtual void onReadStandardError();
+    void finishCompile(int exitcode,QProcess::ExitStatus exitStatus)override final;
+    void onReadStandardOutput()override final;
+    void onReadStandardError()override final;
 private:
     void generateDllFile();
     void generateContractFile();
