@@ -161,9 +161,11 @@ void DataRequireManager::processRequire()
 
     if(_p->isBusy || _p->pendingRpcs.empty()) return;
 
-    _p->isBusy = true;
-    QStringList rpc = _p->pendingRpcs.at(0).split(SPLITFLAG);
-    _p->requireBase->postData(rpc.at(1));
+    {
+        std::lock_guard<std::mutex> loc(_p->dataMutex);
+        _p->isBusy = true;
+    }
+    _p->requireBase->postData(_p->pendingRpcs.at(0).split(SPLITFLAG).at(1));
 }
 
 void DataRequireManager::InitManager()
