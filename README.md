@@ -9,7 +9,7 @@ Both test and formal chain provided.
 ## Build & Install
 
 Build from source require qt5.7 or later.
-This will generate the executable file Copy and ChainIDE. Copy both to the mainfile.
+This will generate the executable file Copy and ChainIDE. Copy both to the main folder.
 
 ### Update
 
