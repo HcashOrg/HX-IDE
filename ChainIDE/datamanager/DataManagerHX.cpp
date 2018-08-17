@@ -12,7 +12,7 @@
 
 #include "ChainIDE.h"
 #include "IDEUtil.h"
-using namespace DataDefine;
+using namespace DataManagerStruct;
 
 class DataManagerHX::DataPrivate
 {
@@ -24,8 +24,8 @@ public:
 
     }
 public:
-    DataDefine::AccountHX::AccountDataPtr accountData;
-    DataDefine::AddressContractDataPtr contractData;
+    DataManagerStruct::AccountHX::AccountDataPtr accountData;
+    DataManagerStruct::AddressContractDataPtr contractData;
 };
 
 DataManagerHX *DataManagerHX::getInstance()
@@ -60,7 +60,7 @@ void DataManagerHX::queryAccount()
     ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("list_my_accounts",QJsonArray()));
 }
 
-const DataDefine::AccountHX::AccountDataPtr &DataManagerHX::getAccount() const
+const DataManagerStruct::AccountHX::AccountDataPtr &DataManagerHX::getAccount() const
 {
     return _p->accountData;
 }

@@ -12,7 +12,7 @@
 
 #include "ChainIDE.h"
 #include "IDEUtil.h"
-using namespace DataDefine;
+using namespace DataManagerStruct;
 
 class DataManagerUB::DataPrivate
 {
@@ -23,7 +23,7 @@ public:
 
     }
 public:
-    DataDefine::AccountUB::AccountDataPtr accountData;
+    DataManagerStruct::AccountUB::AccountDataPtr accountData;
 };
 
 DataManagerUB *DataManagerUB::getInstance()
@@ -58,7 +58,7 @@ void DataManagerUB::queryAccount()
     ChainIDE::getInstance()->postRPC("query-listaccounts",IDEUtil::toJsonFormat("listaccounts",QJsonArray()));
 }
 
-const DataDefine::AccountUB::AccountDataPtr &DataManagerUB::getAccount() const
+const DataManagerStruct::AccountUB::AccountDataPtr &DataManagerUB::getAccount() const
 {
     return _p->accountData;
 }

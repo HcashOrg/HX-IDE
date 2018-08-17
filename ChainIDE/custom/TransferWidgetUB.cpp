@@ -90,7 +90,7 @@ void TransferWidgetUB::InitWidget()
 
 void TransferWidgetUB::InitComboBox()
 {
-    DataDefine::AccountUB::AccountDataPtr accounts = DataManagerUB::getInstance()->getAccount();
+    DataManagerStruct::AccountUB::AccountDataPtr accounts = DataManagerUB::getInstance()->getAccount();
     for(auto it = accounts->getAccount().begin();it != accounts->getAccount().end();++it)
     {
         ui->comboBox->addItem((*it)->getAccountName(),(*it)->getTotalBalance());

@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QDebug>
 
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
@@ -82,7 +83,7 @@ void CallContractWidgetHX::InitWidget()
 
 void CallContractWidgetHX::InitAccountAddress()
 {
-    DataDefine::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
+    DataManagerStruct::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {
         ui->callAddress->addItem((*it)->getAccountName());
@@ -95,7 +96,7 @@ void CallContractWidgetHX::InitAccountAddress()
 void CallContractWidgetHX::InitContractAddress()
 {
 
-    DataDefine::AddressContractDataPtr data = DataManagerHX::getInstance()->getContract();
+    DataManagerStruct::AddressContractDataPtr data = DataManagerHX::getInstance()->getContract();
 
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);

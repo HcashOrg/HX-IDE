@@ -1,6 +1,7 @@
 #include "BackStageManager.h"
 
 #include <QTimer>
+#include <QDebug>
 #include "BackStageBase.h"
 #include "LinkBackStage.h"
 #include "UbtcBackStage.h"

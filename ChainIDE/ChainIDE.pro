@@ -81,7 +81,8 @@ SOURCES += main.cpp\
     LocalPeer.cpp \
     StatusBar.cpp \
     filewidget/FileProxyModel.cpp \
-    backstage/BackStageManager.cpp
+    backstage/BackStageManager.cpp \
+    datamanager/DataManagerStruct.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -151,7 +152,8 @@ HEADERS  += MainWindow.h \
     LocalPeer.h \
     StatusBar.h \
     filewidget/FileProxyModel.h \
-    backstage/BackStageManager.h
+    backstage/BackStageManager.h \
+    datamanager/DataManagerStruct.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

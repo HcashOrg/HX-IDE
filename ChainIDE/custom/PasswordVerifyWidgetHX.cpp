@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
+#include <QDebug>
 
 #include "ChainIDE.h"
 #include "IDEUtil.h"

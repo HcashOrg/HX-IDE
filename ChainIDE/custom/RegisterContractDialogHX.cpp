@@ -100,7 +100,7 @@ void RegisterContractDialogHX::InitWidget()
 
 void RegisterContractDialogHX::InitAccountAddress()
 {
-    DataDefine::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
+    DataManagerStruct::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
 
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {

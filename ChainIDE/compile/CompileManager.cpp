@@ -1,5 +1,6 @@
 #include "CompileManager.h"
 
+#include <QDebug>
 #include "gluaCompile.h"
 #include "javaCompile.h"
 #include "csharpCompile.h"

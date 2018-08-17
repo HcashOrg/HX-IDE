@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QDebug>
 
 #include "ChainIDE.h"
 #include "datamanager/DataManagerUB.h"
@@ -90,7 +91,7 @@ void CallContractWidgetUB::InitAccountAddress()
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);
 
-    DataDefine::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
+    DataManagerStruct::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
     int number = 0;
     QString currentText;
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
@@ -118,7 +119,7 @@ void CallContractWidgetUB::InitAccountAddress()
 void CallContractWidgetUB::InitContractAddress()
 {
 
-    DataDefine::AddressContractDataPtr data = std::make_shared<DataDefine::AddressContractData>();
+    DataManagerStruct::AddressContractDataPtr data = std::make_shared<DataManagerStruct::AddressContractData>();
     QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,data);
     QTreeWidget *tree = new QTreeWidget(this);

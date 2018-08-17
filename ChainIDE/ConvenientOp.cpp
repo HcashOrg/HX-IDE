@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QTextStream>
+#include <QDebug>
 
 #include "popwidget/commondialog.h"
 #include "IDEUtil.h"
@@ -46,10 +48,10 @@ void ConvenientOp::MoveWidgetCenter(QWidget *widget)
     widget->move((QGuiApplication::primaryScreen()->size().width() - widget->width())/2,(QGuiApplication::primaryScreen()->size().height() - widget->height())/2);
 }
 
-bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::AddressContractDataPtr &results)
+bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataManagerStruct::AddressContractDataPtr &results)
 {
     //解析json文档
-    if (!results) results = std::make_shared<DataDefine::AddressContractData>();
+    if (!results) results = std::make_shared<DataManagerStruct::AddressContractData>();
     results->clear();
 
     QFile contractFile(filePath);
@@ -86,7 +88,7 @@ bool ConvenientOp::ReadContractFromFile(const QString &filePath, DataDefine::Add
 
 void ConvenientOp::AddContract(const QString &owneraddr, const QString &contractaddr, const QString &contractname)
 {
-    DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
+    DataManagerStruct::AddressContractDataPtr contractData = std::make_shared<DataManagerStruct::AddressContractData>();
     QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->AddContract(owneraddr, contractaddr,contractname);
@@ -95,22 +97,22 @@ void ConvenientOp::AddContract(const QString &owneraddr, const QString &contract
 
 void ConvenientOp::DeleteContract(const QString &ownerOrcontract)
 {
-    DataDefine::AddressContractDataPtr contractData = std::make_shared<DataDefine::AddressContractData>();
+    DataManagerStruct::AddressContractDataPtr contractData = std::make_shared<DataManagerStruct::AddressContractData>();
     QString contractPath = ChainIDE::getInstance()->getCurrentChainType() == DataDefine::TEST? DataDefine::LOCAL_CONTRACT_TEST_PATH : DataDefine::LOCAL_CONTRACT_FORMAL_PATH;
     ConvenientOp::ReadContractFromFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
     contractData->DeleteContract(ownerOrcontract);
     ConvenientOp::WriteContractToFile(QCoreApplication::applicationDirPath()+QDir::separator()+contractPath,contractData);
 }
 
-bool ConvenientOp::WriteContractToFile(const QString &filePath, const DataDefine::AddressContractDataPtr &data)
+bool ConvenientOp::WriteContractToFile(const QString &filePath, const DataManagerStruct::AddressContractDataPtr &data)
 {
     if(!data) return false;
     //构建QJsonDocument
     QJsonObject mainObject;
-    foreach(DataDefine::AddressContractPtr ownerContract,data->getAllData())
+    foreach(DataManagerStruct::AddressContractPtr ownerContract,data->getAllData())
     {
         QJsonArray memberArr;
-        foreach(DataDefine::ContractInfoPtr cont,ownerContract->GetContracts())
+        foreach(DataManagerStruct::ContractInfoPtr cont,ownerContract->GetContracts())
         {
             QJsonObject personObj;
             personObj.insert(cont->GetContractAddr(),cont->GetContractName());

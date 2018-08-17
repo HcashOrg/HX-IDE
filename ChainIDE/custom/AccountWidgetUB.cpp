@@ -110,7 +110,7 @@ void AccountWidgetUB::InitWidget()
 void AccountWidgetUB::InitTree()
 {
     ui->treeWidget->clear();
-    DataDefine::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
+    DataManagerStruct::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
     ui->treeWidget->setColumnCount(3);
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {

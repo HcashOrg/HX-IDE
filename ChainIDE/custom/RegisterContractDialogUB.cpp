@@ -173,7 +173,7 @@ void RegisterContractDialogUB::InitAccountAddress()
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);
 
-    DataDefine::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
+    DataManagerStruct::AccountUB::AccountDataPtr data = DataManagerUB::getInstance()->getAccount();
     int number = 0;
     QString currentText;
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)

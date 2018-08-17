@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QWidget>
 
-#include "DataDefine.h"
+#include "datamanager/DataManagerStruct.h"
 
 class ConvenientOp : public QObject
 {
@@ -19,8 +19,8 @@ public:
     static void MoveWidgetCenter(QWidget *widget);
 
     //合约方便操作
-    static bool WriteContractToFile(const QString &filePath, const DataDefine::AddressContractDataPtr &data);
-    static bool ReadContractFromFile(const QString &filePath, DataDefine::AddressContractDataPtr &results);
+    static bool WriteContractToFile(const QString &filePath, const DataManagerStruct::AddressContractDataPtr &data);
+    static bool ReadContractFromFile(const QString &filePath, DataManagerStruct::AddressContractDataPtr &results);
 
     static void AddContract(const QString &owneraddr,const QString &contractaddr,const QString &contractname = "");
     static void DeleteContract(const QString &ownerOrcontract);

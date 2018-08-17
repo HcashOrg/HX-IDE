@@ -54,7 +54,7 @@ void ContractWidgetHX::InitWidget()
 void ContractWidgetHX::InitTree()
 {
     ui->treeWidget->clear();
-    DataDefine::AddressContractDataPtr data = DataManagerHX::getInstance()->getContract();
+    DataManagerStruct::AddressContractDataPtr data = DataManagerHX::getInstance()->getContract();
 
     for(auto it = data->getAllData().begin();it != data->getAllData().end();++it)
     {

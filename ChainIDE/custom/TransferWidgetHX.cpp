@@ -7,8 +7,8 @@
 
 #include "ConvenientOp.h"
 
-Q_DECLARE_METATYPE(DataDefine::AccountHX::AccountInfoPtr)
-Q_DECLARE_METATYPE(DataDefine::AccountHX::AssetInfoPtr)
+Q_DECLARE_METATYPE(DataManagerStruct::AccountHX::AccountInfoPtr)
+Q_DECLARE_METATYPE(DataManagerStruct::AccountHX::AssetInfoPtr)
 
 TransferWidgetHX::TransferWidgetHX(QWidget *parent) :
     MoveableDialog(parent),
@@ -38,9 +38,9 @@ void TransferWidgetHX::transferSlot()
 void TransferWidgetHX::comboBoxAccountChangeSlot()
 {
     ui->comboBox_asset->clear();
-    DataDefine::AccountHX::AccountInfoPtr info = ui->comboBox_account->currentData().value<DataDefine::AccountHX::AccountInfoPtr>();
+    DataManagerStruct::AccountHX::AccountInfoPtr info = ui->comboBox_account->currentData().value<DataManagerStruct::AccountHX::AccountInfoPtr>();
     for(auto it = info->getAssetInfos().begin();it != info->getAssetInfos().end();++it){
-        ui->comboBox_asset->addItem((*it)->GetAssetType(),QVariant::fromValue<DataDefine::AccountHX::AssetInfoPtr>(*it));
+        ui->comboBox_asset->addItem((*it)->GetAssetType(),QVariant::fromValue<DataManagerStruct::AccountHX::AssetInfoPtr>(*it));
     }
     if(ui->comboBox_asset->count() >= 1)
     {
@@ -51,7 +51,7 @@ void TransferWidgetHX::comboBoxAccountChangeSlot()
 void TransferWidgetHX::comboBoxAssetChangeSlot()
 {
     //设置上限
-    if(DataDefine::AccountHX::AssetInfoPtr asset = ui->comboBox_asset->currentData().value<DataDefine::AccountHX::AssetInfoPtr>()){
+    if(DataManagerStruct::AccountHX::AssetInfoPtr asset = ui->comboBox_asset->currentData().value<DataManagerStruct::AccountHX::AssetInfoPtr>()){
         double number = asset->GetBalance()/pow(10,asset->GetPrecision());
         ui->label_balance->setText(QString::number(number,'f',asset->GetPrecision()));
         ui->doubleSpinBox->setDecimals(asset->GetPrecision());
@@ -94,10 +94,10 @@ void TransferWidgetHX::InitWidget()
 
 void TransferWidgetHX::InitComboBox()
 {
-    DataDefine::AccountHX::AccountDataPtr accounts = DataManagerHX::getInstance()->getAccount();
+    DataManagerStruct::AccountHX::AccountDataPtr accounts = DataManagerHX::getInstance()->getAccount();
     for(auto it = accounts->getAccount().begin();it != accounts->getAccount().end();++it)
     {
-        ui->comboBox_account->addItem((*it)->getAccountName(),QVariant::fromValue<DataDefine::AccountHX::AccountInfoPtr>(*it));
+        ui->comboBox_account->addItem((*it)->getAccountName(),QVariant::fromValue<DataManagerStruct::AccountHX::AccountInfoPtr>(*it));
     }
 
     if(ui->comboBox_account->count() >= 1)

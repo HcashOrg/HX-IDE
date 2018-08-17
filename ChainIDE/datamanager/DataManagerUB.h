@@ -2,14 +2,14 @@
 #define DataManagerUB_H
 
 #include <QObject>
-#include "DataDefine.h"
+#include "DataManagerStruct.h"
 
 class DataManagerUB : public QObject
 {
     Q_OBJECT
 public:
     void queryAccount();//查询ub账户信息
-    const DataDefine::AccountUB::AccountDataPtr &getAccount()const;
+    const DataManagerStruct::AccountUB::AccountDataPtr &getAccount()const;
 
     void checkAddress(const QString &addr);//检测地址合法性
 public:

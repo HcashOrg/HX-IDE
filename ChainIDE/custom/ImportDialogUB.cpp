@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QRegExpValidator>
+#include <QDebug>
 
 #include "ChainIDE.h"
 #include "ConvenientOp.h"

@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QTabBar>
 
+#include "DataDefine.h"
 #include "ChainIDE.h"
 #include "compile/CompileManager.h"
 #include "backstage/BackStageManager.h"

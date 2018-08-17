@@ -9,7 +9,7 @@
 #include "ImportDialogHX.h"
 #include "IDEUtil.h"
 
-Q_DECLARE_METATYPE(DataDefine::AccountHX::AccountInfoPtr)
+Q_DECLARE_METATYPE(DataManagerStruct::AccountHX::AccountInfoPtr)
 class AccountWidgetHX::DataPrivate
 {
 public:
@@ -71,7 +71,7 @@ void AccountWidgetHX::CopyAddr()
 {
     if(QTreeWidgetItem *item = ui->treeWidget->currentItem())
     {
-        QApplication::clipboard()->setText(item->data(0,Qt::UserRole).value<DataDefine::AccountHX::AccountInfoPtr>()->GetAccountAddress());
+        QApplication::clipboard()->setText(item->data(0,Qt::UserRole).value<DataManagerStruct::AccountHX::AccountInfoPtr>()->GetAccountAddress());
     }
 }
 
@@ -111,13 +111,13 @@ void AccountWidgetHX::InitWidget()
 void AccountWidgetHX::InitTree()
 {
     ui->treeWidget->clear();
-    DataDefine::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
+    DataManagerStruct::AccountHX::AccountDataPtr data = DataManagerHX::getInstance()->getAccount();
     ui->treeWidget->setColumnCount(3);
     for(auto it = data->getAccount().begin();it != data->getAccount().end();++it)
     {
         QString name = (*it)->getAccountName()+"("+ (*it)->GetAccountAddress()+")";
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<name<<"");
-        item->setData(0,Qt::UserRole,QVariant::fromValue<DataDefine::AccountHX::AccountInfoPtr>(*it));
+        item->setData(0,Qt::UserRole,QVariant::fromValue<DataManagerStruct::AccountHX::AccountInfoPtr>(*it));
         item->setTextAlignment(0,Qt::AlignCenter);
         item->setTextAlignment(1,Qt::AlignCenter);
         item->setTextAlignment(2,Qt::AlignCenter);

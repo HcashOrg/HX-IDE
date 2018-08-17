@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QFileDialog>
 #include <QRegExpValidator>
+#include <QDebug>
 
 #include "ChainIDE.h"
 #include "ConvenientOp.h"
