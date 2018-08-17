@@ -20,5 +20,5 @@ Both test and formal chain provided.
 
 1) Create or import contract source code(eg. new contract file with the template built-in).
 2) Select the contract file in left-file-window, right clicked it or trigger the Compiler action in Debug menu or just press F7 shortcuts.
-3) Select the .gpc file created right after step2, see the bytecode in editor or use the convenient function of the IDE to register & call contract onchain.(not necessary)
+3) Select the .gpc file created right after step2, see the bytecode in editor or use the convenient function of the IDE to register & call contract onchain.(not necessarily)
 
