@@ -6,7 +6,18 @@ Also link to ub & hx to register & call contract onchain.
 
 Both test and formal chain provided.
 
-## Compiler Requirements
+## Build & Install
+
+Build from source require qt5.7 or later.
+This will generate the executable file Copy and ChainIDE. Copy both to the mainfile.
+
+### Update
+
+The update function is built in the IDE within help menu.
+
+
+
+## Compiler Requirements( Usage of IDE)
 
 ### Compiler C# Contract
 
