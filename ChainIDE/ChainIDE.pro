@@ -82,7 +82,8 @@ SOURCES += main.cpp\
     StatusBar.cpp \
     filewidget/FileProxyModel.cpp \
     backstage/BackStageManager.cpp \
-    datamanager/DataManagerStruct.cpp
+    datamanager/DataManagerStruct.cpp \
+    debugwidget/DebugManager.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -153,7 +154,8 @@ HEADERS  += MainWindow.h \
     StatusBar.h \
     filewidget/FileProxyModel.h \
     backstage/BackStageManager.h \
-    datamanager/DataManagerStruct.h
+    datamanager/DataManagerStruct.h \
+    debugwidget/DebugManager.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
