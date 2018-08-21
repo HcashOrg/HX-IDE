@@ -18,6 +18,7 @@ private slots:
     void jsonDataUpdated(const QString &id,const QString &data);
     void CallContract();
     void contractAddressChanged();
+    void functionChanged();
 private:
     void InitWidget();
     void InitAccountAddress();

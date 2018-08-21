@@ -45,9 +45,19 @@ void CallContractWidgetUB::jsonDataUpdated(const QString &id, const QString &dat
 
 void CallContractWidgetUB::CallContract()
 {
-    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("callcontract",QJsonArray()<<
-                                     ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
-                                     <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
+    if(ui->gaslimit->isEnabled() && ui->gasprice->isEnabled() && ui->fee->isEnabled())
+    {
+        ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("callcontract",QJsonArray()<<
+                                         ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
+                                         <<ui->param->text()<<ui->gaslimit->value()<<ui->gasprice->value()<<ui->fee->value()));
+    }
+    else if(!ui->gaslimit->isEnabled() && !ui->gasprice->isEnabled() && !ui->fee->isEnabled())
+    {
+        ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invokecontractoffline",QJsonArray()<<
+                                         ui->callAddress->currentText()<<ui->contractAddress->currentText()<<ui->function->currentText()
+                                         <<ui->param->text()));
+    }
+
 }
 
 void CallContractWidgetUB::contractAddressChanged()
@@ -55,6 +65,13 @@ void CallContractWidgetUB::contractAddressChanged()
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
                                      IDEUtil::toJsonFormat("getcontractinfo",QJsonArray()<<ui->contractAddress->currentText()));
+}
+
+void CallContractWidgetUB::functionChanged()
+{
+    ui->fee->setEnabled(ui->function->currentData().toString() == "api");
+    ui->gaslimit->setEnabled(ui->function->currentData().toString() == "api");
+    ui->gasprice->setEnabled(ui->function->currentData().toString() == "api");
 }
 
 void CallContractWidgetUB::InitWidget()
@@ -84,6 +101,11 @@ void CallContractWidgetUB::InitWidget()
     connect(ui->okBtn,&QToolButton::clicked,this,&CallContractWidgetUB::CallContract);
 
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&CallContractWidgetUB::jsonDataUpdated);
+
+    connect(ui->contractAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetUB::contractAddressChanged);
+    connect(ui->function,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetUB::functionChanged);
 }
 
 void CallContractWidgetUB::InitAccountAddress()
@@ -140,8 +162,6 @@ void CallContractWidgetUB::InitContractAddress()
     ui->contractAddress->setModel(tree->model());
     ui->contractAddress->setView(tree);
 
-    connect(ui->contractAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
-            &CallContractWidgetUB::contractAddressChanged);
 }
 
 bool CallContractWidgetUB::parseContractInfo(const QString &addr, const QString &data)
@@ -168,12 +188,14 @@ bool CallContractWidgetUB::parseContractInfo(const QString &addr, const QString 
     foreach (QJsonValue val, apisArr) {
         if(!val.isObject()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        itemChild->setData(0,Qt::UserRole,"api");
         item->addChild(itemChild);
     }
     QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("offline_apis").toArray();
     foreach (QJsonValue val, offapisArr) {
         if(!val.isObject()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toObject().value("name").toString());
+        itemChild->setData(0,Qt::UserRole,"offline-api");
         item1->addChild(itemChild);
     }
 
@@ -181,5 +203,6 @@ bool CallContractWidgetUB::parseContractInfo(const QString &addr, const QString 
     tree->expandAll();
     ui->function->setModel(tree->model());
     ui->function->setView(tree);
+
     return true;
 }

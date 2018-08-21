@@ -45,10 +45,19 @@ void CallContractWidgetHX::jsonDataUpdated(const QString &id, const QString &dat
 
 void CallContractWidgetHX::CallContract()
 {
-    ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract",QJsonArray()<<
-                                     ui->callAddress->currentText()<<ui->gasprice->text()<<ui->gaslimit->text()
-                                     <<ui->contractAddress->currentText()<<ui->function->currentText()
-                                     <<ui->param->text()));
+    if(ui->gaslimit->isEnabled() && ui->gasprice->isEnabled())
+    {
+        ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract",QJsonArray()<<
+                                         ui->callAddress->currentText()<<ui->gasprice->text()<<ui->gaslimit->text()
+                                         <<ui->contractAddress->currentText()<<ui->function->currentText()
+                                         <<ui->param->text()));
+    }
+    else if(!ui->gaslimit->isEnabled() && !ui->gasprice->isEnabled())
+    {
+        ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract_offline",QJsonArray()<<
+                                         ui->callAddress->currentText()<<ui->contractAddress->currentText()
+                                         <<ui->function->currentText()<<ui->param->text()));
+    }
 }
 
 void CallContractWidgetHX::contractAddressChanged()
@@ -56,6 +65,12 @@ void CallContractWidgetHX::contractAddressChanged()
     //查询合约对应的api
     ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
                                      IDEUtil::toJsonFormat("get_contract_info",QJsonArray()<<ui->contractAddress->currentText()));
+}
+
+void CallContractWidgetHX::functionChanged()
+{
+    ui->gaslimit->setEnabled(ui->function->currentData().toString() == "api");
+    ui->gasprice->setEnabled(ui->function->currentData().toString() == "api");
 }
 
 void CallContractWidgetHX::InitWidget()
@@ -79,6 +94,13 @@ void CallContractWidgetHX::InitWidget()
     connect(ui->okBtn,&QToolButton::clicked,this,&CallContractWidgetHX::CallContract);
 
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&CallContractWidgetHX::jsonDataUpdated);
+
+
+    connect(ui->contractAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetHX::contractAddressChanged);
+
+    connect(ui->function,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetHX::functionChanged);
 }
 
 void CallContractWidgetHX::InitAccountAddress()
@@ -117,8 +139,6 @@ void CallContractWidgetHX::InitContractAddress()
     ui->contractAddress->setModel(tree->model());
     ui->contractAddress->setView(tree);
 
-    connect(ui->contractAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
-            &CallContractWidgetHX::contractAddressChanged);
 }
 
 bool CallContractWidgetHX::parseContractInfo(const QString &addr, const QString &data)
@@ -145,12 +165,14 @@ bool CallContractWidgetHX::parseContractInfo(const QString &addr, const QString 
     foreach (QJsonValue val, apisArr) {
         if(!val.isString()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
+        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("api"));
         item->addChild(itemChild);
     }
     QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("offline_abi").toArray();
     foreach (QJsonValue val, offapisArr) {
         if(!val.isString()) continue;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
+        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("offline-api"));
         item1->addChild(itemChild);
     }
 
@@ -158,5 +180,6 @@ bool CallContractWidgetHX::parseContractInfo(const QString &addr, const QString 
     tree->expandAll();
     ui->function->setModel(tree->model());
     ui->function->setView(tree);
+
     return true;
 }
