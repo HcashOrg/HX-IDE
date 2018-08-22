@@ -56,6 +56,7 @@ void CompileManager::startCompile(const QString &filePath)
     if(compiler)
     {
         connect(compiler,&BaseCompile::finishCompileFile,this,&CompileManager::finishCompile);
+        connect(compiler,&BaseCompile::errorCompileFile,this,&CompileManager::errorCompile);
         connect(compiler,&BaseCompile::CompileOutput,this,&CompileManager::CompileOutput);
 
         compiler->startCompileFile(filePath);

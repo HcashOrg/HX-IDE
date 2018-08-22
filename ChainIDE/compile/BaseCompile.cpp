@@ -1,10 +1,16 @@
 #include "BaseCompile.h"
 
+#include <QFile>
+#include <QDir>
+#include <QDebug>
+#include "DataDefine.h"
+
 class BaseCompile::DataPrivate
 {
 public:
     DataPrivate()
         :compileProcess(new QProcess())
+        ,compileStage(BaseCompile::StageBegin)
     {
 
     }
@@ -16,6 +22,13 @@ public:
 
 public:
     QProcess *compileProcess;
+
+    QString tempDir;
+    QString sourceDir;
+    QString dstByteFilePath;
+    QString dstMetaFilePath;
+
+    BaseCompile::CompileStage compileStage;
 };
 
 BaseCompile::BaseCompile(QObject *parent) : QObject(parent)
@@ -36,4 +49,72 @@ BaseCompile::~BaseCompile()
 QProcess *BaseCompile::getCompileProcess() const
 {
     return _p->compileProcess;
+}
+
+void BaseCompile::setTempDir(const QString &dir)
+{
+    _p->tempDir = dir;
+}
+
+const QString &BaseCompile::getTempDir() const
+{
+    return _p->tempDir;
+}
+
+void BaseCompile::setSourceDir(const QString &dir)
+{
+    _p->sourceDir = dir;
+}
+
+const QString &BaseCompile::getSourceDir() const
+{
+    return _p->sourceDir;
+}
+
+void BaseCompile::setDstByteFilePath(const QString &path)
+{
+    _p->dstByteFilePath = path;
+}
+
+const QString &BaseCompile::getDstByteFilePath() const
+{
+    return _p->dstByteFilePath;
+}
+
+void BaseCompile::setDstMetaFilePath(const QString &path)
+{
+    _p->dstMetaFilePath = path;
+}
+
+const QString &BaseCompile::getDstMetaFilePath() const
+{
+    return _p->dstMetaFilePath;
+}
+
+void BaseCompile::setCompileStage(BaseCompile::CompileStage sta)
+{
+    _p->compileStage = sta;
+}
+
+BaseCompile::CompileStage BaseCompile::getCompileStage() const
+{
+    return _p->compileStage;
+}
+
+void BaseCompile::readyBuild()
+{
+    QString dst = getSourceDir()+"/"+QFileInfo(getSourceDir()).fileName();
+    setDstByteFilePath(dst+"."+DataDefine::CONTRACT_SUFFIX);
+    setDstMetaFilePath(dst+"."+DataDefine::META_SUFFIX);
+
+    QDir dir(getTempDir());
+    if(!dir.exists())
+    {
+        qDebug()<<"dirmake"<<dir.path();
+        dir.mkpath(dir.path());
+    }
+
+    //删除之前的文件
+    QFile::remove(getDstByteFilePath());
+    QFile::remove(getDstMetaFilePath());
 }

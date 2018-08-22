@@ -14,6 +14,7 @@ public:
     void startCompile(const QString &filePath);
 signals:
     void finishCompile(const QString &dstPath);
+    void errorCompile(const QString &sourceDir);
     void CompileOutput(const QString &outString);
 private:
     void InitManager();

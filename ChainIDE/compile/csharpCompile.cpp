@@ -13,16 +13,10 @@ class csharpCompile::DataPrivate
 {
 public:
     DataPrivate()
-        :currentState(0)
     {
 
     }
 public:
-    QString dstFilePath;
-    QString tempDir;
-    QString sourceDir;
-
-    int currentState;
 };
 
 csharpCompile::csharpCompile(QObject *parent)
@@ -40,25 +34,18 @@ csharpCompile::~csharpCompile()
 
 void csharpCompile::initConfig(const QString &sourceFilePath)
 {
-    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
-                  DataDefine::CSHARP_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+    setTempDir( QCoreApplication::applicationDirPath()+QDir::separator()+
+                DataDefine::CSHARP_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName()
+               );
 
-    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_DIR,
-                                        sourceFilePath);;
-
-    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
+    setSourceDir( IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_DIR,
+                                        sourceFilePath)
+                 );
 
     //清空临时目录
-    IDEUtil::deleteDir(_p->tempDir);
-    QDir dir(_p->tempDir);
-    if(!dir.exists())
-    {
-        dir.mkpath(dir.path());
-    }
+    IDEUtil::deleteDir(getTempDir());
 
-    //删除上次生成的文件
-    QFile::remove(_p->dstFilePath+".gpc");
-    QFile::remove(_p->dstFilePath+".meta.json");
+    readyBuild();
 
 }
 
@@ -67,49 +54,55 @@ void csharpCompile::startCompileFile(const QString &sourceFilePath)
     initConfig(sourceFilePath);
 
     //设置控制台路径为当前路径
-    getCompileProcess()->setWorkingDirectory(_p->tempDir);
+    getCompileProcess()->setWorkingDirectory(getTempDir());
 
-    emit CompileOutput(QString("start Compile %1").arg(_p->sourceDir));
+    emit CompileOutput(QString("start Compile %1").arg(getSourceDir()));
     generateDllFile();
 }
 
 void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
-    if(exitStatus == QProcess::NormalExit)
+    if(QProcess::NormalExit != exitStatus)
     {
-        if(0 == _p->currentState)
-        {//生成gpc文件
-            emit CompileOutput(QString(".dll file generate finish."));
-            generateContractFile();
-        }
-        else if(1 == _p->currentState)
-        {
-
-            //复制gpc meta.json文件到源目录
-            QFile::copy(_p->tempDir+"/result.gpc",_p->dstFilePath+".gpc");
-            QFile::copy(_p->tempDir+"/result.meta.json",_p->dstFilePath+".meta.json");
-
-            //删除临时目录
-            IDEUtil::deleteDir(_p->tempDir);
-
-            if(QFile(_p->dstFilePath+".gpc").exists())
-            {
-                emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
-                emit finishCompileFile(_p->sourceDir);
-            }
-        }
-    }
-    else
-    {
-        emit CompileOutput(QString("compile error:stage %1").arg(_p->currentState));
-
         //删除之前的文件
-        QFile::remove(_p->dstFilePath+".gpc");
-        QFile::remove(_p->dstFilePath+".meta.json");
+        QFile::remove(getDstByteFilePath());
+        QFile::remove(getDstMetaFilePath());
+
         //删除临时目录
-        IDEUtil::deleteDir(_p->tempDir);
+        IDEUtil::deleteDir(getTempDir());
+
+        emit CompileOutput(QString("compile error:stage %1").arg(getCompileStage()));
+        emit errorCompileFile(getSourceDir());
+        return;
     }
 
+    switch (getCompileStage()) {
+    case BaseCompile::StageOne:
+        //生成gpc文件
+        emit CompileOutput(QString(".dll file generate finish."));
+        generateContractFile();
+        break;
+    case BaseCompile::StageTwo:
+        //复制gpc meta.json文件到源目录
+        QFile::copy(getTempDir()+"/result.gpc",getDstByteFilePath());
+        QFile::copy(getTempDir()+"/result.meta.json",getDstMetaFilePath());
+
+        //删除临时目录
+        IDEUtil::deleteDir(getTempDir());
+
+        if(QFile(getDstByteFilePath()).exists())
+        {
+            emit CompileOutput(QString("compile finish,see %1").arg(getDstByteFilePath()));
+            emit finishCompileFile(getDstByteFilePath());
+        }
+        else
+        {
+            emit CompileOutput(QString("compile error,cann't find :%1").arg(getDstByteFilePath()));
+            emit errorCompileFile(getSourceDir());
+        }
+    default:
+        break;
+    }
 }
 
 void csharpCompile::onReadStandardOutput()
@@ -124,18 +117,18 @@ void csharpCompile::onReadStandardError()
 
 void csharpCompile::generateDllFile()
 {
-    _p->currentState = 0;
+    setCompileStage(BaseCompile::StageOne);
 
     QStringList fileList;
-    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<DataDefine::CSHARP_SUFFIX);
+    IDEUtil::GetAllFile(getSourceDir(),fileList,QStringList()<<DataDefine::CSHARP_SUFFIX);
     //将这些文件编译成dll文件
     QStringList params;
     params<<"/target:library"<<"-reference:"+QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_JSON_DLL_PATH
             +","+QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_CORE_DLL_PATH+""
-          <<fileList<<"-out:"+_p->tempDir+QDir::separator()+"result.dll"
-          <<"-debug"<<"-pdb:"+_p->tempDir+QDir::separator()+"result.pdb";
+          <<fileList<<"-out:"+getTempDir()+QDir::separator()+"result.dll"
+          <<"-debug"<<"-pdb:"+getTempDir()+QDir::separator()+"result.pdb";
 
-    qDebug()<<"c#-compile  "<<params;
+    qDebug()<<"c#-compile-generate-.dll: csc.exe "<<params;
 
     //获取C#环境变量
     QString cscVal = QProcessEnvironment::systemEnvironment().value(DataDefine::CSHARP_COMPILER_EXE_ENV);
@@ -147,17 +140,19 @@ void csharpCompile::generateDllFile()
     else
     {
         emit CompileOutput("Error :can't find CSC environment,please set csc.exe to CSC!");
+        emit errorCompileFile(getSourceDir());
     }
 }
 
 void csharpCompile::generateContractFile()
 {
-    _p->currentState = 1;
+    setCompileStage(BaseCompile::StageTwo);
     //将result编译成.pgc文件，需要先将工作目录指定为uvm_ass.exe所在目录
     getCompileProcess()->setWorkingDirectory(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::CSHARP_COMPILE_DIR);
     QStringList params;
-    params<<"--gpc"<<_p->tempDir+QDir::separator()+"result.dll";
+    params<<"--gpc"<<getTempDir()+QDir::separator()+"result.dll";
 
+    qDebug()<<"c#-compiler-generate-.gpc: "<<DataDefine::CSHARP_COMPILE_PATH<<params;
     getCompileProcess()->start(DataDefine::CSHARP_COMPILE_PATH,params);
 
 }

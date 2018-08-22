@@ -22,9 +22,6 @@ public:
 
 public:
     QString sourceFile;
-    QString dstFilePath;
-    QString tempDir;
-    QString sourceDir;
 };
 
 gluaCompile::gluaCompile(QObject *parent)
@@ -43,68 +40,66 @@ void gluaCompile::initConfig(const QString &sourceFilePath)
 {
     //当前文件路径名
     _p->sourceFile = sourceFilePath;
-    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
-                  DataDefine::GLUA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
-    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_DIR,
-                                        sourceFilePath);;
-
-    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
-
-    IDEUtil::deleteDir(_p->tempDir);
-    QDir dir(_p->tempDir);
-    if(!dir.exists())
-    {
-        qDebug()<<"dirmake"<<dir.path();
-        dir.mkpath(dir.path());
-    }
-
-    //删除之前的文件
-    QFile::remove(_p->dstFilePath+".gpc");
-    QFile::remove(_p->dstFilePath+".meta.json");
+    setTempDir( QCoreApplication::applicationDirPath()+QDir::separator()+
+                DataDefine::GLUA_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName()
+               );
+    setSourceDir(IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_DIR,
+                                        sourceFilePath)
+                 );
+    //清空临时目录
+    IDEUtil::deleteDir(getTempDir());
+    readyBuild();
 }
 
 void gluaCompile::startCompileFile(const QString &sourceFilePath)
 {
     initConfig(sourceFilePath);
 
-    emit CompileOutput(QString("start compile %1").arg(_p->sourceDir));
+    emit CompileOutput(QString("start compile %1").arg(getSourceDir()));
 
     QStringList params;
-    params<<"-o"<<_p->tempDir<<"-g"<<_p->sourceFile;
-    qDebug()<<"glua-compile"<<params;
+    params<<"-o"<<getTempDir()<<"-g"<<_p->sourceFile;
+    qDebug()<<"glua-compiler-.pgc: "<<DataDefine::GLUA_COMPILE_PATH<<params;
     getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::GLUA_COMPILE_PATH,params);
 
 }
 
 void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
-    if(exitStatus == QProcess::NormalExit)
+    if(QProcess::NormalExit != exitStatus)
     {
-        //生成完毕
-
-        //复制gpc meta.json文件到源目录
-        QFile::copy(_p->tempDir+"/"+QFileInfo(_p->sourceFile).fileName()+".gpc",_p->dstFilePath+".gpc");
-        QFile::copy(_p->tempDir+"/"+QFileInfo(_p->sourceFile).fileName()+".meta.json",_p->dstFilePath+".meta.json");
+        //删除之前的文件
+        QFile::remove(getDstByteFilePath());
+        QFile::remove(getDstMetaFilePath());
 
         //删除临时目录
-        IDEUtil::deleteDir(_p->tempDir);
+        IDEUtil::deleteDir(getTempDir());
 
-        if(QFile(_p->dstFilePath+".gpc").exists())
-        {
-            emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
-            emit finishCompileFile(_p->sourceDir);
-        }
+        emit CompileOutput(QString("compile error"));
+        emit errorCompileFile(getSourceDir());
+        return;
+    }
+
+    //生成完毕
+
+    //复制gpc meta.json文件到源目录
+    QFile::copy(getTempDir()+"/"+QFileInfo(_p->sourceFile).fileName()+"."+DataDefine::CONTRACT_SUFFIX,getDstByteFilePath());
+    QFile::copy(getTempDir()+"/"+QFileInfo(_p->sourceFile).fileName()+"."+DataDefine::META_SUFFIX,getDstMetaFilePath());
+
+    //删除临时目录
+    IDEUtil::deleteDir(getTempDir());
+
+    if(QFile(getDstByteFilePath()).exists())
+    {
+        emit CompileOutput(QString("compile finish,see %1").arg(getDstByteFilePath()));
+        emit finishCompileFile(getDstByteFilePath());
     }
     else
     {
-        emit CompileOutput(QString("compile error"));
-        //删除之前的文件
-        QFile::remove(_p->dstFilePath+".gpc");
-        QFile::remove(_p->dstFilePath+".meta.json");
-
-        //删除临时目录
-        IDEUtil::deleteDir(_p->tempDir);
+        emit CompileOutput(QString("compile error,cann't find :%1").arg(getDstByteFilePath()));
+        emit errorCompileFile(getSourceDir());
     }
+
 }
 
 void gluaCompile::onReadStandardOutput()

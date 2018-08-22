@@ -133,6 +133,8 @@ void MainWindow::startWidget()
 
     //链接编译槽
     connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::CompileOutput,ui->outputWidget,&OutputWidget::receiveCompileMessage);
+    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,std::bind(&QAction::setEnabled,ui->compileAction,true));
+    connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::errorCompile,std::bind(&QAction::setEnabled,ui->compileAction,true));
 
     connect(ui->fileWidget,&FileWidget::fileClicked,ui->contentWidget,&ContextWidget::showFile);
     connect(ui->fileWidget,&FileWidget::compileFile,this,&MainWindow::on_compileAction_triggered);
@@ -503,6 +505,7 @@ void MainWindow::on_compileAction_triggered()
 
 //  清空编译输出窗口
     ui->outputWidget->clearCompileMessage();
+    ui->compileAction->setEnabled(false);
     ChainIDE::getInstance()->getCompileManager()->startCompile(ui->fileWidget->getCurrentFile());//当前打开的文件
 
 }

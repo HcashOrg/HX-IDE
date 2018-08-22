@@ -14,7 +14,6 @@ class kotlinCompile::DataPrivate
 {
 public:
     DataPrivate()
-        :currentState(0)
     {
 
     }
@@ -23,11 +22,6 @@ public:
     }
 
 public:
-    QString dstFilePath;
-    QString tempDir;
-    QString sourceDir;
-
-    int currentState;
 };
 
 kotlinCompile::kotlinCompile(QObject *parent)
@@ -45,24 +39,19 @@ kotlinCompile::~kotlinCompile()
 
 void kotlinCompile::initConfig(const QString &sourceFilePath)
 {
-    _p->tempDir = QCoreApplication::applicationDirPath()+QDir::separator()+
-                  DataDefine::KOTLIN_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName();
+    setTempDir( QCoreApplication::applicationDirPath()+QDir::separator()+
+                DataDefine::KOTLIN_COMPILE_TEMP_DIR + QDir::separator() + QFileInfo(sourceFilePath).baseName()
+               );
 
-    _p->sourceDir = IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::KOTLIN_DIR,
-                                        sourceFilePath);//QFileInfo(sourceFilePath).absoluteDir().absolutePath();
+    setSourceDir( IDEUtil::getNextDir(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::KOTLIN_DIR,
+                                        sourceFilePath)
+                 );
 
-    _p->dstFilePath = _p->sourceDir+"/"+QFileInfo(_p->sourceDir).fileName();
 
-    IDEUtil::deleteDir(_p->tempDir);
-    QDir dir(_p->tempDir);
-    if(!dir.exists())
-    {
-        dir.mkpath(dir.path());
-    }
+    //清空临时目录
+    IDEUtil::deleteDir(getTempDir());
 
-    //删除之前的文件
-    QFile::remove(_p->dstFilePath+".gpc");
-    QFile::remove(_p->dstFilePath+".meta.json");
+    readyBuild();
 
 }
 
@@ -71,66 +60,69 @@ void kotlinCompile::startCompileFile(const QString &sourceFilePath)
     initConfig(sourceFilePath);
 
     //设置控制台路径为当前路径
-    getCompileProcess()->setWorkingDirectory(_p->tempDir);
+    getCompileProcess()->setWorkingDirectory(getTempDir());
 
-    emit CompileOutput(QString("start Compile %1").arg(_p->sourceDir));
+    emit CompileOutput(QString("start Compile %1").arg(getSourceDir()));
     generateClassFile();
 
 }
 
 void kotlinCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
 {
-    if(exitStatus == QProcess::NormalExit)
+    if(QProcess::NormalExit != exitStatus)
     {
-        if(0 == _p->currentState)
-        {//进行第二步，将.class文件编译成.ass文件
-            emit CompileOutput(QString("class file generate finish:%1").arg(_p->tempDir));
-            emit CompileOutput(QString("start generate .ass file"));
-            generateAssFile();
-        }
-        else if(1 == _p->currentState)
-        {//进行第三步，将.ass文件编译成.out和.meta.json文件
-            emit CompileOutput(QString(".ass file generate finish."));
-            emit CompileOutput(QString("start generate .out .meta.json file"));
-
-            generateOutFile();
-        }
-        else if(2 == _p->currentState)
-        {//生成gpc文件
-            emit CompileOutput(QString(".out file generate finish."));
-            emit CompileOutput(QString("start generate .gpc file"));
-
-            generateContractFile();
-        }
-        else if(3 == _p->currentState)
-        {
-
-            //复制gpc meta.json文件到源目录
-            QFile::copy(_p->tempDir+"/result.gpc",_p->dstFilePath+".gpc");
-            QFile::copy(_p->tempDir+"/result.meta.json",_p->dstFilePath+".meta.json");
-
-            //删除临时目录
-            IDEUtil::deleteDir(_p->tempDir);
-
-            if(QFile(_p->dstFilePath+".gpc").exists())
-            {
-                emit CompileOutput(QString("compile finish,see %1").arg(_p->dstFilePath));
-                emit finishCompileFile(_p->sourceDir);
-            }
-        }
-    }
-    else
-    {
-        emit CompileOutput(QString("compile error:stage %1").arg(_p->currentState));
-
         //删除之前的文件
-        QFile::remove(_p->dstFilePath+".gpc");
-        QFile::remove(_p->dstFilePath+".meta.json");
+        QFile::remove(getDstByteFilePath());
+        QFile::remove(getDstMetaFilePath());
 
         //删除临时目录
-        IDEUtil::deleteDir(_p->tempDir);
-    }
+        IDEUtil::deleteDir(getTempDir());
 
+        emit CompileOutput(QString("compile error:stage %1").arg(getCompileStage()));
+        emit errorCompileFile(getSourceDir());
+        return;
+    }
+    switch (getCompileStage()) {
+    case BaseCompile::StageOne:
+        //进行第二步，将.class文件编译成.ass文件
+        emit CompileOutput(QString("class file generate finish:%1").arg(getTempDir()));
+        emit CompileOutput(QString("start generate .ass file"));
+        generateAssFile();
+        break;
+    case BaseCompile::StageTwo:
+        //进行第三步，将.ass文件编译成.out和.meta.json文件
+        emit CompileOutput(QString(".ass file generate finish."));
+        emit CompileOutput(QString("start generate .out .meta.json file"));
+        generateOutFile();
+        break;
+    case BaseCompile::StageThree:
+        //生成gpc文件
+        emit CompileOutput(QString(".out file generate finish."));
+        emit CompileOutput(QString("start generate .gpc file"));
+        generateContractFile();
+        break;
+    case BaseCompile::StageFour:
+        //复制gpc meta.json文件到源目录
+        QFile::copy(getTempDir()+"/result.gpc",getDstByteFilePath());
+        QFile::copy(getTempDir()+"/result.meta.json",getDstMetaFilePath());
+
+        //删除临时目录
+        IDEUtil::deleteDir(getTempDir());
+
+        if(QFile(getDstByteFilePath()).exists())
+        {
+            emit CompileOutput(QString("compile finish,see %1").arg(getDstByteFilePath()));
+            emit finishCompileFile(getDstByteFilePath());
+        }
+        else
+        {
+            emit CompileOutput(QString("compile error,cann't find :%1").arg(getDstByteFilePath()));
+            emit errorCompileFile(getSourceDir());
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void kotlinCompile::onReadStandardOutput()
@@ -146,27 +138,27 @@ void kotlinCompile::onReadStandardError()
 
 void kotlinCompile::generateClassFile()
 {
-    _p->currentState = 0;
+    setCompileStage(BaseCompile::StageOne);
 
     QStringList fileList;
-    IDEUtil::GetAllFile(_p->sourceDir,fileList,QStringList()<<DataDefine::KOTLIN_SUFFIX);
+    IDEUtil::GetAllFile(getSourceDir(),fileList,QStringList()<<DataDefine::KOTLIN_SUFFIX);
     //调用命令行编译
     QStringList params;
     params<<"-cp"<<QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_CORE_PATH
-          <<fileList<<"-d"<<_p->tempDir;
+          <<fileList<<"-d"<<getTempDir();
 
-    qDebug()<<"kotlin-compile "<<params;
+    qDebug()<<"kotlin-compile-generate-.class: "<<DataDefine::KOTLIN_COMPILE_PATH<<params;
 
     getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::KOTLIN_COMPILE_PATH,params);
 }
 
 void kotlinCompile::generateAssFile()
 {
-    _p->currentState = 1;
+    setCompileStage(BaseCompile::StageTwo);
 
-    QString firstStr = ""+_p->tempDir+";"+QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_COMPILE_PATH;
+    QString firstStr = ""+getTempDir()+";"+QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_COMPILE_PATH;
     QStringList fileList;
-    IDEUtil::GetAllFile(_p->tempDir,fileList);
+    IDEUtil::GetAllFile(getTempDir(),fileList);
     //去掉后缀
     for(int i = 0;i < fileList.count();++i)
     {
@@ -174,28 +166,28 @@ void kotlinCompile::generateAssFile()
     }
     //调用命令行编译
     QStringList params;
-    params<<"-cp"<<firstStr<<"gjavac.MainKt"<<"-o"<<_p->tempDir<<fileList;
+    params<<"-cp"<<firstStr<<"gjavac.MainKt"<<"-o"<<getTempDir()<<fileList;
 
-    foreach (QString is, params) {
-        qDebug()<<is;
-    }
+    qDebug()<<"kotlin-compile-generate-.ass: java"<<params;
 
     getCompileProcess()->start("java",params);
 }
 
 void kotlinCompile::generateOutFile()
 {
-    _p->currentState = 2;
+    setCompileStage(BaseCompile::StageThree);
     //将result.ass编译为.out文件
-    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_UVM_ASS_PATH,QStringList()<<_p->tempDir+"/result.ass");
+    qDebug()<<"kotlin-compile-generate-.out+.meta.json:"<<DataDefine::JAVA_UVM_ASS_PATH<<getTempDir()+"/result.ass";
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_UVM_ASS_PATH,QStringList()<<getTempDir()+"/result.ass");
 }
 
 void kotlinCompile::generateContractFile()
 {
-    _p->currentState = 3;
+    setCompileStage(BaseCompile::StageFour);
     //将.out .meta.json文件编译为gpc文件
+    qDebug()<<"kotlin-compile-generate-.gpc: "<<DataDefine::JAVA_PACKAGE_GPC_PATH<<getTempDir()+"/result.out"<<getTempDir()+"/result.meta.json";
     getCompileProcess()->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::JAVA_PACKAGE_GPC_PATH,
-                               QStringList()<<_p->tempDir+"/result.out"<<_p->tempDir+"/result.meta.json");
+                               QStringList()<<getTempDir()+"/result.out"<<getTempDir()+"/result.meta.json");
 
 }
 
