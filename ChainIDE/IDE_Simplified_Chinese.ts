@@ -1108,12 +1108,12 @@ p, li { white-space: pre-wrap; }
         <location filename="MainWindow.ui" line="249"/>
         <source>新建uvlua合约</source>
         <oldsource>新建csharp合约</oldsource>
-        <translation type="unfinished">新建Uvlua合约</translation>
+        <translation type="unfinished">新建uvlua合约</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="259"/>
         <source>新建c#合约</source>
-        <translation type="unfinished">新建C#合约</translation>
+        <translation type="unfinished">新建c#合约</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="269"/>

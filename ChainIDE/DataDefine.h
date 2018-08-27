@@ -23,6 +23,9 @@ namespace DataDefine
     static const QString CODEMIRROR_BLACK = "codemirror/editor_black.html";
     static const QString CODEMIRROR_WHITE = "codemirror/editor_white.html";
 
+    //帮助网页路径
+    static const QString HELP_PATH = "help/html/index.html";
+
     //合约文件后缀
     static const QString META_SUFFIX = "meta.json";
     static const QString CONTRACT_SUFFIX = "gpc";

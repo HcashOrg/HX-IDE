@@ -4,7 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-TARGET = Copy
+TARGET = Update
 #CONFIG += console
 #CONFIG -= app_bundle
 
@@ -36,4 +36,5 @@ TRANSLATIONS +=   Chinese.ts  English.ts
 
 win32{
     LIBS += $$PWD/lib/quazip.lib
+    RC_FILE += logo.rc
 }

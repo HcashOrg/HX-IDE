@@ -1,4 +1,4 @@
-IDI_ICON1 ICON "idelogo.ico"    
+IDI_ICON1 ICON "logo.ico"    
 
 #if defined(UNDER_CE)  
 #include <winbase.h>  
@@ -25,14 +25,14 @@ BEGIN
         BLOCK "080404b0"
         BEGIN
             VALUE "CompanyName", "BlockLink"
-            VALUE "FileDescription", "IDE based on Qt 5.11.1(MSVC 2017)\0"
+            VALUE "FileDescription", "Updater based on Qt 5.11.1(MSVC 2017)\0"
             VALUE "FileVersion", "1.0.5.100\0"
             VALUE "ProductVersion", "1.0.5.100\0"
             VALUE "LegalCopyright", "Copyright 2017-2018 The BlockLink Ltd. All rights reserved.\0"
 			VALUE "LegalTrademarks", "BlockLink\0"
-            VALUE "OriginalFilename", "ChainIDE.exe\0" 
-            VALUE "ProductName", "IDE\0"
-            VALUE "InternalName", "IDE.exe\0"
+            VALUE "OriginalFilename", "Copy.exe\0" 
+            VALUE "ProductName", "Update\0"
+            VALUE "InternalName", "Update.exe\0"
         END
     END
     BLOCK "VarFileInfo"

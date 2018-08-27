@@ -139,7 +139,7 @@ void csharpCompile::generateDllFile()
     }
     else
     {
-        emit CompileOutput("Error :can't find CSC environment,please set csc.exe to CSC!");
+        emit CompileOutput("Error :can't find CSC environment,please set csc.exe folder to CSC!");
         emit errorCompileFile(getSourceDir());
     }
 }

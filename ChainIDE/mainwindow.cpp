@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QTabBar>
+#include <QDesktopServices>
 
 #include "DataDefine.h"
 #include "ChainIDE.h"
@@ -219,7 +220,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(_p->updateNeeded)
     {//开启copy，
         QProcess *copproc = new QProcess();
-        QString updateExe = QCoreApplication::applicationDirPath()+"/Copy";
+        QString updateExe = QCoreApplication::applicationDirPath()+"/Update";
         QString package = "update.zip";
         QString mainName = QCoreApplication::applicationName();
         QString unpackName = "update";//解压后的文件夹名称
@@ -572,7 +573,8 @@ void MainWindow::on_transferToAccountAction_triggered()
 
 void MainWindow::on_helpAction_triggered()
 {
-
+//打开帮助网页
+    QDesktopServices::openUrl(QUrl(QString("file:///%1/%2").arg(QCoreApplication::applicationDirPath()).arg(DataDefine::HELP_PATH)));
 }
 
 void MainWindow::on_aboutAction_triggered()

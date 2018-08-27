@@ -1136,12 +1136,12 @@ p, li { white-space: pre-wrap; }
         <location filename="MainWindow.ui" line="249"/>
         <source>新建uvlua合约</source>
         <oldsource>新建csharp合约</oldsource>
-        <translation type="unfinished">New Uvlua Contract</translation>
+        <translation type="unfinished">New uvlua Contract</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="259"/>
         <source>新建c#合约</source>
-        <translation type="unfinished">New C# Contract</translation>
+        <translation type="unfinished">New c# Contract</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="269"/>
@@ -1352,7 +1352,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="MainWindow.ui" line="565"/>
         <source>导入uvlua合约</source>
-        <translation type="unfinished">Import Uvlua Contract</translation>
+        <translation type="unfinished">Import uvlua Contract</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="575"/>
@@ -1362,7 +1362,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="MainWindow.ui" line="585"/>
         <source>导入c#合约</source>
-        <translation type="unfinished">Import C# Contract</translation>
+        <translation type="unfinished">Import c# Contract</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="595"/>
