@@ -22,11 +22,13 @@ DebugWidget::DebugWidget(QWidget *parent) :
 DebugWidget::~DebugWidget()
 {
     delete _p;
+    _p = nullptr;
     delete ui;
 }
 
 void DebugWidget::InitWidget()
 {
+    ui->treeWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //    ui->treeWidget->headerItem()->setTextAlignment(0, Qt::AlignCenter);
 //    ui->treeWidget->headerItem()->setTextAlignment(1, Qt::AlignCenter);
 //    ui->treeWidget->headerItem()->setTextAlignment(2, Qt::AlignCenter);

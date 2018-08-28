@@ -117,7 +117,6 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
             array = QJsonDocument::fromJson(data.toLatin1()).array();
         }
     }
-
     ChainIDE::getInstance()->postRPC( "console-" + ui->consoleLineEdit->text().simplified(), IDEUtil::toJsonFormat( command, array )/*str*/);
 
     ui->consoleLineEdit->clear();
