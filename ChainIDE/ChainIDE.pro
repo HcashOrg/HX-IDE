@@ -83,7 +83,8 @@ SOURCES += main.cpp\
     filewidget/FileProxyModel.cpp \
     backstage/BackStageManager.cpp \
     datamanager/DataManagerStruct.cpp \
-    debugwidget/DebugManager.cpp
+    debugwidget/DebugManager.cpp \
+    notifyWidget/MessageNotifyWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -155,7 +156,8 @@ HEADERS  += MainWindow.h \
     filewidget/FileProxyModel.h \
     backstage/BackStageManager.h \
     datamanager/DataManagerStruct.h \
-    debugwidget/DebugManager.h
+    debugwidget/DebugManager.h \
+    notifyWidget/MessageNotifyWidget.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -190,7 +192,8 @@ FORMS    += MainWindow.ui \
     contractwidget/FunctionWidgetUB.ui \
     popwidget/AboutWidget.ui \
     custom/ImportEnterPWDDialogHX.ui \
-    debugwidget/DebugWidget.ui
+    debugwidget/DebugWidget.ui \
+    notifyWidget/MessageNotifyWidget.ui
 
 RESOURCES += \
     chain.qrc

@@ -92,5 +92,7 @@
         <file>template/none.kt</file>
         <file>template/none.uvlua</file>
         <file>template/newtoken.uvlua</file>
+        <file>widgets_Chinese.qm</file>
+        <file>widgets_English.qm</file>
     </qresource>
 </RCC>

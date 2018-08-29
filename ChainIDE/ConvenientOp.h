@@ -15,6 +15,9 @@ public:
     //显示提示框
     static void ShowSyncCommonDialog(const QString &data);
 
+    //显示通知框
+    static void ShowNotifyMessage(const QString &info);
+
     //窗口居中
     static void MoveWidgetCenter(QWidget *widget);
 

@@ -641,22 +641,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ConvenientOp</name>
     <message>
-        <location filename="ConvenientOp.cpp" line="208"/>
+        <location filename="ConvenientOp.cpp" line="218"/>
         <source>Choose your contract file.</source>
         <translation type="unfinished">Choose your contract file.</translation>
     </message>
     <message>
-        <location filename="ConvenientOp.cpp" line="242"/>
+        <location filename="ConvenientOp.cpp" line="252"/>
         <source>question</source>
         <translation type="unfinished">question</translation>
     </message>
     <message>
-        <location filename="ConvenientOp.cpp" line="242"/>
+        <location filename="ConvenientOp.cpp" line="252"/>
         <source>already exists,yes to override!</source>
         <translation type="unfinished">already exists,[yes] to override!</translation>
     </message>
     <message>
-        <location filename="ConvenientOp.cpp" line="261"/>
+        <location filename="ConvenientOp.cpp" line="271"/>
         <source>save gpc file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -956,23 +956,23 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">file</translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="25"/>
+        <location filename="custom/ImportDialogHX.cpp" line="26"/>
         <source>Beginning with letter,letters or numbers</source>
         <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="73"/>
+        <location filename="custom/ImportDialogHX.cpp" line="74"/>
         <source>Wrong file path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="80"/>
+        <location filename="custom/ImportDialogHX.cpp" line="81"/>
         <source>HX Address:%1  Already Exists!</source>
         <oldsource>LNK Address:%1  Already Exists!</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="146"/>
+        <location filename="custom/ImportDialogHX.cpp" line="147"/>
         <source>Choose your private key file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1010,7 +1010,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">PrivateKey:</translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogUB.cpp" line="22"/>
+        <location filename="custom/ImportDialogUB.cpp" line="23"/>
         <source>Beginning with letter,letters or numbers</source>
         <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
     </message>
@@ -1068,6 +1068,11 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>LinkBackStage</name>
+    <message>
+        <location filename="backstage/LinkBackStage.cpp" line="146"/>
+        <source>Fail to launch hx_node !</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="backstage/LinkBackStage.cpp" line="193"/>
         <source>Fail to launch %1 !</source>
@@ -1290,7 +1295,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="469"/>
-        <location filename="MainWindow.cpp" line="585"/>
+        <location filename="MainWindow.cpp" line="593"/>
         <source>切换到正式链</source>
         <translation type="unfinished">ChangeToFormalChain</translation>
     </message>
@@ -1396,7 +1401,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="157"/>
+        <location filename="MainWindow.cpp" line="161"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1425,44 +1430,62 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">IDE-HX FORMAL CHAIN</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="163"/>
+        <location filename="MainWindow.cpp" line="167"/>
         <source>IDE-UB TEST CHAIN</source>
         <translation type="unfinished">IDE-UB TEST CHAIN</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="167"/>
+        <location filename="MainWindow.cpp" line="171"/>
         <source>IDE-HX TEST CHAIN</source>
         <translation type="unfinished">IDE-HX TEST CHAIN</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="174"/>
+        <location filename="MainWindow.cpp" line="178"/>
         <source>IDE-UB FORMAL CHAIN</source>
         <translation type="unfinished">IDE-UB FORMAL CHAIN</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="178"/>
+        <location filename="MainWindow.cpp" line="182"/>
         <source>IDE-HX FORMAL CHAIN</source>
         <translation type="unfinished">IDE-HX FORMAL CHAIN</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="207"/>
+        <location filename="MainWindow.cpp" line="211"/>
         <source>请耐心等待程序自动关闭，不要关闭本窗口!</source>
         <translation type="unfinished">Please wait for auto-close, don&apos;t close this window!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="464"/>
+        <location filename="MainWindow.cpp" line="468"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">Sure to switch to formal chain?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="491"/>
+        <location filename="MainWindow.cpp" line="496"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">File modified,do you want to save?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="585"/>
+        <location filename="MainWindow.cpp" line="517"/>
+        <source>单步调试功能正在紧急开发中，敬请期待！</source>
+        <translation type="unfinished">The debug-function is under emergency development, please wait for new release!</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="593"/>
         <source>切换到测试链</source>
         <translation type="unfinished">ChangeToTestChain</translation>
+    </message>
+</context>
+<context>
+    <name>MessageNotifyWidget</name>
+    <message>
+        <location filename="notifyWidget/MessageNotifyWidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="notifyWidget/MessageNotifyWidget.ui" line="39"/>
+        <source>IDE通知</source>
+        <translation type="unfinished">IDE Notify</translation>
     </message>
 </context>
 <context>

@@ -513,7 +513,8 @@ void MainWindow::on_compileAction_triggered()
 
 void MainWindow::on_debugAction_triggered()
 {
-    ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
+    //ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
+    ConvenientOp::ShowNotifyMessage(tr("单步调试功能正在紧急开发中，敬请期待！"));
 }
 
 void MainWindow::on_stopAction_triggered()

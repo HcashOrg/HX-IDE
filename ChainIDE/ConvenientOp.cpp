@@ -16,6 +16,7 @@
 #include <QDebug>
 
 #include "popwidget/commondialog.h"
+#include "notifyWidget/MessageNotifyWidget.h"
 #include "IDEUtil.h"
 #include "ChainIDE.h"
 
@@ -40,6 +41,13 @@ void ConvenientOp::ShowSyncCommonDialog(const QString &data)
         }
         dia.exec();
     });
+}
+
+void ConvenientOp::ShowNotifyMessage(const QString &info)
+{
+    MessageNotifyWidget *message = new MessageNotifyWidget(info);
+    message->setAttribute(Qt::WA_DeleteOnClose);
+    message->ShowWidget();
 }
 
 void ConvenientOp::MoveWidgetCenter(QWidget *widget)

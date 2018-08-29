@@ -10,6 +10,7 @@
 #include "ChainIDE.h"
 #include "IDEUtil.h"
 
+
 ConsoleDialog::ConsoleDialog(QWidget *parent) :
     MoveableDialog(parent),
     ui(new Ui::ConsoleDialog),

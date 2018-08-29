@@ -27,6 +27,8 @@ OutputWidget::OutputWidget(QWidget *parent) :
     //隐藏左右控制按钮
     ui->tabWidget->tabBar()->setUsesScrollButtons(false);
     ui->tabWidget->setCurrentIndex(0);
+    ui->compileText->setContextMenuPolicy(Qt::NoContextMenu);
+    ui->outputText->setContextMenuPolicy(Qt::NoContextMenu);
 }
 
 OutputWidget::~OutputWidget()

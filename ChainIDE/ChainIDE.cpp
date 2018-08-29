@@ -225,6 +225,12 @@ void ChainIDE::refreshTranslator()
     QTranslator*  translator = new QTranslator();
     translator->load(getCurrentLanguage() == DataDefine::English ? ":/IDE_English.qm" : ":/IDE_Simplified_Chinese.qm");
     QApplication::installTranslator(translator);
+
+    QTranslator*  widgetTranslator = new QTranslator();
+    widgetTranslator->load(getCurrentLanguage() == DataDefine::English ? ":/widgets_English.qm" : ":/widgets_Chinese.qm");
+    QApplication::installTranslator(widgetTranslator);
+
+
 }
 
 void ChainIDE::InitConfig()
