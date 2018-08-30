@@ -2,7 +2,6 @@
 #define OUTPUTWIDGET_H
 
 #include <QWidget>
-#include <QLayout>
 
 namespace Ui {
 class OutputWidget;

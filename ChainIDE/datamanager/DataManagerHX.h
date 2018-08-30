@@ -32,7 +32,6 @@ private:
     bool parseContract(const QString &accountName,const QString &data);
 public:
     static DataManagerHX *getInstance();
-    ~DataManagerHX();
 public:
     DataManagerHX(const DataManagerHX &)=delete;
     DataManagerHX(DataManagerHX &&)=delete;
@@ -40,6 +39,7 @@ public:
     DataManagerHX& operator =(const DataManagerHX &) = delete;
 private:
     explicit DataManagerHX(QObject *parent = 0);
+    ~DataManagerHX();
     static DataManagerHX *_instance;
     class CGarbo // 它的唯一工作就是在析构函数中删除 的实例
     {

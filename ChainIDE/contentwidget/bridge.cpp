@@ -1,22 +1,32 @@
 #include "bridge.h"
-#include "aceeditor.h"
-#include <QMessageBox>
-#include <QJSEngine>
+
+#include <mutex>
 #include <QDebug>
+
+static std::mutex dataMutex;
+bridge* bridge::_instance = nullptr;
+bridge::CGarbo bridge::Garbo;
 
 bridge* bridge::instance()
 {
-    static bridge s_obj;
-    return &s_obj;
+    if(nullptr == _instance)
+    {
+        std::lock_guard<std::mutex> loc(dataMutex);
+        if(nullptr == _instance)
+        {
+            _instance = new bridge();
+        }
+    }
+    return _instance;
 }
 
-bridge::bridge()
+bridge::bridge(QObject *parent)
 {
 }
 
-void bridge::setEditor(AceEditor *e)
+bridge::~bridge()
 {
-    this->editor = e;
+    qDebug()<<"delete javascript bridge";
 }
 
 void bridge::onTextChanged()

@@ -2,8 +2,8 @@
 #define BACKSTAGEBASE_H
 
 #include <QObject>
-#include <QProcess>
 
+class QProcess;
 class BackStageBase : public QObject
 {
     Q_OBJECT

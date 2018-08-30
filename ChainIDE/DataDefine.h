@@ -106,6 +106,7 @@ namespace DataDefine
         QStringList events;
         std::mutex lockMutex;
     };
+    typedef std::shared_ptr<DataDefine::ApiEvent> ApiEventPtr;
 
 }
 

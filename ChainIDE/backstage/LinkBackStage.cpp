@@ -3,7 +3,6 @@
 #include <QProcess>
 #include <QTimer>
 #include <QDebug>
-#include <QSettings>
 #include <QCoreApplication>
 #include <QDir>
 

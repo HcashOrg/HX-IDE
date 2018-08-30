@@ -1,11 +1,7 @@
 #include "selectpathwidget.h"
 #include "ui_selectpathwidget.h"
 
-#include <QPainter>
-
 #include <QFileDialog>
-#include <QDebug>
-#include <QDesktopServices>
 
 #include <QCoreApplication>
 
@@ -18,11 +14,6 @@ SelectPathWidget::SelectPathWidget(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
-
-//    setAutoFillBackground(true);
-//    QPalette palette;
-//    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic/bg.png")));
-//    setPalette(palette);
 
     ui->pathLineEdit->setText(ChainIDE::getInstance()->getEnvAppDataPath());
 }

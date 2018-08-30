@@ -4,6 +4,9 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QTabBar>
+#include <QDebug>
+#include <QProcess>
+#include <QFileInfo>
 #include <QDesktopServices>
 
 #include "DataDefine.h"

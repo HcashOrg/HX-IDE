@@ -9,11 +9,6 @@ WaitingForSync::WaitingForSync(QWidget *parent) :
 
     setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
 
-//    setAutoFillBackground(true);
-//    QPalette palette;
-//    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/pic/bg.png")));
-//    setPalette(palette);
-
 }
 
 WaitingForSync::~WaitingForSync()

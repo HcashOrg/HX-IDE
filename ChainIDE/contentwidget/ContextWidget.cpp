@@ -358,8 +358,8 @@ void ContextWidget::InitWidget()
 
     connect(ui->tabWidget,&QTabWidget::tabCloseRequested,this,&ContextWidget::tabCloseRquest);
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&ContextWidget::currentTabChanged);
-    connect((QObject *)bridge::instance(), SIGNAL(textChanged()), this, SLOT(onTextChanged()), Qt::QueuedConnection);
-    connect((QObject *)bridge::instance(), SIGNAL(gutterRightClickedSignal()), this, SLOT(gutterRightClickedSignal()), Qt::QueuedConnection);
-    connect((QObject *)bridge::instance(), SIGNAL(markChanged(int,bool)), this, SLOT(markChangedSlots(int ,bool)), Qt::QueuedConnection);
+    connect(bridge::instance(), &bridge::textChanged, this, &ContextWidget::onTextChanged);
+    connect(bridge::instance(), &bridge::gutterRightClickedSignal, this, &ContextWidget::gutterRightClickedSignal);
+    connect(bridge::instance(), &bridge::markChanged, this, &ContextWidget::markChangedSlots);
 }
 

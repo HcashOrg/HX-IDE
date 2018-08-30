@@ -24,7 +24,7 @@ public:
     }
 public:
     QString currentFilePath;
-    ApiEventPtr data;
+    DataDefine::ApiEventPtr data;
 };
 
 InterfaceWidget::InterfaceWidget(QWidget *parent) :
@@ -110,7 +110,7 @@ void InterfaceWidget::InitWidget()
     ui->tabWidget->setCurrentIndex(0);
 }
 
-bool InterfaceWidget::readApiFromPath(const QString &filePath, ApiEventPtr &results)
+bool InterfaceWidget::readApiFromPath(const QString &filePath, DataDefine::ApiEventPtr &results)
 {
     //解析json文档
     if (!results) results = std::make_shared<DataDefine::ApiEvent>();

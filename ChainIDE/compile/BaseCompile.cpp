@@ -46,7 +46,7 @@ BaseCompile::~BaseCompile()
     delete _p;
 }
 
-QProcess *BaseCompile::getCompileProcess() const
+QProcess *const BaseCompile::getCompileProcess() const
 {
     return _p->compileProcess;
 }

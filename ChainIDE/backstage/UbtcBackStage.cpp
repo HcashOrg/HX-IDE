@@ -2,11 +2,9 @@
 
 #include <QTimer>
 #include <QDebug>
-#include <QSettings>
 #include <QCoreApplication>
 #include <QDir>
-#include <thread>
-#include <memory>
+#include <QProcess>
 
 #include "DataDefine.h"
 #include "IDEUtil.h"

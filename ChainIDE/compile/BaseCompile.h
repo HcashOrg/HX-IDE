@@ -4,6 +4,7 @@
 #include <QString>
 #include <QProcess>
 //基类编译器
+class QProcess;
 class BaseCompile : public QObject
 {
     Q_OBJECT
@@ -36,7 +37,7 @@ protected slots:
     virtual void onReadStandardOutput() = 0;
     virtual void onReadStandardError() = 0;
 protected:
-    QProcess *getCompileProcess()const;
+    QProcess *const getCompileProcess()const;
 
     void setTempDir(const QString &dir);
     const QString &getTempDir()const;

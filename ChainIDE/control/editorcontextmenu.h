@@ -1,9 +1,7 @@
 #ifndef EDITORCONTEXTMENU_H
 #define EDITORCONTEXTMENU_H
 
-#include <QWidget>
 #include <QMenu>
-
 
 class EditorContextMenu : public QMenu
 {

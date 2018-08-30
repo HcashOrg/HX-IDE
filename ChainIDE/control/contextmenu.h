@@ -1,7 +1,6 @@
 #ifndef CONTEXTMENU_H
 #define CONTEXTMENU_H
 
-#include <QWidget>
 #include <QMenu>
 
 class ContextMenu : public QMenu

@@ -1,10 +1,8 @@
 #ifndef SELECTPATHWIDGET_H
 #define SELECTPATHWIDGET_H
 
-#include <QWidget>
-#include <QtNetwork>
-
 #include "popwidget/MoveableDialog.h"
+
 namespace Ui {
 class SelectPathWidget;
 }

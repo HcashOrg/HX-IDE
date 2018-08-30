@@ -52,7 +52,6 @@ signals:
     void jsonDataUpdated(const QString &id,const QString &data);//接收到返回
 public:
     static ChainIDE *getInstance();
-    ~ChainIDE();
 public:
     ChainIDE(const ChainIDE &) = delete;
     ChainIDE(ChainIDE &&) = delete;
@@ -60,6 +59,7 @@ public:
     ChainIDE& operator =(ChainIDE &&) = delete;
 private:
     explicit ChainIDE(QObject *parent = nullptr);
+    ~ChainIDE();
     static ChainIDE *_instance;
     class CGarbo // 它的唯一工作就是在析构函数中删除实例（利用在程序退出时，全局变量会被析构的特性）
     {

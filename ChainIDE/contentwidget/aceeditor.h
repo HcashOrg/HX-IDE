@@ -1,7 +1,6 @@
 #ifndef ACEEDITOR_H
 #define ACEEDITOR_H
 
-#include <QWidget>
 #include "Editor.h"
 #include "DataDefine.h"
 
