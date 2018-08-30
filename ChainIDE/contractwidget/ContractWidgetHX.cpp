@@ -44,7 +44,7 @@ void ContractWidgetHX::InitWidget()
 
     connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidgetHX::ContractClicked);
 
-    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX && (ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE))
     {
         connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,DataManagerHX::getInstance(),&DataManagerHX::queryContract);
         connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&ContractWidgetHX::InitTree);

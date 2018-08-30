@@ -57,8 +57,7 @@ void ContractWidgetUB::InitWidget()
     ui->treeWidget->header()->setVisible(false);
     ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
 
-
-    if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB && (ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE))
     {
         connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidgetUB::ContractClicked);
     }
