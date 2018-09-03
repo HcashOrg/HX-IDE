@@ -8,8 +8,8 @@ IDI_ICON1 ICON "idelogo.ico"
 
 // 版本信息
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,5,100
- PRODUCTVERSION 1,0,5,100
+ FILEVERSION 1,0,6,100
+ PRODUCTVERSION 1,0,6,100
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -26,8 +26,8 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "BlockLink"
             VALUE "FileDescription", "IDE based on Qt 5.11.1(MSVC 2017)\0"
-            VALUE "FileVersion", "1.0.5.100\0"
-            VALUE "ProductVersion", "1.0.5.100\0"
+            VALUE "FileVersion", "1.0.6.100\0"
+            VALUE "ProductVersion", "1.0.6.100\0"
             VALUE "LegalCopyright", "Copyright 2017-2018 The BlockLink Ltd. All rights reserved.\0"
 			VALUE "LegalTrademarks", "BlockLink\0"
             VALUE "OriginalFilename", "ChainIDE.exe\0" 

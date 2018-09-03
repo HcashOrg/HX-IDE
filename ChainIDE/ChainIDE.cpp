@@ -238,7 +238,7 @@ void ChainIDE::InitConfig()
     if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
        "hx" != _p->configFile->value("/settings/chainClass").toString())
     {
-        _p->configFile->setValue("/settings/chainClass","ub");
+        _p->configFile->setValue("/settings/chainClass","hx");
     }
 
     if("all" != _p->configFile->value("/settings/starTypes").toString() &&
