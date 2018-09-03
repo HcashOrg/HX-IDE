@@ -157,6 +157,20 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
     }
     else if("query-getcontract-finish" == id)
     {
+        std::for_each(_p->contractData->getAllData().begin(),_p->contractData->getAllData().end(),[](const DataManagerStruct::AddressContractPtr& data){
+            std::for_each(data->GetContracts().begin(),data->GetContracts().end(),[](const DataManagerStruct::ContractInfoPtr &info){
+                ChainIDE::getInstance()->postRPC("query-contractinfo_"+info->GetContractAddr(),IDEUtil::toJsonFormat("get_simple_contract_info",QJsonArray()<<info->GetContractAddr()));
+            });
+        });
+        ChainIDE::getInstance()->postRPC("query-getcontract-info-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray()));
+    }
+    else if(id.startsWith("query-contractinfo_"))
+    {
+        QString contractAddr = id.mid(QString("query-contractinfo_").length());
+        parseContractInfo(contractAddr,data);
+    }
+    else if("query-getcontract-info-finish" == id)
+    {
         emit queryContractFinish();
     }
 }
@@ -241,6 +255,43 @@ bool DataManagerHX::parseContract(const QString &accountName,const QString &data
     }
     return true;
 
+}
+
+bool DataManagerHX::parseContractInfo(const QString &contaddr,const QString &data)
+{
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+         qDebug()<<json_error.errorString();
+         _p->contractData->DeleteContract(contaddr);
+         return false;
+    }
+    QJsonObject jsonObj = parse_doucment.object().value("result").toObject();
+    QString contractAddr = jsonObj.value("id").toString();
+    DataManagerStruct::ContractInfoPtr contractInfo = _p->contractData->getContractInfo(contractAddr);
+    if(!contractInfo) return false;
+    contractInfo->SetContractName(jsonObj.value("name").toString());
+    contractInfo->SetContractDes(jsonObj.value("description").toString());
+    DataDefine::ApiEventPtr apis = contractInfo->GetInterface();
+
+    QJsonArray apisArr = jsonObj.value("code_printable").toObject().value("abi").toArray();
+    foreach (QJsonValue val, apisArr) {
+        if(!val.isString()) continue;
+        apis->addApi(val.toString());
+    }
+    QJsonArray offapisArr = jsonObj.value("code_printable").toObject().value("offline_abi").toArray();
+    foreach (QJsonValue val, offapisArr) {
+        if(!val.isString()) continue;
+        apis->addOfflineApi(val.toString());
+    }
+    QJsonArray eventArr = jsonObj.value("code_printable").toObject().value("events").toArray();
+    foreach (QJsonValue val, eventArr) {
+        if(!val.isString()) continue;
+        apis->addEvent(val.toString());
+    }
+
+    return true;
 }
 
 

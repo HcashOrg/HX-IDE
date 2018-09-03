@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ContractWidgetUB</class>
- <widget class="QWidget" name="ContractWidgetUB">
+ <class>ContractWidget</class>
+ <widget class="QWidget" name="ContractWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -43,17 +43,22 @@
         <string notr="true">1</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </column>
      </widget>
-     <widget class="FunctionWidgetUB" name="functionWidget" native="true"/>
+     <widget class="FunctionWidget" name="functionWidget" native="true"/>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FunctionWidgetUB</class>
+   <class>FunctionWidget</class>
    <extends>QWidget</extends>
-   <header>contractwidget/functionwidgetub.h</header>
+   <header>contractwidget/functionwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

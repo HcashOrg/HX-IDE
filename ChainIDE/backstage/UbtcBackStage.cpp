@@ -175,11 +175,32 @@ void UbtcBackStage::onNodeExeStateChanged()
     }
 }
 
+void UbtcBackStage::testStartedFinish()
+{
+    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::testStartReceiveSlot);
+    connect(&_p->timerForStartExe,&QTimer::timeout,[this](){
+        this->rpcPostedSlot("teststart",IDEUtil::toJsonFormat("getblockcount",QJsonArray()));
+    });
+    _p->timerForStartExe.start(100);
+
+}
+
+void UbtcBackStage::testStartReceiveSlot(const QString &id, const QString &message)
+{
+    //等到读取到正确数据后，说明数据加载完成
+    if("teststart" == id && !message.startsWith("{\"result\":null,\"error\":{\"code\":-28,"))
+    {
+        _p->timerForStartExe.stop();
+        disconnect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::testStartReceiveSlot);
+        connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::rpcReceivedSlot);
+        emit exeStarted();
+
+    }
+}
+
 void UbtcBackStage::initSocketManager()
 {
-    connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::rpcReceivedSlot);
-    connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&BackStageBase::exeStarted);
-
+    connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&UbtcBackStage::testStartedFinish);
     _p->dataRequire->setAdditional("Authorization","Basic YTpi");
     _p->dataRequire->startManager(DataRequireManager::HTTPWITHUSER);
 }

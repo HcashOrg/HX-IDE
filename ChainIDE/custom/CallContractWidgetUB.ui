@@ -134,7 +134,11 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="param"/>
+     <widget class="QLineEdit" name="param">
+      <property name="placeholderText">
+       <string>请输入参数(可选)</string>
+      </property>
+     </widget>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_5">

@@ -84,6 +84,12 @@ namespace DataDefine
             std::lock_guard<std::mutex> lock(lockMutex);
             apis<<name;
         }
+
+        void addOfflineApi(const QString &name){
+            std::lock_guard<std::mutex> lock(lockMutex);
+            offlineApis<<name;
+        }
+
         void addEvent(const QString &name){
             std::lock_guard<std::mutex> lock(lockMutex);
             events<<name;
@@ -92,17 +98,24 @@ namespace DataDefine
         const QStringList &getAllApiName()const{
             return apis;
         }
+
+        const QStringList &getAllOfflineApiName()const{
+            return offlineApis;
+        }
+
         const QStringList &getAllEventName()const{
             return events;
         }
         void clear(){
             std::lock_guard<std::mutex> lock(lockMutex);
             apis.clear();
+            offlineApis.clear();
             events.clear();
         }
 
     private:
         QStringList apis;
+        QStringList offlineApis;
         QStringList events;
         std::mutex lockMutex;
     };

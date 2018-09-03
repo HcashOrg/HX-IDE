@@ -53,8 +53,8 @@ SOURCES += main.cpp\
     custom/TransferWidgetHX.cpp \
     custom/CallContractWidgetHX.cpp \
     ConvenientOp.cpp \
-    contractwidget/ContractWidgetHX.cpp \
-    contractwidget/FunctionWidgetHX.cpp \
+    contractwidget/ContractWidget.cpp \
+    contractwidget/FunctionWidget.cpp \
     compile/kotlinCompile.cpp \
     popwidget/ConfigWidget.cpp \
     contentwidget/Editor.cpp \
@@ -67,8 +67,6 @@ SOURCES += main.cpp\
     custom/NameDialogUB.cpp \
     custom/RegisterContractDialogUB.cpp \
     custom/TransferWidgetUB.cpp \
-    contractwidget/ContractWidgetUB.cpp \
-    contractwidget/FunctionWidgetUB.cpp \
     update/UpdateNetWork.cpp \
     update/UpdateProcess.cpp \
     update/UpdateProgressUtil.cpp \
@@ -84,7 +82,8 @@ SOURCES += main.cpp\
     backstage/BackStageManager.cpp \
     datamanager/DataManagerStruct.cpp \
     debugwidget/DebugManager.cpp \
-    notifyWidget/MessageNotifyWidget.cpp
+    notifyWidget/MessageNotifyWidget.cpp \
+    custom/UpgradeContractDialogHX.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -126,8 +125,8 @@ HEADERS  += MainWindow.h \
     custom/TransferWidgetHX.h \
     custom/CallContractWidgetHX.h \
     ConvenientOp.h \
-    contractwidget/ContractWidgetHX.h \
-    contractwidget/FunctionWidgetHX.h \
+    contractwidget/ContractWidget.h \
+    contractwidget/FunctionWidget.h \
     compile/kotlinCompile.h \
     popwidget/ConfigWidget.h \
     contentwidget/Editor.h \
@@ -140,8 +139,6 @@ HEADERS  += MainWindow.h \
     custom/NameDialogUB.h \
     custom/RegisterContractDialogUB.h \
     custom/TransferWidgetUB.h \
-    contractwidget/ContractWidgetUB.h \
-    contractwidget/FunctionWidgetUB.h \
     update/UpdateNetWork.h \
     update/UpdateProcess.h \
     update/UpdateProgressUtil.h \
@@ -157,7 +154,8 @@ HEADERS  += MainWindow.h \
     backstage/BackStageManager.h \
     datamanager/DataManagerStruct.h \
     debugwidget/DebugManager.h \
-    notifyWidget/MessageNotifyWidget.h
+    notifyWidget/MessageNotifyWidget.h \
+    custom/UpgradeContractDialogHX.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -175,8 +173,8 @@ FORMS    += MainWindow.ui \
     custom/RegisterContractDialogHX.ui \
     custom/TransferWidgetHX.ui \
     custom/CallContractWidgetHX.ui \
-    contractwidget/ContractWidgetHX.ui \
-    contractwidget/FunctionWidgetHX.ui \
+    contractwidget/ContractWidget.ui \
+    contractwidget/FunctionWidget.ui \
     popwidget/ConfigWidget.ui \
     contentwidget/Editor.ui \
     contentwidget/codeeditor.ui \
@@ -188,12 +186,11 @@ FORMS    += MainWindow.ui \
     custom/NameDialogUB.ui \
     custom/RegisterContractDialogUB.ui \
     custom/TransferWidgetUB.ui \
-    contractwidget/ContractWidgetUB.ui \
-    contractwidget/FunctionWidgetUB.ui \
     popwidget/AboutWidget.ui \
     custom/ImportEnterPWDDialogHX.ui \
     debugwidget/DebugWidget.ui \
-    notifyWidget/MessageNotifyWidget.ui
+    notifyWidget/MessageNotifyWidget.ui \
+    custom/UpgradeContractDialogHX.ui
 
 RESOURCES += \
     chain.qrc

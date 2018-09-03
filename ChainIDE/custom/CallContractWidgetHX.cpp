@@ -36,11 +36,7 @@ void CallContractWidgetHX::jsonDataUpdated(const QString &id, const QString &dat
         ConvenientOp::ShowSyncCommonDialog(data);
         close();
     }
-    else if(id.startsWith("call-contractinfo_"))
-    {
-        QString ownerAddr = id.mid(QString("call-contractinfo_").length());
-        parseContractInfo(ownerAddr,data);
-    }
+
 }
 
 void CallContractWidgetHX::CallContract()
@@ -62,9 +58,37 @@ void CallContractWidgetHX::CallContract()
 
 void CallContractWidgetHX::contractAddressChanged()
 {
-    //查询合约对应的api
-    ChainIDE::getInstance()->postRPC("call-contractinfo_"+ui->contractAddress->currentText(),
-                                     IDEUtil::toJsonFormat("get_contract_info",QJsonArray()<<ui->contractAddress->currentText()));
+    ui->function->clear();
+    //构建合约树
+    DataManagerStruct::ContractInfoPtr info = DataManagerHX::getInstance()->getContract()->getContractInfo(ui->contractAddress->currentText());
+    if(!info) return;
+
+    QTreeWidget *tree = new QTreeWidget(this);
+    tree->header()->setVisible(false);
+    QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<"api");
+    item->setFlags(Qt::ItemIsEnabled);
+    tree->addTopLevelItem(item);
+
+    QTreeWidgetItem *item1 = new QTreeWidgetItem(QStringList()<<"offline-api");
+    item1->setFlags(Qt::ItemIsEnabled);
+    tree->addTopLevelItem(item1);
+
+    for(auto it = info->GetInterface()->getAllApiName().begin();it != info->GetInterface()->getAllApiName().end();++it)
+    {
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<*it);
+        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("api"));
+        item->addChild(itemChild);
+    }
+    for(auto it = info->GetInterface()->getAllOfflineApiName().begin();it != info->GetInterface()->getAllOfflineApiName().end();++it)
+    {
+        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<*it);
+        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("offline-api"));
+        item1->addChild(itemChild);
+    }
+
+    tree->expandAll();
+    ui->function->setModel(tree->model());
+    ui->function->setView(tree);
 }
 
 void CallContractWidgetHX::functionChanged()
@@ -130,7 +154,8 @@ void CallContractWidgetHX::InitContractAddress()
         tree->addTopLevelItem(item);
         for(auto cont = (*it)->GetContracts().begin();cont != (*it)->GetContracts().end();++cont)
         {
-            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*cont)->GetContractAddr());
+            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<((*cont)->GetContractName().isEmpty()?(*cont)->GetContractAddr():(*cont)->GetContractName()));
+            childitem->setToolTip(0,(*cont)->GetContractDes());
             item->addChild(childitem);
         }
 
@@ -139,47 +164,4 @@ void CallContractWidgetHX::InitContractAddress()
     ui->contractAddress->setModel(tree->model());
     ui->contractAddress->setView(tree);
 
-}
-
-bool CallContractWidgetHX::parseContractInfo(const QString &addr, const QString &data)
-{
-    ui->function->clear();
-    QTreeWidget *tree = new QTreeWidget(this);
-    tree->header()->setVisible(false);
-    QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()<<"api");
-    item->setFlags(Qt::ItemIsEnabled);
-    tree->addTopLevelItem(item);
-
-    QTreeWidgetItem *item1 = new QTreeWidgetItem(QStringList()<<"offline-api");
-    item1->setFlags(Qt::ItemIsEnabled);
-    tree->addTopLevelItem(item1);
-
-    QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
-    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
-    {
-         qDebug()<<json_error.errorString();
-         return false;
-    }
-    QJsonArray apisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("abi").toArray();
-    foreach (QJsonValue val, apisArr) {
-        if(!val.isString()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
-        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("api"));
-        item->addChild(itemChild);
-    }
-    QJsonArray offapisArr = parse_doucment.object().value("result").toObject().value("code_printable").toObject().value("offline_abi").toArray();
-    foreach (QJsonValue val, offapisArr) {
-        if(!val.isString()) continue;
-        QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<val.toString());
-        itemChild->setData(0,Qt::UserRole,QVariant::fromValue<QString>("offline-api"));
-        item1->addChild(itemChild);
-    }
-
-
-    tree->expandAll();
-    ui->function->setModel(tree->model());
-    ui->function->setView(tree);
-
-    return true;
 }

@@ -25,9 +25,6 @@ private:
     void InitContractAddress();
 private:
     Ui::CallContractWidgetHX *ui;
-private:
-
-    bool parseContractInfo(const QString &addr,const QString &data);
 };
 
 #endif // CALLCONTRACTWIDGETHX_H

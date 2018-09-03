@@ -21,6 +21,8 @@ protected slots:
     void rpcReceivedSlot(const QString &id,const QString &message)override final;
 private slots:
     void onNodeExeStateChanged();
+    void testStartedFinish();
+    void testStartReceiveSlot(const QString &id,const QString &message);
 
 private:
     void initSocketManager();

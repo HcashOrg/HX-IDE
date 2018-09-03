@@ -164,6 +164,9 @@ color: rgb(255, 255, 255);</string>
       <property name="readOnly">
        <bool>false</bool>
       </property>
+      <property name="placeholderText">
+       <string>请输入账户名称</string>
+      </property>
      </widget>
     </item>
     <item row="1" column="0">
@@ -200,6 +203,9 @@ color: rgb(255, 255, 255);</string>
       </property>
       <property name="readOnly">
        <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>请输入私钥</string>
       </property>
      </widget>
     </item>

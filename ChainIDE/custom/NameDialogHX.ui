@@ -45,6 +45,9 @@
    <property name="cursorPosition">
     <number>0</number>
    </property>
+   <property name="placeholderText">
+    <string>请输入账户名称</string>
+   </property>
   </widget>
   <widget class="QLabel" name="addressNameTipLabel1">
    <property name="geometry">

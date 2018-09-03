@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FunctionWidgetUB</class>
- <widget class="QWidget" name="FunctionWidgetUB">
+ <class>FunctionWidget</class>
+ <widget class="QWidget" name="FunctionWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

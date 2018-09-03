@@ -30,6 +30,7 @@ private:
     bool parseAddressBalances(const QString &data);
 
     bool parseContract(const QString &accountName,const QString &data);
+    bool parseContractInfo(const QString &contaddr,const QString &data);
 public:
     static DataManagerHX *getInstance();
 public:

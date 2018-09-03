@@ -11,6 +11,9 @@ public:
     void queryAccount();//查询ub账户信息
     const DataManagerStruct::AccountUB::AccountDataPtr &getAccount()const;
 
+    void queryContract();//查询合约
+    const DataManagerStruct::AddressContractDataPtr &getContract()const;
+
     void checkAddress(const QString &addr);//检测地址合法性
 public:
     void InitManager();
@@ -19,12 +22,13 @@ private slots:
 signals:
     void queryAccountFinish();
     void addressCheckFinish(bool);
-
+    void queryContractFinish();
 private:
     bool parseListAccount(const QString &data);
     bool parseAddresses(const QString &accountName,const QString &data);
     bool parseAddressBalances(const QString &data);
 
+    bool parseContractInfo(const QString &contAddr,const QString &data);
 public:
     static DataManagerUB *getInstance();
 public:

@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include <QString>
+#include "DataDefine.h"
 
 namespace DataManagerStruct {
 
@@ -15,14 +16,25 @@ namespace DataManagerStruct {
     //合约最简信息
     class ContractInfo{
     public:
+        ContractInfo():interface(std::make_shared<DataDefine::ApiEvent>()){}
+    public:
         void SetContractAddr(const QString &addr){contractAddress = addr;}
         const QString &GetContractAddr()const{return contractAddress;}
 
         void SetContractName(const QString &name){contractName = name;}
         const QString &GetContractName()const{return contractName;}
+
+        void SetContractDes(const QString &des){contractDes = des;}
+        const QString &GetContractDes()const{return contractDes;}
+
+        void SetInterface(const DataDefine::ApiEventPtr &data){interface = data;}
+        DataDefine::ApiEventPtr GetInterface()const{return interface;}
+
     private:
         QString contractAddress;
         QString contractName;
+        QString contractDes;
+        DataDefine::ApiEventPtr interface;
     };
     typedef std::shared_ptr<ContractInfo> ContractInfoPtr;
     typedef std::vector<ContractInfoPtr> ContractInfoVec;
@@ -57,7 +69,7 @@ namespace DataManagerStruct {
         }
 
     private:
-        QString ownerAddr;
+        QString ownerAddr;//地址或名称
         ContractInfoVec contracts;
     };
     typedef std::shared_ptr<AddressContract> AddressContractPtr;
@@ -66,6 +78,32 @@ namespace DataManagerStruct {
     class AddressContractData{
     public:
         const AddressContractVec& getAllData()const{return data;}
+
+        AddressContractPtr getAddressContract(const QString &owneraddr)const{
+            auto it = std::find_if(data.begin(),data.end(),[owneraddr](const AddressContractPtr &cont){return owneraddr == cont->GetOwnerAddr();});
+            if(it != data.end())
+            {//说明已经有了拥有者
+                return *it;
+            }
+            else
+            {
+                return nullptr;
+            }
+        }
+
+        ContractInfoPtr getContractInfo(const QString &conAddressOrName)const{
+            for(auto it = data.begin();it != data.end();++it)
+            {
+                for(auto iter = (*it)->GetContracts().begin();iter != (*it)->GetContracts().end();++iter)
+                {
+                    if((*iter)->GetContractAddr() == conAddressOrName || (*iter)->GetContractName() == conAddressOrName)
+                    {
+                        return *iter;
+                    }
+                }
+            }
+            return nullptr;
+        }
 
         void AddContract(const QString &owneraddr,const QString &contractaddr,const QString &contractname = ""){
             std::lock_guard<std::mutex> lockguard(mutexLock);

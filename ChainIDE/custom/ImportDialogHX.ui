@@ -201,6 +201,9 @@ color: rgb(255, 255, 255);</string>
       <property name="readOnly">
        <bool>false</bool>
       </property>
+      <property name="placeholderText">
+       <string>请选择私钥文件(不可输入)</string>
+      </property>
      </widget>
     </item>
     <item row="1" column="2">

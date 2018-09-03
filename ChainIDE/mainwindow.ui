@@ -52,12 +52,7 @@
          <string>合约项目</string>
         </attribute>
        </widget>
-       <widget class="ContractWidgetHX" name="contractWidgetHX">
-        <attribute name="title">
-         <string>已注册合约</string>
-        </attribute>
-       </widget>
-       <widget class="ContractWidgetUB" name="contractWidgetUB">
+       <widget class="ContractWidget" name="contractWidget">
         <attribute name="title">
          <string>已注册合约</string>
         </attribute>
@@ -645,15 +640,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ContractWidgetHX</class>
+   <class>ContractWidget</class>
    <extends>QWidget</extends>
-   <header>contractwidget/contractwidgethx.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ContractWidgetUB</class>
-   <extends>QWidget</extends>
-   <header>contractwidget/contractwidgetub.h</header>
+   <header>contractwidget/contractwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

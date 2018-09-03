@@ -31,6 +31,7 @@
 
 #include "custom/AccountWidgetHX.h"
 #include "custom/RegisterContractDialogHX.h"
+#include "custom/UpgradeContractDialogHX.h"
 #include "custom/TransferWidgetHX.h"
 #include "custom/CallContractWidgetHX.h"
 #include "custom/PasswordVerifyWidgetHX.h"
@@ -41,6 +42,7 @@
 #include "custom/CallContractWidgetUB.h"
 
 #include "ConvenientOp.h"
+#include "IDEUtil.h"
 
 class MainWindow::DataPrivate
 {
@@ -202,8 +204,8 @@ void MainWindow::refreshTranslator()
 
     ui->fileWidget->retranslator();
     ui->outputWidget->retranslator();
-    ui->contractWidgetHX->retranslator();
-    ui->contractWidgetUB->retranslator();
+    ui->contractWidget->retranslator();
+    //ui->contractWidgetUB->retranslator();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -250,6 +252,7 @@ void MainWindow::exeStartedSlots()
     emit initFinish();
     //启动主窗口
     startWidget();
+
 }
 
 void MainWindow::showWaitingForSyncWidget()
@@ -331,14 +334,7 @@ void MainWindow::tabWidget_currentChanged(int index)
 {
     if(index == 1)
     {
-        if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
-        {
-            ui->contractWidgetHX->RefreshTree();
-        }
-        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
-        {
-            ui->contractWidgetUB->RefreshTree();
-        }
+        ui->contractWidget->RefreshTree();
     }
 }
 
@@ -355,23 +351,19 @@ void MainWindow::HideAction()
     ui->transferAction->setVisible(false);
     ui->importAction->setVisible(false);
     ui->exportAction->setVisible(false);
-    ui->upgradeAction->setVisible(false);
 
     //启动链引起的按钮显示不可用
     ui->changeChainAction->setVisible((ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST) &&
                                       (ChainIDE::getInstance()->getStartChainTypes() & DataDefine::FORMAL));
     if(ChainIDE::getInstance()->getStartChainTypes() == DataDefine::NONE)
     {
-        ui->tabWidget->removeTab(2);
         ui->tabWidget->removeTab(1);
     }
-    else
-    {
-        ui->tabWidget->removeTab(ChainIDE::getInstance()->getChainClass() == DataDefine::UB ? 1 : 2);
-    }
+
 
     ui->callAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->registerAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
+    ui->upgradeAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE && ChainIDE::getInstance()->getChainClass() == DataDefine::HX);
     ui->accountListAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->transferToAccountAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->consoleAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
@@ -453,7 +445,15 @@ void MainWindow::on_callAction_triggered()
 
 void MainWindow::on_upgradeAction_triggered()
 {
+    if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
+    {
+        UpgradeContractDialogHX upgradeContractWidget;
+        upgradeContractWidget.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
+    {
 
+    }
 }
 
 void MainWindow::on_withdrawAction_triggered()
@@ -480,12 +480,6 @@ void MainWindow::on_changeChainAction_triggered()
         {
             ChainIDE::getInstance()->setCurrentChainType(DataDefine::TEST);
         }
-        //切换到正式链时，输入密码11111111
-//        PasswordVerifyWidgetHX password;
-//        if(!password.pop())
-//        {
-//             ChainIDE::getInstance()->setCurrentChainType(1);
-//        }
     }
     refreshTitle();
     ModifyActionState();
