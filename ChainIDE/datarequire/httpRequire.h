@@ -3,7 +3,7 @@
 
 #include "RequireBase.h"
 #include <QNetworkReply>
-//http请求
+//http请求，底层封装，用于数据链接访问
 class httpRequire : public RequireBase
 {
     Q_OBJECT

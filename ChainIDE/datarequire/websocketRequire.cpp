@@ -36,7 +36,7 @@ void websocketRequire::postData(const QString &data)
 {
     if(!isConnected())
     {
-        qDebug()<<"websocket not connect to "<<getConnectPort();
+        qDebug()<<"websocket not connect to "<<getConnectIP()<<":"<<getConnectPort()<<data<<" abandoned";
         return;
     }
     {
@@ -82,7 +82,7 @@ void websocketRequire::onStateChanged(QAbstractSocket::SocketState _state)
     }
     else if(_state == QAbstractSocket::ConnectedState)
     {
-         qDebug() << "websocket connected " << getConnectIP()<<getConnectPort();
+        qDebug() << "websocket connected " << getConnectIP()<<getConnectPort();
         emit connectFinish();
     }
 }

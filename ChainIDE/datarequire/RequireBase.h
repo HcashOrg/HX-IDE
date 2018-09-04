@@ -16,6 +16,7 @@ public:
 signals:
     void receiveData(const QString &);
     void connectFinish();
+    void connectFailed();
 public:
     const QString & getConnectPort()const;
     const QString &getConnectIP()const;

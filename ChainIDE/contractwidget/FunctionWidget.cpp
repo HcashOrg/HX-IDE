@@ -58,6 +58,13 @@ void FunctionWidget::RefreshContractAddr(const QString &addr)
     }
 }
 
+void FunctionWidget::Clear()
+{
+    ui->treeWidget_offline->clear();
+    ui->treeWidget_online->clear();
+    ui->tabWidget->setCurrentIndex(0);
+}
+
 void FunctionWidget::InitWidget()
 {
     ui->treeWidget_offline->header()->setVisible(false);

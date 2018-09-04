@@ -42,7 +42,7 @@ void tcpsocketRequire::postData(const QString &data)
 {
     if(!isConnected())
     {
-        qDebug()<<"tcpsocket not connect to "<<getConnectIP()<<":"<<getConnectPort();
+        qDebug()<<"tcpsocket not connect to "<<getConnectIP()<<":"<<getConnectPort()<<data<<" abandoned";
         return;
     }
 
@@ -55,6 +55,7 @@ void tcpsocketRequire::startConnect()
     _p->socket->connectToHost(QHostAddress(getConnectIP()), getConnectPort().toInt());
     if (!_p->socket->waitForConnected()) {
         qDebug() << "could not connect to server: "<< _p->socket->errorString();
+        emit connectFailed();
         return;
     }
 

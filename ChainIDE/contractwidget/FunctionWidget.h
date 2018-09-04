@@ -18,6 +18,7 @@ signals:
 
 public:
     void RefreshContractAddr(const QString &addr);
+    void Clear();
 public slots:
     void retranslator();
 private:

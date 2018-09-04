@@ -2,7 +2,7 @@
 #define CONTRACTWIDGET_H
 
 #include <QWidget>
-
+//合约显示界面，用于展示已注册合约
 namespace Ui {
 class ContractWidget;
 }

@@ -45,6 +45,7 @@ ContractWidget::~ContractWidget()
 
 void ContractWidget::RefreshTree()
 {
+    ui->functionWidget->Clear();
     if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
     {
         DataManagerHX::getInstance()->queryAccount();
