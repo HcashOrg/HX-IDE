@@ -32,6 +32,11 @@ void UpgradeContractDialogHX::jsonDataUpdated(const QString &id, const QString &
 void UpgradeContractDialogHX::UpgradeContract()
 {
 
+    //对信息不足的操作不予执行
+    if(ui->callAddress->currentText().isEmpty() || ui->contractAddress->currentText().isEmpty() || ui->contractName->text().isEmpty())
+    {
+        return;
+    }
     ChainIDE::getInstance()->postRPC("upgrade_upgrade_contract",IDEUtil::toJsonFormat("upgrade_contract",QJsonArray()<<
                                      ui->callAddress->currentText()<<ui->gasprice->text()<<ui->gaslimit->text()
                                      <<ui->contractAddress->currentText()<<ui->contractName->text()

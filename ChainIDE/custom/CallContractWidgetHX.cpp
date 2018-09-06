@@ -41,6 +41,11 @@ void CallContractWidgetHX::jsonDataUpdated(const QString &id, const QString &dat
 
 void CallContractWidgetHX::CallContract()
 {
+    if(ui->contractAddress->currentText().isEmpty() || ui->callAddress->currentText().isEmpty() || ui->function->currentText().isEmpty())
+    {
+        return;
+    }
+
     if(ui->gaslimit->isEnabled() && ui->gasprice->isEnabled())
     {
         ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("invoke_contract",QJsonArray()<<

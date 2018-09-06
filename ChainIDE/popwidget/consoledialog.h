@@ -2,6 +2,7 @@
 #define CONSOLEDIALOG_H
 
 #include <QDialog>
+#include <QStringList>
 #include "popwidget/MoveableDialog.h"
 
 namespace Ui {
@@ -24,10 +25,12 @@ private slots:
     void jsonDataUpdated(const QString &id,const QString &data);
 
     void on_clearBtn_clicked();
-
+private:
+    enum IndexType{Up,Down,Last,First};
+    void ModifyIndex(IndexType indexType);//往更早之前的输入进行索引
 private:
     Ui::ConsoleDialog *ui;
-    QVector<QString> cmdVector;
+    QStringList cmds;
     int cmdIndex;
 
     bool eventFilter(QObject *watched, QEvent *e);

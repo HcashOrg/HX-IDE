@@ -45,6 +45,10 @@ void CallContractWidgetUB::jsonDataUpdated(const QString &id, const QString &dat
 
 void CallContractWidgetUB::CallContract()
 {
+    if(ui->callAddress->currentText().isEmpty() || ui->contractAddress->currentText().isEmpty() || ui->function->currentText().isEmpty())
+    {
+        return;
+    }
     if(ui->gaslimit->isEnabled() && ui->gasprice->isEnabled() && ui->fee->isEnabled())
     {
         ChainIDE::getInstance()->postRPC("call_callcontract",IDEUtil::toJsonFormat("callcontract",QJsonArray()<<

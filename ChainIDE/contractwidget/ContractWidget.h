@@ -18,7 +18,7 @@ public slots:
     void RefreshTree();
     void retranslator();
 private slots:
-    void ContractClicked(QTreeWidgetItem *item, int column);
+    void ContractClicked(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void CopyAddr();
 private:
     void InitWidget();

@@ -56,11 +56,11 @@ void ContractWidget::RefreshTree()
     }
 }
 
-void ContractWidget::ContractClicked(QTreeWidgetItem *item, int column)
+void ContractWidget::ContractClicked(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    if(item && item->parent())
+    if(current && current->parent())
     {
-        ui->functionWidget->RefreshContractAddr(item->text(0));
+        ui->functionWidget->RefreshContractAddr(current->text(0));
     }
 }
 
@@ -83,7 +83,7 @@ void ContractWidget::InitWidget()
     ui->treeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->splitter->setSizes(QList<int>()<<0.66*this->height()<<0.34*this->height());
 
-    connect(ui->treeWidget,&QTreeWidget::itemClicked,this,&ContractWidget::ContractClicked);
+    connect(ui->treeWidget,&QTreeWidget::currentItemChanged,this,&ContractWidget::ContractClicked);
 
     if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX && (ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE))
     {

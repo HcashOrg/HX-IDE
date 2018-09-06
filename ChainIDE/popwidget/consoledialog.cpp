@@ -33,41 +33,17 @@ ConsoleDialog::~ConsoleDialog()
 
 bool ConsoleDialog::eventFilter(QObject *watched, QEvent *e)
 {
-    if(watched == ui->consoleLineEdit)
+    if(watched == ui->consoleLineEdit && e->type() == QEvent::KeyPress)
     {
-        if(e->type() == QEvent::KeyPress)
+        QKeyEvent* event = dynamic_cast<QKeyEvent*>(e);
+        if( event->key() == Qt::Key_Up)
         {
-            QKeyEvent* event = static_cast<QKeyEvent*>(e);
-            if( event->key() == Qt::Key_Up)
-            {
-                cmdIndex--;
-                if( cmdIndex >= 0 && cmdIndex <= cmdVector.size() - 1)
-                {
-                    ui->consoleLineEdit->setText(cmdVector.at(cmdIndex));
-                }
-
-                if( cmdIndex < 0)
-                {
-                    cmdIndex = 0;
-                }
-
-            }
-            else if( event->key() == Qt::Key_Down)
-            {
-                cmdIndex++;
-                if( cmdIndex >= 0 && cmdIndex <= cmdVector.size() - 1)
-                {
-                    ui->consoleLineEdit->setText(cmdVector.at(cmdIndex));
-                }
-
-                if( cmdIndex > cmdVector.size() - 1)
-                {
-                    cmdIndex = cmdVector.size() - 1;
-                }
-
-            }
+            ModifyIndex(Up);
         }
-
+        else if( event->key() == Qt::Key_Down)
+        {
+            ModifyIndex(Down);
+        }
     }
 
     return QWidget::eventFilter(watched,e);
@@ -87,19 +63,18 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
         ui->consoleLineEdit->clear();
         return;
     }
-    if( !ui->consoleLineEdit->text().simplified().isEmpty())
-    {
-        cmdVector.removeAll(ui->consoleLineEdit->text());
-        cmdVector.append(ui->consoleLineEdit->text());
-        cmdIndex = cmdVector.size();
-    }
 
-    QStringList paramaters = ui->consoleLineEdit->text().simplified().split(' ');
+    QString consoleText = ui->consoleLineEdit->text().simplified();
+    if(consoleText.isEmpty()) return;
+    cmds.removeAll(consoleText);
+    cmds.append(consoleText);
+    cmdIndex = cmds.size();
+
+    QStringList paramaters = consoleText.split(' ');
     QString command = paramaters.at(0);
     paramaters.removeFirst();    
 
     QJsonArray array;
-
     if(!paramaters.empty())
     {
         if(1 == paramaters.size() && paramaters.first().startsWith("[") && paramaters.first().endsWith("]"))
@@ -121,8 +96,6 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
     ChainIDE::getInstance()->postRPC( "console-" + ui->consoleLineEdit->text().simplified(), IDEUtil::toJsonFormat( command, array )/*str*/);
 
     ui->consoleLineEdit->clear();
-
-    return;
 }
 
 void ConsoleDialog::jsonDataUpdated(const QString &id,const QString &data)
@@ -147,4 +120,34 @@ void ConsoleDialog::jsonDataUpdated(const QString &id,const QString &data)
 void ConsoleDialog::on_clearBtn_clicked()
 {
     ui->consoleBrowser->clear();
+}
+
+void ConsoleDialog::ModifyIndex(ConsoleDialog::IndexType indexType)
+{
+    switch (indexType) {
+    case Up:
+        --cmdIndex;
+        break;
+    case Down:
+        ++cmdIndex;
+        break;
+    case Last:
+        cmds.size()-1;
+        break;
+    case First:
+        0;
+        break;
+    default:
+        break;
+    }
+    cmdIndex = std::max<int>(std::min<int>(cmds.size(),cmdIndex),0);
+
+    if(cmds.isEmpty() || cmdIndex == cmds.size())
+    {
+        ui->consoleLineEdit->clear();
+    }
+    else
+    {
+        ui->consoleLineEdit->setText(cmds.at(cmdIndex));
+    }
 }
