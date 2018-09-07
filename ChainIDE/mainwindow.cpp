@@ -13,6 +13,7 @@
 #include "ChainIDE.h"
 #include "compile/CompileManager.h"
 #include "backstage/BackStageManager.h"
+#include "debugwidget/DebugManager.h"
 
 #include "selectpathwidget.h"
 #include "waitingforsync.h"
@@ -150,10 +151,17 @@ void MainWindow::startWidget()
 
     connect(ui->contentWidget,&ContextWidget::fileSelected,ui->fileWidget,&FileWidget::SelectFile);
     connect(ui->contentWidget,&ContextWidget::contentStateChange,this,&MainWindow::ModifyActionState);
+    connect(ui->contentWidget,&ContextWidget::GetBreakPointFinish,ChainIDE::getInstance()->getDebugManager(),&DebugManager::fetchBreakPointsFinish);
 
     //已注册合约
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabWidget_currentChanged);
 
+    //调试器槽
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::fetchBreakPoints,ui->contentWidget,&ContextWidget::GetBreakPointSlots);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugOutput,ui->outputWidget,&OutputWidget::receiveOutputMessage);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,ui->outputWidget,&OutputWidget::receiveOutputMessage);
+
+    //调整按钮状态
     ModifyActionState();
     //状态栏开始更新
     ui->statusBar->startStatus();
@@ -510,8 +518,11 @@ void MainWindow::on_compileAction_triggered()
 
 void MainWindow::on_debugAction_triggered()
 {
-    //ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
+    ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
     ConvenientOp::ShowNotifyMessage(tr("单步调试功能正在紧急开发中，敬请期待！"));
+    //ui->debugAction->setEnabled(false);
+    ChainIDE::getInstance()->getDebugManager()->startDebug(ui->fileWidget->getCurrentFile());
+
 }
 
 void MainWindow::on_stopAction_triggered()

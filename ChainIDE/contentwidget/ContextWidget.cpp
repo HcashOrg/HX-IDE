@@ -125,6 +125,19 @@ void ContextWidget::ClearBreakPoint()
     }
 }
 
+void ContextWidget::GetBreakPointSlots(const QString &filePath)
+{
+    if(Editor * edi = getEditor(filePath))
+    {
+        emit GetBreakPointFinish( edi->getBreakPoints());
+    }
+    else
+    {
+        std::vector<int> temp;
+        emit GetBreakPointFinish(temp);
+    }
+}
+
 void ContextWidget::showFile(QString path)
 {
     for(int i = 0;i < ui->tabWidget->count();++i)

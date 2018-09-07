@@ -83,7 +83,8 @@ SOURCES += main.cpp\
     datamanager/DataManagerStruct.cpp \
     debugwidget/DebugManager.cpp \
     notifyWidget/MessageNotifyWidget.cpp \
-    custom/UpgradeContractDialogHX.cpp
+    custom/UpgradeContractDialogHX.cpp \
+    debugwidget/DebugDataStruct.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -155,7 +156,8 @@ HEADERS  += MainWindow.h \
     datamanager/DataManagerStruct.h \
     debugwidget/DebugManager.h \
     notifyWidget/MessageNotifyWidget.h \
-    custom/UpgradeContractDialogHX.h
+    custom/UpgradeContractDialogHX.h \
+    debugwidget/DebugDataStruct.h
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \

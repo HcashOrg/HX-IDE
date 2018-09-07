@@ -6,6 +6,7 @@
 
 class BackStageManager;
 class CompileManager;
+class DebugManager;
 class QProcess;
 
 //ide功能单例，工程中的配置、设置等全局功能通过本类提供，数据访问也通过本类中转（主要便于切换测试、正式链时数据访问通道修改）
@@ -40,6 +41,8 @@ public:
     BackStageManager *const getBackStageManager()const;
 //编译
     CompileManager *const getCompileManager()const;
+//调试
+    DebugManager *const getDebugManager()const;
 public:
     void refreshStyleSheet();//刷新样式表
     void refreshTranslator();//刷新翻译

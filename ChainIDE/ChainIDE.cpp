@@ -11,6 +11,7 @@
 
 #include "compile/CompileManager.h"
 #include "backstage/BackStageManager.h"
+#include "debugwidget/DebugManager.h"
 
 static std::mutex dataMutex;
 class ChainIDE::DataPrivate
@@ -24,6 +25,7 @@ public:
         ,themeStyle(DataDefine::Black_Theme)
         ,backStageManager(nullptr)
         ,compileManager(new CompileManager())
+        ,debugManager(new DebugManager())
     {
 
     }
@@ -44,6 +46,11 @@ public:
             delete compileManager;
             compileManager = nullptr;
         }
+        if(debugManager)
+        {
+            delete debugManager;
+            debugManager = nullptr;
+        }
     }
 
 public:
@@ -57,6 +64,7 @@ public:
 
     CompileManager *compileManager;//编译器
     BackStageManager *backStageManager;//后台
+    DebugManager *debugManager;//调试器
 };
 
 ChainIDE *ChainIDE::getInstance()
@@ -199,6 +207,11 @@ BackStageManager * const ChainIDE::getBackStageManager() const
 CompileManager *const ChainIDE::getCompileManager() const
 {
     return _p->compileManager;
+}
+
+DebugManager * const ChainIDE::getDebugManager() const
+{
+    return _p->debugManager;
 }
 
 void ChainIDE::refreshStyleSheet()

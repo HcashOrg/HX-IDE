@@ -1,6 +1,7 @@
 #ifndef CONTEXTWIDGET_H
 #define CONTEXTWIDGET_H
 
+#include <vector>
 #include <QWidget>
 
 namespace Ui {
@@ -33,12 +34,15 @@ public:
     void TabBreakPoint();
 
     void ClearBreakPoint();
+
 signals:
     void textChanged();
 
     void fileSelected(QString path);
 
     void contentStateChange();
+
+    void GetBreakPointFinish(const std::vector<int> &data);
 public slots:
     void showFile(QString path);
 
@@ -58,7 +62,9 @@ public slots:
 
     void CheckDeleteFile();//文件被删除后使用，用于检查是否有被删除的文件正在被打开，是则关闭
 
-    void markChangedSlots(int lineNumber,bool isAdd);
+    void markChangedSlots(int lineNumber,bool isAdd);//断点添加或者删除的槽处理
+
+    void GetBreakPointSlots(const QString &filePath);//获取某个文件的断点行号
 private slots:
     void currentTabChanged(int i);
     void tabCloseRquest(int i);

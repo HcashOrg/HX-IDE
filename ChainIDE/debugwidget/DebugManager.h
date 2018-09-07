@@ -10,7 +10,17 @@ public:
     explicit DebugManager(QObject *parent = nullptr);
     ~DebugManager();
 public:
-    void startDebug();
+    void startDebug(const QString &filePath);
+    void debugNextStep();
+    void debugContinue();
+    void stopDebug();
+
+    void fetchBreakPointsFinish(const std::vector<int> &data);
+signals:
+    void fetchBreakPoints(const QString &filePath);
+    void debugOutput(const QString &message);
+    void debugFinish();
+    void debugError(const QString &error = "");
 private:
     class DataPrivate;
     DataPrivate *_p;
