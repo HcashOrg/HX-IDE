@@ -1,6 +1,7 @@
 #ifndef DEBUGMANAGER_H
 #define DEBUGMANAGER_H
 
+#include "DebugDataStruct.h"
 #include <QObject>
 //调试管理
 class DebugManager : public QObject
@@ -16,6 +17,13 @@ public:
     void stopDebug();
 
     void fetchBreakPointsFinish(const std::vector<int> &data);
+
+    DebugDataStruct::DebugerState getDebuggerState()const;
+    void setDebuggerState(DebugDataStruct::DebugerState state);
+private slots:
+    void OnProcessStateChanged();
+private:
+    void InitDebugger();
 signals:
     void fetchBreakPoints(const QString &filePath);
     void debugOutput(const QString &message);

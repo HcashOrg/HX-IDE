@@ -169,6 +169,9 @@ void ChainIDE::setChainClass(DataDefine::BlockChainClass name)
     case DataDefine::UB:
         _p->configFile->setValue("/settings/chainClass","ub");
         break;
+    case DataDefine::CTC:
+        _p->configFile->setValue("/settings/chainClass","ctc");
+        break;
     default:
         break;
     }
@@ -249,7 +252,8 @@ void ChainIDE::refreshTranslator()
 void ChainIDE::InitConfig()
 {
     if("ub" != _p->configFile->value("/settings/chainClass").toString() &&
-       "hx" != _p->configFile->value("/settings/chainClass").toString())
+       "hx" != _p->configFile->value("/settings/chainClass").toString() &&
+       "ctc" != _p->configFile->value("/settings/chainClass").toString())
     {
         _p->configFile->setValue("/settings/chainClass","hx");
     }
@@ -283,6 +287,10 @@ void ChainIDE::InitConfig()
     else if(_p->configFile->value("/settings/chainClass").toString() == "ub")
     {
         _p->chainClass =  DataDefine::UB;
+    }
+    else if(_p->configFile->value("/settings/chainClass").toString() == "ctc")
+    {
+        _p->chainClass =  DataDefine::CTC;
     }
 
     //启动类型设置

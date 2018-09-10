@@ -29,6 +29,7 @@
 
 #include "datamanager/DataManagerHX.h"
 #include "datamanager/DataManagerUB.h"
+#include "datamanager/DataManagerCTC.h"
 
 #include "custom/AccountWidgetHX.h"
 #include "custom/RegisterContractDialogHX.h"
@@ -41,6 +42,8 @@
 #include "custom/RegisterContractDialogUB.h"
 #include "custom/TransferWidgetUB.h"
 #include "custom/CallContractWidgetUB.h"
+
+#include "custom/AccountWidgetCTC.h"
 
 #include "ConvenientOp.h"
 #include "IDEUtil.h"
@@ -254,6 +257,11 @@ void MainWindow::exeStartedSlots()
     else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
     {
         DataManagerUB::getInstance()->InitManager();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        DataManagerCTC::getInstance()->InitManager();
+        DataManagerCTC::getInstance()->dealNewState();
     }
 
     //关闭等待窗
@@ -555,6 +563,11 @@ void MainWindow::on_accountListAction_triggered()
     else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
     {
         AccountWidgetUB account;
+        account.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        AccountWidgetCTC account;
         account.exec();
     }
 }

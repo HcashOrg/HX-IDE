@@ -10,7 +10,7 @@
 class IDEUtil
 {
 public:
-    static QString toJsonFormat(const QString & instruction,const QJsonArray &parameters);
+    static QString toJsonFormat(const QString & instruction,const QJsonArray &parameters,bool addRPCStyle = false);
     static QString toHttpJsonFormat(const QString &instruction,const QVariantMap &parameters);
 
     //根据模板填充文件，如果文件不存在就创建，模板从资源文件中获取

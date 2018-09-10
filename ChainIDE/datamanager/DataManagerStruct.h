@@ -310,6 +310,8 @@ namespace AccountUB {
     class AddressInfo
     {
     public:
+        AddressInfo():balances(0){}
+    public:
         void SetAddress(const QString &add){ address = add;}
         const QString &GetAddress()const{return address;}
 
@@ -428,6 +430,159 @@ namespace AccountUB {
 
     };
     typedef std::shared_ptr<AccountData> AccountDataPtr;
+}
+
+namespace AccountCTC {
+//地址类
+class AssetInfo
+{
+public:
+    AssetInfo():assetId(0),precision(10000000),balances(0){}
+public:
+    void SetAssetID(int id){ assetId = id;}
+    int GetAssetID()const{return assetId;}
+
+    void SetAssetType(const QString &type){assetType = type;}
+    const QString &GetAssetType()const{return assetType;}
+
+    void SetPrecision(int pre){precision = pre;}
+    int GetPrecision()const{return precision;}
+
+    void SetBalance(double bal){balances = bal;}
+    double GetBalance()const{return balances;}
+
+private:
+    int assetId;//资产类型id
+    QString assetType;//资产类型名称
+    int precision;//精度
+    double balances;//资产余额
+};
+typedef std::shared_ptr<AssetInfo> AssetInfoPtr;
+//账户类
+class AccountInfo
+{
+public:
+    void SetAccountName(const QString &name){accountName = name;}
+    const QString &getAccountName()const{return accountName;}
+
+    void SetAccountAddress(const QString &addr){accountAddress = addr;}
+    const QString &GetAccountAddress()const{return accountAddress;}
+
+    const std::vector<AssetInfoPtr> &getAssetInfos()const{return assets;}
+public:
+    AssetInfoPtr getAssetInfoById(int id)const{
+        auto it = std::find_if(assets.begin(),assets.end(),[id](const AssetInfoPtr &info){
+            return info->GetAssetID() == id;
+        });
+        if(it != assets.end())
+        {
+            return *it;
+        }
+        return nullptr;
+    }
+
+    AssetInfoPtr getAssetInfoByType(const QString &type)const{
+        auto it = std::find_if(assets.begin(),assets.end(),[type](const AssetInfoPtr &info){
+            return info->GetAssetType() == type;
+        });
+        if(it != assets.end())
+        {
+            return *it;
+        }
+        return nullptr;
+    }
+
+    bool insertAsset(int id,double bal){
+        if(getAssetInfoById(id)) return false;
+        AssetInfoPtr asset = std::make_shared<AssetInfo>();
+        asset->SetAssetID(id);
+        asset->SetBalance(bal);
+        assets.push_back(asset);
+        return true;
+    }
+    //补全账户信息
+    void makeUpInfo(int id,const QString &type,int pre){
+        AssetInfoPtr info = getAssetInfoById(id);
+        if(!info) return;
+        info->SetAssetType(type);
+        info->SetPrecision(pre);
+    }
+
+private:
+    QString accountName;
+    QString accountAddress;
+    std::vector<AssetInfoPtr> assets;
+};
+typedef std::shared_ptr<AccountInfo> AccountInfoPtr;
+typedef std::vector<AccountInfoPtr> AccountInfoVec;
+//总类
+class AccountData
+{
+public:
+    const AccountInfoVec &getAccount()const{return data;}
+public:
+    //根据账户名，获取账户信息
+    AccountInfoPtr getAccountByName(const QString &name)const{
+        auto it = std::find_if(data.begin(),data.end(),[name](const AccountInfoPtr &info){
+            return info->getAccountName() == name;
+        });
+        if(it != data.end())
+        {
+            return *it;
+        }
+        return nullptr;
+    }
+
+    //根据地址，获取账户信息
+    AccountInfoPtr getAccountByAddr(const QString &addr)const{
+        auto it = std::find_if(data.begin(),data.end(),[addr](const AccountInfoPtr &info){
+            return info->GetAccountAddress() == addr;
+        });
+        if(it != data.end())
+        {
+            return *it;
+        }
+        return nullptr;
+    }
+
+    //插入账户
+    bool insertAccount(const QString &name,const QString &addr){
+        if(getAccountByName(name))
+        {
+            return false;
+        }
+        AccountInfoPtr info = std::make_shared<AccountInfo>();
+        info->SetAccountName(name);
+        info->SetAccountAddress(addr);
+        std::lock_guard<std::mutex> lockguard(dataMutex);
+        data.push_back(info);
+        return true;
+    }
+    //插入资产
+    bool insertAsset(const QString &accountName,int assetid,double bal){
+        AccountInfoPtr account = getAccountByName(accountName);
+        if(!account) return false;
+        std::lock_guard<std::mutex> lockguard(dataMutex);
+        return account->insertAsset(assetid,bal);
+    }
+    //补全信息
+    void makeupInfo(int id,const QString &type,int pre){
+        for(auto it = data.begin();it != data.end();++it){
+            std::lock_guard<std::mutex> lockguard(dataMutex);
+            (*it)->makeUpInfo(id,type,pre);
+        }
+    }
+    //清空内容
+    void clear(){
+        std::lock_guard<std::mutex> lockguard(dataMutex);
+        data.clear();
+    }
+private:
+    AccountInfoVec data;
+    std::mutex dataMutex;
+
+};
+typedef std::shared_ptr<AccountData> AccountDataPtr;
 }
 }
 

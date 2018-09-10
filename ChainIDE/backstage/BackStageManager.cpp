@@ -5,6 +5,7 @@
 #include "BackStageBase.h"
 #include "LinkBackStage.h"
 #include "UbtcBackStage.h"
+#include "CTCBackStage.h"
 
 class BackStageManager::DataPrivate
 {
@@ -149,6 +150,17 @@ void BackStageManager::InitBackStage(DataDefine::BlockChainClass chainClass, Dat
         if(startType & DataDefine::FORMAL)
         {
             _p->formalBackStage = new UbtcBackStage(2);
+        }
+    }
+    else if(DataDefine::CTC == chainClass)
+    {
+        if(startType & DataDefine::TEST)
+        {
+            _p->testBackStage = new CTCBackStage(1);
+        }
+        if(startType & DataDefine::FORMAL)
+        {
+            _p->formalBackStage = new CTCBackStage(2);
         }
     }
 

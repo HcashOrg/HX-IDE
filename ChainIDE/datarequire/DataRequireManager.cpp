@@ -51,6 +51,7 @@ public:
     //多余信息--http使用
     QByteArray header;
     QByteArray values;
+    QString additionalPath;
 };
 
 DataRequireManager::DataRequireManager(const QString &ip,const QString & connectPort,QObject *parent)
@@ -97,10 +98,15 @@ void DataRequireManager::requireClear()
     _p->pendingRpcs.clear();
 }
 
-void DataRequireManager::setAdditional(const QByteArray &headerName, const QByteArray &value)
+void DataRequireManager::setHTTPHeaderAdditional(const QByteArray &headerName, const QByteArray &value)
 {
     _p->header = headerName;
     _p->values = value;
+}
+
+void DataRequireManager::setHTTPPathAdditional(const QString &additionalPath)
+{
+    _p->additionalPath = additionalPath;
 }
 
 bool DataRequireManager::isConnected() const
@@ -130,6 +136,7 @@ void DataRequireManager::startManager(ConnectType connecttype)
     {
         _p->requireBase = new httpRequire(_p->connectIP,_p->connectPort);
         dynamic_cast<httpRequire*>(_p->requireBase)->setRawHeader(_p->header,_p->values);
+        dynamic_cast<httpRequire*>(_p->requireBase)->setAdditionalPath(_p->additionalPath);
     }
 
     connect(_p->requireBase,&RequireBase::receiveData,this,&DataRequireManager::receiveResponse);

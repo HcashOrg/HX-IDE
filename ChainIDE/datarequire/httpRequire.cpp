@@ -12,6 +12,7 @@ class httpRequire::DataPrivate
 public:
     DataPrivate()
         :networkAccessManager(new QNetworkAccessManager())
+        ,additionalPath("")
     {
 
     }
@@ -27,6 +28,8 @@ public:
 public:
     QNetworkRequest httpRequest;
     QNetworkAccessManager   *networkAccessManager;
+
+    QString additionalPath;
 };
 
 httpRequire::httpRequire(const QString &ip,const QString & connectPort,QObject *parent)
@@ -50,7 +53,7 @@ void httpRequire::postData(const QString &data)
 void httpRequire::startConnect()
 {
     _p->httpRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
-    _p->httpRequest.setUrl(QUrl(QString("http://%1:%2").arg(getConnectIP()).arg(getConnectPort())));
+    _p->httpRequest.setUrl(QUrl(QString("http://%1:%2%3").arg(getConnectIP()).arg(getConnectPort()).arg(_p->additionalPath)));
     emit connectFinish();
 }
 
@@ -63,6 +66,11 @@ void httpRequire::setRawHeader(const QByteArray &headerName, const QByteArray &v
 {
     //_p->httpRequest.setRawHeader("Authorization","Basic YTpi");
     _p->httpRequest.setRawHeader(headerName,value);
+}
+
+void httpRequire::setAdditionalPath(const QString &additionPath)
+{
+    _p->additionalPath = additionPath;
 }
 
 void httpRequire::requestFinished(QNetworkReply *reply)

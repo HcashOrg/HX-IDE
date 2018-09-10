@@ -179,7 +179,7 @@ void UbtcBackStage::testStartedFinish()
 {
     connect(_p->dataRequire,&DataRequireManager::requireResponse,this,&UbtcBackStage::testStartReceiveSlot);
     connect(&_p->timerForStartExe,&QTimer::timeout,[this](){
-        this->rpcPostedSlot("teststart",IDEUtil::toJsonFormat("getblockcount",QJsonArray()));
+        this->rpcPostedSlot("teststart",IDEUtil::toJsonFormat("blockchain_get_info",QJsonArray()));
     });
     _p->timerForStartExe.start(100);
 
@@ -201,6 +201,6 @@ void UbtcBackStage::testStartReceiveSlot(const QString &id, const QString &messa
 void UbtcBackStage::initSocketManager()
 {
     connect(_p->dataRequire,&DataRequireManager::connectFinish,this,&UbtcBackStage::testStartedFinish);
-    _p->dataRequire->setAdditional("Authorization","Basic YTpi");
+    _p->dataRequire->setHTTPHeaderAdditional("Authorization","Basic YTpi");
     _p->dataRequire->startManager(DataRequireManager::HTTPWITHUSER);
 }

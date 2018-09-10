@@ -14,7 +14,7 @@ namespace DataDefine
     //语言类型
     enum Language{SimChinese,English};
     //链类型--种类
-    enum BlockChainClass{UB,HX};
+    enum BlockChainClass{UB,HX,CTC};
     //链类型--测试、正式
     enum ChainType{NONE = 0,TEST = 1 << 0,FORMAL = 1 << 1};
     typedef int ChainTypes;
@@ -39,6 +39,10 @@ namespace DataDefine
     static const QString UBCD_CLIENT_EXE = "backstage/ubc-cli.exe";
     static const QString LINK_NODE_EXE = "backstage/hx_node.exe";
     static const QString LINK_CLIENT_EXE = "backstage/hx_client.exe";
+
+    static const QString CTC_NODE_TEST_EXE = "backstage/ctc_test.exe";
+    static const QString CTC_TEST_SCRIPT = "backstage/import_wif_keys.json";
+    static const QString CTC_NODE_FORMAL_EXE = "backstage/ctc_formal.exe";
 
     //合约存放路径
     static const QString CONTRACT_DIR = "contracts";

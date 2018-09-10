@@ -15,8 +15,9 @@ public:
     void startManager(ConnectType connecttype = WEBSOCKET);
     //清空请求
     void requireClear();
-    //设置额外信息---主要给http使用，有点多余，但没办法
-    void setAdditional(const QByteArray &headerName, const QByteArray &value);
+    //设置头额外信息---主要给http使用，有点多余，但没办法
+    void setHTTPHeaderAdditional(const QByteArray &headerName, const QByteArray &value);
+    void setHTTPPathAdditional(const QString &additionalPath);
 
     //判断是否连接
     bool isConnected()const;

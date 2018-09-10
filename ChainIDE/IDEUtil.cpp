@@ -17,9 +17,13 @@
 #include <QUrl>
 #include <QProcess>
 
-QString IDEUtil::toJsonFormat(const QString &instruction, const QJsonArray & parameters)
+QString IDEUtil::toJsonFormat(const QString &instruction, const QJsonArray & parameters,bool addRPCStyle)
 {
     QJsonObject object;
+    if(addRPCStyle)
+    {
+        object.insert("jsonrpc", "2.0");
+    }
     object.insert("id", 32800);
     object.insert("method", instruction);
     object.insert("params",parameters);

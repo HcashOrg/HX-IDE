@@ -14,7 +14,8 @@ public:
     void postData(const QString &data) override final;
     void startConnect() override final;
     bool isConnected()const override final;
-    void setRawHeader(const QByteArray &headerName, const QByteArray &value);
+    void setRawHeader(const QByteArray &headerName, const QByteArray &value);//http头
+    void setAdditionalPath(const QString &additionPath);//http额外路径
 private slots:
     void requestFinished(QNetworkReply*);
 private:

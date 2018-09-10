@@ -44,6 +44,7 @@ SOURCES += main.cpp\
     backstage/BackStageBase.cpp \
     backstage/LinkBackStage.cpp \
     backstage/UbtcBackStage.cpp \
+    backstage/CTCBackStage.cpp\
     datamanager/DataManagerHX.cpp \
     datamanager/DataManagerUB.cpp \
     custom/AccountWidgetHX.cpp \
@@ -84,7 +85,9 @@ SOURCES += main.cpp\
     debugwidget/DebugManager.cpp \
     notifyWidget/MessageNotifyWidget.cpp \
     custom/UpgradeContractDialogHX.cpp \
-    debugwidget/DebugDataStruct.cpp
+    debugwidget/DebugDataStruct.cpp \
+    datamanager/DataManagerCTC.cpp \
+    custom/AccountWidgetCTC.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -117,6 +120,7 @@ HEADERS  += MainWindow.h \
     backstage/BackStageBase.h \
     backstage/LinkBackStage.h \
     backstage/UbtcBackStage.h \
+    backstage/CTCBackStage.h\
     datamanager/DataManagerHX.h \
     datamanager/DataManagerUB.h \
     custom/AccountWidgetHX.h \
@@ -157,7 +161,10 @@ HEADERS  += MainWindow.h \
     debugwidget/DebugManager.h \
     notifyWidget/MessageNotifyWidget.h \
     custom/UpgradeContractDialogHX.h \
-    debugwidget/DebugDataStruct.h
+    debugwidget/DebugDataStruct.h \
+    datamanager/DataManagerCTC.h \
+    custom/AccountWidgetCTC.h
+
 
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
@@ -192,7 +199,8 @@ FORMS    += MainWindow.ui \
     custom/ImportEnterPWDDialogHX.ui \
     debugwidget/DebugWidget.ui \
     notifyWidget/MessageNotifyWidget.ui \
-    custom/UpgradeContractDialogHX.ui
+    custom/UpgradeContractDialogHX.ui \
+    custom/AccountWidgetCTC.ui
 
 RESOURCES += \
     chain.qrc
