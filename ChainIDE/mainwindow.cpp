@@ -190,6 +190,10 @@ void MainWindow::refreshTitle()
         {
             setWindowTitle(tr("IDE-HX TEST CHAIN"));
         }
+        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+        {
+            setWindowTitle(tr("IDE-CTC TEST CHAIN"));
+        }
     }
     else if(ChainIDE::getInstance()->getCurrentChainType() == DataDefine::FORMAL)
     {
@@ -200,6 +204,10 @@ void MainWindow::refreshTitle()
         else if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
         {
             setWindowTitle(tr("IDE-HX FORMAL CHAIN"));
+        }
+        else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+        {
+            setWindowTitle(tr("IDE-CTC FORMAL CHAIN"));
         }
     }
 

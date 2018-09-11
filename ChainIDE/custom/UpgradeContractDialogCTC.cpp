@@ -33,9 +33,8 @@ void UpgradeContractDialogCTC::jsonDataUpdated(const QString &id, const QString 
     }
     else if("upgrade_upgrade_contract_test" == id)
     {
-        qDebug()<<data;
         ui->fee->setValue(parseTestUpgrade(data));
-        ui->fee->setToolTip(tr("建议升级费用:%1").arg(ui->fee->text()));
+        ui->fee->setToolTip(tr("approximatefee:%1").arg(ui->fee->text()));
     }
 }
 
@@ -48,7 +47,7 @@ void UpgradeContractDialogCTC::UpgradeContract()
     }
     ChainIDE::getInstance()->postRPC("upgrade_upgrade_contract",IDEUtil::toJsonFormat("contract_upgrade",QJsonArray()<<
                                      ui->contractAddress->currentText()<<ui->callAddress->currentText()
-                                     <<ui->contractName->text()<<ui->contractDes->text()
+                                     <<ui->contractName->text()<<(ui->contractDes->text().isEmpty()?" ":ui->contractDes->text())
                                      <<"CTC"<<ui->fee->text(),true));
 }
 
@@ -57,11 +56,11 @@ void UpgradeContractDialogCTC::testUpgradeContract()
     if(ui->contractName->text().isEmpty())
     {
         ui->fee->setValue(0);
-        ui->fee->setToolTip(tr("建议升级费用:%1").arg(ui->fee->text()));
+        ui->fee->setToolTip(tr("approximatefee:%1").arg(ui->fee->text()));
     }
     ChainIDE::getInstance()->postRPC("upgrade_upgrade_contract_test",IDEUtil::toJsonFormat("contract_upgrade_testing",QJsonArray()<<
                                      ui->contractAddress->currentText()<<ui->callAddress->currentText()
-                                     <<ui->contractName->text()<<ui->contractDes->text()
+                                     <<ui->contractName->text()<<(ui->contractDes->text().isEmpty()?" ":ui->contractDes->text())
                                      ,true));
 }
 
@@ -116,7 +115,10 @@ void UpgradeContractDialogCTC::refreshContractAddress()
     DataManagerStruct::AddressContractPtr contract = data->getAddressContract(ui->callAddress->currentText());
     if(!contract) return;
     std::for_each(contract->GetContracts().begin(),contract->GetContracts().end(),[this](DataManagerStruct::ContractInfoPtr info){
-        this->ui->contractAddress->addItem(info->GetContractName().isEmpty()?info->GetContractAddr():info->GetContractName());
+        if(info->GetContractName().isEmpty())
+        {
+            this->ui->contractAddress->addItem(info->GetContractAddr());
+        }
     });
 }
 

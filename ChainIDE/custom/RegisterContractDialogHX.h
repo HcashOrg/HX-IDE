@@ -24,12 +24,15 @@ private slots:
     void on_cancelBtn_clicked();
 
     void on_closeBtn_clicked();
+
+    void testRegister();
 private:
     void InitWidget();
     void InitAccountAddress();
+
+    double parseTestRegisterFee(const QString &data)const;
 private:
     Ui::RegisterContractDialogHX *ui;
-    QString contractAddress;
 };
 
 #endif // RegisterContractDialogHX_H

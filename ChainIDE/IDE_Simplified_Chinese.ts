@@ -19,7 +19,12 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI Light&apos;; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IDE是一款非常好用的合约编辑器，内置UB、HX，能够实现合约的编辑、调试、编译。提供合约的注册、调用功能。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IDE是一款非常好用的合约编辑器，内置UB、HX、CTC，能够实现合约的编辑、调试、编译。提供合约的注册、调用功能。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI Light&apos;; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IDE是一款非常好用的合约编辑器，内置UB、HX，能够实现合约的编辑、调试、编译。提供合约的注册、调用功能。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
         <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -119,6 +124,59 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>复制</source>
         <translation type="obsolete">复制</translation>
+    </message>
+</context>
+<context>
+    <name>AccountWidgetCTC</name>
+    <message>
+        <location filename="custom/AccountWidgetCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.ui" line="29"/>
+        <source>导入私钥</source>
+        <translation type="unfinished">导入私钥</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.ui" line="58"/>
+        <source>账户</source>
+        <translation type="unfinished">账户</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.ui" line="81"/>
+        <source>查找：</source>
+        <translation type="unfinished">查找：</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.ui" line="97"/>
+        <source>新建账户</source>
+        <translation type="unfinished">新建账户</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.cpp" line="164"/>
+        <source>转账</source>
+        <translation type="unfinished">转账</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <source>账户/地址</source>
+        <translation type="unfinished">账户/地址</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <source>余额</source>
+        <translation type="unfinished">余额</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <source>操作</source>
+        <translation type="unfinished">操作</translation>
+    </message>
+    <message>
+        <location filename="custom/AccountWidgetCTC.cpp" line="180"/>
+        <source>复制地址</source>
+        <translation type="unfinished">复制地址</translation>
     </message>
 </context>
 <context>
@@ -236,6 +294,14 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>CTCBackStage</name>
+    <message>
+        <location filename="backstage/CTCBackStage.cpp" line="153"/>
+        <source>Fail to launch ctc %1 !</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CallContractWidget</name>
     <message>
         <source>调用合约</source>
@@ -277,6 +343,74 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>手续费用：</source>
         <translation type="obsolete">手续费用：</translation>
+    </message>
+</context>
+<context>
+    <name>CallContractWidgetCTC</name>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="29"/>
+        <source>取消</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="45"/>
+        <source>确定</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="58"/>
+        <source>调用合约</source>
+        <translation type="unfinished">调用合约</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="93"/>
+        <source>调用者账户：</source>
+        <translation type="unfinished">调用者账户：</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="109"/>
+        <source>函数名：</source>
+        <translation type="unfinished">函数名：</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="119"/>
+        <source>合约地址：</source>
+        <translation type="unfinished">合约地址：</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="129"/>
+        <source>请输入参数(可选)</source>
+        <translation type="unfinished">请输入参数(可选)</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="136"/>
+        <source>参数：</source>
+        <translation type="unfinished">参数：</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.ui" line="146"/>
+        <source>调用费用：</source>
+        <translation type="unfinished">调用费用：</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <oldsource>建议调用费用:%1</oldsource>
+        <translation type="obsolete">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.cpp" line="42"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetCTC.cpp" line="114"/>
+        <source>离线函数无需费用</source>
+        <translation type="unfinished">离线函数无需费用</translation>
     </message>
 </context>
 <context>
@@ -335,6 +469,22 @@ p, li { white-space: pre-wrap; }
         <location filename="custom/CallContractWidgetHX.ui" line="159"/>
         <source>调用步数：</source>
         <translation type="unfinished">调用步数：</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <translation type="obsolete">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetHX.cpp" line="42"/>
+        <location filename="custom/CallContractWidgetHX.cpp" line="43"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/CallContractWidgetHX.cpp" line="117"/>
+        <location filename="custom/CallContractWidgetHX.cpp" line="118"/>
+        <source>离线函数无需费用</source>
+        <translation type="unfinished">离线函数无需费用</translation>
     </message>
 </context>
 <context>
@@ -514,22 +664,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="87"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="77"/>
+        <source>  CTC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="popwidget/ConfigWidget.cpp" line="92"/>
         <source>  All</source>
         <translation type="unfinished">测试链+正式链</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="88"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="93"/>
         <source>  Test</source>
         <translation type="unfinished">测试链</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="89"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="94"/>
         <source>  Formal</source>
         <translation type="unfinished">正式链</translation>
     </message>
     <message>
-        <location filename="popwidget/ConfigWidget.cpp" line="90"/>
+        <location filename="popwidget/ConfigWidget.cpp" line="95"/>
         <source>  None</source>
         <translation type="unfinished">不启动链</translation>
     </message>
@@ -621,12 +776,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="contractwidget/ContractWidget.cpp" line="114"/>
+        <location filename="contractwidget/ContractWidget.cpp" line="129"/>
         <source>合约描述</source>
         <translation type="unfinished">合约描述</translation>
     </message>
     <message>
-        <location filename="contractwidget/ContractWidget.cpp" line="133"/>
+        <location filename="contractwidget/ContractWidget.cpp" line="148"/>
         <source>复制地址</source>
         <translation type="unfinished">复制地址</translation>
     </message>
@@ -1291,7 +1446,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="464"/>
-        <location filename="MainWindow.cpp" line="590"/>
+        <location filename="MainWindow.cpp" line="647"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1397,7 +1552,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="166"/>
+        <location filename="MainWindow.cpp" line="181"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1426,47 +1581,57 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="172"/>
+        <location filename="MainWindow.cpp" line="187"/>
         <source>IDE-UB TEST CHAIN</source>
         <translation type="unfinished">IDE-UB测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="176"/>
+        <location filename="MainWindow.cpp" line="191"/>
         <source>IDE-HX TEST CHAIN</source>
         <translation type="unfinished">IDE-HX测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="183"/>
+        <location filename="MainWindow.cpp" line="195"/>
+        <source>IDE-CTC TEST CHAIN</source>
+        <translation type="unfinished">IDE-CTC测试链</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="202"/>
         <source>IDE-UB FORMAL CHAIN</source>
         <translation type="unfinished">IDE-UB正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="187"/>
+        <location filename="MainWindow.cpp" line="206"/>
         <source>IDE-HX FORMAL CHAIN</source>
         <translation type="unfinished">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="216"/>
+        <location filename="MainWindow.cpp" line="210"/>
+        <source>IDE-CTC FORMAL CHAIN</source>
+        <translation type="unfinished">IDE-CTC正式链</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="239"/>
         <source>请耐心等待程序自动关闭，不要关闭本窗口!</source>
         <translation type="unfinished">请耐心等待程序自动关闭，不要关闭本窗口!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="471"/>
+        <location filename="MainWindow.cpp" line="515"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="493"/>
+        <location filename="MainWindow.cpp" line="537"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="514"/>
+        <location filename="MainWindow.cpp" line="558"/>
         <source>单步调试功能正在紧急开发中，敬请期待！</source>
         <translation type="unfinished">单步调试功能正在紧急开发中，敬请期待！</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="590"/>
+        <location filename="MainWindow.cpp" line="647"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
@@ -1807,6 +1972,54 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>RegisterContractDialogCTC</name>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="37"/>
+        <source>注册合约</source>
+        <translation type="unfinished">注册合约</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="80"/>
+        <source>确认</source>
+        <translation type="unfinished">确认</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="99"/>
+        <source>取消</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="115"/>
+        <source>账户地址：</source>
+        <translation type="unfinished">账户地址：</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="135"/>
+        <source>手续费用：</source>
+        <translation type="unfinished">手续费用：</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.ui" line="145"/>
+        <source>合约文件：</source>
+        <translation type="unfinished">合约文件：</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <oldsource>建议手续费:%1</oldsource>
+        <translation type="obsolete">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogCTC.cpp" line="50"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
+    </message>
+</context>
+<context>
     <name>RegisterContractDialogHX</name>
     <message>
         <location filename="custom/RegisterContractDialogHX.ui" line="19"/>
@@ -1819,34 +2032,44 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">注册合约</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="85"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="88"/>
         <source>确认</source>
         <translation type="unfinished">确认</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="101"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="107"/>
         <source>取消</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="117"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="123"/>
         <source>合约文件：</source>
         <translation type="unfinished">合约文件：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="140"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="146"/>
         <source>账户地址：</source>
         <translation type="unfinished">账户地址：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="150"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="156"/>
         <source>调用步数：</source>
         <translation type="unfinished">调用步数：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogHX.ui" line="163"/>
+        <location filename="custom/RegisterContractDialogHX.ui" line="169"/>
         <source>基本费用：</source>
         <translation type="unfinished">基本费用：</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <translation type="obsolete">预计手续费: %1</translation>
+    </message>
+    <message>
+        <location filename="custom/RegisterContractDialogHX.cpp" line="50"/>
+        <location filename="custom/RegisterContractDialogHX.cpp" line="51"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
     </message>
 </context>
 <context>
@@ -1862,37 +2085,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">注册合约</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="85"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="88"/>
         <source>确认</source>
         <translation type="unfinished">确认</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="101"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="107"/>
         <source>取消</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="117"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="123"/>
         <source>合约文件：</source>
         <translation type="unfinished">合约文件：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="140"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="146"/>
         <source>账户地址：</source>
         <translation type="unfinished">账户地址：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="150"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="156"/>
         <source>调用步数：</source>
         <translation type="unfinished">调用步数：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="163"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="169"/>
         <source>基本费用：</source>
         <translation type="unfinished">基本费用：</translation>
     </message>
     <message>
-        <location filename="custom/RegisterContractDialogUB.ui" line="176"/>
+        <location filename="custom/RegisterContractDialogUB.ui" line="182"/>
         <source>手续费用：</source>
         <translation type="unfinished">手续费用：</translation>
     </message>
@@ -1968,6 +2191,59 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>转账金额：</source>
         <translation type="obsolete">转账金额：</translation>
+    </message>
+</context>
+<context>
+    <name>TransferWidgetCTC</name>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="29"/>
+        <source>确认</source>
+        <translation type="unfinished">确认</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="58"/>
+        <source>转账</source>
+        <translation type="unfinished">转账</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="74"/>
+        <source>账户名称：</source>
+        <translation type="unfinished">账户名称：</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="94"/>
+        <source>资产类型：</source>
+        <translation type="unfinished">资产类型：</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="114"/>
+        <source>账户余额：</source>
+        <translation type="unfinished">账户余额：</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="124"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="131"/>
+        <source>发往地址：</source>
+        <translation type="unfinished">发往地址：</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="151"/>
+        <source>转账金额：</source>
+        <translation type="unfinished">转账金额：</translation>
+    </message>
+    <message>
+        <location filename="custom/TransferWidgetCTC.ui" line="183"/>
+        <source>取消</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 <context>
@@ -2084,6 +2360,75 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>UpgradeContractDialogCTC</name>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="29"/>
+        <source>取消</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="45"/>
+        <source>确定</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="58"/>
+        <source>升级合约</source>
+        <translation type="unfinished">升级合约</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="90"/>
+        <source>请输入对合约的描述(可选)</source>
+        <translation type="unfinished">请输入对合约的描述(可选)</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="97"/>
+        <source>手续费用：</source>
+        <translation type="unfinished">手续费用：</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="107"/>
+        <source>请输入升级后的名称</source>
+        <translation type="unfinished">请输入升级后的名称</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="120"/>
+        <source>升级账户：</source>
+        <translation type="unfinished">升级账户：</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="130"/>
+        <source>合约名称：</source>
+        <translation type="unfinished">合约名称：</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="140"/>
+        <source>合约描述：</source>
+        <translation type="unfinished">合约描述：</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.ui" line="150"/>
+        <source>合约地址：</source>
+        <translation type="unfinished">合约地址：</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <oldsource>建议升级费用:%1</oldsource>
+        <translation type="obsolete">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogCTC.cpp" line="37"/>
+        <location filename="custom/UpgradeContractDialogCTC.cpp" line="59"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
+    </message>
+</context>
+<context>
     <name>UpgradeContractDialogHX</name>
     <message>
         <location filename="custom/UpgradeContractDialogHX.ui" line="14"/>
@@ -2144,6 +2489,16 @@ p, li { white-space: pre-wrap; }
         <location filename="custom/UpgradeContractDialogHX.ui" line="172"/>
         <source>确定</source>
         <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <source>预计手续费:%1</source>
+        <translation type="obsolete">预计手续费:%1</translation>
+    </message>
+    <message>
+        <location filename="custom/UpgradeContractDialogHX.cpp" line="37"/>
+        <location filename="custom/UpgradeContractDialogHX.cpp" line="38"/>
+        <source>approximatefee:%1</source>
+        <translation type="unfinished">预计手续费:%1</translation>
     </message>
 </context>
 <context>

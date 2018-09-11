@@ -47,7 +47,7 @@ void RegisterContractDialogCTC::jsonDataUpdated(const QString &id, const QString
     {
         //解析结果，填入测试费用
         ui->feelimit->setValue(parseTestRegisterFee(data));
-        ui->feelimit->setToolTip(tr("建议手续费:%1").arg(ui->feelimit->text()));
+        ui->feelimit->setToolTip(tr("approximatefee:%1").arg(ui->feelimit->text()));
     }
 }
 

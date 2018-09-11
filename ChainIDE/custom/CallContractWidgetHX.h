@@ -19,10 +19,15 @@ private slots:
     void CallContract();
     void contractAddressChanged();
     void functionChanged();
+
+    //测试调用费用
+    void testCallContract();
 private:
     void InitWidget();
     void InitAccountAddress();
     void InitContractAddress();
+
+    double parseTestCallFee(const QString &data)const;
 private:
     Ui::CallContractWidgetHX *ui;
 };

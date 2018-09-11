@@ -17,10 +17,14 @@ public:
 private slots:
     void jsonDataUpdated(const QString &id,const QString &data);
     void UpgradeContract();
+
+    void testUpgradeContract();
 private:
     void InitWidget();
     void InitAccountAddress();
     void refreshContractAddress();
+
+    double parseTestUpgrade(const QString &data)const;
 private:
     Ui::UpgradeContractDialogHX *ui;
 };

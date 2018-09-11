@@ -36,6 +36,12 @@ void CallContractWidgetHX::jsonDataUpdated(const QString &id, const QString &dat
         ConvenientOp::ShowSyncCommonDialog(data);
         close();
     }
+    else if("call_callcontract_test" == id)
+    {
+        double fee = parseTestCallFee(data);
+        ui->gaslimit->setToolTip(tr("approximatefee:%1").arg(QString::number(fee,'f',5)));
+        ui->gasprice->setToolTip(tr("approximatefee:%1").arg(QString::number(fee,'f',5)));
+    }
 
 }
 
@@ -102,6 +108,22 @@ void CallContractWidgetHX::functionChanged()
     ui->gasprice->setEnabled(ui->function->currentData().toString() == "api");
 }
 
+void CallContractWidgetHX::testCallContract()
+{
+    if(ui->function->currentData().toString() != "api")
+    {
+        ui->gaslimit->setValue(0);
+        ui->gasprice->setValue(10);
+        ui->gasprice->setToolTip(tr("离线函数无需费用"));
+        ui->gaslimit->setToolTip(tr("离线函数无需费用"));
+        return;
+    }
+    //测试费用
+    ChainIDE::getInstance()->postRPC("call_callcontract_test",IDEUtil::toJsonFormat("invoke_contract_testing",QJsonArray()<<
+                                     ui->callAddress->currentText()<<ui->contractAddress->currentText()
+                                     <<ui->function->currentText()<<ui->param->text()));
+}
+
 void CallContractWidgetHX::InitWidget()
 {
     ui->gaslimit->setRange(0,999999);
@@ -109,14 +131,6 @@ void CallContractWidgetHX::InitWidget()
     ui->gasprice->setRange(10,999999);
 
     setWindowFlags(Qt::FramelessWindowHint);
-
-    //ui->callAddress->setEditable(true);
-    //ui->contractAddress->setEditable(true);
-
-    //读取所有账户信息
-    connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,this,&CallContractWidgetHX::InitAccountAddress);
-    connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&CallContractWidgetHX::InitContractAddress);
-    DataManagerHX::getInstance()->queryAccount();
 
     connect(ui->closeBtn,&QToolButton::clicked,this,&CallContractWidgetHX::close);
     connect(ui->cancelBtn,&QToolButton::clicked,this,&CallContractWidgetHX::close);
@@ -130,6 +144,19 @@ void CallContractWidgetHX::InitWidget()
 
     connect(ui->function,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
             &CallContractWidgetHX::functionChanged);
+
+
+    connect(ui->contractAddress,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetHX::testCallContract);
+    connect(ui->function,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),this,
+            &CallContractWidgetHX::testCallContract);
+    connect(ui->param,&QLineEdit::textEdited,this,&CallContractWidgetHX::testCallContract);
+
+    //读取所有账户信息
+    connect(DataManagerHX::getInstance(),&DataManagerHX::queryAccountFinish,this,&CallContractWidgetHX::InitAccountAddress);
+    connect(DataManagerHX::getInstance(),&DataManagerHX::queryContractFinish,this,&CallContractWidgetHX::InitContractAddress);
+    DataManagerHX::getInstance()->queryAccount();
+
 }
 
 void CallContractWidgetHX::InitAccountAddress()
@@ -169,4 +196,35 @@ void CallContractWidgetHX::InitContractAddress()
     ui->contractAddress->setModel(tree->model());
     ui->contractAddress->setView(tree);
 
+}
+
+double CallContractWidgetHX::parseTestCallFee(const QString &data) const
+{
+    double resultVal = 0;
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+        qDebug()<<json_error.errorString();
+        return 0;
+    }
+    QJsonArray resultArray = parse_doucment.object().value("result").toArray();
+    foreach (QJsonValue addr, resultArray) {
+        if(addr.isObject())
+        {
+            if(addr.toObject().value("amount").isString())
+            {
+                resultVal += addr.toObject().value("amount").toString().toULongLong()/pow(10,5);
+            }
+            else if(addr.toObject().value("amount").isDouble())
+            {
+                resultVal += addr.toObject().value("amount").toDouble()/pow(10,5);
+            }
+        }
+        else if(addr.isDouble())
+        {
+            ui->gaslimit->setValue(addr.toInt());
+        }
+    }
+    return resultVal;
 }

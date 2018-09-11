@@ -39,7 +39,7 @@ void CallContractWidgetCTC::jsonDataUpdated(const QString &id, const QString &da
     else if("call_callcontract_test" == id)
     {
         ui->fee->setValue(parseTestCallFee(data));
-        ui->fee->setToolTip(tr("建议调用费用:%1").arg(ui->fee->text()));
+        ui->fee->setToolTip(tr("approximatefee:%1").arg(ui->fee->text()));
     }
 }
 
@@ -111,7 +111,7 @@ void CallContractWidgetCTC::testCallContract()
     if(ui->function->currentData().toString() != "api")
     {
         ui->fee->setValue(0);
-        ui->fee->setToolTip(tr("建议调用费用:%1").arg(ui->fee->text()));
+        ui->fee->setToolTip(tr("离线函数无需费用"));
         return;
     }
     //测试费用
