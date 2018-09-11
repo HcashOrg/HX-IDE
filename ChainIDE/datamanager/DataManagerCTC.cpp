@@ -65,6 +65,23 @@ const AccountCTC::AccountDataPtr &DataManagerCTC::getAccount() const
     return _p->accountData;
 }
 
+void DataManagerCTC::queryContract()
+{
+    _p->contractData->clear();
+
+    for(auto it = _p->accountData->getAccount().begin();it != _p->accountData->getAccount().end();++it)
+    {
+        ChainIDE::getInstance()->postRPC("query-get_contract_"+(*it)->getAccountName(),IDEUtil::toJsonFormat("wallet_get_contracts",
+                                                              QJsonArray()<<(*it)->getAccountName(),true));
+    }
+    ChainIDE::getInstance()->postRPC("query-getcontract-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray(),true));
+}
+
+const AddressContractDataPtr &DataManagerCTC::getContract() const
+{
+    return _p->contractData;
+}
+
 void DataManagerCTC::dealNewState()
 {
     ChainIDE::getInstance()->postRPC("deal-is_new",IDEUtil::toJsonFormat("wallet_open",QJsonArray()<<"wallet",true));
@@ -125,14 +142,31 @@ void DataManagerCTC::jsonDataUpdated(const QString &id, const QString &data)
     {
         if(parseAddressBalances(data))
         {
-            //ceshi
-
-
-
-
-
             emit queryAccountFinish();
         }
+    }
+    else if(id.startsWith("query-get_contract_"))
+    {
+        QString accountName = id.mid(QString("query-get_contract_").length());
+        parseContract(accountName,data);
+    }
+    else if("query-getcontract-finish" == id)
+    {
+        std::for_each(_p->contractData->getAllData().begin(),_p->contractData->getAllData().end(),[](const DataManagerStruct::AddressContractPtr& data){
+            std::for_each(data->GetContracts().begin(),data->GetContracts().end(),[](const DataManagerStruct::ContractInfoPtr &info){
+                ChainIDE::getInstance()->postRPC("query-contractinfo_"+info->GetContractAddr(),IDEUtil::toJsonFormat("contract_get_info",QJsonArray()<<info->GetContractAddr(),true));
+            });
+        });
+        ChainIDE::getInstance()->postRPC("query-getcontract-info-finish",IDEUtil::toJsonFormat("finishquery",QJsonArray(),true));
+    }
+    else if(id.startsWith("query-contractinfo_"))
+    {
+        QString contractAddr = id.mid(QString("query-contractinfo_").length());
+        parseContractInfo(contractAddr,data);
+    }
+    else if("query-getcontract-info-finish" == id)
+    {
+        emit queryContractFinish();
     }
 
 }
@@ -165,7 +199,6 @@ bool DataManagerCTC::parseAddresses(const QString &accountName, const QString &d
          return false;
     }
     QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
-    qDebug()<<parse_doucment;
     foreach (QJsonValue addr, jsonArr) {
         if(!addr.isArray()) continue;
         QJsonArray arr = addr.toArray();
@@ -175,8 +208,6 @@ bool DataManagerCTC::parseAddresses(const QString &accountName, const QString &d
             foreach (QJsonValue ass, valArr) {
                 if(!ass.isArray()) continue;
                 QJsonArray asset = ass.toArray();
-                qDebug()<<asset;
-                qDebug()<<accountName<<asset.at(0).toInt()<<asset.at(1).toString().toDouble();
                 if(asset.at(1).isDouble())
                 {
                     _p->accountData->insertAsset(accountName,asset.at(0).toInt(),asset.at(1).toDouble());
@@ -204,7 +235,61 @@ bool DataManagerCTC::parseAddressBalances(const QString &data)
     foreach(QJsonValue addr, jsonArr){
         if(!addr.isObject()) continue;
         QJsonObject obj = addr.toObject();
-        _p->accountData->makeupInfo(obj.value("id").toInt(),obj.value("symbol").toString(),obj.value("precision").toInt());
+        _p->accountData->makeupInfo(obj.value("id").toInt(),obj.value("symbol").toString(),IDEUtil::getDigit<int>(obj.value("precision").toInt()));
     }
+    return true;
+}
+
+bool DataManagerCTC::parseContract(const QString &accountName, const QString &data)
+{
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+         qDebug()<<json_error.errorString();
+         return false;
+    }
+    QJsonArray jsonArr = parse_doucment.object().value("result").toArray();
+    foreach(QJsonValue addr, jsonArr){
+        if(!addr.isString()) continue;
+        _p->contractData->AddContract(accountName,addr.toString());
+    }
+    return true;
+}
+
+bool DataManagerCTC::parseContractInfo(const QString &contaddr, const QString &data)
+{
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
+    {
+         qDebug()<<json_error.errorString();
+         _p->contractData->DeleteContract(contaddr);
+         return false;
+    }
+    QJsonObject jsonObj = parse_doucment.object().value("result").toObject();
+    QString contractAddr = jsonObj.value("id").toString();
+    DataManagerStruct::ContractInfoPtr contractInfo = _p->contractData->getContractInfo(contractAddr);
+    if(!contractInfo) return false;
+    contractInfo->SetContractName(jsonObj.value("contract_name").toString());
+    contractInfo->SetContractDes(jsonObj.value("description").toString());
+    DataDefine::ApiEventPtr apis = contractInfo->GetInterface();
+
+    QJsonArray apisArr = jsonObj.value("code_printable").toObject().value("abi").toArray();
+    foreach (QJsonValue val, apisArr) {
+        if(!val.isString()) continue;
+        apis->addApi(val.toString());
+    }
+    QJsonArray offapisArr = jsonObj.value("code_printable").toObject().value("offline_abi").toArray();
+    foreach (QJsonValue val, offapisArr) {
+        if(!val.isString()) continue;
+        apis->addOfflineApi(val.toString());
+    }
+    QJsonArray eventArr = jsonObj.value("code_printable").toObject().value("events").toArray();
+    foreach (QJsonValue val, eventArr) {
+        if(!val.isString()) continue;
+        apis->addEvent(val.toString());
+    }
+
     return true;
 }

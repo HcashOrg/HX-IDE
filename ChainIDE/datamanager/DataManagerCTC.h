@@ -11,6 +11,9 @@ public:
     void queryAccount();//查询账户信息
     const DataManagerStruct::AccountCTC::AccountDataPtr &getAccount()const;
 
+    void queryContract();//查询合约
+    const DataManagerStruct::AddressContractDataPtr &getContract()const;
+
     void dealNewState();//处理第一次打开ide的情况
 public:
     void InitManager();
@@ -19,10 +22,14 @@ private slots:
 
 signals:
     void queryAccountFinish();
+    void queryContractFinish();
 private:
     bool parseListAccount(const QString &data);
     bool parseAddresses(const QString &accountName,const QString &data);
     bool parseAddressBalances(const QString &data);
+
+    bool parseContract(const QString &accountName,const QString &data);
+    bool parseContractInfo(const QString &contaddr,const QString &data);
 public:
     static DataManagerCTC *getInstance();
 public:

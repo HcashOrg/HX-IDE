@@ -10,6 +10,7 @@
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
 #include "datamanager/DataManagerUB.h"
+#include "datamanager/DataManagerCTC.h"
 #include "ConvenientOp.h"
 
 class ContractWidget::DataPrivate
@@ -54,6 +55,10 @@ void ContractWidget::RefreshTree()
     {
         DataManagerUB::getInstance()->queryContract();
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        DataManagerCTC::getInstance()->queryAccount();
+    }
 }
 
 void ContractWidget::ContractClicked(QTreeWidgetItem *current, QTreeWidgetItem *previous)
@@ -94,6 +99,11 @@ void ContractWidget::InitWidget()
     {
         connect(DataManagerUB::getInstance(),&DataManagerUB::queryContractFinish,this,&ContractWidget::InitTree);
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC && (ChainIDE::getInstance()->getStartChainTypes() | DataDefine::NONE))
+    {
+        connect(DataManagerCTC::getInstance(),&DataManagerCTC::queryAccountFinish,DataManagerCTC::getInstance(),&DataManagerCTC::queryContract);
+        connect(DataManagerCTC::getInstance(),&DataManagerCTC::queryContractFinish,this,&ContractWidget::InitTree);
+    }
 }
 
 void ContractWidget::InitTree()
@@ -108,6 +118,10 @@ void ContractWidget::InitTree()
     else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
     {
         data = DataManagerUB::getInstance()->getContract();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        data = DataManagerCTC::getInstance()->getContract();
     }
     if(!data) return ;
     for(auto it = data->getAllData().begin();it != data->getAllData().end();++it)

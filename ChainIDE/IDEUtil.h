@@ -21,7 +21,7 @@ public:
     static void GetAllFile(const QString & dirPath,QStringList &files,const QStringList & limit = QStringList());
 
     static bool isFileExist(const QString &filePath,const QString &dirPath);
-    static  bool deleteDir(const QString &dirName);
+    static bool deleteDir(const QString &dirName);
 
     //取第一参数目录地下一集目录
     static QString getNextDir(const QString &topDir,const QString &filePath);
@@ -36,6 +36,18 @@ public:
 
     //在文件夹中选中文件
     static void showInExplorer(const QString &filePath);
+
+    //获取一个数值的位数
+    template<typename T>
+    static int getDigit(T data){
+        int num = -1;
+        T actData = data;
+        do{
+            actData/=10;
+            ++num;
+        }while(0 != actData);
+        return num;
+    }
 private:
     IDEUtil();
 };

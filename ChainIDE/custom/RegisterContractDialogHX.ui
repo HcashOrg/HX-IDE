@@ -78,6 +78,9 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
    </property>
@@ -93,6 +96,9 @@
      <width>60</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>

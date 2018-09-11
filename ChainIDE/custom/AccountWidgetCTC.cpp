@@ -161,7 +161,7 @@ void AccountWidgetCTC::InitTree()
         std::vector<DataManagerStruct::AccountCTC::AssetInfoPtr> info = (*it)->getAssetInfos();
         for(auto add = info.begin();add != info.end();++add)
         {
-            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAssetType()<<QString::number((*add)->GetBalance()/(*add)->GetPrecision(),'f',(*add)->GetPrecision())<<tr("转账"));
+            QTreeWidgetItem *childitem = new QTreeWidgetItem(QStringList()<<(*add)->GetAssetType()<<QString::number((*add)->GetBalance()/pow(10,(*add)->GetPrecision()),'f',(*add)->GetPrecision())<<tr("转账"));
             childitem->setTextAlignment(0,Qt::AlignCenter);
             childitem->setTextAlignment(1,Qt::AlignCenter);
             childitem->setTextAlignment(2,Qt::AlignCenter);

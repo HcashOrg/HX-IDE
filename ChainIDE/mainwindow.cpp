@@ -44,6 +44,10 @@
 #include "custom/CallContractWidgetUB.h"
 
 #include "custom/AccountWidgetCTC.h"
+#include "custom/TransferWidgetCTC.h"
+#include "custom/RegisterContractDialogCTC.h"
+#include "custom/CallContractWidgetCTC.h"
+#include "custom/UpgradeContractDialogCTC.h"
 
 #include "ConvenientOp.h"
 #include "IDEUtil.h"
@@ -379,7 +383,8 @@ void MainWindow::HideAction()
 
     ui->callAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->registerAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
-    ui->upgradeAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE && ChainIDE::getInstance()->getChainClass() == DataDefine::HX);
+    ui->upgradeAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE &&
+                                  (ChainIDE::getInstance()->getChainClass() == DataDefine::HX || ChainIDE::getInstance()->getChainClass() == DataDefine::CTC));
     ui->accountListAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->transferToAccountAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
     ui->consoleAction->setEnabled(ChainIDE::getInstance()->getStartChainTypes() != DataDefine::NONE);
@@ -438,6 +443,11 @@ void MainWindow::on_registerAction_triggered()
         RegisterContractDialogUB dia;
         dia.exec();
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        RegisterContractDialogCTC dia;
+        dia.exec();
+    }
 }
 
 void MainWindow::on_transferAction_triggered()
@@ -457,6 +467,11 @@ void MainWindow::on_callAction_triggered()
         CallContractWidgetUB callWidget;
         callWidget.exec();
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        CallContractWidgetCTC callWidget;
+        callWidget.exec();
+    }
 }
 
 void MainWindow::on_upgradeAction_triggered()
@@ -469,6 +484,11 @@ void MainWindow::on_upgradeAction_triggered()
     else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
     {
 
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        UpgradeContractDialogCTC upgradeContractWidget;
+        upgradeContractWidget.exec();
     }
 }
 
@@ -588,6 +608,11 @@ void MainWindow::on_transferToAccountAction_triggered()
     else if(ChainIDE::getInstance()->getChainClass() == DataDefine::UB)
     {
         TransferWidgetUB transfer;
+        transfer.exec();
+    }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        TransferWidgetCTC transfer;
         transfer.exec();
     }
 

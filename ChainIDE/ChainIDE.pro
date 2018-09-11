@@ -87,7 +87,11 @@ SOURCES += main.cpp\
     custom/UpgradeContractDialogHX.cpp \
     debugwidget/DebugDataStruct.cpp \
     datamanager/DataManagerCTC.cpp \
-    custom/AccountWidgetCTC.cpp
+    custom/AccountWidgetCTC.cpp \
+    custom/TransferWidgetCTC.cpp \
+    custom/RegisterContractDialogCTC.cpp \
+    custom/CallContractWidgetCTC.cpp \
+    custom/UpgradeContractDialogCTC.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -163,7 +167,11 @@ HEADERS  += MainWindow.h \
     custom/UpgradeContractDialogHX.h \
     debugwidget/DebugDataStruct.h \
     datamanager/DataManagerCTC.h \
-    custom/AccountWidgetCTC.h
+    custom/AccountWidgetCTC.h \
+    custom/TransferWidgetCTC.h \
+    custom/RegisterContractDialogCTC.h \
+    custom/CallContractWidgetCTC.h \
+    custom/UpgradeContractDialogCTC.h
 
 
 FORMS    += MainWindow.ui \
@@ -200,7 +208,11 @@ FORMS    += MainWindow.ui \
     debugwidget/DebugWidget.ui \
     notifyWidget/MessageNotifyWidget.ui \
     custom/UpgradeContractDialogHX.ui \
-    custom/AccountWidgetCTC.ui
+    custom/AccountWidgetCTC.ui \
+    custom/TransferWidgetCTC.ui \
+    custom/RegisterContractDialogCTC.ui \
+    custom/CallContractWidgetCTC.ui \
+    custom/UpgradeContractDialogCTC.ui
 
 RESOURCES += \
     chain.qrc

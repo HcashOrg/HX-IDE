@@ -1,19 +1,13 @@
 #include "FunctionWidget.h"
 #include "ui_FunctionWidget.h"
 
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QJsonDocument>
 #include <QDebug>
-
-#include <mutex>
-
 
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
 #include "datamanager/DataManagerUB.h"
+#include "datamanager/DataManagerCTC.h"
 
-static std::mutex datamutex;
 FunctionWidget::FunctionWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FunctionWidget)
@@ -42,12 +36,15 @@ void FunctionWidget::RefreshContractAddr(const QString &addr)
     {
         info = DataManagerUB::getInstance()->getContract()->getContractInfo(addr);
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        info = DataManagerCTC::getInstance()->getContract()->getContractInfo(addr);
+    }
 
     if(!info) return;
 
     foreach(QString api, info->GetInterface()->getAllApiName())
     {
-        qDebug()<<api;
         QTreeWidgetItem *itemChild = new QTreeWidgetItem(QStringList()<<api);
         ui->treeWidget_online->addTopLevelItem(itemChild);
     }

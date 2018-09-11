@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RegisterContractDialogUB</class>
- <widget class="QDialog" name="RegisterContractDialogUB">
+ <class>RegisterContractDialogCTC</class>
+ <widget class="QDialog" name="RegisterContractDialogCTC">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>289</height>
+    <height>272</height>
    </rect>
-  </property>
-  <property name="font">
-   <font>
-    <family>微软雅黑</family>
-   </font>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
   </property>
   <widget class="QLabel" name="title_Label">
    <property name="geometry">
@@ -73,7 +65,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>250</y>
+     <y>230</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -92,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>250</y>
+     <y>230</y>
      <width>60</width>
      <height>24</height>
     </rect>
@@ -113,14 +105,14 @@
      <x>0</x>
      <y>50</y>
      <width>581</width>
-     <height>191</height>
+     <height>151</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0" columnstretch="1,5">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0" columnstretch="1,4">
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>合约文件：</string>
+       <string>账户地址：</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -137,47 +129,8 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="address"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>账户地址：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>调用步数：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="gaslimit"/>
-    </item>
-    <item row="3" column="0">
      <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>基本费用：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="fee"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_6">
       <property name="text">
        <string>手续费用：</string>
       </property>
@@ -186,8 +139,21 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QSpinBox" name="gasprice"/>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>合约文件：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="address"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="feelimit"/>
     </item>
    </layout>
   </widget>
