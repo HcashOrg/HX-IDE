@@ -87,6 +87,14 @@ void DataManagerCTC::dealNewState()
     ChainIDE::getInstance()->postRPC("deal-is_new",IDEUtil::toJsonFormat("wallet_open",QJsonArray()<<"wallet",true));
 }
 
+void DataManagerCTC::initTestChain()
+{
+    ChainIDE::getInstance()->postRPC("init_",IDEUtil::toJsonFormat("import_key",QJsonArray()<<"5KPLxT3EYUWsUBrtEoPRFy8WLj4m7JooYVTUnZbPNipCX78ajtK",true));
+    ChainIDE::getInstance()->postRPC("init_",IDEUtil::toJsonFormat("delegate_set_network_min_connection_count",QJsonArray()<<0,true));
+    ChainIDE::getInstance()->postRPC("init_",IDEUtil::toJsonFormat("wallet_delegate_set_block_production",QJsonArray()<<"ALL"<<true,true));
+    ChainIDE::getInstance()->postRPC("init_",IDEUtil::toJsonFormat("wallet_set_transaction_scanning",QJsonArray()<<true,true));
+}
+
 void DataManagerCTC::InitManager()
 {
     connect(ChainIDE::getInstance(),&ChainIDE::jsonDataUpdated,this,&DataManagerCTC::jsonDataUpdated);
@@ -111,6 +119,10 @@ void DataManagerCTC::jsonDataUpdated(const QString &id, const QString &data)
         else
         {
             ChainIDE::getInstance()->postRPC("deal-is_new_create",IDEUtil::toJsonFormat("wallet_create",QJsonArray()<<"wallet"<<"11111111",true));
+            if(ChainIDE::getInstance()->getStartChainTypes() & DataDefine::TEST)
+            {
+                DataManagerCTC::getInstance()->initTestChain();
+            }
         }
     }
     else if("query-listaccounts-address" == id)
@@ -167,6 +179,10 @@ void DataManagerCTC::jsonDataUpdated(const QString &id, const QString &data)
     else if("query-getcontract-info-finish" == id)
     {
         emit queryContractFinish();
+    }
+    else if("init_" == id)
+    {
+        qDebug()<<data;
     }
 
 }

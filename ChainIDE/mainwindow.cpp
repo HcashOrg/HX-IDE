@@ -274,6 +274,7 @@ void MainWindow::exeStartedSlots()
     {
         DataManagerCTC::getInstance()->InitManager();
         DataManagerCTC::getInstance()->dealNewState();
+
     }
 
     //关闭等待窗
@@ -520,6 +521,10 @@ void MainWindow::on_changeChainAction_triggered()
             if(ChainIDE::getInstance()->getChainClass() == DataDefine::HX)
             {
                 DataManagerHX::getInstance()->dealNewState();//处理最新情况
+            }
+            else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+            {
+                DataManagerCTC::getInstance()->dealNewState();//处理最新情况
             }
         }
         else
