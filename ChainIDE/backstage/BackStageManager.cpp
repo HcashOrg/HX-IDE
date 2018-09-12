@@ -128,6 +128,11 @@ void BackStageManager::closeBackStage()
     }
 }
 
+void BackStageManager::setDataPath(const QString &dataPath)
+{
+    _p->dataPath = dataPath;
+}
+
 void BackStageManager::InitBackStage(DataDefine::BlockChainClass chainClass, DataDefine::ChainTypes startType)
 {
     if(DataDefine::HX == chainClass)

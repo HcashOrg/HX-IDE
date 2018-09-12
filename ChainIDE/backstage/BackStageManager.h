@@ -23,6 +23,8 @@ public:
     void startBackStage();
     //关闭后台，需要时间，所以单独实现
     void closeBackStage();
+    //刷新数据路径
+    void setDataPath(const QString &dataPath);
 private:
     void InitBackStage(DataDefine::BlockChainClass chainClass,DataDefine::ChainTypes startType);
 private slots:

@@ -95,7 +95,7 @@ void MainWindow::InitWidget()
     refreshTranslator();
 //    startWidget();
     hide();
-    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() )
+    if( ChainIDE::getInstance()->getConfigAppDataPath().isEmpty() || !QFileInfo(ChainIDE::getInstance()->getConfigAppDataPath()).isDir() || !QFileInfo(ChainIDE::getInstance()->getConfigAppDataPath()).exists())
     {
         showSelectPathWidget();
     }

@@ -1,11 +1,13 @@
 #include "selectpathwidget.h"
 #include "ui_selectpathwidget.h"
 
+#include <QFileInfo>
 #include <QFileDialog>
 
 #include <QCoreApplication>
 
 #include "ChainIDE.h"
+#include "backstage/BackStageManager.h"
 
 SelectPathWidget::SelectPathWidget(QWidget *parent) :
     MoveableDialog(parent),
@@ -37,6 +39,11 @@ void SelectPathWidget::on_pathBtn_clicked()
         ui->tiplabel->setText(tr("Folderpath cannot contain space character!"));
         ui->tiplabel->setVisible(true);
     }
+    else if(!QFileInfo(file).isDir() || !QFileInfo(file).exists())
+    {
+        ui->tiplabel->setText(tr("Folderpath doesn't exists!"));
+        ui->tiplabel->setVisible(true);
+    }
     else
     {
         ui->tiplabel->setVisible(false);
@@ -47,6 +54,7 @@ void SelectPathWidget::on_okBtn_clicked()
 {
     if( ui->pathLineEdit->text().isEmpty() || ui->tiplabel->isVisible())  return;
     ChainIDE::getInstance()->setConfigAppDataPath(ui->pathLineEdit->text());
+    ChainIDE::getInstance()->getBackStageManager()->setDataPath(ui->pathLineEdit->text());
 
     emit enter();
     close();
