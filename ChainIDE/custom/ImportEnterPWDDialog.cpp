@@ -1,11 +1,11 @@
-#include "ImportEnterPwdDialogHX.h"
-#include "ui_ImportEnterPwdDialogHX.h"
+#include "ImportEnterPwdDialog.h"
+#include "ui_ImportEnterPwdDialog.h"
 
 #include <QDebug>
 
-ImportEnterPwdDialogHX::ImportEnterPwdDialogHX(QWidget *parent) :
+ImportEnterPwdDialog::ImportEnterPwdDialog(QWidget *parent) :
     MoveableDialog(parent),
-    ui(new Ui::ImportEnterPwdDialogHX)
+    ui(new Ui::ImportEnterPwdDialog)
 {
     ui->setupUi(this);
 
@@ -19,19 +19,19 @@ ImportEnterPwdDialogHX::ImportEnterPwdDialogHX(QWidget *parent) :
     ui->okBtn->setEnabled(false);
 }
 
-ImportEnterPwdDialogHX::~ImportEnterPwdDialogHX()
+ImportEnterPwdDialog::~ImportEnterPwdDialog()
 {
     delete ui;
 }
 
-bool ImportEnterPwdDialogHX::pop()
+bool ImportEnterPwdDialog::pop()
 {
     exec();
 
     return yesOrNO;
 }
 
-void ImportEnterPwdDialogHX::on_okBtn_clicked()
+void ImportEnterPwdDialog::on_okBtn_clicked()
 {
     if(ui->pkPwdLineEdit->text().isEmpty())     return;
     pwd = ui->pkPwdLineEdit->text();
@@ -39,18 +39,18 @@ void ImportEnterPwdDialogHX::on_okBtn_clicked()
     close();
 }
 
-void ImportEnterPwdDialogHX::on_cancelBtn_clicked()
+void ImportEnterPwdDialog::on_cancelBtn_clicked()
 {
     yesOrNO = false;
     close();
 }
 
-void ImportEnterPwdDialogHX::on_pkPwdLineEdit_textEdited(const QString &arg1)
+void ImportEnterPwdDialog::on_pkPwdLineEdit_textEdited(const QString &arg1)
 {
     checkOkBtn();
 }
 
-void ImportEnterPwdDialogHX::checkOkBtn()
+void ImportEnterPwdDialog::checkOkBtn()
 {
     if( ui->pkPwdLineEdit->text().size() < 8 || ui->pkPwdLineEdit->text().size() > 14)
     {
@@ -61,7 +61,7 @@ void ImportEnterPwdDialogHX::checkOkBtn()
     ui->okBtn->setEnabled(true);
 }
 
-void ImportEnterPwdDialogHX::on_closeBtn_clicked()
+void ImportEnterPwdDialog::on_closeBtn_clicked()
 {
     close();
 }

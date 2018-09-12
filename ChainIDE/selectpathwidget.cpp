@@ -16,6 +16,7 @@ SelectPathWidget::SelectPathWidget(QWidget *parent) :
     setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
 
     ui->pathLineEdit->setText(ChainIDE::getInstance()->getEnvAppDataPath());
+    ui->tiplabel->setVisible(false);
 }
 
 SelectPathWidget::~SelectPathWidget()
@@ -31,11 +32,20 @@ void SelectPathWidget::on_pathBtn_clicked()
         file.replace("/","\\");
         ui->pathLineEdit->setText( file);
     }
+    if(file.contains(" "))
+    {
+        ui->tiplabel->setText(tr("Folderpath cannot contain space character!"));
+        ui->tiplabel->setVisible(true);
+    }
+    else
+    {
+        ui->tiplabel->setVisible(false);
+    }
 }
 
 void SelectPathWidget::on_okBtn_clicked()
 {
-    if( ui->pathLineEdit->text().isEmpty())  return;
+    if( ui->pathLineEdit->text().isEmpty() || ui->tiplabel->isVisible())  return;
     ChainIDE::getInstance()->setConfigAppDataPath(ui->pathLineEdit->text());
 
     emit enter();

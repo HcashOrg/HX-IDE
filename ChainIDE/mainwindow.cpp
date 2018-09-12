@@ -368,6 +368,8 @@ void MainWindow::tabWidget_currentChanged(int index)
 
 void MainWindow::HideAction()
 {
+    //禁用右键
+    this->setContextMenuPolicy(Qt::NoContextMenu);
     //隐藏左右控制按钮
     ui->tabWidget->tabBar()->setUsesScrollButtons(false);
 

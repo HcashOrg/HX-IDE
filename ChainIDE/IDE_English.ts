@@ -131,7 +131,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/AccountWidgetCTC.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account</translation>
     </message>
     <message>
         <location filename="custom/AccountWidgetCTC.ui" line="29"/>
@@ -154,27 +154,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">NewAccount</translation>
     </message>
     <message>
-        <location filename="custom/AccountWidgetCTC.cpp" line="164"/>
+        <location filename="custom/AccountWidgetCTC.cpp" line="170"/>
         <source>转账</source>
         <translation type="unfinished">Transfer</translation>
     </message>
     <message>
-        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <location filename="custom/AccountWidgetCTC.cpp" line="177"/>
         <source>账户/地址</source>
         <translation type="unfinished">Account/Address</translation>
     </message>
     <message>
-        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <location filename="custom/AccountWidgetCTC.cpp" line="177"/>
         <source>余额</source>
         <translation type="unfinished">Balances</translation>
     </message>
     <message>
-        <location filename="custom/AccountWidgetCTC.cpp" line="171"/>
+        <location filename="custom/AccountWidgetCTC.cpp" line="177"/>
         <source>操作</source>
         <translation type="unfinished">Operate</translation>
     </message>
     <message>
-        <location filename="custom/AccountWidgetCTC.cpp" line="180"/>
+        <location filename="custom/AccountWidgetCTC.cpp" line="186"/>
         <source>复制地址</source>
         <translation type="unfinished">CopyAddress</translation>
     </message>
@@ -1084,6 +1084,70 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ImportDialogCTC</name>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="39"/>
+        <source>导入账户</source>
+        <translation type="unfinished">ImportKey</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="63"/>
+        <source>确定</source>
+        <translation type="unfinished">Confirm</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="87"/>
+        <source>取消</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="103"/>
+        <source>账户名:</source>
+        <translation type="unfinished">AccountName:</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="140"/>
+        <source>私钥:</source>
+        <translation type="unfinished">PrivateKey:</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="173"/>
+        <source>请选择私钥文件或输入私钥</source>
+        <translation type="unfinished">Please select pri-key file or input key</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.ui" line="183"/>
+        <source>选择文件</source>
+        <translation type="unfinished">file</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.cpp" line="26"/>
+        <source>Beginning with letter,letters or numbers</source>
+        <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.cpp" line="63"/>
+        <location filename="custom/ImportDialogCTC.cpp" line="100"/>
+        <source>Wrong file path.</source>
+        <translation type="unfinished">Wrong file path</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.cpp" line="93"/>
+        <source>Wrong password!</source>
+        <translation type="unfinished">Wrong password!</translation>
+    </message>
+    <message>
+        <location filename="custom/ImportDialogCTC.cpp" line="156"/>
+        <source>Choose your private key file.</source>
+        <translation type="unfinished">Choose your private key file.</translation>
+    </message>
+</context>
+<context>
     <name>ImportDialogHX</name>
     <message>
         <location filename="custom/ImportDialogHX.ui" line="19"/>
@@ -1131,18 +1195,18 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="74"/>
+        <location filename="custom/ImportDialogHX.cpp" line="78"/>
         <source>Wrong file path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="81"/>
+        <location filename="custom/ImportDialogHX.cpp" line="85"/>
         <source>HX Address:%1  Already Exists!</source>
         <oldsource>LNK Address:%1  Already Exists!</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/ImportDialogHX.cpp" line="147"/>
+        <location filename="custom/ImportDialogHX.cpp" line="151"/>
         <source>Choose your private key file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1196,31 +1260,54 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>ImportEnterPwdDialogHX</name>
+    <name>ImportEnterPwdDialog</name>
     <message>
-        <location filename="custom/ImportEnterPWDDialogHX.ui" line="14"/>
+        <location filename="custom/ImportEnterPWDDialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Password</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="custom/ImportEnterPWDDialogHX.ui" line="83"/>
+        <location filename="custom/ImportEnterPWDDialog.ui" line="83"/>
         <source>确定</source>
         <translation type="unfinished">Confirm</translation>
     </message>
     <message>
-        <location filename="custom/ImportEnterPWDDialogHX.ui" line="110"/>
+        <location filename="custom/ImportEnterPWDDialog.ui" line="110"/>
         <source>取消</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="custom/ImportEnterPWDDialogHX.ui" line="129"/>
+        <location filename="custom/ImportEnterPWDDialog.ui" line="129"/>
         <source>私钥密码：</source>
         <translation type="unfinished">PrivKey Passwaord:</translation>
     </message>
     <message>
-        <location filename="custom/ImportEnterPWDDialogHX.ui" line="148"/>
+        <location filename="custom/ImportEnterPWDDialog.ui" line="148"/>
         <source>密码确认</source>
         <translation type="unfinished">Password Confirm</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEnterPwdDialogHX</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="obsolete">Password</translation>
+    </message>
+    <message>
+        <source>确定</source>
+        <translation type="obsolete">Confirm</translation>
+    </message>
+    <message>
+        <source>取消</source>
+        <translation type="obsolete">Cancel</translation>
+    </message>
+    <message>
+        <source>私钥密码：</source>
+        <translation type="obsolete">PrivKey Passwaord:</translation>
+    </message>
+    <message>
+        <source>密码确认</source>
+        <translation type="obsolete">Password Confirm</translation>
     </message>
 </context>
 <context>
@@ -1262,53 +1349,53 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="MainWindow.ui" line="52"/>
+        <location filename="MainWindow.ui" line="55"/>
         <source>合约项目</source>
         <translation type="unfinished">Project</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="57"/>
+        <location filename="MainWindow.ui" line="60"/>
         <source>已注册合约</source>
         <translation type="unfinished">Registered</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="100"/>
+        <location filename="MainWindow.ui" line="109"/>
         <source>文件</source>
         <translation type="unfinished">File</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="104"/>
+        <location filename="MainWindow.ui" line="116"/>
         <source>新建文件</source>
         <oldsource>新建合约</oldsource>
         <translation type="unfinished">New File</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="113"/>
+        <location filename="MainWindow.ui" line="128"/>
         <source>导入文件</source>
         <translation type="unfinished">Import File</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="136"/>
+        <location filename="MainWindow.ui" line="154"/>
         <source>合约</source>
         <translation type="unfinished">Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="149"/>
+        <location filename="MainWindow.ui" line="170"/>
         <source>工具</source>
         <translation type="unfinished">Tool</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="158"/>
+        <location filename="MainWindow.ui" line="182"/>
         <source>帮助</source>
         <translation type="unfinished">Help</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="165"/>
+        <location filename="MainWindow.ui" line="192"/>
         <source>编辑</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="172"/>
+        <location filename="MainWindow.ui" line="202"/>
         <source>调试</source>
         <translation type="unfinished">Debug</translation>
     </message>
@@ -1317,265 +1404,265 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">New UVLua Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="244"/>
+        <location filename="MainWindow.ui" line="281"/>
         <source>新建uvlua合约</source>
         <oldsource>新建csharp合约</oldsource>
         <translation type="unfinished">New uvlua Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="254"/>
+        <location filename="MainWindow.ui" line="291"/>
         <source>新建c#合约</source>
         <translation type="unfinished">New c# Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="264"/>
+        <location filename="MainWindow.ui" line="301"/>
         <source>新建java合约</source>
         <translation type="unfinished">New Java Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="274"/>
+        <location filename="MainWindow.ui" line="311"/>
         <source>新建kotlin合约</source>
         <translation type="unfinished">New Kotlin Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="284"/>
+        <location filename="MainWindow.ui" line="321"/>
         <source>保存</source>
         <translation type="unfinished">Save</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="287"/>
+        <location filename="MainWindow.ui" line="324"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="292"/>
+        <location filename="MainWindow.ui" line="329"/>
         <source>另存为</source>
         <translation type="unfinished">Save As</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="295"/>
+        <location filename="MainWindow.ui" line="332"/>
         <source>Ctrl+Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="305"/>
+        <location filename="MainWindow.ui" line="342"/>
         <source>保存全部</source>
         <translation type="unfinished">Save All</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="308"/>
+        <location filename="MainWindow.ui" line="345"/>
         <source>Ctrl+Shift+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="318"/>
+        <location filename="MainWindow.ui" line="355"/>
         <source>编译</source>
         <translation type="unfinished">Compile</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="321"/>
+        <location filename="MainWindow.ui" line="358"/>
         <source>F7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="326"/>
+        <location filename="MainWindow.ui" line="363"/>
         <source>关闭</source>
         <translation type="unfinished">Close</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="331"/>
+        <location filename="MainWindow.ui" line="368"/>
         <source>退出</source>
         <translation type="unfinished">Exit</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="341"/>
+        <location filename="MainWindow.ui" line="378"/>
         <source>撤销</source>
         <translation type="unfinished">Redo</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="344"/>
+        <location filename="MainWindow.ui" line="381"/>
         <source>Ctrl+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="354"/>
+        <location filename="MainWindow.ui" line="391"/>
         <source>恢复</source>
         <translation type="unfinished">Undo</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="357"/>
+        <location filename="MainWindow.ui" line="394"/>
         <source>Ctrl+Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="367"/>
+        <location filename="MainWindow.ui" line="404"/>
         <source>导入合约</source>
         <translation type="unfinished">ImportContract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="370"/>
+        <location filename="MainWindow.ui" line="407"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="380"/>
+        <location filename="MainWindow.ui" line="417"/>
         <source>导出合约</source>
         <translation type="unfinished">Export Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="383"/>
+        <location filename="MainWindow.ui" line="420"/>
         <source>合约导出</source>
         <translation type="unfinished">ContractExport</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="393"/>
+        <location filename="MainWindow.ui" line="430"/>
         <source>注册合约</source>
         <translation type="unfinished">Register Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="403"/>
+        <location filename="MainWindow.ui" line="440"/>
         <source>合约充值</source>
         <translation type="unfinished">ContractDeposit</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="406"/>
+        <location filename="MainWindow.ui" line="443"/>
         <source>充值</source>
         <translation type="unfinished">Deposit</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="416"/>
+        <location filename="MainWindow.ui" line="453"/>
         <source>调用合约</source>
         <translation type="unfinished">CallContract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="426"/>
+        <location filename="MainWindow.ui" line="463"/>
         <source>升级合约</source>
         <translation type="unfinished">UpgradeContract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="436"/>
+        <location filename="MainWindow.ui" line="473"/>
         <source>销毁合约</source>
         <translation type="unfinished">DestoryContract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="446"/>
+        <location filename="MainWindow.ui" line="483"/>
         <source>查看帮助</source>
         <translation type="unfinished">Help</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="449"/>
+        <location filename="MainWindow.ui" line="486"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="454"/>
+        <location filename="MainWindow.ui" line="491"/>
         <source>关于</source>
         <translation type="unfinished">About</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="464"/>
-        <location filename="MainWindow.cpp" line="647"/>
+        <location filename="MainWindow.ui" line="501"/>
+        <location filename="MainWindow.cpp" line="649"/>
         <source>切换到正式链</source>
         <translation type="unfinished">ChangeToFormalChain</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="474"/>
+        <location filename="MainWindow.ui" line="511"/>
         <source>沙盒模式</source>
         <translation type="unfinished">EnterSandbox</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="479"/>
+        <location filename="MainWindow.ui" line="516"/>
         <source>退出沙盒模式</source>
         <translation type="unfinished">ExitSandbox</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="489"/>
+        <location filename="MainWindow.ui" line="526"/>
         <source>账户管理</source>
         <translation type="unfinished">AccountManager</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="499"/>
+        <location filename="MainWindow.ui" line="536"/>
         <source>控制台</source>
         <translation type="unfinished">Console</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="502"/>
+        <location filename="MainWindow.ui" line="539"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="512"/>
+        <location filename="MainWindow.ui" line="549"/>
         <source>转账</source>
         <translation type="unfinished">Transfer</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="517"/>
+        <location filename="MainWindow.ui" line="554"/>
         <source>全部关闭</source>
         <translation type="unfinished">CloseAll</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="527"/>
+        <location filename="MainWindow.ui" line="564"/>
         <source>开始调试</source>
         <translation type="unfinished">Debug</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="530"/>
+        <location filename="MainWindow.ui" line="567"/>
         <source>F5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="540"/>
+        <location filename="MainWindow.ui" line="577"/>
         <source>停止调试</source>
         <translation type="unfinished">Stop</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="550"/>
+        <location filename="MainWindow.ui" line="587"/>
         <source>逐步</source>
         <translation type="unfinished">Step</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="560"/>
+        <location filename="MainWindow.ui" line="597"/>
         <source>导入uvlua合约</source>
         <translation type="unfinished">Import uvlua Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="570"/>
+        <location filename="MainWindow.ui" line="607"/>
         <source>导入java合约</source>
         <translation type="unfinished">Import Java Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="580"/>
+        <location filename="MainWindow.ui" line="617"/>
         <source>导入c#合约</source>
         <translation type="unfinished">Import c# Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="590"/>
+        <location filename="MainWindow.ui" line="627"/>
         <source>导入kotlin合约</source>
         <translation type="unfinished">Import Kotlin Contract</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="599"/>
+        <location filename="MainWindow.ui" line="636"/>
         <source>配置</source>
         <translation type="unfinished">Configure</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="604"/>
+        <location filename="MainWindow.ui" line="641"/>
         <source>切换断点</source>
         <translation type="unfinished">TabBreak</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="607"/>
+        <location filename="MainWindow.ui" line="644"/>
         <source>F9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="612"/>
-        <location filename="MainWindow.ui" line="615"/>
+        <location filename="MainWindow.ui" line="649"/>
+        <location filename="MainWindow.ui" line="652"/>
         <source>清空断点</source>
         <translation type="unfinished">ClearBreak</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="618"/>
+        <location filename="MainWindow.ui" line="655"/>
         <source>Ctrl+Shift+F9</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1644,22 +1731,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Please wait for auto-close, don&apos;t close this window!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="515"/>
+        <location filename="MainWindow.cpp" line="517"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">Sure to switch to formal chain?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="537"/>
+        <location filename="MainWindow.cpp" line="539"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">File modified,do you want to save?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="558"/>
+        <location filename="MainWindow.cpp" line="560"/>
         <source>单步调试功能正在紧急开发中，敬请期待！</source>
         <translation type="unfinished">The debug-function is under emergency development, please wait for new release!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="647"/>
+        <location filename="MainWindow.cpp" line="649"/>
         <source>切换到测试链</source>
         <translation type="unfinished">ChangeToTestChain</translation>
     </message>
@@ -1713,6 +1800,59 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>NameDialogCTC</name>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="32"/>
+        <source>确认</source>
+        <translation type="unfinished">Confirm</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="51"/>
+        <source>取消</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="78"/>
+        <source>请输入账户名称</source>
+        <translation type="unfinished">Please input account name</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="115"/>
+        <source>账户名称：</source>
+        <translation type="unfinished">Account Name:</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.ui" line="165"/>
+        <source>新建账户</source>
+        <translation type="unfinished">Create Account</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.cpp" line="19"/>
+        <source>Beginning with letter,letters or numbers</source>
+        <translation type="unfinished">Beginnin with letter,letters or numbers</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.cpp" line="81"/>
+        <source>More than 63 characters!</source>
+        <translation type="unfinished">More than 63 characters!</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.cpp" line="91"/>
+        <source>This name has been used</source>
+        <translation type="unfinished">This name has been used</translation>
+    </message>
+    <message>
+        <location filename="custom/NameDialogCTC.cpp" line="98"/>
+        <source>You can use this name</source>
+        <translation type="unfinished">You can use this name</translation>
+    </message>
+</context>
+<context>
     <name>NameDialogHX</name>
     <message>
         <location filename="custom/NameDialogHX.ui" line="20"/>
@@ -1737,7 +1877,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/NameDialogHX.ui" line="137"/>
         <source>新建账户</source>
-        <translation type="unfinished">New Account</translation>
+        <translation type="unfinished">Create Account</translation>
     </message>
     <message>
         <location filename="custom/NameDialogHX.ui" line="174"/>
@@ -1790,7 +1930,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/NameDialogUB.ui" line="137"/>
         <source>新建账户</source>
-        <translation type="unfinished">New Account</translation>
+        <translation type="unfinished">Create Account</translation>
     </message>
     <message>
         <location filename="custom/NameDialogUB.ui" line="174"/>
@@ -2176,9 +2316,14 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Next</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.cpp" line="28"/>
+        <location filename="selectpathwidget.cpp" line="29"/>
         <source>Select the path to store the blockchain</source>
         <translation type="unfinished">Select the path to store the blockchain</translation>
+    </message>
+    <message>
+        <location filename="selectpathwidget.cpp" line="37"/>
+        <source>Folderpath cannot contain space character!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

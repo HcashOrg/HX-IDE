@@ -75,7 +75,7 @@ SOURCES += main.cpp\
     AES/aes.cpp \
     AES/aesencryptor.cpp \
     custom/KeyDataUtil.cpp \
-    custom/ImportEnterPWDDialogHX.cpp \
+    custom/ImportEnterPWDDialog.cpp \
     debugwidget/DebugWidget.cpp \
     LocalPeer.cpp \
     StatusBar.cpp \
@@ -91,7 +91,9 @@ SOURCES += main.cpp\
     custom/TransferWidgetCTC.cpp \
     custom/RegisterContractDialogCTC.cpp \
     custom/CallContractWidgetCTC.cpp \
-    custom/UpgradeContractDialogCTC.cpp
+    custom/UpgradeContractDialogCTC.cpp \
+    custom/NameDialogCTC.cpp \
+    custom/ImportDialogCTC.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -155,7 +157,7 @@ HEADERS  += MainWindow.h \
     AES/aes.h \
     AES/aesencryptor.h \
     custom/KeyDataUtil.h \
-    custom/ImportEnterPWDDialogHX.h \
+    custom/ImportEnterPWDDialog.h \
     debugwidget/DebugWidget.h \
     LocalPeer.h \
     StatusBar.h \
@@ -171,7 +173,9 @@ HEADERS  += MainWindow.h \
     custom/TransferWidgetCTC.h \
     custom/RegisterContractDialogCTC.h \
     custom/CallContractWidgetCTC.h \
-    custom/UpgradeContractDialogCTC.h
+    custom/UpgradeContractDialogCTC.h \
+    custom/NameDialogCTC.h \
+    custom/ImportDialogCTC.h
 
 
 FORMS    += MainWindow.ui \
@@ -204,7 +208,7 @@ FORMS    += MainWindow.ui \
     custom/RegisterContractDialogUB.ui \
     custom/TransferWidgetUB.ui \
     popwidget/AboutWidget.ui \
-    custom/ImportEnterPWDDialogHX.ui \
+    custom/ImportEnterPWDDialog.ui \
     debugwidget/DebugWidget.ui \
     notifyWidget/MessageNotifyWidget.ui \
     custom/UpgradeContractDialogHX.ui \
@@ -212,7 +216,9 @@ FORMS    += MainWindow.ui \
     custom/TransferWidgetCTC.ui \
     custom/RegisterContractDialogCTC.ui \
     custom/CallContractWidgetCTC.ui \
-    custom/UpgradeContractDialogCTC.ui
+    custom/UpgradeContractDialogCTC.ui \
+    custom/NameDialogCTC.ui \
+    custom/ImportDialogCTC.ui
 
 RESOURCES += \
     chain.qrc

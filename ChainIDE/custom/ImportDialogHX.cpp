@@ -12,7 +12,7 @@
 #include "ConvenientOp.h"
 #include "datamanager/DataManagerHX.h"
 #include "KeyDataUtil.h"
-#include "ImportEnterPWDDialogHX.h"
+#include "ImportEnterPWDDialog.h"
 #include "IDEUtil.h"
 
 ImportDialogHX::ImportDialogHX(QWidget *parent) :
@@ -58,10 +58,14 @@ void ImportDialogHX::on_okBtn_clicked()
         }
         else if(ui->privatekey->text().endsWith(".elpk"))
         {
-            ImportEnterPwdDialogHX importEnterPwdDialog;
+            ImportEnterPwdDialog importEnterPwdDialog;
             if(importEnterPwdDialog.pop())
             {
                 data->DecryptAES(importEnterPwdDialog.pwd);
+            }
+            else
+            {
+                return;
             }
         }
         else

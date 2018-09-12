@@ -159,6 +159,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="tiplabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>147</y>
+     <width>371</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

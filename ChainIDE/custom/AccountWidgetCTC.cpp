@@ -6,8 +6,8 @@
 #include <QClipboard>
 #include "ChainIDE.h"
 #include "datamanager/DataManagerCTC.h"
-#include "NameDialogHX.h"
-#include "ImportDialogHX.h"
+#include "NameDialogCTC.h"
+#include "ImportDialogCTC.h"
 #include "IDEUtil.h"
 
 Q_DECLARE_METATYPE(DataManagerStruct::AccountCTC::AccountInfoPtr)
@@ -49,12 +49,18 @@ void AccountWidgetCTC::jsonDataUpdated(const QString &id, const QString &data)
 
 void AccountWidgetCTC::on_newAccount_clicked()
 {
-
+    NameDialogCTC dia;
+    QString name = dia.pop();
+    if(!name.isEmpty())
+    {
+        ChainIDE::getInstance()->postRPC("createnewaccount",IDEUtil::toJsonFormat("wallet_account_create",QJsonArray()<<name,true));
+    }
 }
 
 void AccountWidgetCTC::on_importKey_clicked()
 {
-
+    ImportDialogCTC dia;
+    dia.exec();
 }
 
 void AccountWidgetCTC::on_closeBtn_clicked()

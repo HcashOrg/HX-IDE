@@ -77,6 +77,10 @@ void StatusBar::queryBlock()
     {
         ChainIDE::getInstance()->postRPC( "status-hxinfo", IDEUtil::toJsonFormat( "info", QJsonArray()));
     }
+    else if(ChainIDE::getInstance()->getChainClass() == DataDefine::CTC)
+    {
+        ChainIDE::getInstance()->postRPC( "status-ctcinfo", IDEUtil::toJsonFormat( "info", QJsonArray(),true));
+    }
 }
 
 void StatusBar::jsonDataUpdated(const QString &id, const QString &data)
@@ -97,6 +101,15 @@ void StatusBar::jsonDataUpdated(const QString &id, const QString &data)
         QJsonObject object = jsonObject.value("result").toObject();
         QString blockcount = QString::number(object.value("head_block_num").toInt());
         QString age = object.value("head_block_age").toString();
+        setPermanentMessage(QStringLiteral("Height: ") + blockcount + QStringLiteral("  Age: ") + age);
+    }
+    else if("status-ctcinfo" == id)
+    {
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1());
+        QJsonObject jsonObject = parse_doucment.object();
+        QJsonObject object = jsonObject.value("result").toObject();
+        QString blockcount = QString::number(object.value("blockchain_head_block_num").toInt());
+        QString age = QString::number(object.value("blockchain_head_block_age").toInt());
         setPermanentMessage(QStringLiteral("Height: ") + blockcount + QStringLiteral("  Age: ") + age);
     }
 }

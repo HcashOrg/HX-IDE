@@ -1,19 +1,19 @@
-#ifndef ImportEnterPwdDialogHX_H
-#define ImportEnterPwdDialogHX_H
+#ifndef ImportEnterPwdDialog_H
+#define ImportEnterPwdDialog_H
 
 #include "popwidget/MoveableDialog.h"
 
 namespace Ui {
-class ImportEnterPwdDialogHX;
+class ImportEnterPwdDialog;
 }
 
-class ImportEnterPwdDialogHX : public MoveableDialog
+class ImportEnterPwdDialog : public MoveableDialog
 {
     Q_OBJECT
 
 public:
-    explicit ImportEnterPwdDialogHX(QWidget *parent = 0);
-    ~ImportEnterPwdDialogHX();
+    explicit ImportEnterPwdDialog(QWidget *parent = 0);
+    ~ImportEnterPwdDialog();
 
     bool  pop();
 
@@ -29,10 +29,10 @@ private slots:
     void on_closeBtn_clicked();
 
 private:
-    Ui::ImportEnterPwdDialogHX *ui;
+    Ui::ImportEnterPwdDialog *ui;
     bool yesOrNO;
 
     void checkOkBtn();
 };
 
-#endif // ImportEnterPwdDialogHX_H
+#endif // ImportEnterPwdDialog_H
