@@ -6,7 +6,7 @@
 namespace Ui {
 class SelectPathWidget;
 }
-
+//选择数据路径界面
 class SelectPathWidget : public MoveableDialog
 {
     Q_OBJECT

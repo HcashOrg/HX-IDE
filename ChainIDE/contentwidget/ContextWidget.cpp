@@ -1,10 +1,13 @@
 #include "ContextWidget.h"
 #include "ui_ContextWidget.h"
 
+#include <mutex>
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDebug>
 #include <QTabBar>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "aceeditor.h"
 #include "codeeditor.h"
@@ -140,6 +143,7 @@ void ContextWidget::GetBreakPointSlots(const QString &filePath)
 
 void ContextWidget::showFile(QString path)
 {
+    //先检查是否已经打开
     for(int i = 0;i < ui->tabWidget->count();++i)
     {
         if(Editor* w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
@@ -150,10 +154,21 @@ void ContextWidget::showFile(QString path)
                 return;
             }
         }
-
     }
     //如果没找到，新建一个
     Editor* w = new /*AceEditor*/codeeditor(path,ChainIDE::getInstance()->getCurrentTheme() );
+    //由于新建时间较长，新建完之后复查一下，确定没有双击，导致快速点击两下，打开两次
+    for(int i = 0;i < ui->tabWidget->count();++i)
+    {
+        if(Editor* w = dynamic_cast<Editor*>(ui->tabWidget->widget(i)))
+        {
+            if(w->getFilePath() == path)
+            {
+                ui->tabWidget->setCurrentIndex(i);
+                return;
+            }
+        }
+    }
 
     ui->tabWidget->addTab(w,QIcon(":/pic/saved.png"),QFileInfo(path).fileName());
 

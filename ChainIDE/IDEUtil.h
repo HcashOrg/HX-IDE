@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <QJsonArray>
 #include <QJsonObject>
-
+//ide中通用的方法类，不依赖其他类的方法
 class IDEUtil
 {
 public:

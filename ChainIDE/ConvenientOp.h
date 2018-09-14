@@ -5,7 +5,7 @@
 #include <QWidget>
 
 #include "datamanager/DataManagerStruct.h"
-
+//ide的便捷方法，对某些操作复用
 class ConvenientOp : public QObject
 {
     Q_OBJECT

@@ -576,6 +576,9 @@
    <property name="text">
     <string>停止调试</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
+   </property>
   </action>
   <action name="stepAction">
    <property name="icon">
@@ -585,6 +588,9 @@
    </property>
    <property name="text">
     <string>逐步</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
   <action name="importContractAction_glua">
