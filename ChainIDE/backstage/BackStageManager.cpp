@@ -86,6 +86,7 @@ void BackStageManager::startBackStage()
         if(_p->testBackStage)
         {
             connect(_p->testBackStage,&BackStageBase::exeStarted,this,&BackStageManager::exeStartedSlots);
+            emit OutputMessage(tr("start test chain ..."));
             _p->testBackStage->startExe(_p->dataPath);
         }
     }
@@ -94,6 +95,7 @@ void BackStageManager::startBackStage()
         if(_p->formalBackStage)
         {
             connect(_p->formalBackStage,&BackStageBase::exeStarted,this,&BackStageManager::exeStartedSlots);
+            emit OutputMessage(tr("start formal chain ..."));
             _p->formalBackStage->startExe(_p->dataPath);
         }
     }
@@ -173,11 +175,14 @@ void BackStageManager::InitBackStage(DataDefine::BlockChainClass chainClass, Dat
     {
         connect(this,&BackStageManager::rpcPosted,_p->testBackStage,&BackStageBase::rpcPostedSlot);
         connect(_p->testBackStage,&BackStageBase::rpcReceived,this,&BackStageManager::jsonDataUpdated);
+
+        connect(_p->testBackStage,&BackStageBase::AdditionalOutputMessage,this,&BackStageManager::OutputMessage);
     }
     if(_p->formalBackStage)
     {
         connect(this,&BackStageManager::rpcPostedFormal,_p->formalBackStage,&BackStageBase::rpcPostedSlot);
         connect(_p->formalBackStage,&BackStageBase::rpcReceived,this,&BackStageManager::jsonDataUpdated);
+        connect(_p->formalBackStage,&BackStageBase::AdditionalOutputMessage,this,&BackStageManager::OutputMessage);
     }
 }
 
@@ -191,6 +196,7 @@ void BackStageManager::exeStartedSlots()
         {
             test = true;
             disconnect(_p->testBackStage,&BackStageBase::exeStarted,this,&BackStageManager::exeStartedSlots);
+            emit OutputMessage(tr("test chain start finish..."));
         }
     }
     else
@@ -206,6 +212,7 @@ void BackStageManager::exeStartedSlots()
         {
           formal = true;
           disconnect(_p->formalBackStage,&BackStageBase::exeStarted,this,&BackStageManager::exeStartedSlots);
+          emit OutputMessage(tr("formal chain start finish..."));
         }
     }
     else

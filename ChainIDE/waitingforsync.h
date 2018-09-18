@@ -19,13 +19,13 @@ public:
     ~WaitingForSync();
 
 signals:
-    void sync();
-    void minimum();
     void closeIDE();
-
+public slots:
+    void ReceiveMessage(const QString &message);
+private:
+    void InitWidget();
 private:
     Ui::WaitingForSync *ui;
-    QMovie* gif;
 
 };
 

@@ -6,13 +6,23 @@ WaitingForSync::WaitingForSync(QWidget *parent) :
     ui(new Ui::WaitingForSync)
 {
     ui->setupUi(this);
-
-    setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
-
+    InitWidget();
 }
 
 WaitingForSync::~WaitingForSync()
 {
     delete ui;
+}
+
+void WaitingForSync::ReceiveMessage(const QString &message)
+{
+    ui->waitSync->append(message);
+}
+
+void WaitingForSync::InitWidget()
+{
+    setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
+    ui->title_Label->setVisible(false);
+    ui->waitSync->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 

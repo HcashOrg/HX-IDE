@@ -288,8 +288,13 @@ void MainWindow::showWaitingForSyncWidget()
 {
     WaitingForSync *waitingForSync = new WaitingForSync();
     waitingForSync->setAttribute(Qt::WA_DeleteOnClose);
+    connect(this,&MainWindow::initFinish,std::bind(&WaitingForSync::ReceiveMessage,waitingForSync,tr("Initialize done...")));
     connect(this,&MainWindow::initFinish,waitingForSync,&WaitingForSync::close);
+    connect(ChainIDE::getInstance()->getBackStageManager(),&BackStageManager::OutputMessage,waitingForSync,&WaitingForSync::ReceiveMessage);
+
     waitingForSync->setWindowTitle( QString::fromLocal8Bit("IDE"));
+
+    waitingForSync->ReceiveMessage(tr("Initialize IDE,please wait..."));
 
     waitingForSync->show();
 }

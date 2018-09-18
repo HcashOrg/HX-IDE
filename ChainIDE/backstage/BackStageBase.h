@@ -19,6 +19,8 @@ signals:
     void exeStarted();
     void exeClosed();
     void rpcReceived(const QString &,const QString &);
+
+    void AdditionalOutputMessage(const QString &);
 public slots:
     virtual void rpcPostedSlot(const QString &,const QString &) = 0;
 protected slots:

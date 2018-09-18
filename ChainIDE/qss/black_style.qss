@@ -408,3 +408,15 @@ QToolButton#pathBtn:pressed
 QWidget#ContextWidget{
     background-color:black;
 }
+
+QDialog#WaitingForSync{
+    border-image:url(:/pic/bg.png)
+}
+
+QTextEdit#waitSync{
+    background-color: transparent;
+    color: rgb(77,165,153);
+    font: 14px \"Microsoft YaHei UI Light\";
+    border:none;
+    padding: 0px 10px 0px 6px;
+}

@@ -153,6 +153,7 @@ void LinkBackStage::checkNodeExeIsReady()
     if(!str.isEmpty())
     {
         qDebug() << "node exe standardError: " << str ;
+        emit AdditionalOutputMessage(str);
     }
     if(str.contains("Chain ID is"))
     {

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>300</height>
+    <width>680</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="loadingLabel">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>140</y>
+     <x>180</x>
+     <y>240</y>
      <width>240</width>
      <height>31</height>
     </rect>
@@ -46,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>680</width>
      <height>40</height>
     </rect>
    </property>
@@ -55,6 +55,16 @@
    </property>
    <property name="text">
     <string>数据加载</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="waitSync">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>298</y>
+     <width>200</width>
+     <height>181</height>
+    </rect>
    </property>
   </widget>
  </widget>

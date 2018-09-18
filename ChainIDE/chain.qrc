@@ -4,7 +4,6 @@
         <file>qss/white_style.qss</file>
         <file>pic/arrowDown.png</file>
         <file>pic/arrowRight.png</file>
-        <file>pic/bg.png</file>
         <file>pic/bindScriptIcon.png</file>
         <file>pic/breakpoint.png</file>
         <file>pic/checkBox2_checked.png</file>
@@ -94,5 +93,6 @@
         <file>template/newtoken.uvlua</file>
         <file>widgets_Chinese.qm</file>
         <file>widgets_English.qm</file>
+        <file>pic/bg.png</file>
     </qresource>
 </RCC>

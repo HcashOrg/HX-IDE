@@ -16,6 +16,8 @@ signals:
     void rpcPostedFormal(const QString & rpcId, const QString & rpcCmd);//正式链发出请求
     void startBackStageFinish();//后台启动完成
     void closeBackStageFinish();//后台关闭完成
+
+    void OutputMessage(const QString &);
 public:
     //数据发送
     void postRPC(const QString &_rpcId, const QString &_rpcCmd, DataDefine::ChainType chainType);
