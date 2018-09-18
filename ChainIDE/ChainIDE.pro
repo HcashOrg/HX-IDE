@@ -8,7 +8,7 @@ QT       += core gui webengine webenginewidgets webchannel websockets xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ChainIDE
+TARGET = AnyChain
 TEMPLATE = app
 
 

@@ -23,6 +23,7 @@ void WaitingForSync::InitWidget()
 {
     setWindowFlags(  this->windowFlags() | Qt::FramelessWindowHint);
     ui->title_Label->setVisible(false);
+    ui->loadingLabel->setVisible(false);
     ui->waitSync->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 

@@ -25,14 +25,14 @@ BEGIN
         BLOCK "080404b0"
         BEGIN
             VALUE "CompanyName", "BlockLink"
-            VALUE "FileDescription", "IDE based on Qt 5.11.1(MSVC 2017)\0"
+            VALUE "FileDescription", "AnyChain based on Qt 5.11.1(MSVC 2017)\0"
             VALUE "FileVersion", "1.0.7\0"
             VALUE "ProductVersion", "1.0.7\0"
             VALUE "LegalCopyright", "Copyright 2017-2018 The BlockLink Ltd. All rights reserved.\0"
 			VALUE "LegalTrademarks", "BlockLink\0"
-            VALUE "OriginalFilename", "ChainIDE.exe\0" 
-            VALUE "ProductName", "IDE\0"
-            VALUE "InternalName", "IDE.exe\0"
+            VALUE "OriginalFilename", "AnyChain.exe\0" 
+            VALUE "ProductName", "AnyChain\0"
+            VALUE "InternalName", "AnyChain.exe\0"
         END
     END
     BLOCK "VarFileInfo"
