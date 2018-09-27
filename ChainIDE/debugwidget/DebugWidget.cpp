@@ -1,13 +1,18 @@
 #include "DebugWidget.h"
 #include "ui_DebugWidget.h"
 
+#include <QDebug>
+#include "DataTreeItemModel.h"
+#include "DebugDataStruct.h"
 class DebugWidget::DataPrivate
 {
 public:
     DataPrivate()
+        :treeModel(new DataTreeItemModel())
     {
 
     }
+    DataTreeItemModel *treeModel ;
 };
 
 DebugWidget::DebugWidget(QWidget *parent) :
@@ -26,10 +31,17 @@ DebugWidget::~DebugWidget()
     delete ui;
 }
 
+void DebugWidget::ResetData(BaseItemDataPtr data)
+{
+    _p->treeModel->InitModelData(data);
+}
+
+void DebugWidget::ClearData()
+{
+    _p->treeModel->InitModelData(std::make_shared<BaseItemData>());
+}
+
 void DebugWidget::InitWidget()
 {
-    ui->treeWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    ui->treeWidget->headerItem()->setTextAlignment(0, Qt::AlignCenter);
-//    ui->treeWidget->headerItem()->setTextAlignment(1, Qt::AlignCenter);
-//    ui->treeWidget->headerItem()->setTextAlignment(2, Qt::AlignCenter);
+    ui->treeView->setModel(_p->treeModel);
 }

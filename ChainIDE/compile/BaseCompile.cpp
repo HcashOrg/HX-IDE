@@ -27,6 +27,7 @@ public:
     QString sourceDir;
     QString dstByteFilePath;
     QString dstMetaFilePath;
+    QString dstOutFilePath;
 
     BaseCompile::CompileStage compileStage;
 };
@@ -86,9 +87,19 @@ void BaseCompile::setDstMetaFilePath(const QString &path)
     _p->dstMetaFilePath = path;
 }
 
+void BaseCompile::setDstOutFilePath(const QString &path)
+{
+    _p->dstOutFilePath = path;
+}
+
 const QString &BaseCompile::getDstMetaFilePath() const
 {
     return _p->dstMetaFilePath;
+}
+
+const QString &BaseCompile::getDstOutFilePath() const
+{
+    return _p->dstOutFilePath;
 }
 
 void BaseCompile::setCompileStage(BaseCompile::CompileStage sta)
@@ -106,6 +117,7 @@ void BaseCompile::readyBuild()
     QString dst = getSourceDir()+"/"+QFileInfo(getSourceDir()).fileName();
     setDstByteFilePath(dst+"."+DataDefine::CONTRACT_SUFFIX);
     setDstMetaFilePath(dst+"."+DataDefine::META_SUFFIX);
+    setDstOutFilePath(dst+"."+DataDefine::BYTE_OUT_SUFFIX);
 
     QDir dir(getTempDir());
     if(!dir.exists())

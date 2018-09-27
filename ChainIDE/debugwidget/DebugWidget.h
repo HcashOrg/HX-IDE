@@ -6,6 +6,10 @@
 namespace Ui {
 class DebugWidget;
 }
+
+class BaseItemData;
+typedef std::shared_ptr<BaseItemData> BaseItemDataPtr;
+
 //调试窗口
 class DebugWidget : public QWidget
 {
@@ -14,6 +18,9 @@ class DebugWidget : public QWidget
 public:
     explicit DebugWidget(QWidget *parent = 0);
     ~DebugWidget();
+public:
+    void ResetData(BaseItemDataPtr data);
+    void ClearData();
 private:
     void InitWidget();
 private:

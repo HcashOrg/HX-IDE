@@ -70,6 +70,9 @@ private slots:
     void on_compileAction_triggered();
 
     void on_debugAction_triggered();
+    void startDebugSlot(const QString &gpcFile);
+    void errorCompileSlot();
+
 
     void on_stopAction_triggered();
 
@@ -99,6 +102,7 @@ private slots:
     void HideAction();
 
     void ModifyActionState();
+    void ModifyDebugActionState();
 
     void NewFile(const QString &suffix,const QString &defaultPath = "");//新建合约类型
 

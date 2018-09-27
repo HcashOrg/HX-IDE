@@ -74,6 +74,7 @@ void kotlinCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         //删除之前的文件
         QFile::remove(getDstByteFilePath());
         QFile::remove(getDstMetaFilePath());
+        QFile::remove(getDstOutFilePath());
 
         //删除临时目录
         IDEUtil::deleteDir(getTempDir());
@@ -105,6 +106,7 @@ void kotlinCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         //复制gpc meta.json文件到源目录
         QFile::copy(getTempDir()+"/result.gpc",getDstByteFilePath());
         QFile::copy(getTempDir()+"/result.meta.json",getDstMetaFilePath());
+        QFile::copy(getTempDir()+"/result.out",getDstOutFilePath());
 
         //删除临时目录
         IDEUtil::deleteDir(getTempDir());

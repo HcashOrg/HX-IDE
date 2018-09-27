@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 
+#include "DataDefine.h"
 #include "datamanager/DataManagerStruct.h"
 //ide的便捷方法，对某些操作复用
 class ConvenientOp : public QObject
@@ -40,7 +41,8 @@ public:
     //导出合约字节码
     static bool ExportContractFile(const QString &gpcFilePath);
 
-
+    //读取文件中的函数列表
+    static bool readApiFromPath(const QString &filePath, DataDefine::ApiEventPtr &results);
 };
 
 #endif // CONVENIENTOP_H

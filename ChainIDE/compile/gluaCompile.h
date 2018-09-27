@@ -16,6 +16,9 @@ protected slots:
     void onReadStandardOutput()override final;
     void onReadStandardError()override final;
 private:
+    void generateOutFile();
+    void generateContractFile();
+private:
     void initConfig(const QString &sourceFilePath);
 private:
     class DataPrivate;

@@ -67,6 +67,7 @@ void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         //删除之前的文件
         QFile::remove(getDstByteFilePath());
         QFile::remove(getDstMetaFilePath());
+        QFile::remove(getDstOutFilePath());
 
         //删除临时目录
         IDEUtil::deleteDir(getTempDir());
@@ -86,6 +87,7 @@ void csharpCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
         //复制gpc meta.json文件到源目录
         QFile::copy(getTempDir()+"/result.gpc",getDstByteFilePath());
         QFile::copy(getTempDir()+"/result.meta.json",getDstMetaFilePath());
+        QFile::copy(getTempDir()+"/result.out",getDstOutFilePath());
 
         //删除临时目录
         IDEUtil::deleteDir(getTempDir());
@@ -131,6 +133,7 @@ void csharpCompile::generateDllFile()
     qDebug()<<"c#-compile-generate-.dll: csc.exe "<<params;
 
     //获取C#环境变量
+    //getCompileProcess()->start("csc",params);
     QString cscVal = QProcessEnvironment::systemEnvironment().value(DataDefine::CSHARP_COMPILER_EXE_ENV);
     if(!cscVal.isEmpty())
     {

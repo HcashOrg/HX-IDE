@@ -93,7 +93,11 @@ SOURCES += main.cpp\
     custom/CallContractWidgetCTC.cpp \
     custom/UpgradeContractDialogCTC.cpp \
     custom/NameDialogCTC.cpp \
-    custom/ImportDialogCTC.cpp
+    custom/ImportDialogCTC.cpp \
+    debugwidget/BaseTreeItem.cpp \
+    debugwidget/DataTreeItemModel.cpp \
+    debugwidget/DebugUtil.cpp \
+    debugwidget/DebugFunctionWidget.cpp
 
 HEADERS  += MainWindow.h \
     ChainIDE.h \
@@ -175,7 +179,11 @@ HEADERS  += MainWindow.h \
     custom/CallContractWidgetCTC.h \
     custom/UpgradeContractDialogCTC.h \
     custom/NameDialogCTC.h \
-    custom/ImportDialogCTC.h
+    custom/ImportDialogCTC.h \
+    debugwidget/BaseTreeItem.h \
+    debugwidget/DataTreeItemModel.h \
+    debugwidget/DebugUtil.h \
+    debugwidget/DebugFunctionWidget.h
 
 
 FORMS    += MainWindow.ui \
@@ -218,7 +226,8 @@ FORMS    += MainWindow.ui \
     custom/CallContractWidgetCTC.ui \
     custom/UpgradeContractDialogCTC.ui \
     custom/NameDialogCTC.ui \
-    custom/ImportDialogCTC.ui
+    custom/ImportDialogCTC.ui \
+    debugwidget/DebugFunctionWidget.ui
 
 RESOURCES += \
     chain.qrc

@@ -49,6 +49,8 @@
 #include "custom/CallContractWidgetCTC.h"
 #include "custom/UpgradeContractDialogCTC.h"
 
+#include "debugwidget/DebugFunctionWidget.h"
+
 #include "ConvenientOp.h"
 #include "IDEUtil.h"
 
@@ -168,6 +170,14 @@ void MainWindow::startWidget()
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugOutput,ui->outputWidget,&OutputWidget::receiveOutputMessage);
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,ui->outputWidget,&OutputWidget::receiveOutputMessage);
 
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::showVariant,ui->debugWidget,&DebugWidget::ResetData);
+
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugStarted,this,&MainWindow::ModifyDebugActionState);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,this,&MainWindow::ModifyDebugActionState);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
+
+
     //调整按钮状态
     ModifyActionState();
     //状态栏开始更新
@@ -244,6 +254,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         dia.exec();
     }
+
+    ChainIDE::getInstance()->getDebugManager()->ReadyClose();
 
     if(_p->updateNeeded)
     {//开启copy，
@@ -566,21 +578,62 @@ void MainWindow::on_compileAction_triggered()
 
 void MainWindow::on_debugAction_triggered()
 {
-    ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
-    ConvenientOp::ShowNotifyMessage(tr("单步调试功能正在紧急开发中，敬请期待！"));
+    //ui->debugWidget->setVisible(!ui->debugWidget->isVisible());
+    //ConvenientOp::ShowNotifyMessage(tr("单步调试功能正在紧急开发中，敬请期待！"));
     //ui->debugAction->setEnabled(false);
-    ChainIDE::getInstance()->getDebugManager()->startDebug(ui->fileWidget->getCurrentFile());
 
+    if(ChainIDE::getInstance()->getDebugManager()->getDebuggerState() == DebugDataStruct::Available)
+    {
+        //先生成.out字节码
+        connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,this,&MainWindow::startDebugSlot);
+        connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::errorCompile,this,&MainWindow::errorCompileSlot);
+        on_compileAction_triggered();
+    }
+    else
+    {
+        ChainIDE::getInstance()->getDebugManager()->debugContinue();
+    }
+}
+
+void MainWindow::startDebugSlot(const QString &gpcFile)
+{
+    disconnect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,this,&MainWindow::startDebugSlot);
+
+    //选择需要调试的函数
+    QString metaFile = gpcFile;
+    metaFile.replace(QRegExp("gpc$"),DataDefine::META_SUFFIX);
+    if(!QFileInfo(metaFile).exists()) return;
+
+    DataDefine::ApiEventPtr apis = nullptr;
+    if(!ConvenientOp::readApiFromPath(metaFile,apis)) return;
+
+    DebugFunctionWidget fun(ui->fileWidget->getCurrentFile(),apis);
+    fun.exec();
+    if(fun.SelectedApi().isEmpty()) return;
+
+
+    ui->debugWidget->setVisible(true);
+    ui->debugWidget->ClearData();
+    //打开调试器，进行函数调试
+    QString file = gpcFile;
+    file.replace(QRegExp("gpc$"),"out");
+    ChainIDE::getInstance()->getDebugManager()->setOutFile(file);
+    ChainIDE::getInstance()->getDebugManager()->startDebug(ui->fileWidget->getCurrentFile(),fun.SelectedApi(),fun.ApiParams());
+}
+
+void MainWindow::errorCompileSlot()
+{
+    disconnect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,this,&MainWindow::startDebugSlot);
 }
 
 void MainWindow::on_stopAction_triggered()
 {
-
+    ChainIDE::getInstance()->getDebugManager()->stopDebug();
 }
 
 void MainWindow::on_stepAction_triggered()
 {
-
+    ChainIDE::getInstance()->getDebugManager()->debugNextStep();
 }
 
 void MainWindow::on_TabBreaPointAction_triggered()
@@ -670,6 +723,7 @@ void MainWindow::ModifyActionState()
        currentFile.endsWith(DataDefine::KOTLIN_SUFFIX))
     {
         ui->compileAction->setEnabled(true);
+
     }
     else
     {
@@ -677,6 +731,27 @@ void MainWindow::ModifyActionState()
     }
 
     ui->savaAsAction->setEnabled(ui->fileWidget->getCurrentFile().isEmpty());
+
+    //调试按钮单独设置
+    ModifyDebugActionState();
+}
+
+void MainWindow::ModifyDebugActionState()
+{
+    QString currentFile = ui->fileWidget->getCurrentFile();
+    if(currentFile.endsWith(DataDefine::GLUA_SUFFIX)||
+       currentFile.endsWith(DataDefine::JAVA_SUFFIX)||
+       currentFile.endsWith(DataDefine::CSHARP_SUFFIX)||
+       currentFile.endsWith(DataDefine::KOTLIN_SUFFIX))
+    {
+        ui->debugAction->setEnabled(true);
+    }
+    else
+    {
+        ui->debugAction->setEnabled(ChainIDE::getInstance()->getDebugManager()->getDebuggerState() != DebugDataStruct::Available);
+    }
+    ui->stepAction->setEnabled(ChainIDE::getInstance()->getDebugManager()->getDebuggerState() != DebugDataStruct::Available);
+    ui->stopAction->setEnabled(ChainIDE::getInstance()->getDebugManager()->getDebuggerState() != DebugDataStruct::Available);
 }
 
 void MainWindow::NewFile(const QString &suffix ,const QString &defaultPath)

@@ -283,3 +283,38 @@ bool ConvenientOp::ExportContractFile(const QString &gpcFilePath)
 
     return true;
 }
+
+bool ConvenientOp::readApiFromPath(const QString &filePath, DataDefine::ApiEventPtr &results)
+{
+    //解析json文档
+    if (!results) results = std::make_shared<DataDefine::ApiEvent>();
+    results->clear();
+
+    QFile contractFile(filePath);
+    if(!contractFile.open(QIODevice::ReadOnly)) return false;
+
+    QString jsonStr(contractFile.readAll());
+    contractFile.close();
+
+    QTextCodec* utfCodec = QTextCodec::codecForName("UTF-8");
+    QByteArray ba = utfCodec->fromUnicode(jsonStr);
+
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(ba, &json_error);
+
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject()) return false;
+
+    QJsonObject jsonObject = parse_doucment.object();
+
+    QJsonArray Apis = jsonObject.value("api").toArray();
+    foreach (QJsonValue obj, Apis) {
+        results->addApi(obj.toString());
+    }
+
+    QJsonArray Events = jsonObject.value("event").toArray();
+    foreach (QJsonValue obj, Events) {
+        results->addEvent(obj.toString());
+    }
+
+    return true;
+}

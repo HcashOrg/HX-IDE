@@ -49,6 +49,8 @@ protected:
 
     const QString &getDstMetaFilePath()const;
 
+    const QString &getDstOutFilePath()const;
+
     void setCompileStage(BaseCompile::CompileStage sta);
     BaseCompile::CompileStage getCompileStage()const;
 protected:
@@ -56,6 +58,7 @@ protected:
 private:
     void setDstByteFilePath(const QString &path);//（.gpc）
     void setDstMetaFilePath(const QString &path);// .meta.json
+    void setDstOutFilePath(const QString &path);//(.out)
 private:
     class DataPrivate;
     DataPrivate *_p;

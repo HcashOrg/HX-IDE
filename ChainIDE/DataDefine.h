@@ -28,6 +28,7 @@ namespace DataDefine
 
     //合约文件后缀
     static const QString META_SUFFIX = "meta.json";
+    static const QString BYTE_OUT_SUFFIX = "out";
     static const QString CONTRACT_SUFFIX = "gpc";
     static const QString GLUA_SUFFIX = "uvlua";
     static const QString JAVA_SUFFIX = "java";
@@ -77,6 +78,8 @@ namespace DataDefine
     static const QString CSHARP_COMPILE_TEMP_DIR = "csharpTemp";
     static const QString KOTLIN_COMPILE_TEMP_DIR = "kotlinTemp";
 
+    //调试器路径
+    static const QString DEBUGGER_UVM_PATH = "debug/uvm_single.exe";
 //合约api类
     class ApiEvent
     {
