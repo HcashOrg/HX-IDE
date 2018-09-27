@@ -75,20 +75,19 @@ void DebugManager::startDebug(const QString &filePath,const QString &api,const Q
 
 void DebugManager::debugNextStep()
 {
-    qDebug()<<"write step";
-    qDebug()<<_p->uvmProcess->write("step\n");
-    getVariantInfo();
+    setDebuggerState(DebugDataStruct::StepDebug);
+    fetchBreakPoints(_p->filePath);
 }
 
 void DebugManager::debugContinue()
 {
-    qDebug()<<"write continue";
-    getVariantInfo();
+
+    setDebuggerState(DebugDataStruct::ContinueDebug);
+    fetchBreakPoints(_p->filePath);
 }
 
 void DebugManager::stopDebug()
 {
-    qDebug()<<"write stop";
     _p->uvmProcess->write("continue\n");
     _p->uvmProcess->close();
     ResetDebugger();
@@ -107,6 +106,18 @@ void DebugManager::fetchBreakPointsFinish(const std::vector<int> &data)
     {
         //启动单步调试器
 
+    }
+    else if(getDebuggerState() == DebugDataStruct::StepDebug)
+    {
+        qDebug()<<"write single step";
+        _p->uvmProcess->write("step\n");
+        getVariantInfo();
+    }
+    else if(getDebuggerState() == DebugDataStruct::ContinueDebug)
+    {
+        qDebug()<<"write continue";
+        _p->uvmProcess->write("breakpoint ?:19\n");
+        getVariantInfo();
     }
     //std::for_each(data.begin(),data.end(),[](int in){qDebug()<<in;});
 }
@@ -151,8 +162,8 @@ void DebugManager::OnProcessStateChanged()
     else if(_p->uvmProcess->state() == QProcess::NotRunning)
     {
         qDebug()<<"not run";
-        emit debugFinish();
         ResetDebugger();
+        emit debugFinish();
     }
 }
 

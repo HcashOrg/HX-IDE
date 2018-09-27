@@ -4,6 +4,8 @@
 #include <QTreeWidgetItem>
 #include <QHeaderView>
 
+#include <QFileInfo>
+
 DebugFunctionWidget::DebugFunctionWidget(const QString &file,DataDefine::ApiEventPtr apis,QWidget *parent) :
     MoveableDialog(parent),
     ui(new Ui::DebugFunctionWidget)
@@ -41,7 +43,7 @@ void DebugFunctionWidget::InitWidget(const QString &file, DataDefine::ApiEventPt
 {
     setWindowFlags(Qt::FramelessWindowHint);
 
-    ui->file->setText(file);
+    ui->file->setText(QFileInfo(file).fileName());
 
     QTreeWidget *tree = new QTreeWidget(this);
     tree->header()->setVisible(false);

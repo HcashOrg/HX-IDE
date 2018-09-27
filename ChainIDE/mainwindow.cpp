@@ -585,9 +585,13 @@ void MainWindow::on_debugAction_triggered()
     if(ChainIDE::getInstance()->getDebugManager()->getDebuggerState() == DebugDataStruct::Available)
     {
         //先生成.out字节码
-        connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,this,&MainWindow::startDebugSlot);
-        connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::errorCompile,this,&MainWindow::errorCompileSlot);
-        on_compileAction_triggered();
+        if(ui->compileAction->isEnabled())
+        {
+            connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::finishCompile,this,&MainWindow::startDebugSlot);
+            connect(ChainIDE::getInstance()->getCompileManager(),&CompileManager::errorCompile,this,&MainWindow::errorCompileSlot);
+            on_compileAction_triggered();
+
+        }
     }
     else
     {
