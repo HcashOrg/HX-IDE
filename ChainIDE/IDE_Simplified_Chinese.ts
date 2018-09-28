@@ -294,6 +294,29 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>BackStageManager</name>
+    <message>
+        <location filename="backstage/BackStageManager.cpp" line="89"/>
+        <source>start test chain ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="backstage/BackStageManager.cpp" line="98"/>
+        <source>start formal chain ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="backstage/BackStageManager.cpp" line="199"/>
+        <source>test chain start finish...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="backstage/BackStageManager.cpp" line="215"/>
+        <source>formal chain start finish...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CTCBackStage</name>
     <message>
         <location filename="backstage/CTCBackStage.cpp" line="153"/>
@@ -810,131 +833,53 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>DebugFunctionWidget</name>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="29"/>
+        <source>确定</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="45"/>
+        <source>取消</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="58"/>
+        <source>调试合约</source>
+        <translation type="unfinished">调试合约</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="90"/>
+        <source>调试文件：</source>
+        <translation type="unfinished">调试文件：</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="107"/>
+        <source>函数名：</source>
+        <translation type="unfinished">函数名：</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="127"/>
+        <source>参数：</source>
+        <translation type="unfinished">参数：</translation>
+    </message>
+    <message>
+        <location filename="debugwidget/DebugFunctionWidget.ui" line="143"/>
+        <source>请输入参数(可选)</source>
+        <translation type="unfinished">请输入参数(可选)</translation>
+    </message>
+</context>
+<context>
     <name>DebugWidget</name>
     <message>
         <location filename="debugwidget/DebugWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="36"/>
-        <source>  变量</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="41"/>
-        <source>值</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="46"/>
-        <source>类型</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="51"/>
-        <source>测试1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="54"/>
-        <location filename="debugwidget/DebugWidget.ui" line="87"/>
-        <source>2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="57"/>
-        <source>vector</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="61"/>
-        <location filename="debugwidget/DebugWidget.ui" line="94"/>
-        <source>item1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="64"/>
-        <source>4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="67"/>
-        <location filename="debugwidget/DebugWidget.ui" line="78"/>
-        <location filename="debugwidget/DebugWidget.ui" line="121"/>
-        <location filename="debugwidget/DebugWidget.ui" line="154"/>
-        <source>int</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="72"/>
-        <location filename="debugwidget/DebugWidget.ui" line="127"/>
-        <source>item2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="75"/>
-        <location filename="debugwidget/DebugWidget.ui" line="118"/>
-        <source>7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="84"/>
-        <source>测试2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="90"/>
-        <source>map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="97"/>
-        <source>0x4215454</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="100"/>
-        <location filename="debugwidget/DebugWidget.ui" line="133"/>
-        <source>pair&lt;string,int&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="104"/>
-        <location filename="debugwidget/DebugWidget.ui" line="137"/>
-        <source>0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="107"/>
-        <source>test</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="110"/>
-        <location filename="debugwidget/DebugWidget.ui" line="143"/>
-        <source>string</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="115"/>
-        <location filename="debugwidget/DebugWidget.ui" line="148"/>
-        <source>1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="130"/>
-        <source>0x4215554</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="140"/>
-        <source>foror</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="debugwidget/DebugWidget.ui" line="151"/>
-        <source>8</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1173,7 +1118,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/ImportDialogHX.cpp" line="78"/>
         <source>Wrong file path.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文件不存在</translation>
     </message>
     <message>
         <location filename="custom/ImportDialogHX.cpp" line="85"/>
@@ -1184,7 +1129,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="custom/ImportDialogHX.cpp" line="151"/>
         <source>Choose your private key file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择您的私钥文件.</translation>
     </message>
 </context>
 <context>
@@ -1317,7 +1262,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="backstage/LinkBackStage.cpp" line="192"/>
+        <location filename="backstage/LinkBackStage.cpp" line="193"/>
         <source>Fail to launch %1 !</source>
         <translation type="unfinished">加载%1失败！</translation>
     </message>
@@ -1533,7 +1478,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="MainWindow.ui" line="501"/>
-        <location filename="MainWindow.cpp" line="649"/>
+        <location filename="MainWindow.cpp" line="716"/>
         <source>切换到正式链</source>
         <translation type="unfinished">切换到正式链</translation>
     </message>
@@ -1588,58 +1533,68 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">停止调试</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="587"/>
+        <location filename="MainWindow.ui" line="580"/>
+        <source>Shift+F5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="590"/>
         <source>逐步</source>
         <translation type="unfinished">逐步</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="597"/>
+        <location filename="MainWindow.ui" line="593"/>
+        <source>F10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="603"/>
         <source>导入uvlua合约</source>
         <translation type="unfinished">导入uvlua合约</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="607"/>
+        <location filename="MainWindow.ui" line="613"/>
         <source>导入java合约</source>
         <translation type="unfinished">导入java合约</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="617"/>
+        <location filename="MainWindow.ui" line="623"/>
         <source>导入c#合约</source>
         <translation type="unfinished">导入c#合约</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="627"/>
+        <location filename="MainWindow.ui" line="633"/>
         <source>导入kotlin合约</source>
         <translation type="unfinished">导入kotlin合约</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="636"/>
+        <location filename="MainWindow.ui" line="642"/>
         <source>配置</source>
         <translation type="unfinished">配置</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="641"/>
+        <location filename="MainWindow.ui" line="647"/>
         <source>切换断点</source>
         <translation type="unfinished">切换断点</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="644"/>
+        <location filename="MainWindow.ui" line="650"/>
         <source>F9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="649"/>
-        <location filename="MainWindow.ui" line="652"/>
+        <location filename="MainWindow.ui" line="655"/>
+        <location filename="MainWindow.ui" line="658"/>
         <source>清空断点</source>
         <translation type="unfinished">清空断点</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="655"/>
+        <location filename="MainWindow.ui" line="661"/>
         <source>Ctrl+Shift+F9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="181"/>
+        <location filename="MainWindow.cpp" line="191"/>
         <source>IDE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1668,57 +1623,66 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="187"/>
+        <location filename="MainWindow.cpp" line="197"/>
         <source>IDE-UB TEST CHAIN</source>
         <translation type="unfinished">IDE-UB测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="191"/>
+        <location filename="MainWindow.cpp" line="201"/>
         <source>IDE-HX TEST CHAIN</source>
         <translation type="unfinished">IDE-HX测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="195"/>
+        <location filename="MainWindow.cpp" line="205"/>
         <source>IDE-CTC TEST CHAIN</source>
         <translation type="unfinished">IDE-CTC测试链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="202"/>
+        <location filename="MainWindow.cpp" line="212"/>
         <source>IDE-UB FORMAL CHAIN</source>
         <translation type="unfinished">IDE-UB正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="206"/>
+        <location filename="MainWindow.cpp" line="216"/>
         <source>IDE-HX FORMAL CHAIN</source>
         <translation type="unfinished">IDE-HX正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="210"/>
+        <location filename="MainWindow.cpp" line="220"/>
         <source>IDE-CTC FORMAL CHAIN</source>
         <translation type="unfinished">IDE-CTC正式链</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="239"/>
+        <location filename="MainWindow.cpp" line="249"/>
         <source>请耐心等待程序自动关闭，不要关闭本窗口!</source>
         <translation type="unfinished">请耐心等待程序自动关闭，不要关闭本窗口!</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="517"/>
+        <location filename="MainWindow.cpp" line="303"/>
+        <source>Initialize done...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="309"/>
+        <source>Initialize IDE,please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="535"/>
         <source>Sure to switch to formal chain?</source>
         <translation type="unfinished">是否确认切换到正式链？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="539"/>
+        <location filename="MainWindow.cpp" line="561"/>
         <source>文件已修改，是否保存?</source>
         <translation type="unfinished">文件已修改，是否保存？</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="560"/>
         <source>单步调试功能正在紧急开发中，敬请期待！</source>
-        <translation type="unfinished">单步调试功能正在紧急开发中，敬请期待！</translation>
+        <translation type="obsolete">单步调试功能正在紧急开发中，敬请期待！</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="649"/>
+        <location filename="MainWindow.cpp" line="716"/>
         <source>切换到测试链</source>
         <translation type="unfinished">切换到测试链</translation>
     </message>
@@ -2292,13 +2256,18 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">下一步</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.cpp" line="29"/>
+        <location filename="selectpathwidget.cpp" line="31"/>
         <source>Select the path to store the blockchain</source>
         <translation type="unfinished">选择数据存放路径</translation>
     </message>
     <message>
-        <location filename="selectpathwidget.cpp" line="37"/>
+        <location filename="selectpathwidget.cpp" line="39"/>
         <source>Folderpath cannot contain space character!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="selectpathwidget.cpp" line="44"/>
+        <source>Folderpath doesn&apos;t exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

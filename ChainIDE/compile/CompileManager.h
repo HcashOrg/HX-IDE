@@ -18,6 +18,10 @@ signals:
     void CompileOutput(const QString &outString);
 private:
     void InitManager();
+
+    bool checkJavaEnvironment();
+    bool checkCsharpEnvironment();
+
 private:
     class DataPrivate;
     DataPrivate *_p;

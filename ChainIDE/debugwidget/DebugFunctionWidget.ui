@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>调用合约</string>
+    <string>调试合约</string>
    </property>
   </widget>
   <widget class="QToolButton" name="closeBtn">
@@ -74,7 +74,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>14</x>

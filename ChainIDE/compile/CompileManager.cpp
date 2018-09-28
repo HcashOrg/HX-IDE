@@ -1,6 +1,8 @@
 #include "CompileManager.h"
 
 #include <QDebug>
+#include <QSettings>
+#include <QRegExpValidator>
 #include "gluaCompile.h"
 #include "javaCompile.h"
 #include "csharpCompile.h"
@@ -42,15 +44,41 @@ void CompileManager::startCompile(const QString &filePath)
     }
     else if(filePath.endsWith("."+DataDefine::JAVA_SUFFIX))
     {//调用java编译器
-        compiler = new javaCompile(this);
+        if(checkJavaEnvironment())
+        {
+            compiler = new javaCompile(this);
+        }
+        else
+        {
+            qDebug()<<"no java";
+            emit CompileOutput(tr("Please make sure you've installed jdk8 and commond 'java -version' is useful."));
+            emit CompileOutput(tr("Here is the download website: https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html"));
+        }
     }
     else if(filePath.endsWith("."+DataDefine::CSHARP_SUFFIX))
     {
-        compiler = new csharpCompile(this);
+        if(checkCsharpEnvironment())
+        {
+            compiler = new csharpCompile(this);
+        }
+        else
+        {
+            emit CompileOutput(tr("Please make sure you've installed .net framework 4.6 or newer version."));
+            emit CompileOutput(tr("Here is the download website: https://www.microsoft.com/en-us/download/details.aspx?id=48130"));
+        }
     }
     else if(filePath.endsWith("."+DataDefine::KOTLIN_SUFFIX))
     {
-        compiler = new kotlinCompile(this);
+        if(checkJavaEnvironment())
+        {
+            compiler = new kotlinCompile(this);
+        }
+        else
+        {
+            qDebug()<<"no java";
+            emit CompileOutput(tr("Please make sure you've installed jdk8 and commond 'java -version' is useful."));
+            emit CompileOutput(tr("Here is the download website: https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html"));
+        }
     }
 
     if(compiler)
@@ -61,8 +89,44 @@ void CompileManager::startCompile(const QString &filePath)
 
         compiler->startCompileFile(filePath);
     }
+    else
+    {
+        emit errorCompile(filePath);
+    }
 }
 
 void CompileManager::InitManager()
 {
+}
+
+bool CompileManager::checkJavaEnvironment()
+{
+    QProcess *pro = new QProcess(this);
+    pro->execute("java -version");
+    pro->waitForReadyRead();
+
+    QString str(pro->readAll());
+    qDebug()<<"str---"<<str;
+    //return str.contains("\"1.8.");
+    return true;
+}
+
+bool CompileManager::checkCsharpEnvironment()
+{
+    QSettings set("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP",QSettings::NativeFormat);
+
+    QRegExp versionReg("^[0-4]\.[0-5]\.");
+    QStringList li = set.allKeys();
+    foreach (QString key, li) {
+        if(key.endsWith("/Version"))
+        {
+            if(set.value(key).toString().indexOf(versionReg)==-1)
+            {
+                //说明存在4.5以上的版本
+                qDebug()<<"check .net framework version "<<key<<set.value(key).toString();
+                return true;
+            }
+        }
+    }
+    return false;
 }

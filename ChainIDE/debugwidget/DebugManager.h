@@ -37,6 +37,7 @@ signals:
     void debugOutput(const QString &message);
     void debugStarted();
     void debugFinish();
+    void debugBreakAt(const QString &file,int lineNumber);
     void debugError(const QString &error = "");
 
     void showVariant(BaseItemDataPtr data);

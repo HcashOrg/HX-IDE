@@ -65,6 +65,7 @@ namespace DataDefine
     static const QString JAVA_PACKAGE_GPC_PATH = "compile/java/package_gpc.exe";
 
     static const QString CSHARP_COMPILER_EXE_ENV = "CSC";//C#编译器环境变量名称
+    static const QString CSHARP_COMPILER_EXE_PATH = "compile/csharp/Roslyn/csc.exe";//本地csc.exe路径
     static const QString CSHARP_COMPILE_DIR = "compile/csharp";
     static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";
     static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/GluaCoreLib.dll";

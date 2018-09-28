@@ -131,20 +131,20 @@ void csharpCompile::generateDllFile()
           <<"-debug"<<"-pdb:"+getTempDir()+QDir::separator()+"result.pdb";
 
     qDebug()<<"c#-compile-generate-.dll: csc.exe "<<params;
-
+    getCompileProcess()->start(QCoreApplication::applicationDirPath()+"/"+DataDefine::CSHARP_COMPILER_EXE_PATH,params);
     //获取C#环境变量
-    //getCompileProcess()->start("csc",params);
-    QString cscVal = QProcessEnvironment::systemEnvironment().value(DataDefine::CSHARP_COMPILER_EXE_ENV);
-    if(!cscVal.isEmpty())
-    {
-        emit CompileOutput("start compiler path:"+cscVal+"/csc.exe\n");
-        getCompileProcess()->start(cscVal+"/csc.exe",params);
-    }
-    else
-    {
-        emit CompileOutput("Error :can't find CSC environment,please set csc.exe folder to CSC!");
-        emit errorCompileFile(getSourceDir());
-    }
+//    QString cscVal = QProcessEnvironment::systemEnvironment().value(DataDefine::CSHARP_COMPILER_EXE_ENV);
+//    if(!cscVal.isEmpty())
+//    {
+//        emit CompileOutput("start compiler path:"+cscVal+"/csc.exe\n");
+//        getCompileProcess()->start(cscVal+"/csc.exe",params);
+
+//    }
+//    else
+//    {
+//        emit CompileOutput("Error :can't find CSC environment,please set csc.exe folder to CSC!");
+//        emit errorCompileFile(getSourceDir());
+//    }
 }
 
 void csharpCompile::generateContractFile()

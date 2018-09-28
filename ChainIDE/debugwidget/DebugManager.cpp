@@ -169,6 +169,22 @@ void DebugManager::OnProcessStateChanged()
 
 void DebugManager::readyReadStandardOutputSlot()
 {
+    if(getDebuggerState() == DebugDataStruct::StartDebug)
+    {
+
+    }
+    else if(getDebuggerState() == DebugDataStruct::StepDebug)
+    {
+
+    }
+    else if(getDebuggerState() == DebugDataStruct::ContinueDebug)
+    {
+
+    }
+    else if(getDebuggerState() == DebugDataStruct::FinishDebug)
+    {
+
+    }
     emit debugOutput(_p->uvmProcess->readAllStandardOutput());
 }
 
