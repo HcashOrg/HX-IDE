@@ -36,14 +36,27 @@ namespace DataDefine
     static const QString KOTLIN_SUFFIX = "kt";
 
     //后台程序路径
+#ifdef  WIN32
     static const QString UBCD_NODE_EXE = "backstage/ubcd.exe";
     static const QString UBCD_CLIENT_EXE = "backstage/ubc-cli.exe";
+
     static const QString LINK_NODE_EXE = "backstage/hx_node.exe";
     static const QString LINK_CLIENT_EXE = "backstage/hx_client.exe";
 
     static const QString CTC_NODE_TEST_EXE = "backstage/ctc_test.exe";
     static const QString CTC_TEST_SCRIPT = "backstage/import_wif_keys.json";
     static const QString CTC_NODE_FORMAL_EXE = "backstage/ctc_formal.exe";
+#else
+    static const QString UBCD_NODE_EXE = "backstage/ubcd";
+    static const QString UBCD_CLIENT_EXE = "backstage/ubc-cli";
+
+    static const QString LINK_NODE_EXE = "backstage/hx_node";
+    static const QString LINK_CLIENT_EXE = "backstage/hx_client";
+
+    static const QString CTC_NODE_TEST_EXE = "backstage/ctc_test";
+    static const QString CTC_TEST_SCRIPT = "backstage/import_wif_keys.json";
+    static const QString CTC_NODE_FORMAL_EXE = "backstage/ctc_formal";
+#endif
 
     //合约存放路径
     static const QString CONTRACT_DIR = "contracts";
@@ -57,6 +70,7 @@ namespace DataDefine
 
 
     //编译工具路径
+#ifdef WIN32
     static const QString GLUA_COMPILE_PATH = "compile/glua/glua_compiler.exe";
 
     static const QString JAVA_CORE_PATH = "compile/java/gjavac-core-1.0.1-dev.jar";
@@ -72,7 +86,24 @@ namespace DataDefine
     static const QString CSHARP_COMPILE_PATH = "compile/csharp/gsharpc.exe";
 
     static const QString KOTLIN_COMPILE_PATH = "compile/kotlin/kotlinc/bin/kotlinc-jvm.bat";
+#else
+    static const QString GLUA_COMPILE_PATH = "compile/glua/glua_compiler";
 
+    static const QString JAVA_CORE_PATH = "compile/java/gjavac-core-1.0.1-dev.jar";
+    static const QString JAVA_COMPILE_PATH = "compile/java/gjavac-compiler-1.0.1-dev-jar-with-dependencies.jar";
+    static const QString JAVA_UVM_ASS_PATH = "compile/java/uvm_ass";
+    static const QString JAVA_PACKAGE_GPC_PATH = "compile/java/package_gpc";
+
+    static const QString CSHARP_COMPILER_EXE_ENV = "CSC";//C#编译器环境变量名称
+    static const QString CSHARP_COMPILER_EXE_PATH = "compile/csharp/Roslyn/csc.exe";//本地csc.exe路径
+    static const QString CSHARP_COMPILE_DIR = "compile/csharp";
+    static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";
+    static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/GluaCoreLib.dll";
+    static const QString CSHARP_COMPILE_PATH = "compile/csharp/gsharpc.exe";
+
+    static const QString KOTLIN_COMPILE_PATH = "compile/kotlin/kotlinc/bin/kotlinc-jvm.bat";
+
+#endif
     //编译临时路径(文件夹)
     static const QString GLUA_COMPILE_TEMP_DIR = "gluaTemp";
     static const QString JAVA_COMPILE_TEMP_DIR = "javaTemp";
@@ -80,7 +111,11 @@ namespace DataDefine
     static const QString KOTLIN_COMPILE_TEMP_DIR = "kotlinTemp";
 
     //调试器路径
+#ifdef WIN32
     static const QString DEBUGGER_UVM_PATH = "debug/uvm_single.exe";
+#else
+    static const QString DEBUGGER_UVM_PATH = "debug/uvm_single";
+#endif
 //合约api类
     class ApiEvent
     {

@@ -69,6 +69,8 @@ void DebugManager::startDebug(const QString &filePath,const QString &api,const Q
     //启动单步调试器
     QStringList params;
     params<<"-luvmdebug"<<_p->outFilePath/*<<api<<param*/;
+
+    qDebug()<<"start debug"<<QCoreApplication::applicationDirPath()+"/"+DataDefine::DEBUGGER_UVM_PATH<<params;
     _p->uvmProcess->start(QCoreApplication::applicationDirPath()+"/"+DataDefine::DEBUGGER_UVM_PATH,params);
 
 }

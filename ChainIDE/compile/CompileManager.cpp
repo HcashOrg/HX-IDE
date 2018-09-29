@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QRegExpValidator>
+#include <QCoreApplication>
 #include "gluaCompile.h"
 #include "javaCompile.h"
 #include "csharpCompile.h"
@@ -101,14 +102,12 @@ void CompileManager::InitManager()
 
 bool CompileManager::checkJavaEnvironment()
 {
-    QProcess *pro = new QProcess(this);
-    pro->execute("java -version");
-    pro->waitForReadyRead();
-
-    QString str(pro->readAll());
-    qDebug()<<"str---"<<str;
-    //return str.contains("\"1.8.");
-    return true;
+    QProcess *pro = new QProcess();
+    pro->start("java",QStringList()<<"-version");
+    pro->waitForFinished();
+    QString str(pro->readAllStandardError());
+    qDebug()<<"java check version"<<str;
+    return str.contains("\"1.8.");
 }
 
 bool CompileManager::checkCsharpEnvironment()

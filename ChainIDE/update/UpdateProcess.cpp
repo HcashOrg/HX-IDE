@@ -14,7 +14,11 @@
 #include "UpdateProgressUtil.h"
 #include "UpdateNetWork.h"
 
-static const QString UPDATE_DOC_NAME = "ide_upgrade.xml";
+#ifdef WIN32
+static const QString UPDATE_DOC_NAME = "ide_upgrade_win.xml";
+#else
+static const QString UPDATE_DOC_NAME = "ide_upgrade_mac.xml";
+#endif
 static const QString UPDATE_DIR_NAME = "updatetemp";
 static const QString COPY_DIR_NAME = "copy";
 static const QString UPDATE_SERVER_URL = "http://192.168.1.161/IDEupdate/";
