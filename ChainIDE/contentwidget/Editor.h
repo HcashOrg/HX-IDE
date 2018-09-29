@@ -29,6 +29,9 @@ public:
     const std::vector<int> &getBreakPoints()const;
     void setBeakPoint(int line,bool isAdd);
 
+    virtual void SetDebuggerLine(int lineNumber);
+    virtual void ClearDebuggerLine();
+
     bool isUndoAvailable();
     bool isRedoAvailable();
 

@@ -128,6 +128,23 @@ void ContextWidget::ClearBreakPoint()
     }
 }
 
+void ContextWidget::SetDebuggerLine(const QString &path, int linenumber)
+{
+    if(Editor * edi = getEditor(path))
+    {
+        ui->tabWidget->setCurrentWidget(edi);
+        edi->SetDebuggerLine(linenumber);
+    }
+}
+
+void ContextWidget::ClearDebuggerLine(const QString &path)
+{
+    if(Editor * edi = getEditor(path))
+    {
+        edi->ClearDebuggerLine();
+    }
+}
+
 void ContextWidget::GetBreakPointSlots(const QString &filePath)
 {
     if(Editor * edi = getEditor(filePath))

@@ -18,6 +18,8 @@ public slots:
 
     void onMarkChange(int linenumber,bool isadd);
 
+    void onDebugChange(int linenumber,bool isadd);
+
     void gutterRightClicked();
 public:
     bridge(bridge &&)=delete;

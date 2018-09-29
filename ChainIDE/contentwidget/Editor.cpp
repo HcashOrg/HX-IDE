@@ -154,6 +154,16 @@ void Editor::setBeakPoint(int line, bool isAdd)
     }
 }
 
+void Editor::SetDebuggerLine(int lineNumber)
+{
+    //todo
+}
+
+void Editor::ClearDebuggerLine()
+{
+    //todo
+}
+
 void Editor::setUndoAvaliable(bool is)
 {
     _p->isundoAvaliable = is;

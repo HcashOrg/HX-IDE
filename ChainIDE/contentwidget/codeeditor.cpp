@@ -108,6 +108,16 @@ void codeeditor::ClearBreakPoint()
     Editor::ClearBreakPoint();
 }
 
+void codeeditor::SetDebuggerLine(int linenumber)
+{
+    RunJavaScript(QString("SetDebuggerPoint(%1)").arg(linenumber));
+}
+
+void codeeditor::ClearDebuggerLine()
+{
+    RunJavaScript(QString("RecoverBreakState()"));
+}
+
 void codeeditor::undo()
 {
     RunJavaScript("editor.undo()");

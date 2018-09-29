@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include "update/UpdateProcess.h"
+#include "update/UpdateProgressUtil.h"
 
 static const QString IDE_VERSION = "1.0.8";
 
@@ -46,7 +47,7 @@ void AboutWidget::CheckUpdateSlot()
 
 void AboutWidget::CheckResultSlot(const QString &version)
 {
-    if(version.isEmpty())
+    if(version.isEmpty() || UpdateProgressUtil::AFTER!=UpdateProgressUtil::CompareVersion(IDE_VERSION,version))
     {
         //没有更新
         ui->label_updatetip->setText(tr("No new version!"));

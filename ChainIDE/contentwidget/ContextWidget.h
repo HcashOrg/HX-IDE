@@ -35,6 +35,8 @@ public:
 
     void ClearBreakPoint();
 
+    void SetDebuggerLine(const QString &path,int linenumber);
+    void ClearDebuggerLine(const QString &path);
 signals:
     void textChanged();
 

@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     if(!loc.IsAlreadyRunning())
     {
         //安装debug导出函数
-        qInstallMessageHandler(IDEUtil::myMessageOutput);
+        //qInstallMessageHandler(IDEUtil::myMessageOutput);
         //初始化单例配置等
         ChainIDE::getInstance();
         //主窗口

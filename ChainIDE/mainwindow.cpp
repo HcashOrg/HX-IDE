@@ -167,13 +167,18 @@ void MainWindow::startWidget()
 
     //调试器槽
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::fetchBreakPoints,ui->contentWidget,&ContextWidget::GetBreakPointSlots);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugBreakAt,ui->contentWidget,&ContextWidget::SetDebuggerLine);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,[this](){this->ui->contentWidget->ClearDebuggerLine(ChainIDE::getInstance()->getDebugManager()->getCurrentDebugFile());});
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,[this](){this->ui->contentWidget->ClearDebuggerLine(ChainIDE::getInstance()->getDebugManager()->getCurrentDebugFile());});
+
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugOutput,ui->outputWidget,&OutputWidget::receiveOutputMessage);
-    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,ui->outputWidget,&OutputWidget::receiveOutputMessage);
 
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::showVariant,ui->debugWidget,&DebugWidget::ResetData);
 
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugStarted,this,&MainWindow::ModifyDebugActionState);
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,this,&MainWindow::ModifyDebugActionState);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,this,&MainWindow::ModifyDebugActionState);
+
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
 
@@ -555,6 +560,7 @@ void MainWindow::on_changeChainAction_triggered()
 
 void MainWindow::on_compileAction_triggered()
 {//编译
+    //ui->contentWidget->SetDebuggerLine(ui->fileWidget->getCurrentFile(),10);
     //先触发保存判断
     if( ui->contentWidget->currentFileUnsaved() && ui->contentWidget->getCurrentFilePath() == ui->fileWidget->getCurrentFile())
     {
@@ -615,7 +621,6 @@ void MainWindow::startDebugSlot(const QString &gpcFile)
     DebugFunctionWidget fun(ui->fileWidget->getCurrentFile(),apis);
     fun.exec();
     if(fun.SelectedApi().isEmpty()) return;
-
 
     ui->debugWidget->setVisible(true);
     ui->debugWidget->ClearData();

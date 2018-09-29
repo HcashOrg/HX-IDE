@@ -32,6 +32,8 @@ public:
     void TabBreakPoint()override final;
     void ClearBreakPoint()override final;
 
+    void SetDebuggerLine(int linenumber)override final;
+    void ClearDebuggerLine()override final;
 public slots:
     void undo()override final;
     void redo()override final;

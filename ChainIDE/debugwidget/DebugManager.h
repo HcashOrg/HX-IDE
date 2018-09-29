@@ -13,6 +13,7 @@ public:
 public:
     void setOutFile(const QString &outFile);
     void startDebug(const QString &filePath,const QString &api,const QStringList &param);
+
     void debugNextStep();//调试到下一行
     void debugContinue();//调试到下一个断点
     void stopDebug();//停止调试
@@ -23,7 +24,9 @@ public:
     DebugDataStruct::DebuggerState getDebuggerState()const;
     void setDebuggerState(DebugDataStruct::DebuggerState state);
 
-    void ReadyClose();
+    void ReadyClose();//准备关闭
+
+    const QString &getCurrentDebugFile()const;
 private slots:
     void OnProcessStateChanged();
 
@@ -38,7 +41,7 @@ signals:
     void debugStarted();
     void debugFinish();
     void debugBreakAt(const QString &file,int lineNumber);
-    void debugError(const QString &error = "");
+    void debugError();
 
     void showVariant(BaseItemDataPtr data);
 private:

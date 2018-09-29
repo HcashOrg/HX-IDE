@@ -39,6 +39,11 @@ void bridge::onMarkChange(int linenumber,bool isadd)
     emit markChanged(linenumber,isadd);
 }
 
+void bridge::onDebugChange(int linenumber, bool isadd)
+{
+    qDebug()<<"ddddddd"<<linenumber<<isadd;
+}
+
 void bridge::gutterRightClicked()
 {
     emit gutterRightClickedSignal();

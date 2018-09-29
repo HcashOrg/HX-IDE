@@ -61,7 +61,8 @@ void DebugManager::startDebug(const QString &filePath,const QString &api,const Q
     _p->filePath = filePath;
     if(!QFileInfo(_p->filePath).isFile() || !QFileInfo(_p->filePath).exists())
     {
-        emit debugError(_p->filePath+" isn't a file or exists");
+        emit debugOutput(_p->filePath+" isn't a file or exists");
+        emit debugError();
         return ;
     }
     //获取.out字节码
@@ -114,6 +115,8 @@ void DebugManager::fetchBreakPointsFinish(const std::vector<int> &data)
         qDebug()<<"write single step";
         _p->uvmProcess->write("step\n");
         getVariantInfo();
+        static int i = 10;
+        emit debugBreakAt(_p->filePath,i++);
     }
     else if(getDebuggerState() == DebugDataStruct::ContinueDebug)
     {
@@ -144,6 +147,11 @@ void DebugManager::ReadyClose()
         _p->uvmProcess->waitForReadyRead();
     }
     _p->uvmProcess->close();
+}
+
+const QString &DebugManager::getCurrentDebugFile() const
+{
+    return _p->filePath;
 }
 
 void DebugManager::OnProcessStateChanged()
@@ -192,7 +200,8 @@ void DebugManager::readyReadStandardOutputSlot()
 
 void DebugManager::readyReadStandardErrorSlot()
 {
-    emit debugError(_p->uvmProcess->readAllStandardError());
+    emit debugOutput(_p->uvmProcess->readAllStandardError());
+    emit debugError();
 }
 
 void DebugManager::InitDebugger()
