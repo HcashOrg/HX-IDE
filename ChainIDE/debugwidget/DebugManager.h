@@ -35,6 +35,22 @@ private slots:
 private:
     void InitDebugger();
     void ResetDebugger();
+
+    //解析查询变量返回情况
+    void ParseQueryInfo(const QString &info);
+    //解析断点停顿信息
+    void ParseBreakPoint(const QString &info);
+
+    //下一次断点
+    void SetBreakPoint(const QString &file,int lineNumber);
+    //取消断点
+    void CancelBreakPoint();
+
+    //当前断点行
+    void SetCurrentBreakLine(int li);
+    int GetCurrentBreakLine()const;
+    //获取下一个断点
+    int getNextBreakPoint(int currentBreak,const std::vector<int> &lineVec);
 signals:
     void fetchBreakPoints(const QString &filePath);
     void debugOutput(const QString &message);

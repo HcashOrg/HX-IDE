@@ -179,6 +179,7 @@ void MainWindow::startWidget()
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,this,&MainWindow::ModifyDebugActionState);
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,this,&MainWindow::ModifyDebugActionState);
 
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugStarted,ui->outputWidget,&OutputWidget::clearOutputMessage);
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
 

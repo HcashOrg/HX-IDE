@@ -367,7 +367,7 @@ void ChainIDE::getSystemEnvironmentPath()
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 #ifdef WIN32
     _p->appDataPath = env.value("APPDATA") + idePath;
-#elif
+#else
     _p->appDataPath = env.valude("HOME") + idePath;
 #endif
     //qDebug() << "appDataPath:" << _p->appDataPath;

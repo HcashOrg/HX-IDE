@@ -30,6 +30,7 @@ public:
     QString filePath;
     QString outFilePath;
     int currentBreakLine;
+    std::mutex breakMutex;
 
     QProcess *uvmProcess;
     DebugDataStruct::DebuggerState debuggerState;
@@ -84,21 +85,22 @@ void DebugManager::debugNextStep()
 
 void DebugManager::debugContinue()
 {
-
     setDebuggerState(DebugDataStruct::ContinueDebug);
     fetchBreakPoints(_p->filePath);
 }
 
 void DebugManager::stopDebug()
 {
+    CancelBreakPoint();
+    ResetDebugger();
     _p->uvmProcess->write("continue\n");
     _p->uvmProcess->close();
-    ResetDebugger();
     emit debugFinish();
 }
 
 void DebugManager::getVariantInfo()
 {
+    setDebuggerState(DebugDataStruct::QueryInfo);
     _p->uvmProcess->write("info locals\n");
 }
 
@@ -112,19 +114,17 @@ void DebugManager::fetchBreakPointsFinish(const std::vector<int> &data)
     }
     else if(getDebuggerState() == DebugDataStruct::StepDebug)
     {
-        qDebug()<<"write single step";
         _p->uvmProcess->write("step\n");
-        getVariantInfo();
-        static int i = 10;
-        emit debugBreakAt(_p->filePath,i++);
     }
     else if(getDebuggerState() == DebugDataStruct::ContinueDebug)
     {
-        qDebug()<<"write continue";
-        _p->uvmProcess->write("breakpoint ?:19\n");
-        getVariantInfo();
+        int breakLine = getNextBreakPoint(GetCurrentBreakLine(),data);
+        if(0 < breakLine)
+        {
+            SetBreakPoint(_p->filePath,breakLine);
+        }
+        _p->uvmProcess->write("continue\n");
     }
-    //std::for_each(data.begin(),data.end(),[](int in){qDebug()<<in;});
 }
 
 DebugDataStruct::DebuggerState DebugManager::getDebuggerState() const
@@ -167,11 +167,10 @@ void DebugManager::OnProcessStateChanged()
         //设置调试器状态
         setDebuggerState(DebugDataStruct::StartDebug);
         emit debugStarted();
-        testData();
     }
     else if(_p->uvmProcess->state() == QProcess::NotRunning)
     {
-        qDebug()<<"not run";
+        qDebug()<<"debugger not running";
         ResetDebugger();
         emit debugFinish();
     }
@@ -179,23 +178,26 @@ void DebugManager::OnProcessStateChanged()
 
 void DebugManager::readyReadStandardOutputSlot()
 {
+    QString outPut = _p->uvmProcess->readAllStandardOutput();
     if(getDebuggerState() == DebugDataStruct::StartDebug)
     {
 
     }
     else if(getDebuggerState() == DebugDataStruct::StepDebug)
     {
-
+        getVariantInfo();
     }
     else if(getDebuggerState() == DebugDataStruct::ContinueDebug)
     {
-
+        getVariantInfo();
     }
-    else if(getDebuggerState() == DebugDataStruct::FinishDebug)
+    else if(getDebuggerState() == DebugDataStruct::QueryInfo)
     {
-
+        ParseQueryInfo(outPut);
     }
-    emit debugOutput(_p->uvmProcess->readAllStandardOutput());
+    ParseBreakPoint(outPut);
+
+    emit debugOutput(outPut);
 }
 
 void DebugManager::readyReadStandardErrorSlot()
@@ -214,7 +216,71 @@ void DebugManager::InitDebugger()
 void DebugManager::ResetDebugger()
 {
     setDebuggerState(DebugDataStruct::Available);
+    SetCurrentBreakLine(-1);
+}
 
+void DebugManager::ParseQueryInfo(const QString &info)
+{
+    BaseItemDataPtr root = std::make_shared<BaseItemData>();
+
+    QStringList data = info.split("\r\n");
+    QRegExp rx("(.*)=(.*)");
+
+    foreach (QString eachdata, data) {
+
+        if(rx.indexIn(eachdata) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) continue;
+        //开始构造显示内容
+        BaseItemDataPtr pa = std::make_shared<BaseItemData>(rx.cap(1),rx.cap(2),"unknow",root);
+        root->appendChild(pa);
+    }
+
+    emit showVariant(root);
+}
+
+void DebugManager::ParseBreakPoint(const QString &info)
+{
+    QString data = info.simplified();
+    QRegExp rx("hit breakpoint at (.*):(\\d+)",Qt::CaseInsensitive);
+    rx.indexIn(data);
+    if(rx.indexIn(data) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) return;
+    SetCurrentBreakLine(rx.cap(2).toInt());
+    emit debugBreakAt(_p->filePath,rx.cap(2).toInt());
+}
+
+void DebugManager::SetBreakPoint(const QString &file, int lineNumber)
+{
+    setDebuggerState(DebugDataStruct::SetBreakPoint);
+    _p->uvmProcess->write(QString("break ? %1\n").arg(QString::number(lineNumber)).toStdString().c_str());
+    _p->uvmProcess->waitForReadyRead();
+}
+
+void DebugManager::CancelBreakPoint()
+{
+    setDebuggerState(DebugDataStruct::DeleteBreakPoint);
+    _p->uvmProcess->write("delete\n");
+    _p->uvmProcess->waitForReadyRead();
+}
+
+void DebugManager::SetCurrentBreakLine(int li)
+{
+    std::lock_guard<std::mutex> loc(_p->breakMutex);
+    _p->currentBreakLine = li;
+}
+
+int DebugManager::GetCurrentBreakLine() const
+{
+    std::lock_guard<std::mutex> loc(_p->breakMutex);
+    return _p->currentBreakLine;
+}
+
+int DebugManager::getNextBreakPoint(int currentBreak, const std::vector<int> &lineVec)
+{
+    auto it = std::find_if(lineVec.begin(),lineVec.end(),[currentBreak](int li){return li>currentBreak;});
+    if(lineVec.end()!= it)
+    {
+        return *it;
+    }
+    return -1;
 }
 
 void DebugManager::testData()
