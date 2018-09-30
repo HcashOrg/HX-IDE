@@ -368,7 +368,7 @@ void ChainIDE::getSystemEnvironmentPath()
 #ifdef WIN32
     _p->appDataPath = env.value("APPDATA") + idePath;
 #else
-    _p->appDataPath = env.valude("HOME") + idePath;
+    _p->appDataPath = env.value("HOME") + idePath;
 #endif
     //qDebug() << "appDataPath:" << _p->appDataPath;
 }
