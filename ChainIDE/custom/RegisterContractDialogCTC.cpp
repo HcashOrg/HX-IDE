@@ -1,6 +1,7 @@
 #include "RegisterContractDialogCTC.h"
 #include "ui_RegisterContractDialogCTC.h"
 
+#include <math.h>
 #include <QDebug>
 #include <QFileInfo>
 #include <QMessageBox>

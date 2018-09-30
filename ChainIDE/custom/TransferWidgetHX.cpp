@@ -1,6 +1,7 @@
 #include "TransferWidgetHX.h"
 #include "ui_TransferWidgetHX.h"
 
+#include <math.h>
 #include "ChainIDE.h"
 #include "datamanager/DataManagerHX.h"
 #include "IDEUtil.h"

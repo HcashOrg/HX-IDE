@@ -1,6 +1,7 @@
 #include "CallContractWidgetCTC.h"
 #include "ui_CallContractWidgetCTC.h"
 
+#include <math.h>
 #include <QHeaderView>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>

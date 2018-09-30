@@ -1,6 +1,7 @@
 #include "AccountWidgetCTC.h"
 #include "ui_AccountWidgetCTC.h"
 
+#include <math.h>
 #include <QMenu>
 #include <QDebug>
 #include <QClipboard>

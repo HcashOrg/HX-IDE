@@ -1,6 +1,7 @@
 #include "UpgradeContractDialogHX.h"
 #include "ui_UpgradeContractDialogHX.h"
 
+#include <math.h>
 #include <QDebug>
 #include <QJsonObject>
 #include <QJsonDocument>

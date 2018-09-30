@@ -1,6 +1,7 @@
 #include "TransferWidgetCTC.h"
 #include "ui_TransferWidgetCTC.h"
 
+#include <math.h>
 #include "ChainIDE.h"
 #include "datamanager/DataManagerCTC.h"
 #include "IDEUtil.h"
