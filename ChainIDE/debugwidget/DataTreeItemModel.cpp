@@ -23,7 +23,7 @@ public:
 	}
 public:
 	BaseTreeItem *rootItem;
-	QModelIndexList dragedIndexList;//±»ÍÏ¶¯µÄindex
+	QModelIndexList dragedIndexList;//è¢«æ‹–åŠ¨çš„index
 };
 
 DataTreeItemModel::DataTreeItemModel(QObject *parent)
@@ -126,11 +126,11 @@ QVariant DataTreeItemModel::headerData(int section, Qt::Orientation orientation,
 			switch (section)
 			{
 			case 0:
-                return QStringLiteral("Ãû³Æ");
+                return tr("name");
             case 1:
-                return QStringLiteral("ÊýÖµ");
+                return tr("value");
             case 2:
-                return QStringLiteral("ÀàÐÍ");
+                return tr("type");
 			default:
 				break;
 			}
@@ -231,7 +231,7 @@ bool DataTreeItemModel::dropMimeData(const QMimeData *data, Qt::DropAction actio
 
 	for (auto it = _p->dragedIndexList.begin(); it != _p->dragedIndexList.end();++it)
 	{
-		//Ö»É¾³ýµÚÒ»¸ö
+		//åªåˆ é™¤ç¬¬ä¸€ä¸ª
 		beginRemoveRows((*it).parent(), (*it).row(),(*it).row() + 1);
 		dropedItemData.front()->GetParent()->removeChild(dropedItemData.front());
 		endRemoveRows();
