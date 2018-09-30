@@ -34,7 +34,7 @@ INCLUDEPATH += $$PWD/quazip/quazip
 TRANSLATIONS +=   Chinese.ts  English.ts
 
 macx{
-    LIBS += $$PWD/lib/quazip.a
+    LIBS += $$PWD/lib/libquazip.a
 }
 win32{
     LIBS += $$PWD/lib/quazip.lib
