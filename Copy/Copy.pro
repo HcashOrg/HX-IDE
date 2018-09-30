@@ -33,7 +33,9 @@ INCLUDEPATH += $$PWD/quazip/quazip
 
 TRANSLATIONS +=   Chinese.ts  English.ts
 
-
+macx{
+    LIBS += $$PWD/lib/quazip.a
+}
 win32{
     LIBS += $$PWD/lib/quazip.lib
     RC_FILE += logo.rc
