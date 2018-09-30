@@ -52,7 +52,7 @@
   <customwidget>
    <class>InterfaceWidget</class>
    <extends>QWidget</extends>
-   <header>interfacewidget.h</header>
+   <header>filewidget/interfacewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
