@@ -69,8 +69,6 @@ signals:
 private:
     class DataPrivate;
     DataPrivate *_p;
-
-    void testData();
 };
 
 #endif // DEBUGMANAGER_H

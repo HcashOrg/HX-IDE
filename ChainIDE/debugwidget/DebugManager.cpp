@@ -312,34 +312,3 @@ void DebugManager::ModifyBreakPoint(const std::vector<int> &data)
         }
     });
 }
-
-void DebugManager::testData()
-{
-    BaseItemDataPtr root = std::make_shared<BaseItemData>();
-
-    BaseItemDataPtr pa = std::make_shared<BaseItemData>("测试","2","vector",root);
-    root->appendChild(pa);
-    BaseItemDataPtr pa1 = std::make_shared<BaseItemData>("a","13","int",pa);
-    pa->appendChild(pa1);
-    BaseItemDataPtr pa2 = std::make_shared<BaseItemData>("b","14","int",pa);
-    pa->appendChild(pa2);
-
-    BaseItemDataPtr pa3 = std::make_shared<BaseItemData>("item1","0x45241254","pair<string,int>",root);
-    root->appendChild(pa3);
-    BaseItemDataPtr pa6 = std::make_shared<BaseItemData>("item2","0x45249664","pair<string,string>",root);
-    root->appendChild(pa6);
-
-
-    BaseItemDataPtr pa4 = std::make_shared<BaseItemData>("test","0","string",pa3);
-    pa3->appendChild(pa4);
-    BaseItemDataPtr pa5 = std::make_shared<BaseItemData>("test1","4","int",pa3);
-    pa3->appendChild(pa5);
-
-    BaseItemDataPtr pa7 = std::make_shared<BaseItemData>("no_tt","ims","string",pa6);
-    pa6->appendChild(pa7);
-    BaseItemDataPtr pa8 = std::make_shared<BaseItemData>("ok_yy","ok that","string",pa6);
-    pa6->appendChild(pa8);
-
-    emit showVariant(root);
-
-}

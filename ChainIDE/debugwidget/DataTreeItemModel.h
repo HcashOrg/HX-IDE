@@ -1,6 +1,7 @@
 #ifndef DataTreeItemModel_h__
 #define DataTreeItemModel_h__
 
+#include <memory>
 #include <QAbstractItemModel>
 
 //////////////////////////////////////////////////////////////////////////
