@@ -24,7 +24,9 @@ public:
 
     virtual QString getSelectedText() = 0;
 
-    virtual void TabBreakPoint();
+    virtual void SetBreakPoint(int line);//强制添加某一行为断点
+    virtual void RemoveBreakPoint(int lint);//强制删除某一行断点
+    virtual void TabBreakPoint();//自动切换当前行断点方式
     virtual void ClearBreakPoint();
     const std::vector<int> &getBreakPoints()const;
     void setBeakPoint(int line,bool isAdd);

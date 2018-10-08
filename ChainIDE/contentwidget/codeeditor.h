@@ -29,6 +29,8 @@ public:
 
     void setEditable(bool bIs)override final;
 
+    void SetBreakPoint(int line)override final;//强制添加某一行为断点
+    void RemoveBreakPoint(int line)override final;//强制删除某一行断点
     void TabBreakPoint()override final;
     void ClearBreakPoint()override final;
 

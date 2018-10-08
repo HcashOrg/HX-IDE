@@ -1,13 +1,16 @@
 #ifndef DEBUGUTIL_H
 #define DEBUGUTIL_H
 
-#include "DebugDataStruct.h"
-#include "BaseTreeItem.h"
+#include <QString>
+#include <vector>
 
 class DebugUtil
 {
 public:
-
+    static void getCommentLine(const QString &filePath,std::vector<int> &data);
+private:
+    static bool isCommentLine(const QString &lineInfo,bool &isCommentStart,
+                              const QString &lineComment,const QString &phaseCommentStart,const QString &phaseCommentEnd);
 private:
     DebugUtil();
     ~DebugUtil();

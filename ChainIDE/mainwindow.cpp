@@ -183,6 +183,8 @@ void MainWindow::startWidget()
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugError,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
     connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::debugFinish,std::bind(&DebugWidget::setVisible,ui->debugWidget,false));
 
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::addBreakPoint,ui->contentWidget,&ContextWidget::AddBreakPoint);
+    connect(ChainIDE::getInstance()->getDebugManager(),&DebugManager::removeBreakPoint,ui->contentWidget,&ContextWidget::RemoveBreakPoint);
 
     //调整按钮状态
     ModifyActionState();

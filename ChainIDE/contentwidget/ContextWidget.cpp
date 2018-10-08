@@ -117,6 +117,22 @@ void ContextWidget::TabBreakPoint()
     }
 }
 
+void ContextWidget::AddBreakPoint(const QString &path, int linenumber)
+{
+    if(Editor * edi = getEditor(path))
+    {
+        edi->SetBreakPoint(linenumber);
+    }
+}
+
+void ContextWidget::RemoveBreakPoint(const QString &path, int linenumber)
+{
+    if(Editor * edi = getEditor(path))
+    {
+        edi->RemoveBreakPoint(linenumber);
+    }
+}
+
 void ContextWidget::ClearBreakPoint()
 {
     for(int i = 0;i < ui->tabWidget->count();++i)

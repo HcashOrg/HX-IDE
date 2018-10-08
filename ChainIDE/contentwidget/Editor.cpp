@@ -58,6 +58,16 @@ Editor::~Editor()
     delete ui;
 }
 
+void Editor::SetBreakPoint(int line)
+{
+    //todo
+}
+
+void Editor::RemoveBreakPoint(int lint)
+{
+    //todo
+}
+
 void Editor::TabBreakPoint()
 {//todo
 

@@ -32,6 +32,8 @@ public:
     const QString &getCurrentFilePath()const;
 
     void TabBreakPoint();
+    void AddBreakPoint(const QString &path,int linenumber);
+    void RemoveBreakPoint(const QString &path,int linenumber);
 
     void ClearBreakPoint();
 

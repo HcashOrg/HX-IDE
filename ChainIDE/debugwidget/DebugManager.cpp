@@ -1,15 +1,16 @@
 #include "DebugManager.h"
 
 #include <mutex>
+#include <algorithm>
 
 #include <QCoreApplication>
 #include <QProcess>
 #include <QFileInfo>
 #include <QDebug>
-#include <algorithm>
 #include <QTimer>
 
 #include "DataDefine.h"
+#include "DebugUtil.h"
 
 class DebugManager::DataPrivate
 {
@@ -30,6 +31,7 @@ public:
     QString filePath;
     QString outFilePath;
     int currentBreakLine;
+    std::vector<int> commentLines;
     std::mutex breakMutex;
 
     QProcess *uvmProcess;
@@ -106,10 +108,16 @@ void DebugManager::getVariantInfo()
 
 void DebugManager::fetchBreakPointsFinish(const std::vector<int> &data)
 {
+    ModifyBreakPoint(data);
     //获取到文件的断点信息
     if(getDebuggerState() == DebugDataStruct::StartDebug)
     {
-        //启动单步调试器
+        //计算当前文件的注释行
+        DebugUtil::getCommentLine(_p->filePath,_p->commentLines);
+
+        ModifyBreakPoint(data);
+
+        emit debugStarted();
 
     }
     else if(getDebuggerState() == DebugDataStruct::StepDebug)
@@ -162,11 +170,12 @@ void DebugManager::OnProcessStateChanged()
     }
     else if(_p->uvmProcess->state() == QProcess::Running)
     {
-        //获取当前文件所有断点
-        fetchBreakPoints(_p->filePath);
         //设置调试器状态
         setDebuggerState(DebugDataStruct::StartDebug);
-        emit debugStarted();
+
+        //获取当前文件所有断点
+        fetchBreakPoints(_p->filePath);
+
     }
     else if(_p->uvmProcess->state() == QProcess::NotRunning)
     {
@@ -275,12 +284,33 @@ int DebugManager::GetCurrentBreakLine() const
 
 int DebugManager::getNextBreakPoint(int currentBreak, const std::vector<int> &lineVec)
 {
-    auto it = std::find_if(lineVec.begin(),lineVec.end(),[currentBreak](int li){return li>currentBreak;});
+    auto it = std::find_if(lineVec.begin(),lineVec.end(),[currentBreak,this](int li){
+        return (li>currentBreak && this->_p->commentLines.end() == std::find(this->_p->commentLines.begin(),this->_p->commentLines.end(),li));
+    });
     if(lineVec.end()!= it)
     {
         return *it;
     }
     return -1;
+}
+
+void DebugManager::ModifyBreakPoint(const std::vector<int> &data)
+{
+    //调整断点情况
+    std::vector<int> temp = data;
+    std::for_each(temp.begin(),temp.end(),[this](int li){
+        if(this->_p->commentLines.end() != std::find(this->_p->commentLines.begin(),this->_p->commentLines.end(),li))
+        {
+            //如果断点在注释行中，就删除，并且顺移到下一个非注释行
+            emit removeBreakPoint(this->_p->filePath,li);
+            int line = li;
+            while(this->_p->commentLines.end() != std::find(this->_p->commentLines.begin(),this->_p->commentLines.end(),line))
+            {
+                ++line;
+            }
+            emit addBreakPoint(this->_p->filePath,line);
+        }
+    });
 }
 
 void DebugManager::testData()

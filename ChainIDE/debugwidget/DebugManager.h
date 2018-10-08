@@ -51,6 +51,9 @@ private:
     int GetCurrentBreakLine()const;
     //获取下一个断点
     int getNextBreakPoint(int currentBreak,const std::vector<int> &lineVec);
+
+    //调整断点位置，取消注释行的断点
+    void ModifyBreakPoint(const std::vector<int> &data);
 signals:
     void fetchBreakPoints(const QString &filePath);
     void debugOutput(const QString &message);
@@ -60,6 +63,9 @@ signals:
     void debugError();
 
     void showVariant(BaseItemDataPtr data);
+
+    void removeBreakPoint(const QString &file,int linenumber);//强制删除断点--注释行
+    void addBreakPoint(const QString &file,int linenumber);//强制添加断点--注释行断点的下一个非注释行
 private:
     class DataPrivate;
     DataPrivate *_p;

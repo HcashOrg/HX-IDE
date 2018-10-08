@@ -97,6 +97,16 @@ void codeeditor::setEditable(bool bIs)
     RunJavaScript( QString("setReadOnly('%1')").arg(!bIs));
 }
 
+void codeeditor::SetBreakPoint(int line)
+{
+    this->syncRunJavaScript( QString("SetBreakpoint(%1)").arg(line));
+}
+
+void codeeditor::RemoveBreakPoint(int line)
+{
+    RunJavaScript( QString("RemoveBreakpoint(%1)").arg(line));
+}
+
 void codeeditor::TabBreakPoint()
 {
     RunJavaScript("TabBreakpoint()");

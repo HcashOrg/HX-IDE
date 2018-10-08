@@ -44,4 +44,5 @@ void DebugWidget::ClearData()
 void DebugWidget::InitWidget()
 {
     ui->treeView->setModel(_p->treeModel);
+    //ui->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 }
