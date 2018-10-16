@@ -415,7 +415,7 @@ void ContextWidget::InitWidget()
 {
     ui->tabWidget->setTabsClosable(true);
     //隐藏左右控制按钮
-    ui->tabWidget->tabBar()->setUsesScrollButtons(false);
+    //ui->tabWidget->tabBar()->setUsesScrollButtons(false);
 
     connect(ui->tabWidget,&QTabWidget::tabCloseRequested,this,&ContextWidget::tabCloseRquest);
     connect(ui->tabWidget,&QTabWidget::currentChanged,this,&ContextWidget::currentTabChanged);

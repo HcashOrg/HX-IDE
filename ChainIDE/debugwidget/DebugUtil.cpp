@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QDebug>
+#include <QStringList>
 #include "DataDefine.h"
 
 void DebugUtil::getCommentLine(const QString &filePath, std::vector<int> &data)
@@ -86,6 +87,25 @@ bool DebugUtil::isCommentLine(const QString &lineInfo, bool &isCommentStart,
         }
     }
     return false;
+}
+
+void DebugUtil::ParseDebugData(const QString &info, BaseItemDataPtr &root)
+{
+    if(nullptr == root)
+    {
+        root = std::make_shared<BaseItemData>();
+    }
+
+    QStringList data = info.split("\r\n");
+    QRegExp rx("(.*)=(.*)");
+
+    foreach (QString eachdata, data) {
+
+        if(rx.indexIn(eachdata) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) continue;
+        //开始构造显示内容
+        BaseItemDataPtr pa = std::make_shared<BaseItemData>(rx.cap(1),rx.cap(2),"unknow",root);
+        root->appendChild(pa);
+    }
 }
 
 DebugUtil::DebugUtil()

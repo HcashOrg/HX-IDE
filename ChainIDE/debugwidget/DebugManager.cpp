@@ -72,7 +72,7 @@ void DebugManager::startDebug(const QString &filePath,const QString &api,const Q
 
     //启动单步调试器
     QStringList params;
-    params<<"-luvmdebug"<<_p->outFilePath/*<<api<<param*/;
+    params<<"-x"<<"-luvmdebug"<<"-k"<<_p->outFilePath<<api<<param;
 
     qDebug()<<"start debug"<<QCoreApplication::applicationDirPath()+"/"+DataDefine::DEBUGGER_UVM_PATH<<params;
     _p->uvmProcess->start(QCoreApplication::applicationDirPath()+"/"+DataDefine::DEBUGGER_UVM_PATH,params);
@@ -232,16 +232,7 @@ void DebugManager::ParseQueryInfo(const QString &info)
 {
     BaseItemDataPtr root = std::make_shared<BaseItemData>();
 
-    QStringList data = info.split("\r\n");
-    QRegExp rx("(.*)=(.*)");
-
-    foreach (QString eachdata, data) {
-
-        if(rx.indexIn(eachdata) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) continue;
-        //开始构造显示内容
-        BaseItemDataPtr pa = std::make_shared<BaseItemData>(rx.cap(1),rx.cap(2),"unknow",root);
-        root->appendChild(pa);
-    }
+    DebugUtil::ParseDebugData(info,root);
 
     emit showVariant(root);
 }
@@ -252,14 +243,14 @@ void DebugManager::ParseBreakPoint(const QString &info)
     QRegExp rx("hit breakpoint at (.*):(\\d+)",Qt::CaseInsensitive);
     rx.indexIn(data);
     if(rx.indexIn(data) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) return;
-    SetCurrentBreakLine(rx.cap(2).toInt());
-    emit debugBreakAt(_p->filePath,rx.cap(2).toInt());
+    SetCurrentBreakLine(rx.cap(2).toInt()-1);
+    emit debugBreakAt(_p->filePath,rx.cap(2).toInt()-1);
 }
 
 void DebugManager::SetBreakPoint(const QString &file, int lineNumber)
 {
     setDebuggerState(DebugDataStruct::SetBreakPoint);
-    _p->uvmProcess->write(QString("break ? %1\n").arg(QString::number(lineNumber)).toStdString().c_str());
+    _p->uvmProcess->write(QString("break ? %1\n").arg(QString::number(lineNumber+1)).toStdString().c_str());
     _p->uvmProcess->waitForReadyRead();
 }
 

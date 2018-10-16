@@ -82,7 +82,7 @@ void gluaCompile::finishCompile(int exitcode, QProcess::ExitStatus exitStatus)
     switch (getCompileStage()) {
     case BaseCompile::StageOne:
         //重命名.out文件名称
-        QFile(getSourceDir()+"/"+ QFileInfo(_p->sourceFile).fileName().append(".out")).rename(getDstOutFilePath());
+        QFile(getSourceDir()+"/"+ QFileInfo(_p->sourceFile).completeBaseName()+"."+QFileInfo(_p->sourceFile).suffix()+".out").rename(getDstOutFilePath());
         //进行第二步，生成合约gpc文件
         generateContractFile();
         break;

@@ -1,6 +1,7 @@
 #ifndef DEBUGWIDGET_H
 #define DEBUGWIDGET_H
 
+#include <memory>
 #include <QWidget>
 
 namespace Ui {

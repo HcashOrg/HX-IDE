@@ -129,4 +129,5 @@ void BaseCompile::readyBuild()
     //删除之前的文件
     QFile::remove(getDstByteFilePath());
     QFile::remove(getDstMetaFilePath());
+    QFile::remove(getDstOutFilePath());
 }
