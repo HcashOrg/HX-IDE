@@ -112,6 +112,8 @@ bool CompileManager::checkJavaEnvironment()
 
 bool CompileManager::checkCsharpEnvironment()
 {
+#ifdef WIN32
+    //windows下查找注册表有没有.netframework 4.5以上
     QSettings set("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP",QSettings::NativeFormat);
 
     QRegExp versionReg("^[0-4]\.[0-5]\.");
@@ -127,5 +129,12 @@ bool CompileManager::checkCsharpEnvironment()
             }
         }
     }
+#else
+    //mac系统下直接尝试.net
+    QProcess dot;
+    dot.start("dotnet",QStringList()<<"--version");
+    dot.waitForReadyRead();
+    qDebug()<<dot.readAll();
+#endif
     return false;
 }
