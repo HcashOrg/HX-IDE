@@ -1,6 +1,7 @@
 #include "selectpathwidget.h"
 #include "ui_selectpathwidget.h"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QFileDialog>
 
@@ -31,7 +32,6 @@ void SelectPathWidget::on_pathBtn_clicked()
     QString file = QFileDialog::getExistingDirectory(this,tr( "Select the path to store the blockchain"));
     if( !file.isEmpty())
     {
-        file.replace("/","\\");
         ui->pathLineEdit->setText( file);
     }
     if(file.contains(" "))
@@ -55,7 +55,11 @@ void SelectPathWidget::on_okBtn_clicked()
     if( ui->pathLineEdit->text().isEmpty() || ui->tiplabel->isVisible())  return;
     ChainIDE::getInstance()->setConfigAppDataPath(ui->pathLineEdit->text());
     ChainIDE::getInstance()->getBackStageManager()->setDataPath(ui->pathLineEdit->text());
-
+    QDir dir(ui->pathLineEdit->text());
+    if(!dir.exists())
+    {
+        dir.mkpath(ui->pathLineEdit->text());
+    }
     emit enter();
     close();
 }
