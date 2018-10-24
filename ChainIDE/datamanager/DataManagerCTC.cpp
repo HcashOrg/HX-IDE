@@ -105,7 +105,7 @@ void DataManagerCTC::jsonDataUpdated(const QString &id, const QString &data)
     if("deal-is_new" == id)
     {
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             qDebug()<<json_error.errorString();
@@ -190,7 +190,7 @@ void DataManagerCTC::jsonDataUpdated(const QString &id, const QString &data)
 bool DataManagerCTC::parseListAccount(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
         qDebug()<<json_error.errorString();
@@ -208,7 +208,7 @@ bool DataManagerCTC::parseListAccount(const QString &data)
 bool DataManagerCTC::parseAddresses(const QString &accountName, const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -241,7 +241,7 @@ bool DataManagerCTC::parseAddresses(const QString &accountName, const QString &d
 bool DataManagerCTC::parseAddressBalances(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -259,7 +259,7 @@ bool DataManagerCTC::parseAddressBalances(const QString &data)
 bool DataManagerCTC::parseContract(const QString &accountName, const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -276,7 +276,7 @@ bool DataManagerCTC::parseContract(const QString &accountName, const QString &da
 bool DataManagerCTC::parseContractInfo(const QString &contaddr, const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();

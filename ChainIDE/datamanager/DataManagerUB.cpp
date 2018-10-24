@@ -132,7 +132,7 @@ void DataManagerUB::jsonDataUpdated(const QString &id, const QString &data)
     else if("data-checkaddress" == id)
     {
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError)
         {
             emit addressCheckFinish(false);
@@ -155,7 +155,7 @@ void DataManagerUB::jsonDataUpdated(const QString &id, const QString &data)
 bool DataManagerUB::parseListAccount(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError)
     {
         qDebug()<<json_error.errorString();
@@ -173,7 +173,7 @@ bool DataManagerUB::parseAddresses(const QString &accountName,const QString &dat
 {
 //    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError)
     {
          qDebug()<<json_error.errorString();
@@ -191,7 +191,7 @@ bool DataManagerUB::parseAddresses(const QString &accountName,const QString &dat
 bool DataManagerUB::parseAddressBalances(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError )
     {
          qDebug()<<json_error.errorString();
@@ -209,7 +209,7 @@ bool DataManagerUB::parseAddressBalances(const QString &data)
 bool DataManagerUB::parseContractInfo(const QString &contAddr, const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject() || parse_doucment.object().value("result").isNull())
     {
          qDebug()<<"contract_query_info_error:"<<json_error.errorString();

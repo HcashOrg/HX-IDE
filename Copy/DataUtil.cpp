@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QMutex>
 #include <QDebug>
+#include <QApplication>
 #include "quazip/quazip/quazip.h"
 #include "quazip/quazip/quazipfile.h"
 
@@ -148,6 +149,10 @@ void DataUtil::myMessageOutput(QtMsgType type, const QMessageLogContext &context
 {
     // 加锁
     static QMutex mutex;
+
+    static const QString *const LOG_PATH = new QString(QApplication::applicationDirPath()+"/log.txt");
+    if(!LOG_PATH) return;
+
     mutex.lock();
 
     QByteArray localMsg = msg.toLocal8Bit();
@@ -174,9 +179,13 @@ void DataUtil::myMessageOutput(QtMsgType type, const QMessageLogContext &context
     QString strMessage = QString("DateTime:%1 Message:%2").arg(strDateTime).arg(localMsg.constData());
 
     // 输出信息至文件中（读写、追加形式），超过50M删除日志
-    QFileInfo info("log.txt");
-    if(info.size() > 1024*1024*50) QFile::remove("log.txt");
-    QFile file("log.txt");
+    QFileInfo info(*LOG_PATH);
+    if(info.exists())
+    {
+        if(info.size() > 1024*1024*50) QFile::remove(*LOG_PATH);
+    }
+
+    QFile file(*LOG_PATH);
     file.open(QIODevice::ReadWrite | QIODevice::Append);
     QTextStream stream(&file);
     stream << strMessage << "\r\n";

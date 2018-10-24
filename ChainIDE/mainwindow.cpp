@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <functional>
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QTabBar>

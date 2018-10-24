@@ -2,12 +2,7 @@ QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
-
 TARGET = Update
-#CONFIG += console
-#CONFIG -= app_bundle
-
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -35,6 +30,7 @@ TRANSLATIONS +=   Chinese.ts  English.ts
 
 macx{
     LIBS += $$PWD/lib/libquazip.a
+    ICON = logo.icns
 }
 win32{
     LIBS += $$PWD/lib/quazip.lib

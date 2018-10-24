@@ -87,7 +87,7 @@ void StatusBar::jsonDataUpdated(const QString &id, const QString &data)
 {
     if("status-ubinfo" == id)
     {
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1());
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8());
         QJsonObject jsonObject = parse_doucment.object();
         QJsonObject object = jsonObject.value("result").toObject();
         QString blockcount = QString::number(object.value("blocks").toInt());
@@ -96,7 +96,7 @@ void StatusBar::jsonDataUpdated(const QString &id, const QString &data)
     }
     else if("status-hxinfo" == id)
     {
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1());
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8());
         QJsonObject jsonObject = parse_doucment.object();
         QJsonObject object = jsonObject.value("result").toObject();
         QString blockcount = QString::number(object.value("head_block_num").toInt());
@@ -105,7 +105,7 @@ void StatusBar::jsonDataUpdated(const QString &id, const QString &data)
     }
     else if("status-ctcinfo" == id)
     {
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1());
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8());
         QJsonObject jsonObject = parse_doucment.object();
         QJsonObject object = jsonObject.value("result").toObject();
         QString blockcount = QString::number(object.value("blockchain_head_block_num").toInt());

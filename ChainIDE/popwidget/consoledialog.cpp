@@ -83,7 +83,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
     {
         if(1 == paramaters.size() && paramaters.first().startsWith("[") && paramaters.first().endsWith("]"))
         {
-            array = QJsonDocument::fromJson(paramaters.first().toLatin1()).array();
+            array = QJsonDocument::fromJson(paramaters.first().toUtf8()).array();
         }
         else
         {
@@ -94,7 +94,7 @@ void ConsoleDialog::on_consoleLineEdit_returnPressed()
             }
             data.remove(data.length()-1,1);
             data.append("]");
-            array = QJsonDocument::fromJson(data.toLatin1()).array();
+            array = QJsonDocument::fromJson(data.toUtf8()).array();
         }
     }
     ChainIDE::getInstance()->postRPC( "console-" + ui->consoleLineEdit->text().simplified(), IDEUtil::toJsonFormat( command, array )/*str*/);
@@ -108,7 +108,7 @@ void ConsoleDialog::jsonDataUpdated(const QString &id,const QString &data)
     {
         ui->consoleBrowser->append(">>>" + id.mid(8));
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             ui->consoleBrowser->append(json_error.errorString());

@@ -2,6 +2,11 @@
 
 #include <QFile>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+
 #include <QStringList>
 #include "DataDefine.h"
 
@@ -89,22 +94,61 @@ bool DebugUtil::isCommentLine(const QString &lineInfo, bool &isCommentStart,
     return false;
 }
 
+
 void DebugUtil::ParseDebugData(const QString &info, BaseItemDataPtr &root)
 {
     if(nullptr == root)
     {
         root = std::make_shared<BaseItemData>();
     }
+    QJsonParseError json_error;
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(info.toUtf8(), &json_error);
 
-    QStringList data = info.split("\r\n");
-    QRegExp rx("(.*)=(.*)");
+    if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject()) return ;
 
-    foreach (QString eachdata, data) {
+    QJsonArray arr = parse_doucment.object().value("locals").toArray();
 
-        if(rx.indexIn(eachdata) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) continue;
-        //开始构造显示内容
-        BaseItemDataPtr pa = std::make_shared<BaseItemData>(rx.cap(1),rx.cap(2),"unknow",root);
-        root->appendChild(pa);
+    ParseArrayData(arr,root);
+
+//    QStringList data = info.split("\r\n");
+//    QRegExp rx("(.*)=(.*)");
+
+//    foreach (QString eachdata, data) {
+
+//        if(rx.indexIn(eachdata) < 0 || rx.cap(1).isEmpty() || rx.cap(2).isEmpty()) continue;
+//        //开始构造显示内容
+//        BaseItemDataPtr pa = std::make_shared<BaseItemData>(rx.cap(1),rx.cap(2),"unknow",root);
+//        root->appendChild(pa);
+//    }
+
+}
+
+void DebugUtil::ParseArrayData(const QJsonArray &arr, BaseItemDataPtr parent)
+{
+    if(!parent) return;
+    foreach (QJsonValue val, arr) {
+        if(!val.isObject()) continue;
+        QJsonObject obj = val.toObject();
+        BaseItemDataPtr data = std::make_shared<BaseItemData>(obj.value("valName").toString(),"",obj.value("valType").toString(),parent);
+        parent->appendChild(data);
+
+        QJsonValue typeVal = obj.value("valValue");
+        if(typeVal.isString())
+        {
+            data->setVal(typeVal.toString());
+        }
+        else if(typeVal.isBool())
+        {
+            data->setVal(typeVal.toBool()?"true":"false");
+        }
+        else if(typeVal.isDouble())
+        {
+            data->setVal(QString::number(typeVal.toDouble()));
+        }
+        else if(typeVal.isArray())
+        {
+            ParseArrayData(typeVal.toArray(),data);
+        }
     }
 }
 

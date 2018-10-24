@@ -30,7 +30,7 @@ void ConvenientOp::ShowSyncCommonDialog(const QString &data)
     QTimer::singleShot(1,[data](){
         CommonDialog dia(CommonDialog::OkOnly);
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             dia.setText(data);

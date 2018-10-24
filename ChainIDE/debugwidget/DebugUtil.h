@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <vector>
+#include <QJsonArray>
 
 #include "DebugDataStruct.h"
 class DebugUtil
@@ -15,6 +16,8 @@ public:
 private:
     static bool isCommentLine(const QString &lineInfo,bool &isCommentStart,
                               const QString &lineComment,const QString &phaseCommentStart,const QString &phaseCommentEnd);
+
+    static void ParseArrayData(const QJsonArray &arr,BaseItemDataPtr parent);
 private:
     DebugUtil();
     ~DebugUtil();

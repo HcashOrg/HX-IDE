@@ -170,6 +170,7 @@ void LinkBackStage::delayedLaunchClient()
     strList << "--wallet-file=" + _p->dataPath + "/wallet.json"
             << QString("--server-rpc-endpoint=ws://127.0.0.1:%1").arg(_p->nodePort)
             << QString("--rpc-endpoint=127.0.0.1:%1").arg(_p->clientPort);
+    qDebug()<<"start hx_client"<<strList;
 
     _p->clientProc->start(QCoreApplication::applicationDirPath()+QDir::separator()+DataDefine::LINK_CLIENT_EXE,strList);
 }

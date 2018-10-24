@@ -135,7 +135,7 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
     else if("deal-is_new" == id)
     {
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             qDebug()<<json_error.errorString();
@@ -178,7 +178,7 @@ void DataManagerHX::jsonDataUpdated(const QString &id, const QString &data)
 bool DataManagerHX::parseListAccount(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
         qDebug()<<json_error.errorString();
@@ -197,7 +197,7 @@ bool DataManagerHX::parseAddresses(const QString &accountName,const QString &dat
 {
 //    qDebug()<<"query getaddressesbyaccount"<<data << "accountname"<<accountName;
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -224,7 +224,7 @@ bool DataManagerHX::parseAddresses(const QString &accountName,const QString &dat
 bool DataManagerHX::parseAddressBalances(const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -242,7 +242,7 @@ bool DataManagerHX::parseAddressBalances(const QString &data)
 bool DataManagerHX::parseContract(const QString &accountName,const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();
@@ -260,7 +260,7 @@ bool DataManagerHX::parseContract(const QString &accountName,const QString &data
 bool DataManagerHX::parseContractInfo(const QString &contaddr,const QString &data)
 {
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
          qDebug()<<json_error.errorString();

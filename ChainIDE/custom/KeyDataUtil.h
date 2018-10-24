@@ -46,7 +46,7 @@ public:
     void EncryptAES(const QString &str)
     {
         unsigned char key2[16] = {0};
-        memcpy(key2,str.toLatin1().data(),str.toLatin1().size());
+        memcpy(key2,str.toUtf8().data(),str.toUtf8().size());
         AesEncryptor aes(key2);
 
         //进行aes加密
@@ -59,7 +59,7 @@ public:
     void DecryptAES(const QString &str)
     {
         unsigned char key2[16] = {0};
-        memcpy(key2,str.toLatin1().data(),str.toLatin1().size());
+        memcpy(key2,str.toUtf8().data(),str.toUtf8().size());
         AesEncryptor aes(key2);
 
         //解密

@@ -80,7 +80,7 @@ void tcpsocketRequire::readyReadSlots()
 
 //        // 判断是否接收到一个完整的json  完整的就退出read循环
 //        QJsonParseError json_error;
-//        QJsonDocument::fromJson(receive.toLatin1(), &json_error);
+//        QJsonDocument::fromJson(receive.toUtf8(), &json_error);
 //        if(QJsonParseError::NoError == json_error.error)
 //        {
 //            break;

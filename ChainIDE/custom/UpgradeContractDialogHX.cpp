@@ -134,7 +134,7 @@ double UpgradeContractDialogHX::parseTestUpgrade(const QString &data) const
 {
     double resultVal = 0;
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
     if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
     {
         qDebug()<<json_error.errorString();

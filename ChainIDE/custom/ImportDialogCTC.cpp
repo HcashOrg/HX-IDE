@@ -79,7 +79,7 @@ void ImportDialogCTC::on_okBtn_clicked()
 
                 QString pwd = importEnterPwdDialog.pwd;
                 unsigned char key2[16] = {0};
-                memcpy(key2,pwd.toLatin1().data(),pwd.toLatin1().size());
+                memcpy(key2,pwd.toUtf8().data(),pwd.toUtf8().size());
                 AesEncryptor aes(key2);
                 QString output = QString::fromStdString( aes.DecryptString( str.toStdString()) );
 
@@ -131,7 +131,7 @@ void ImportDialogCTC::jsonDataUpdated(const QString &id, const QString &data)
     if("id_wallet_import_private_key" == id)
     {
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             qDebug()<<json_error.errorString();

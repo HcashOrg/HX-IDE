@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = AnyChain
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         MainWindow.cpp \
     ChainIDE.cpp \
@@ -185,7 +184,6 @@ HEADERS  += MainWindow.h \
     debugwidget/DebugUtil.h \
     debugwidget/DebugFunctionWidget.h
 
-
 FORMS    += MainWindow.ui \
     popwidget/commondialog.ui \
     selectpathwidget.ui \
@@ -234,10 +232,12 @@ RESOURCES += \
 
 TRANSLATIONS +=   IDE_Simplified_Chinese.ts  IDE_English.ts
 
-
 QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
 QMAKE_LFLAGS_RELEASE = $$QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO
 
 win32{
     RC_FILE += logo.rc
+}
+macx{
+    ICON = idelogo.icns
 }

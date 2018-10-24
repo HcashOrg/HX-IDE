@@ -44,7 +44,7 @@ void RegisterContractDialogUB::jsonDataUpdated(const QString &id,const QString &
     {
         //保存合约
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             ConvenientOp::ShowSyncCommonDialog(data);
@@ -72,7 +72,7 @@ void RegisterContractDialogUB::jsonDataUpdated(const QString &id,const QString &
     {
         //保存合约
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             ConvenientOp::ShowSyncCommonDialog(data);
@@ -86,7 +86,7 @@ void RegisterContractDialogUB::jsonDataUpdated(const QString &id,const QString &
     else if("register-sendrawtransaction" == id)
     {
         QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toLatin1(),&json_error);
+        QJsonDocument parse_doucment = QJsonDocument::fromJson(data.toUtf8(),&json_error);
         if(json_error.error != QJsonParseError::NoError || !parse_doucment.isObject())
         {
             ConvenientOp::ShowSyncCommonDialog(data);
