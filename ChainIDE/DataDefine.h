@@ -78,12 +78,11 @@ namespace DataDefine
     static const QString JAVA_UVM_ASS_PATH = "compile/java/uvm_ass.exe";
     static const QString JAVA_PACKAGE_GPC_PATH = "compile/java/package_gpc.exe";
 
-    static const QString CSHARP_COMPILER_EXE_ENV = "CSC";//C#编译器环境变量名称
-    static const QString CSHARP_COMPILER_EXE_PATH = "compile/csharp/Roslyn/csc.exe";//本地csc.exe路径
-    static const QString CSHARP_COMPILE_DIR = "compile/csharp";
-    static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";
-    static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/GluaCoreLib.dll";
-    static const QString CSHARP_COMPILE_PATH = "compile/csharp/gsharpc.exe";
+    static const QString CSHARP_COMPILER_EXE_PATH = "compile/csharp/win/Roslyn/csc.exe";//本地csc.exe路径
+    static const QString CSHARP_COMPILE_DIR = "compile/csharp/win/";
+    static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/win/Newtonsoft.Json.dll";
+    static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/win/GluaCoreLib.dll";
+    static const QString CSHARP_COMPILE_PATH = "compile/csharp/win/gsharpc.exe";
 
     static const QString KOTLIN_COMPILE_PATH = "compile/kotlin/kotlinc/bin/kotlinc-jvm.bat";
 #else
@@ -94,9 +93,12 @@ namespace DataDefine
     static const QString JAVA_UVM_ASS_PATH = "compile/java/uvm_ass";
     static const QString JAVA_PACKAGE_GPC_PATH = "compile/java/package_gpc";
 
-    static const QString CSHARP_COMPILER_EXE_ENV = "CSC";//C#编译器环境变量名称
-    static const QString CSHARP_COMPILER_EXE_PATH = "compile/csharp/Roslyn/csc.exe";//本地csc.exe路径
-    static const QString CSHARP_COMPILE_DIR = "compile/csharp";
+    static const QString CSHARP_COMPILER_EXE_PATH = "/usr/local/share/dotnet/dotnet";//本地csc.exe路径
+    static const QString CSHARP_UVMCORE_LIB_PATH = "compile/csharp/unix/uvmcorelib.dll"
+    static const QString CSHARP_PROJECT_TEMPLATE_PATH = "compile/csharp/unix/build.csproj"
+    static const QString CSHARP_GSHARPCORE_DLL_PATH = "compile/csharp/unix/gsharpcore.dll";
+
+    static const QString CSHARP_COMPILE_DIR = "compile/csharp/unix";
     static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";
     static const QString CSHARP_CORE_DLL_PATH = "compile/csharp/GluaCoreLib.dll";
     static const QString CSHARP_COMPILE_PATH = "compile/csharp/gsharpc.exe";

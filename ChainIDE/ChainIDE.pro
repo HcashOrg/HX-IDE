@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     IDEUtil.cpp \
     compile/BaseCompile.cpp \
     compile/CompileManager.cpp \
-    compile/gluaCompile.cpp \
     popwidget/commondialog.cpp \
     selectpathwidget.cpp \
     waitingforsync.cpp \
@@ -31,8 +30,6 @@ SOURCES += main.cpp\
     contentwidget/bridge.cpp \
     popwidget/NewFileDialog.cpp \
     filewidget/InterfaceWidget.cpp \
-    compile/javaCompile.cpp \
-    compile/csharpCompile.cpp \
     popwidget/consoledialog.cpp \
     datarequire/RequireBase.cpp\
     datarequire/DataRequireManager.cpp \
@@ -55,7 +52,6 @@ SOURCES += main.cpp\
     ConvenientOp.cpp \
     contractwidget/ContractWidget.cpp \
     contractwidget/FunctionWidget.cpp \
-    compile/kotlinCompile.cpp \
     popwidget/ConfigWidget.cpp \
     contentwidget/Editor.cpp \
     contentwidget/codeeditor.cpp \
@@ -104,7 +100,6 @@ HEADERS  += MainWindow.h \
     IDEUtil.h \
     compile/BaseCompile.h \
     compile/CompileManager.h \
-    compile/gluaCompile.h \
     popwidget/commondialog.h \
     selectpathwidget.h \
     waitingforsync.h \
@@ -117,8 +112,6 @@ HEADERS  += MainWindow.h \
     contentwidget/bridge.h \
     popwidget/NewFileDialog.h \
     filewidget/InterfaceWidget.h \
-    compile/javaCompile.h \
-    compile/csharpCompile.h \
     popwidget/consoledialog.h \
     datarequire/RequireBase.h\
     datarequire/DataRequireManager.h \
@@ -141,7 +134,6 @@ HEADERS  += MainWindow.h \
     ConvenientOp.h \
     contractwidget/ContractWidget.h \
     contractwidget/FunctionWidget.h \
-    compile/kotlinCompile.h \
     popwidget/ConfigWidget.h \
     contentwidget/Editor.h \
     contentwidget/codeeditor.h \
@@ -236,8 +228,24 @@ QMAKE_CXXFLAGS_RELEASE = $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
 QMAKE_LFLAGS_RELEASE = $$QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO
 
 win32{
-    RC_FILE += logo.rc
+RC_FILE += logo.rc
+
+SOURCES +=    compile/gluaCompile.cpp \
+    compile/javaCompile.cpp \
+    compile/csharpCompile.cpp \
+    compile/kotlinCompile.cpp
+
+HEADERS +=    compile/gluaCompile.h \
+    compile/javaCompile.h \
+    compile/csharpCompile.h \
+    compile/kotlinCompile.h
+
 }
 macx{
-    ICON = idelogo.icns
+ICON = idelogo.icns
+SOURCES +=\
+    compile/csharpCompile_unix.cpp
+
+HEADERS +=\
+    compile/csharpCompile_unix.h
 }
