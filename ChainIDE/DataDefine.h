@@ -96,7 +96,7 @@ namespace DataDefine
     static const QString CSHARP_COMPILER_EXE_PATH = "/usr/local/share/dotnet/dotnet";//本地csc.exe路径
     static const QString CSHARP_UVMCORE_LIB_PATH = "compile/csharp/unix/uvmcorelib.dll";
     static const QString CSHARP_PROJECT_TEMPLATE_PATH = "compile/csharp/unix/build.csproj";
-    static const QString CSHARP_GSHARPCORE_DLL_PATH = "compile/csharp/unix/gsharpcore.dll";
+    static const QString CSHARP_GSHARPCORE_DLL_PATH = "compile/csharp/unix/gsharpccore.dll";
 
     static const QString CSHARP_COMPILE_DIR = "compile/csharp/unix";
     static const QString CSHARP_JSON_DLL_PATH = "compile/csharp/Newtonsoft.Json.dll";

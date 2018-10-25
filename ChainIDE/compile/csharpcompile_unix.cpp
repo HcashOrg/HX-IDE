@@ -180,6 +180,7 @@ void csharpCompile_unix::generateUVMFile()
     QStringList params;
     params<<QCoreApplication::applicationDirPath()+"/"+DataDefine::CSHARP_GSHARPCORE_DLL_PATH
           <<"-c"<<buildDll;
+    qDebug()<<DataDefine::CSHARP_COMPILER_EXE_PATH<<params;
     getCompileProcess()->start(DataDefine::CSHARP_COMPILER_EXE_PATH,params);
 
 }
