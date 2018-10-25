@@ -1,14 +1,15 @@
-#ifndef CSHARPCOMPILE_H
-#define CSHARPCOMPILE_H
+#ifndef CSHARPCOMPILE_UNIX_H
+#define CSHARPCOMPILE_UNIX_H
 
 #include "BaseCompile.h"
-//C#合约编译器
-class csharpCompile : public BaseCompile
+//C#合约编译器_unix
+
+class csharpCompile_unix : public BaseCompile
 {
     Q_OBJECT
 public:
-    explicit csharpCompile(QObject *parent = 0);
-    ~csharpCompile();
+    explicit csharpCompile_unix(QObject *parent = 0);
+    ~csharpCompile_unix();
 public:
     void startCompileFile(const QString &sourceFilePath)override final;
 protected slots:
@@ -16,7 +17,9 @@ protected slots:
     void onReadStandardOutput()override final;
     void onReadStandardError()override final;
 private:
+    void generateProject();
     void generateDllFile();
+    void generateUVMFile();
     void generateContractFile();
     void initConfig(const QString &sourceFilePath);
 private:
@@ -24,4 +27,4 @@ private:
     DataPrivate *_p;
 };
 
-#endif // CSHARPCOMPILE_H
+#endif // CSHARPCOMPILE_UNIX_H

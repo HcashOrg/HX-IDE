@@ -4,11 +4,14 @@
 #include <QSettings>
 #include <QRegExpValidator>
 #include <QCoreApplication>
+#ifdef WIN32
 #include "gluaCompile.h"
 #include "javaCompile.h"
 #include "csharpCompile.h"
 #include "kotlinCompile.h"
-
+#else
+#include "csharpCompile_unix.h"
+#endif
 #include "DataDefine.h"
 
 class CompileManager::DataPrivate
@@ -60,7 +63,11 @@ void CompileManager::startCompile(const QString &filePath)
     {
         if(checkCsharpEnvironment())
         {
+#ifdef WIN32
             compiler = new csharpCompile(this);
+#else
+            compiler = new csharpCompile_unix(this);
+#endif
         }
         else
         {
@@ -132,9 +139,14 @@ bool CompileManager::checkCsharpEnvironment()
 #else
     //mac系统下直接尝试.net
     QProcess dot;
-    dot.start("dotnet",QStringList()<<"--version");
+    dot.start("/usr/local/share/dotnet/dotnet",QStringList()<<"--version");
     dot.waitForReadyRead();
-    qDebug()<<dot.readAll();
+    QString out = dot.readAllStandardOutput();
+    QRegExp versionReg("^[0-9]\.[0-9]\.");
+    if(-1 != out.indexOf(versionReg))
+    {
+        return true;
+    }
 #endif
     return false;
 }
