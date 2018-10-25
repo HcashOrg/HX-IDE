@@ -1,4 +1,5 @@
 *.user
 *.DS_Store
 *quazip*
-Copy
+Copy/quazip/quazip/*
+Copy/quazip/qztest/*
