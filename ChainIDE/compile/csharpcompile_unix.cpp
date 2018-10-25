@@ -150,6 +150,7 @@ void csharpCompile_unix::generateDllFile()
         QFile::copy(path,getTempDir()+"/build/"+QFileInfo(path).baseName()+"."+QFileInfo(path).completeSuffix());
     }
     //开始编译生成build.dll
+    getCompileProcess()->setWorkingDirectory(getTempDir()+"/build");
     getCompileProcess()->start(DataDefine::CSHARP_COMPILER_EXE_PATH,QStringList()<<"build");
 }
 
